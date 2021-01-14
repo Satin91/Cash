@@ -10,27 +10,34 @@ import UIKit
 
 
 class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelegate{
-
     
-
-    func dropDownIndexPath(indexPath: Int) {
+    
+    func dropDownAccountName(string: String, indexPath: Int) {
+        buttonLabel.text = string
+        closeDropDownMenu()
         dropIndexPath = indexPath
     }
+    func dropDownAccountIdentifier(identifier: String) {
+        accountIdentifier = identifier
+    }
     
-    var accountEntity = MonetaryEntity() // For dropDownMenu
+    //var accountEntity = MonetaryEntity() // For dropDownMenu
     
-    dynamic var textField: String = "0"
+    dynamic var enteredSum: String = "0"
     
+    var accountIdentifier = ""
     var dropView = DropDownTableView()
-    var dropIndexPath : Int?
+    var dropIndexPath = 0
     var dropDownHeight = NSLayoutConstraint() //переменная для хранения значения констрейнта
     var dropDownIsOpen = false
-    
+    var changeValue = true
     var closeMenuDelegate: PopUpProtocol!
+    var dropDownProtocol: DropDownProtocol!
     
-    @IBOutlet var choseYouAccountLabel: UILabel!
+    @IBOutlet var buttonLabel: UILabel!
+
     
-    @IBOutlet var popUpView: UIView!
+
     @IBOutlet var gradientPopUpView: UIView!
     @IBOutlet var dropButtonView: GradientView!
     ///             TEXT FIELD
@@ -38,27 +45,21 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     
     @IBAction func cancelPopUpButton(_ sender: Any) {
         popUpTextField.text = ""
-        closeMenuDelegate.closePopUpMenu(touch: "true")
         
-        
+        closeMenuDelegate.closePopUpMenu(touch: enteredSum, indexPath: dropIndexPath) // По уолчанию стоит 0
+
     }
     
-//    @IBAction func okPopUpAction(_ sender: Any) {
-//        guard let indexPath = operationTableView.indexPathForSelectedRow else {return}
-//        guard let dropPuth = dropIndexPath else {return}
-//        monetaryEntity.sum = Double(textField)! //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО
-//
-//        DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: dropPuth, addSum: Double(textField)!)
-//        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationPayment: operationScheduler), indexPath: indexPath.row, addSum: Double(textField)!) // Если что потом в operation Scheduler положить 'Box'
-//
-//        if textField != "0"{ DBManager.addObject(object: [monetaryEntity])
-//        }else {print("Не создастся")}
-//        popUpTextField.text = ""
-//        operationTableView.reloadData()
-//        self.view.reservedAnimateView(animatedView: blurView)
-//        //self.view.reservedAnimateView(animatedView: popUpView)
-//    }
     
+    
+    
+    
+    @IBAction func okPopUpAction(_ sender: Any) {
+        dropDownProtocol.dropDownAccountIdentifier(identifier: accountIdentifier)
+        closeMenuDelegate.closePopUpMenu(touch: enteredSum, indexPath: dropIndexPath)
+    }
+    
+
     @IBAction func dropMenuButton(_ sender: UIButton) {
         if dropDownIsOpen == false {
             openDropDownMenu()
@@ -69,25 +70,27 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         registerForNotifications()
         popUpTextField.delegate = self
         popUpTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         initDropDownTableView()
         whiteThemeFunc()
         dropView.dropDelegate = self
-
+   
+        buttonLabel.text = "Choosse account"
+        
+        
+        
     }
- 
+    
     func whiteThemeFunc() {
-        choseYouAccountLabel.textColor = whiteThemeBackground
+        buttonLabel.textColor = whiteThemeMainText
         self.view.backgroundColor = whiteThemeBackground
+        buttonLabel.textColor = whiteThemeBackground
     }
     
-    func dropDownAccountName(string: String) {
-        choseYouAccountLabel.text = string
-        closeDropDownMenu()
-    }
-    
+   
     func initDropDownTableView() {
         dropView = DropDownTableView.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: 0))
         dropView.translatesAutoresizingMaskIntoConstraints = false
@@ -100,7 +103,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         dropDownHeight = dropView.heightAnchor.constraint(equalToConstant: 0)
         dropDownHeight.isActive = true
     }
- 
+    
     func closeDropDownMenu() {
         dropDownIsOpen = false
         NSLayoutConstraint.deactivate([self.dropDownHeight])
@@ -109,7 +112,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: .calculationModeLinear, animations: { [self] in
             self.dropView.center.y -= self.dropView.frame.height / 2
             self.dropView.layoutIfNeeded()  //Позиция должна быть пересчитана
-     
+            
         } )
     }
     
@@ -131,14 +134,14 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     
     @objc private func textFieldChanged() {
         if popUpTextField.text?.isEmpty == false {
-            self.textField = popUpTextField.text!    //// Функция для того чтобы текстфилд не вернул нил
+            self.enteredSum = popUpTextField.text!    //// Функция для того чтобы текстфилд не вернул нил
         } else {
-            self.textField = "0"
+            self.enteredSum = "0"
         }
-        print(textField)
+       // print(enteredSum)
         
     }
-
+    
     deinit {
         print("Deinit popUpView")
         removeKeyboardNotifications()
@@ -173,6 +176,6 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     }
     
 }
-    
+
 
 

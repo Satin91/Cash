@@ -36,8 +36,6 @@ class PickTypePopUpViewController: UIViewController {
     func goToAddVC(restorationIdentifier: String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddSpendingViewController
-        
-        
         let navVC = UINavigationController(rootViewController: addVC)
         navVC.modalPresentationStyle = .pageSheet
         switch restorationIdentifier {

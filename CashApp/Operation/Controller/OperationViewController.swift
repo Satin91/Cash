@@ -9,11 +9,20 @@
 import UIKit
 import RealmSwift
 
-class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol{
-
+class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol, DropDownProtocol{
+    
+    func dropDownAccountName(string: String, indexPath: Int) {
+        
+    }
+    func dropDownAccountIdentifier(identifier: String) {
+        historyObject.accountIdentifier = identifier  // Применил идентификатор от счета
+    }
+    
+    
     
     var popViewController: UIViewController! // Child View Controller
-    var monetaryEntity = MonetaryEntity()// Used in this class
+    var operationEntity = MonetaryEntity()// Used in this class
+    var historyObject = AccountsHistory()
     var changeValue = true
     ///             Outlets:
     @IBOutlet var segmentedControl: HBSegmentedControl!
@@ -33,7 +42,6 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         switch changeValue {
         case true:
             let addVC = storyboard.instantiateViewController(withIdentifier: "addVC") as! AddSpendingViewController
-            //self.present(addVC, animated: true, completion: nil)
             addVC.newEntityElement.stringAccountType = .operationExpence
             addVC.middleText = "spending"
             addVC.bottomText = "category"
@@ -46,7 +54,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             present(navVC, animated: true, completion: nil)
         }
     }
-
+    
     @IBAction func cancelBarButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -59,20 +67,38 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         blurView.bounds = self.view.frame
         
     }
-    func closePopUpMenu(touch: String) {
+    func closePopUpMenu(touch: String, indexPath: Int) {
         print(touch)
-        deleteViewController()
+        guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
+        operationEntity.sum = Double(touch)! //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО
+        historyObject.sum = Double(touch)!
+        historyObject.date = Date()
+        if touch != "0"{ DBManager.addHistoryObject(object: historyObject)
+        }else {print("Не создается по причине отсутствия значения. Окно: OperationTableView")}
+        
+        DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: indexPath, addSum: Double(touch)!)
+        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationPayment: operationScheduler), indexPath: operationIndexPath.row, addSum: Double(touch)!) // Если что потом в operation Scheduler положить 'Box'
+        
+
+        
+        /////////////////////////////////////////////////////////////
+        operationTableView.reloadData()
+        deleteChildViewController()
     }
     
+ 
+    
     //MARK: Add/Delete View Controller
-    func addViewController() {
+    func addChildViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let popoverVC = storyboard.instantiateViewController(withIdentifier: "payPopUpVC") as! PopUpViewController
         popoverVC.closeMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
+        popoverVC.dropDownProtocol = self
         if popViewController == nil {
             // Проверка для того чтобы сто раз не добавлять viewController
             popViewController = popoverVC
             popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.4)
+            popViewController.view.layer.cornerRadius = 25
             self.addChild(popViewController)
             self.view.animateView(animatedView: blurView, parentView: self.view)
             view.animateView(animatedView: popViewController.view, parentView: self.view)
@@ -81,12 +107,12 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         }
     }
     
-    func deleteViewController() {
+    func deleteChildViewController() {
         self.view.reservedAnimateView(animatedView: popViewController.view, viewController: popViewController)
         popViewController = nil // Это нужно для того, чтобы снова его открыть. Потому что в открытии стоит условие
         self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
     }
-
+    
     // Переход на экран добавления объекта
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAddVC"{
@@ -94,13 +120,21 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             addSpandingVC.changeValue = self.changeValue
         }
     }
- 
-
+       
     @IBAction func unwindSegueToOperationVC(_ segue: UIStoryboardSegue){
         self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
         operationTableView.reloadData()
     }
 }
+
+
+
+
+
+
+
+
+
 
 //MARK: TableView Delegate, DataSource
 extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
@@ -123,28 +157,33 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
         cell.setCellColor(cell: cell)
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        
+
         //Создание экземпляра
         let cell = EnumeratedSequence(array: changeValue ? operationPayment : operationScheduler)[indexPath.row]
         //Копирование экземпляра
-        let copyOfMonetaryEntity = MonetaryEntity(name: cell.name, sum: 0, userDescription: nil, date: Date(), image: cell.image, accountType: .history, userPerent: 0)
-        //Получение пути индекса
-        //view.animateView(animatedView: blurView, frame: self.view)
-        //view.animateView(animatedView: popUpView, frame: self.view)
-        monetaryEntity = copyOfMonetaryEntity
-       // presentationPopUpMenu()
-        addViewController()
+        let copyOfoperationEntity = MonetaryEntity()
+        copyOfoperationEntity.name = cell.name
+        copyOfoperationEntity.image = cell.image
+        let copyOfHistoryObject = AccountsHistory()
+        copyOfHistoryObject.name = cell.name
+        copyOfHistoryObject.image = cell.image
+        operationEntity = copyOfoperationEntity
+        historyObject = copyOfHistoryObject
+        // presentationPopUpMenu()
+        addChildViewController()
         
         
     }
-
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        var object = MonetaryEntity()
         
+        var object = MonetaryEntity()
         object = changeValue ? EnumeratedSequence(array: operationPayment)[indexPath.row] : EnumeratedSequence(array: operationScheduler)[indexPath.row]
+        
+        
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
             DBManager.removeObject(Object: object) // Метод удаляет файлы из базы данных
             self.operationTableView.deleteRows(at: [indexPath], with: .middle) // метод удаляет ячейку

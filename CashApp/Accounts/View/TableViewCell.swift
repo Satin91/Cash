@@ -32,9 +32,6 @@ class TableViewCell: UITableViewCell {
     static let DropDownTableViewCellIdentifier = "DropDownTableViewCellIdentifier"
     
     
-    
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -57,15 +54,11 @@ class TableViewCell: UITableViewCell {
             descriptionLabel.text = "Balance"
         }
         self.sumLabel?.text = String(object.sum.currencyFR)
-        
-        
         if let imageData = object.image {
             userImage.image = UIImage(data:imageData)
         }else{ userImage.image = UIImage(named: "card")}
         guard let typeLabel = typeLabel else {return}
         typeLabel.text = object.initType()
-        
-        
     }
 
 

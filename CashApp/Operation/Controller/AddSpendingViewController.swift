@@ -196,7 +196,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         sumTextField.backgroundColor = .none
         sumTextField.textColor =       whiteThemeMainText
         //text
-        middleTextLabel.textColor =           whiteThemeRed
+        middleTextLabel.textColor =    whiteThemeRed
         //collectionView
         collectionView.layer.backgroundColor = .none
         //line
@@ -231,7 +231,8 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         for (_, element) in addCategory.enumerated(){
             setCustomShadow(label: element, color: whiteThemeMainText.cgColor, radius: 3, opacity: 1, size: CGSize(width: 2, height: 2))
         }
-        setCustomShadow(label: middleTextLabel, color: whiteThemeTranslucentText.cgColor, radius: 3, opacity: 1, size: CGSize(width: 2, height: 2))
+        setCustomShadow(label: middleTextLabel, color: whiteThemeMainText.cgColor, radius: 3, opacity: 1, size: CGSize(width: 2, height: 2))
+        
     }
     
     // Сохраняет элементы в базу

@@ -16,19 +16,16 @@ var results: Results<MonetaryEntity>!
 
 class DBManager {
     
+    
     static func updateAccount(accountType: [MonetaryEntity], indexPath: Int, addSum: Double) {
-        
         try! realm.write {
-
             accountType[indexPath].sum -= addSum
             realm.add(accountType, update: .all)
     }
     }
     
     static func updateObject(objectType: [MonetaryEntity], indexPath: Int, addSum: Double) {
-    
         try! realm.write {
-
             objectType[indexPath].sum += addSum
             realm.add(objectType, update: .all)
     }
@@ -39,9 +36,20 @@ class DBManager {
         }
     }
     
+    
+    static func removeHistoryObject(object: AccountsHistory) {
+        try! realm.write{
+            realm.delete(object)
+        }
+    }
+    
+    static func addHistoryObject(object: AccountsHistory) {
+        try! realm.write {
+            realm.add(object)
+        }
+    }
     ///Функиця для быстрой записи в БазуДанных
     static func addObject(object: [MonetaryEntity]) {
-       
         try! realm.write {
             realm.add(object)
         }

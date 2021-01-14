@@ -64,11 +64,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //                        ROW ROW
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.historyIdentifier, for: indexPath) as! TableViewCell
-        let object = historyObjects[indexPath.row]
-        cell.set(object: object)
+        //let object = historyObjects[indexPath.row]
+        let object2 = historyObjects[indexPath.row]
+        cell.headerLabel.text = object2.name
+        //cell.set(object: object)
         cell.setCellColor(cell: cell)
-        
-        
+        cell.sumLabel.text = String(object2.sum.currencyFR)
+        if let imageData = object2.image {
+            cell.userImage.image = UIImage(data:imageData)
+        }
         return cell
     }
     
@@ -92,36 +96,32 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let object = historyObjects[indexPath.row] // создание экземпляра
+       
         
         //Арифметическая функция для вычитания суммы удаляемого объекта
-        
-
         for a in EnumeratedSequence(array: accountsObjects){
-            if a.name == object.name {
+            if a.monetaryID == object.accountIdentifier {
                 try! realm.write {
-                    a.sum -= object.sum
-                   
+                    a.sum += object.sum   // Так как со счетов в историю всегда идут траты, тут +=
                     realm.add(a, update: .all)
             }
         }
         }
-        
         for i in EnumeratedSequence(array: [operationSpendingObjects]){
             if i.name == object.name {
                 try! realm.write {
                     i.sum -= object.sum
-                   
                     realm.add(i, update: .all)
             }
                
             }
-            
         }
+        
         
         //                  DELETE ACTION
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
 
-            DBManager.removeObject(Object: object) // Метод удаляет файлы из базы данных
+            DBManager.removeHistoryObject(object: object) // Метод удаляет файлы из базы данных
             self.historyTableView.deleteRows(at: [indexPath], with: .middle) // метод удаляет ячейку
    
         }
@@ -136,10 +136,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //                    ANIMATE ROW
     
-    
-    
-    
-    
+
     @IBAction func unwindSegueToMainVC(_ segue: UIStoryboardSegue){
         
         //guard let newPayment = segue.source as? OperationViewController else { return }

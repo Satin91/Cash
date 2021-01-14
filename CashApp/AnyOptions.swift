@@ -171,13 +171,13 @@ func setupNavigationController(Navigation Controller: UINavigationController) {
 
 ///MARK: DropDownProtocol
 protocol DropDownProtocol {
-    func dropDownAccountName(string: String)
-    func dropDownIndexPath(indexPath: Int)
+    func dropDownAccountName(string: String, indexPath: Int)
+    func dropDownAccountIdentifier(identifier: String)
 }
 
 ///MARK: PopUpProtocol
 protocol PopUpProtocol {
-    func closePopUpMenu(touch: String)
+    func closePopUpMenu(touch: String, indexPath: Int)
 }
 
 extension UIImageView{

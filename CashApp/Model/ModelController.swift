@@ -29,10 +29,11 @@ let debtObjects =              outstanding(accountType: 4).sorted(byKeyPath: "da
 let borrowObjects =            outstanding(accountType: 5).sorted(byKeyPath: "date", ascending: false)//Borrow = 5
 let regularObjects =           outstanding(accountType: 6).sorted(byKeyPath: "date", ascending: false)//Regular = 6
 let incomeObjects =            outstanding(accountType: 7).sorted(byKeyPath: "date", ascending: false)//Income = 7
-let historyObjects =           outstanding(accountType: 8).sorted(byKeyPath: "date", ascending: false)//History = 8
+//let historyObjects =           outstanding(accountType: 8).sorted(byKeyPath: "date", ascending: false)//History = 8
 let operationSpendingObjects = outstanding(accountType: 9).sorted(byKeyPath: "date", ascending: false)//OperSpending
 let operationIncomeObjects =   outstanding(accountType: 10).sorted(byKeyPath:"date", ascending: false)//OperIncome
 
+let historyObjects =              realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
 
 
 ///Меню в OperationViewController сегмент 1
