@@ -15,6 +15,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet var dropDownHeaderLabel: UILabel!
     @IBOutlet var dropDownDescriptionLabel: UILabel!
     @IBOutlet var dropBownSum: UILabel!
+    @IBOutlet var DropDownCellTwoLabel: UILabel!
     @IBOutlet var dropDownTape: UIImageView!
     
     

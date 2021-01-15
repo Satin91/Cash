@@ -18,10 +18,15 @@ class DBManager {
     
     
     static func updateAccount(accountType: [MonetaryEntity], indexPath: Int, addSum: Double) {
+        let count = EnumeratedSequence(array: accountsObjects).count // Когда отсутствуют счета count = 0
         try! realm.write {
-            accountType[indexPath].sum -= addSum
-            realm.add(accountType, update: .all)
-    }
+                if count > 0, indexPath > 0 {
+                accountType[indexPath].sum -= addSum
+            }
+                realm.add(accountType, update: .all)
+        }
+ 
+        
     }
     
     static func updateObject(objectType: [MonetaryEntity], indexPath: Int, addSum: Double) {

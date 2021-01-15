@@ -12,10 +12,10 @@ import UIKit
 class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelegate{
     
     
-    func dropDownAccountName(string: String, indexPath: Int) {
+    func dropDownAccountNameAndIndexPath(string: String, indexPath: Int) {
         buttonLabel.text = string
-        closeDropDownMenu()
         dropIndexPath = indexPath
+        closeDropDownMenu()
     }
     func dropDownAccountIdentifier(identifier: String) {
         accountIdentifier = identifier
@@ -23,15 +23,15 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     
     //var accountEntity = MonetaryEntity() // For dropDownMenu
     
-    dynamic var enteredSum: String = "0"
+    dynamic var enteredSum: String?
     
     var accountIdentifier = ""
     var dropView = DropDownTableView()
-    var dropIndexPath = 0
+    var dropIndexPath: Int?
     var dropDownHeight = NSLayoutConstraint() //переменная для хранения значения констрейнта
     var dropDownIsOpen = false
     var changeValue = true
-    var closeMenuDelegate: PopUpProtocol!
+    var closePopUpMenuDelegate: PopUpProtocol!
     var dropDownProtocol: DropDownProtocol!
     
     @IBOutlet var buttonLabel: UILabel!
@@ -46,17 +46,18 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     @IBAction func cancelPopUpButton(_ sender: Any) {
         popUpTextField.text = ""
         
-        closeMenuDelegate.closePopUpMenu(touch: enteredSum, indexPath: dropIndexPath) // По уолчанию стоит 0
-
+        closePopUpMenuDelegate.closePopUpMenu(touch: "0", indexPath: 0) // По уолчанию стоит 0, Это для того, чтобы сработала эта кнопка при любом случае
+        
     }
-    
-    
-    
     
     
     @IBAction func okPopUpAction(_ sender: Any) {
         dropDownProtocol.dropDownAccountIdentifier(identifier: accountIdentifier)
-        closeMenuDelegate.closePopUpMenu(touch: enteredSum, indexPath: dropIndexPath)
+        guard let enteredSum = enteredSum  else {return}
+        
+        //Если индекс есть и указана сумма,                 при этом индекс не 0 и указана сумма
+        
+        closePopUpMenuDelegate.closePopUpMenu(touch: enteredSum, indexPath: dropIndexPath)
     }
     
 
@@ -136,7 +137,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         if popUpTextField.text?.isEmpty == false {
             self.enteredSum = popUpTextField.text!    //// Функция для того чтобы текстфилд не вернул нил
         } else {
-            self.enteredSum = "0"
+            self.enteredSum = nil
         }
        // print(enteredSum)
         

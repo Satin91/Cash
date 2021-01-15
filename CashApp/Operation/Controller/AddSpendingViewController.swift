@@ -169,7 +169,10 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     func setupButtonsAndFields() {
         selectDateButton.setTitle("Select date", for: .normal)
         nameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-        nameTextField.placeholder = "Name"
+        //nameTextField.placeholder = "Name"
+        nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
+        sumTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
+        
         nameTextField.delegate = self
         sumTextField.delegate = self
     }

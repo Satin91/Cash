@@ -24,6 +24,7 @@
 		757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F2F25402BBB00F0B1D0 /* DBManager.swift */; };
 		757F8F3A25402E5600F0B1D0 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F3925402E5600F0B1D0 /* Animations.swift */; };
 		758F854B24D2CF0A007CD161 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758F854A24D2CF0A007CD161 /* TableViewCell.swift */; };
+		7597CE6225B112A500372F79 /* CellForDropDown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7597CE6125B112A500372F79 /* CellForDropDown.xib */; };
 		75AE325125239E30004422F4 /* AccountsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE325025239E30004422F4 /* AccountsDetailViewController.swift */; };
 		75B7AFAE2521014100BFE537 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B7AFAD2521014100BFE537 /* AccountsViewController.swift */; };
 		75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C0DF752524D52400D5B0FA /* CalendarView.swift */; };
@@ -66,6 +67,7 @@
 		757F8F2F25402BBB00F0B1D0 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		757F8F3925402E5600F0B1D0 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		758F854A24D2CF0A007CD161 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		7597CE6125B112A500372F79 /* CellForDropDown.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CellForDropDown.xib; sourceTree = "<group>"; };
 		75AE325025239E30004422F4 /* AccountsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsDetailViewController.swift; sourceTree = "<group>"; };
 		75B7AFAD2521014100BFE537 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		75C0DF752524D52400D5B0FA /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				758F854A24D2CF0A007CD161 /* TableViewCell.swift */,
 				75C328F52571A12100E9CAD4 /* DropDownTableViewCell.xib */,
+				7597CE6125B112A500372F79 /* CellForDropDown.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				75EA2AFC24CDDB8B00D03E95 /* LaunchScreen.storyboard in Resources */,
 				75CB7A9E255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf in Resources */,
 				75CB7AA6255D50DA00451F1D /* SF-Pro-Text-Light.otf in Resources */,
+				7597CE6225B112A500372F79 /* CellForDropDown.xib in Resources */,
 				75EA2AF924CDDB8B00D03E95 /* Assets.xcassets in Resources */,
 				75CB7AA0255D4E6000451F1D /* SF-Pro-Rounded-Light.otf in Resources */,
 				7542DE1924CE8FEC00E3AF96 /* NeomorphicView.xib in Resources */,

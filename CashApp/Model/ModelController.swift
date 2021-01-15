@@ -44,8 +44,7 @@ var operationPayment = [operationSpendingObjects]
 var operationScheduler = [incomeObjects,regularObjects,debtObjects]
 ///Меню в AccountsViewController
 var accountsObjects = [cardObjects,boxObjects,cashObjects]
-///Словарик для истории
-var historyDictionary = [String:String]()
+
 
 
 
@@ -67,19 +66,16 @@ func addObject(text: String, image: UIImage?,sum: Double?, type: MonetaryType){
     DBManager.addObject(object: [object2])
 }
 
-func returnSumToObject(object: Results<MonetaryEntity>, secondObject: MonetaryEntity){
-for i in EnumeratedSequence(array: [object]){
-    if i.name == secondObject.name {
-        try! realm.write {
-            i.sum -= secondObject.sum
-           
-            realm.add(i, update: .all)
+func returnArrayOutOfObject(object: [Results<MonetaryEntity>]) -> [MonetaryEntity]{
+    var monetaryArray: [MonetaryEntity] = []
+    for (_, index) in object.enumerated() {
+        monetaryArray.append(contentsOf: index)
     }
-       
+     return monetaryArray
     }
-    
-}
-}
+
+
+
 
 
 
@@ -146,3 +142,4 @@ for i in EnumeratedSequence(array: [object]){
 ////    }
 ////    }
 ////}
+

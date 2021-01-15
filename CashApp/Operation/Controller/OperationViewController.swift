@@ -11,7 +11,8 @@ import RealmSwift
 
 class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol, DropDownProtocol{
     
-    func dropDownAccountName(string: String, indexPath: Int) {
+    
+    func dropDownAccountNameAndIndexPath(string: String, indexPath: Int) {
         
     }
     func dropDownAccountIdentifier(identifier: String) {
@@ -67,32 +68,31 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         blurView.bounds = self.view.frame
         
     }
-    func closePopUpMenu(touch: String, indexPath: Int) {
-        print(touch)
+    func closePopUpMenu(touch: String, indexPath: Int?) {
+        
         guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
         operationEntity.sum = Double(touch)! //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО
         historyObject.sum = Double(touch)!
         historyObject.date = Date()
-        if touch != "0"{ DBManager.addHistoryObject(object: historyObject)
-        }else {print("Не создается по причине отсутствия значения. Окно: OperationTableView")}
-        
-        DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: indexPath, addSum: Double(touch)!)
+        if indexPath != nil {
+            DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: indexPath!, addSum: Double(touch)!)
+            
+        }
+        DBManager.addHistoryObject(object: historyObject)
         DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationPayment: operationScheduler), indexPath: operationIndexPath.row, addSum: Double(touch)!) // Если что потом в operation Scheduler положить 'Box'
         
-
-        
-        /////////////////////////////////////////////////////////////
+        closeChildViewController()
         operationTableView.reloadData()
-        deleteChildViewController()
+        
     }
     
- 
+    
     
     //MARK: Add/Delete View Controller
     func addChildViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let popoverVC = storyboard.instantiateViewController(withIdentifier: "payPopUpVC") as! PopUpViewController
-        popoverVC.closeMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
+        popoverVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
         popoverVC.dropDownProtocol = self
         if popViewController == nil {
             // Проверка для того чтобы сто раз не добавлять viewController
@@ -107,7 +107,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         }
     }
     
-    func deleteChildViewController() {
+    func closeChildViewController() {
         self.view.reservedAnimateView(animatedView: popViewController.view, viewController: popViewController)
         popViewController = nil // Это нужно для того, чтобы снова его открыть. Потому что в открытии стоит условие
         self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
@@ -120,7 +120,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             addSpandingVC.changeValue = self.changeValue
         }
     }
-       
+    
     @IBAction func unwindSegueToOperationVC(_ segue: UIStoryboardSegue){
         self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
         operationTableView.reloadData()
@@ -159,7 +159,7 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-
+        
         //Создание экземпляра
         let cell = EnumeratedSequence(array: changeValue ? operationPayment : operationScheduler)[indexPath.row]
         //Копирование экземпляра
