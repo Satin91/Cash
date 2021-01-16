@@ -226,7 +226,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DyZ-1I-g9o">
                                         <rect key="frame" x="0.0" y="0.0" width="338" height="65"/>
                                         <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
-                                        <state key="normal" title="Total Balance">
+                                        <state key="normal" title="Today Balance">
                                             <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
                                     </button>
@@ -279,10 +279,10 @@
                                                     <rect key="frame" x="80" y="2" width="258" height="41"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="a1w-Kd-JAZ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="83.666666666666671" height="41"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="88" height="41"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clothes" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nj-63-RhP">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="83.666666666666671" height="19"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="88" height="19"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="19" id="yaY-dm-eCC"/>
                                                                     </constraints>
@@ -292,7 +292,7 @@
                                                                     <size key="shadowOffset" width="0.0" height="0.0"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yestereday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5z-F2-Meq">
-                                                                    <rect key="frame" x="0.0" y="22" width="83.666666666666671" height="19"/>
+                                                                    <rect key="frame" x="0.0" y="22" width="88" height="19"/>
                                                                     <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="17"/>
                                                                     <color key="textColor" red="0.68235294117647061" green="0.73333333333333328" blue="0.76862745098039209" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <nil key="highlightedColor"/>
@@ -304,7 +304,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="$3 546" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oa9-Ej-0FX">
-                                                            <rect key="frame" x="88.666666666666643" y="0.0" width="169.33333333333337" height="41"/>
+                                                            <rect key="frame" x="93" y="0.0" width="165" height="41"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                             <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
@@ -1299,7 +1299,7 @@
             <objects>
                 <viewController storyboardIdentifier="payPopUpVC" id="qVp-rf-Vff" customClass="PopUpViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sFM-84-q5r">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCs-ln-7Vz">
@@ -1336,7 +1336,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="400" height="37"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose you account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4J-vD-Vy0">
-                                        <rect key="frame" x="121.33333333333333" y="8.6666666666666643" width="157.66666666666669" height="20"/>
+                                        <rect key="frame" x="127.00000000000001" y="8.6666666666666643" width="146.33333333333337" height="20"/>
                                         <fontDescription key="fontDescription" name="SFProRounded-Regular" family="SF Pro Rounded" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1371,9 +1371,6 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="point" keyPath="endPoint">
                                         <point key="value" x="1" y="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18.5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -1667,7 +1664,7 @@
             <objects>
                 <viewController id="s8j-6u-tkl" customClass="CardViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AKU-mb-VQ9">
-                        <rect key="frame" x="0.0" y="0.0" width="338" height="254"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjZ-4x-ehP">
@@ -1698,7 +1695,6 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uIu-JA-BS0" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QvE-Wa-Iow">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

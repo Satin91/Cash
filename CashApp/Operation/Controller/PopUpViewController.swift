@@ -23,20 +23,21 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     
     //var accountEntity = MonetaryEntity() // For dropDownMenu
     
-    dynamic var enteredSum: String?
+    dynamic var enteredSum = "0"
     var accountIdentifier = ""
     var dropView = DropDownTableView()
     var dropIndexPath: Int?
     var dropDownHeight = NSLayoutConstraint() //переменная для хранения значения констрейнта
     var dropDownIsOpen = false
     var changeValue = true
+    var commaIsPressed = false // Запятая
     var closePopUpMenuDelegate: PopUpProtocol!
     var dropDownProtocol: DropDownProtocol!
     
     @IBOutlet var buttonLabel: UILabel!
-
     
-
+    
+    
     @IBOutlet var gradientPopUpView: UIView!
     @IBOutlet var dropButtonView: GradientView!
     ///             TEXT FIELD
@@ -45,21 +46,23 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     @IBAction func cancelPopUpButton(_ sender: Any) {
         popUpTextField.text = ""
         
-        closePopUpMenuDelegate.closePopUpMenu(touch: "0", indexPath: 0) // По уолчанию стоит 0, Это для того, чтобы сработала эта кнопка при любом случае
+        closePopUpMenuDelegate.closePopUpMenu(enteredSum: 0, indexPath: 0) // По уолчанию стоит 0, Это для того, чтобы сработала эта кнопка при любом случае
         
     }
     
     
     @IBAction func okPopUpAction(_ sender: Any) {
         dropDownProtocol.dropDownAccountIdentifier(identifier: accountIdentifier)
-        guard let enteredSum = enteredSum  else {return}
+        //guard let enteredSum = enteredSum  else {return}
+        //Перевод запятой в точку для послдующей обработки
+        let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
+        let doubleEnteredSum = Double(replaceEnteredSum)
+        guard doubleEnteredSum! > 0 else {return}
+        closePopUpMenuDelegate.closePopUpMenu(enteredSum: doubleEnteredSum!, indexPath: dropIndexPath)
         
-        //Если индекс есть и указана сумма,                 при этом индекс не 0 и указана сумма
-        
-        closePopUpMenuDelegate.closePopUpMenu(touch: enteredSum, indexPath: dropIndexPath)
     }
     
-
+    
     @IBAction func dropMenuButton(_ sender: UIButton) {
         if dropDownIsOpen == false {
             openDropDownMenu()
@@ -77,8 +80,59 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         initDropDownTableView()
         whiteThemeFunc()
         dropView.dropDelegate = self
-   
         buttonLabel.text = "Choosse account"
+        
+        self.view.layer.cornerRadius = 12
+        self.view.clipsToBounds = true // обрезает все на свете до своих границ
+        
+        
+        
+    }
+    //Разрешенные символы
+    
+    ///Функция для запрета ввода букв
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let length = !string.isEmpty ? popUpTextField.text!.count + 1 : popUpTextField.text!.count - 1
+        var allowedCharacters = CharacterSet(charactersIn: "0123456789")
+        
+        switch commaIsPressed {
+        case true: // Запятая нажата
+             allowedCharacters = CharacterSet(charactersIn: "0123456789")
+        case false where length > 1: // запятая не нажата
+             allowedCharacters = CharacterSet(charactersIn: ",0123456789")
+        default:
+            allowedCharacters = CharacterSet(charactersIn: "0123456789")
+        }
+        
+        
+        
+        let characterSet = CharacterSet(charactersIn: string)
+        
+        //Ограничение по количеству символов
+        if length > 9 {
+            return false
+        }
+        return allowedCharacters.isSuperset(of: characterSet)
+    }
+    
+   
+    
+    @objc private func textFieldChanged() {
+        guard popUpTextField.text?.isEmpty == false else {return}
+        self.enteredSum = popUpTextField.text!
+        
+        //Цикл для того, чтобы сделать запятую одну в тексте
+        for i in enteredSum {
+            if i == "," {
+                commaIsPressed = true
+                //allowedCharacters = CharacterSet(charactersIn: "0123456789")
+                return
+            }else {
+                commaIsPressed = false
+                //allowedCharacters = CharacterSet(charactersIn: ",0123456789")
+            }
+        }
         
         
         
@@ -90,7 +144,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         buttonLabel.textColor = whiteThemeBackground
     }
     
-   
+    
     func initDropDownTableView() {
         dropView = DropDownTableView.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: 0))
         dropView.translatesAutoresizingMaskIntoConstraints = false
@@ -132,18 +186,10 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         return false
     }
     
-    @objc private func textFieldChanged() {
-        if popUpTextField.text?.isEmpty == false {
-            self.enteredSum = popUpTextField.text!    //// Функция для того чтобы текстфилд не вернул нил
-        } else {
-            self.enteredSum = nil
-        }
-       // print(enteredSum)
-        
-    }
+    
     
     deinit {
-        print("Deinit popUpView")
+        print("Deinit popUpView прошел успешно")
         removeKeyboardNotifications()
     }
     

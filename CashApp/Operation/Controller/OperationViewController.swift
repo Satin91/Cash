@@ -68,19 +68,19 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         blurView.bounds = self.view.frame
         
     }
-    func closePopUpMenu(touch: String, indexPath: Int?) {
+    func closePopUpMenu(enteredSum: Double, indexPath: Int?) {
         
         guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
-        operationEntity.sum = Double(touch)! //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО !
-        historyObject.sum = Double(touch)!
+        operationEntity.sum = enteredSum //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО !
+        historyObject.sum = enteredSum
         historyObject.date = Date()
         if indexPath != nil {
-            DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: indexPath!, addSum: Double(touch)!)
+            DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: indexPath!, addSum: enteredSum)
         }
-        if touch != "0" { // В будущем при переводе в double тип изменить условие !
+        if enteredSum != 0 { // В будущем при переводе в double тип изменить условие !
         DBManager.addHistoryObject(object: historyObject)
         }
-        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationPayment: operationScheduler), indexPath: operationIndexPath.row, addSum: Double(touch)!) // Если что потом в operation Scheduler положить 'Box'
+        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationPayment: operationScheduler), indexPath: operationIndexPath.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
         
         closeChildViewController()
         operationTableView.reloadData()
@@ -98,8 +98,8 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         if popViewController == nil {
             // Проверка для того чтобы сто раз не добавлять viewController
             popViewController = popoverVC
-            popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.4)
-            popViewController.view.layer.cornerRadius = 25
+            popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.5)
+            //popViewController.view.layer.cornerRadius = 25
             self.addChild(popViewController)
             self.view.animateView(animatedView: blurView, parentView: self.view)
             view.animateView(animatedView: popViewController.view, parentView: self.view)

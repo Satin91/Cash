@@ -177,7 +177,7 @@ protocol DropDownProtocol {
 
 ///MARK: PopUpProtocol
 protocol PopUpProtocol {
-    func closePopUpMenu(touch: String, indexPath: Int?)
+    func closePopUpMenu(enteredSum: Double, indexPath: Int?)
 }
 
 extension UIImageView{

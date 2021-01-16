@@ -21,7 +21,7 @@ class DropDownTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         tableView.delegate = self
         tableView.dataSource = self
         self.addSubview(tableView)
-        tableView.layer.cornerRadius = 18
+        //tableView.layer.cornerRadius = 18
         
         //translatesAutoresizingMaskIntoConstraints можно увидеть в настройках онстрейнтов в сториборде, у тебя в данный момент это стоит на трех главных кнопках
         tableView.translatesAutoresizingMaskIntoConstraints = false
