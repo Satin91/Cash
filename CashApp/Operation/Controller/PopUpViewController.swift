@@ -24,7 +24,6 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     //var accountEntity = MonetaryEntity() // For dropDownMenu
     
     dynamic var enteredSum: String?
-    
     var accountIdentifier = ""
     var dropView = DropDownTableView()
     var dropIndexPath: Int?

@@ -71,14 +71,15 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     func closePopUpMenu(touch: String, indexPath: Int?) {
         
         guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
-        operationEntity.sum = Double(touch)! //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО
+        operationEntity.sum = Double(touch)! //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО !
         historyObject.sum = Double(touch)!
         historyObject.date = Date()
         if indexPath != nil {
             DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: indexPath!, addSum: Double(touch)!)
-            
         }
+        if touch != "0" { // В будущем при переводе в double тип изменить условие !
         DBManager.addHistoryObject(object: historyObject)
+        }
         DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationPayment: operationScheduler), indexPath: operationIndexPath.row, addSum: Double(touch)!) // Если что потом в operation Scheduler положить 'Box'
         
         closeChildViewController()
