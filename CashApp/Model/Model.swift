@@ -8,31 +8,29 @@
 
 import RealmSwift
 
+//MARK: Monetary Entity
 class MonetaryEntity: Object {
     @objc dynamic var name: String = "Some Name"
     @objc dynamic var sum: Double = 0
-    @objc dynamic var userDescription: String?
+    @objc dynamic var secondSum: Double = 0
     @objc dynamic var date: Date?
     @objc dynamic var image: Data?
-    @objc dynamic var userPersent: Double = 0
     @objc dynamic var accountType: Int = MonetaryType.approach.rawValue
     @objc dynamic var monetaryID = NSUUID.init().uuidString
-    var stringAccountType: MonetaryType {
+    var stringEntityType: MonetaryType {
         get { return MonetaryType(rawValue: accountType)! }
         set { accountType = newValue.rawValue }
         }
-    
     override static func primaryKey() -> String? {
         return "monetaryID"
     }
-    convenience init(name: String,sum:Double,userDescription:String?,date:Date?,image:Data?,accountType:MonetaryType?, userPerent: Double) {
+    convenience init(name: String,sum:Double, secondSum: Double,date:Date?,image:Data?,accountType:MonetaryType?) {
         self.init()
         self.name = name
-        self.image = image
         self.sum = sum
-        self.userDescription = userDescription
+        self.secondSum = secondSum
+        self.image = image
         self.date = date
-        self.userPersent = userPerent
         if let typeAC = accountType?.rawValue{
         self.accountType = typeAC
         }else {print("Вернулся nil")}
@@ -40,20 +38,60 @@ class MonetaryEntity: Object {
     func initType() -> String {
         var text = ""
         switch accountType{
-        case 1 : text = "Card"
-        case 2 : text = "Box"
-        case 3 : text = "Cash"
-        case 4 : text = "Debt"
-        case 5 : text = "Bor"
-        case 6 : text = "Regular"
-        case 7 : text = "Income"
-
+        case 1 : text = "Approach"
+        case 2 : text = "Regular"
+        case 3 : text = "Debt"
+        case 4 : text = "Expence"
         default:break
         }
         return text
     }
 }
 
+//MARK: Monetary Account
+
+class MonetaryAccount: Object {
+    @objc dynamic var name: String = "Some Name"
+    @objc dynamic var balance: Double = 0
+    @objc dynamic var targetSum: Double = 0
+    @objc dynamic var date: Date?
+    @objc dynamic var imageForCell: Data?
+    @objc dynamic var imageForAccount: Data?
+    @objc dynamic var isMainAccount = false
+    @objc dynamic var accountType: Int = AccountType.card.rawValue
+    @objc dynamic var accountID = NSUUID.init().uuidString
+    var stringAccountType: AccountType {
+        get { return AccountType(rawValue: accountType)! }
+        set { accountType = newValue.rawValue }
+        }
+    override static func primaryKey() -> String? {
+        return "accountID"
+    }
+    convenience init(name: String,balance:Double,targetSum: Double,date:Date?,imageForAccount:Data?,imageForCell: Data?,accountType:AccountType?,isMainAccount: Bool) {
+        self.init()
+        self.name = name
+        self.imageForCell = imageForCell
+        self.imageForAccount = imageForAccount
+        self.balance = balance
+        self.targetSum = targetSum
+        self.date = date
+        self.isMainAccount = isMainAccount
+        if let typeAC = accountType?.rawValue{
+        self.accountType = typeAC
+        }else {print("Вернулся nil, Model viw controller")}
+    }
+    func initType() -> String {
+        var text = ""
+        switch accountType{
+        case 1 : text = "Card"
+        case 2 : text = "Cash"
+        case 3 : text = "Box"
+        
+        default:break
+        }
+        return text
+    }
+}
 
 extension MonetaryEntity {
     func updateObjext() {
@@ -62,22 +100,20 @@ extension MonetaryEntity {
         }
 }
 }
-
     enum vector:String {
         case to
         case out
     }
-enum MonetaryType: Int {
+enum AccountType: Int {
     case card = 1
-    case box = 2
-    case cash = 3
-    case debt = 4
-    case borrow = 5
-    case regular = 6
-    case approach = 7
-    case history = 8
-    case operationExpence = 9
-    case operationIncome = 10
+    case cash = 2
+    case box =  3
+}
+enum MonetaryType: Int {
+    case approach = 1
+    case regular = 2
+    case debt = 3
+    case expence = 4
 }
 
 

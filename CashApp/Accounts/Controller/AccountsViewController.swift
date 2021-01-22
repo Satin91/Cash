@@ -12,33 +12,47 @@ class AccountsViewController: UIViewController,UITableViewDataSource, UITableVie
     
     
     @IBOutlet var accountsTableView: UITableView!
-
+    
+    @IBAction func addButton(_ sender: Any) {
+        //addVC
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let pickTypeVC = storyboard.instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
+        let navVC = UINavigationController(rootViewController: pickTypeVC)
+        pickTypeVC.buttonsNames = ["Card","Cash","Savings"]
+        pickTypeVC.goingTo = "addAccountVC"
+        navVC.modalPresentationStyle = .pageSheet
+        
+        //Передача данных описана в классе PickTypePopUpViewController
+        present(navVC, animated: true, completion: nil)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let nController = self.navigationController else{return}
         setupNavigationController(Navigation: nController)
-        print(boxObjects)
+        //print(boxObjects)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return EnumeratedSequence(array: accountsObjects).count
+        return EnumeratedAccounts(array: accountsObjects).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.totalBalanceIdentifier, for: indexPath) as! TableViewCell
-        let object = EnumeratedSequence(array: accountsObjects)[indexPath.row]
-        cell.set(object: object)
+        let object = EnumeratedAccounts(array: accountsObjects)[indexPath.row]
+        cell.setAccount(object: object)
         cell.selectionStyle = .none
         return cell
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
-            let totalBalanceDetailVC = segue.destination as! AccountsDetailViewController
+            let accountsDetailViewController = segue.destination as! AccountsDetailViewController
             guard let indexPath = accountsTableView.indexPathForSelectedRow else{return}
-            let entity = EnumeratedSequence(array: accountsObjects)[indexPath.row]
+            let entity = EnumeratedAccounts(array: accountsObjects)[indexPath.row]
             //Передаем модель для дальнейшей обработки
-            totalBalanceDetailVC.entityModel = entity
+            accountsDetailViewController.entityModel = entity
         }
     }
 }

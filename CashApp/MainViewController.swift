@@ -40,7 +40,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         setupNavigationController(Navigation: navigationController!)
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
-        //DBManager.addObject(object: realmObjectsToSave)
+        //DBManager.addAccountObject(object: accountObjectsToSave)
         
        
     }
@@ -96,19 +96,29 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let object = historyObjects[indexPath.row] // создание экземпляра
-       
-        
+   
         //Арифметическая функция для вычитания суммы удаляемого объекта
-        for a in EnumeratedSequence(array: accountsObjects){
-            if a.monetaryID == object.accountIdentifier {
+        for a in EnumeratedAccounts(array: accountsObjects){
+            if a.accountID == object.accountIdentifier {
                 try! realm.write {
-                    a.sum += object.sum   // Так как со счетов в историю всегда идут траты, тут +=
+                    a.balance += object.sum   // Так как со счетов в историю всегда идут траты, тут +=
                     realm.add(a, update: .all)
             }
         }
         }
-        for i in EnumeratedSequence(array: [operationSpendingObjects]){
-            if i.name == object.name {
+        
+        for i in EnumeratedSequence(array: [expenceObjects]){
+            if i.monetaryID == object.entityIdentifier {
+                try! realm.write {
+                    i.sum -= object.sum
+                    realm.add(i, update: .all)
+            }
+               
+            }
+        }
+        
+        for i in EnumeratedSequence(array: operationScheduler){
+            if i.monetaryID == object.entityIdentifier {
                 try! realm.write {
                     i.sum -= object.sum
                     realm.add(i, update: .all)

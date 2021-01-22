@@ -46,7 +46,6 @@ class TableViewCell: UITableViewCell {
     }
     
     func set(object: MonetaryEntity) {
-
         self.headerLabel?.text = object.name
         guard descriptionLabel != nil else {return}
         if object.date != nil {
@@ -56,6 +55,22 @@ class TableViewCell: UITableViewCell {
         }
         self.sumLabel?.text = String(object.sum.currencyFR)
         if let imageData = object.image {
+            userImage.image = UIImage(data:imageData)
+        }else{ userImage.image = UIImage(named: "card")}
+        guard let typeLabel = typeLabel else {return}
+        typeLabel.text = object.initType()
+    }
+    
+    func setAccount(object: MonetaryAccount) {
+        self.headerLabel?.text = object.name
+        guard descriptionLabel != nil else {return}
+        if object.date != nil {
+            self.descriptionLabel?.text = todayDateToString(date: object.date!)
+        }else{
+            descriptionLabel.text = "Balance"
+        }
+        self.sumLabel?.text = String(object.balance.currencyFR)
+        if let imageData = object.imageForCell {
             userImage.image = UIImage(data:imageData)
         }else{ userImage.image = UIImage(named: "card")}
         guard let typeLabel = typeLabel else {return}

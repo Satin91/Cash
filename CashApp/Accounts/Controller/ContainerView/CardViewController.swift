@@ -13,7 +13,7 @@ class CardViewController: UIViewController {
     
     
     @IBOutlet var scheeduleText: UILabel!
-    var scheduleModel: MonetaryEntity?
+    var scheduleModel: MonetaryAccount?
     
     override func viewDidLoad() {
         

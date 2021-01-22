@@ -17,8 +17,9 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     var newEntityElement = MonetaryEntity()
     var changeValue = true
     let pointBetweenItems = 15
-    var middleText = "" // Переменная для принятия текста из других классов
-    var bottomText = "" // Переменная для принятия текста из других классов
+    var textForUpperLabel = ""
+    var textForMiddleLabel = "" // Переменная для принятия текста из других классов
+    var textForBottomLabel = "" // Переменная для принятия текста из других классов
     
     ///                OUTLETS
     
@@ -30,8 +31,11 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var okOutlet: UIButton!
     //exit в сториборде
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var addCategory: [UILabel]!
+    //TextLabels
+    @IBOutlet var upperTextLabel: UILabel!
     @IBOutlet var middleTextLabel: UILabel!
+    @IBOutlet var bottomTextLabel: UILabel!
+    
     @IBOutlet var selectDateLabel: UILabel!
     
     @IBOutlet var selectDateButton: UIButton!
@@ -51,15 +55,15 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     ///            ACTION BUTTONS
     @IBOutlet var segmentedControl: HBSegmentedControl!
     
-
+    
     @IBAction func backButton(_ sender: UIBarButtonItem) {
-     dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     @IBAction func okAction(_ sender: Any) {
         
-        for i in EnumeratedSequence(array: [operationSpendingObjects]){
+        for i in EnumeratedSequence(array: [expenceObjects]){
             if i.name == nameTextField.text {
-                print("Такое имя существует!") /// Нужно исправить ошибку.
+                print("Такое имя существует!") /// Не знаю нафига исправлять эту ошибку, если все происходит по идентификатору
             }
         }
         saveElement()
@@ -72,8 +76,6 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     @IBAction func cancelGestureTipe(_ sender: Any) {
         view.reservedAnimateView(animatedView: blurView, viewController: nil)
         view.reservedAnimateView(animatedView: popUpView, viewController: nil)
-        
-        
     }
     
     ///            IMAGES ARRAY
@@ -89,8 +91,9 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         isModalInPresentation = true
         viewSelection()
         stackViewSettings()
-        middleTextLabel.text = middleText
-        addCategory[1].text = bottomText
+        upperTextLabel.text = textForUpperLabel
+        middleTextLabel.text = textForMiddleLabel
+        bottomTextLabel.text = textForBottomLabel
         //okNeomorph.bounds.origin.y = 700
         okNeomorph.cornerRadius = okNeomorph.bounds.height / 2
         segmentedControl.changeValuesForCashApp(segmentOne: "To you", segmentTwo: "From you")
@@ -107,7 +110,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     
     ///               view selection func
     func viewSelection(){
-        switch newEntityElement.stringAccountType {
+        switch newEntityElement.stringEntityType {
         case .approach:
             sumTextField.isHidden = false
             sumBorderButton.isHidden = false
@@ -126,7 +129,6 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
             segmentedontrolNeomorph.isHidden = true
             selectDateButton.isHidden = false
             selectDateView.isHidden = false
-            
         case .regular:
             //sum
             sumTextField.isHidden = false
@@ -140,7 +142,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
             //date button
             selectDateButton.isHidden = false
             selectDateView.isHidden = false
-        case .operationExpence:
+        case .expence:
             //sum
             sumTextField.isHidden = true
             sumBorderButton.isHidden = true
@@ -153,15 +155,12 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
             //segmented
             segmentedControl.isHidden = true
             segmentedontrolNeomorph.isHidden = true
-            
-        default:
-            return
         }
     }
     
     ///                     TEXT FIELD FUNC
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    
+        
         nameTextField.resignFirstResponder()
         sumTextField.resignFirstResponder()
         return false
@@ -184,7 +183,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         blurView.bounds = self.view.bounds
         
     }
-     
+    
     func whiteThemeColors() {
         // labels
         selectDateButton.setTitleColor(whiteThemeMainText, for: .normal)
@@ -193,8 +192,6 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         okOutlet.setTitleColor(        whiteThemeTranslucentText, for: .disabled)
         okOutlet.setImageTintColor(whiteThemeTranslucentText)
         //shadow
-        
-
         nameTextField.textColor =      whiteThemeMainText
         sumTextField.backgroundColor = .none
         sumTextField.textColor =       whiteThemeMainText
@@ -204,12 +201,11 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         collectionView.layer.backgroundColor = .none
         //line
         popUpView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        for i in addCategory {
-            i.textColor = whiteThemeMainText
-        }
+        upperTextLabel.textColor = whiteThemeMainText
+        middleTextLabel.textColor = whiteThemeRed
+        bottomTextLabel.textColor = whiteThemeMainText
         ///Остальные настройки для TextField
-        nameTextField.layer.cornerRadius = nameTextField.frame.height / 2
-        sumTextField.layer.cornerRadius = sumTextField.frame.height / 2
+
         nameTextField.borderStyle = .none
         sumTextField.borderStyle = .none
         //Остальные view
@@ -231,17 +227,19 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         setCustomShadow(label: buttonLabel, color: whiteThemeShadowText.cgColor, radius: 1, opacity: 0.3, size: CGSize(width: 1, height: 1))
         okOutlet.setShadow(view: okOutlet, size: CGSize(width: 1.5, height: 1.5), opacity: 0.4, radius: 4, color: whiteThemeMainText.cgColor)
         //Добавление лейблам тень
-        for (_, element) in addCategory.enumerated(){
-            setCustomShadow(label: element, color: whiteThemeMainText.cgColor, radius: 3, opacity: 1, size: CGSize(width: 2, height: 2))
-        }
-        setCustomShadow(label: middleTextLabel, color: whiteThemeMainText.cgColor, radius: 3, opacity: 1, size: CGSize(width: 2, height: 2))
-        
+        setCustomShadow(label: upperTextLabel, color: whiteThemeShadowText.cgColor, radius: 3, opacity: 0.6, size: CGSize(width: 2, height: 2))
+        setCustomShadow(label: middleTextLabel, color: whiteThemeShadowText.cgColor, radius: 3, opacity: 0.6, size: CGSize(width: 2, height: 2))
+        setCustomShadow(label: bottomTextLabel, color: whiteThemeShadowText.cgColor, radius: 3, opacity: 0.6, size: CGSize(width: 2, height: 2))
+      
     }
     
     // Сохраняет элементы в базу
     func saveElement(){
         guard (nameTextField.text?.isEmpty) != nil else {return} //Проверка на всякий случай на присутствие текста
-        addObject(text: nameTextField.text!, image: imageView.image, sum: Double(sumTextField.text!), type: MonetaryType(rawValue: newEntityElement.accountType)!)
+        if ((secondSumTextField.text?.isEmpty) != nil) {
+            secondSumTextField.text = "0"
+        }
+        addObject(text: nameTextField.text!, image: imageView.image, sum: Double(sumTextField.text!), secondSum: Double(secondSumTextField.text!), type: MonetaryType(rawValue: newEntityElement.accountType)!)
     }
     
     ///Проверка на пустую строку
@@ -255,11 +253,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
 }
 
 
-
-
 ///                           COLLECTION VIEW
-
-
 extension AddSpendingViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,UICollectionViewDataSource {
     
     
@@ -271,13 +265,11 @@ extension AddSpendingViewController: UICollectionViewDelegateFlowLayout, UIColle
         let availableWidth = collectionView.frame.width - paddingWidth
         let widthPerItem = availableWidth / itemsPerRow
         return CGSize(width: widthPerItem, height: widthPerItem)
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets{
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
-    
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
@@ -314,6 +306,6 @@ extension AddSpendingViewController: UICollectionViewDelegateFlowLayout, UIColle
         
         return cell
     }
-
+    
 }
 

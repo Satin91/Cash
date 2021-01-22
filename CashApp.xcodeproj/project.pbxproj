@@ -19,12 +19,13 @@
 		7545E1B1255C45F600454803 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545E1B0255C45F600454803 /* CardViewController.swift */; };
 		755A1D6B257012A400CE034F /* AddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755A1D6A257012A400CE034F /* AddCollectionViewCell.swift */; };
 		7560D034259482E700E496B0 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7560D033259482E700E496B0 /* PopUpViewController.swift */; };
+		7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */; };
 		7578AC44258B80ED0089B754 /* BorderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578AC43258B80ED0089B754 /* BorderButtonView.swift */; };
 		757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D64AA25250679008CDEE1 /* DateSettings.swift */; };
 		757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F2F25402BBB00F0B1D0 /* DBManager.swift */; };
 		757F8F3A25402E5600F0B1D0 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F3925402E5600F0B1D0 /* Animations.swift */; };
 		758F854B24D2CF0A007CD161 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758F854A24D2CF0A007CD161 /* TableViewCell.swift */; };
-		7597CE6225B112A500372F79 /* CellForDropDown.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7597CE6125B112A500372F79 /* CellForDropDown.xib */; };
+		7597CE6225B112A500372F79 /* FirstDropDownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7597CE6125B112A500372F79 /* FirstDropDownTableViewCell.xib */; };
 		75AE325125239E30004422F4 /* AccountsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE325025239E30004422F4 /* AccountsDetailViewController.swift */; };
 		75B7AFAE2521014100BFE537 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B7AFAD2521014100BFE537 /* AccountsViewController.swift */; };
 		75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C0DF752524D52400D5B0FA /* CalendarView.swift */; };
@@ -62,12 +63,13 @@
 		7545E1B0255C45F600454803 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		755A1D6A257012A400CE034F /* AddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionViewCell.swift; sourceTree = "<group>"; };
 		7560D033259482E700E496B0 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
+		7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
 		7578AC43258B80ED0089B754 /* BorderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderButtonView.swift; sourceTree = "<group>"; };
 		757D64AA25250679008CDEE1 /* DateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSettings.swift; sourceTree = "<group>"; };
 		757F8F2F25402BBB00F0B1D0 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		757F8F3925402E5600F0B1D0 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		758F854A24D2CF0A007CD161 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		7597CE6125B112A500372F79 /* CellForDropDown.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CellForDropDown.xib; sourceTree = "<group>"; };
+		7597CE6125B112A500372F79 /* FirstDropDownTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FirstDropDownTableViewCell.xib; sourceTree = "<group>"; };
 		75AE325025239E30004422F4 /* AccountsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsDetailViewController.swift; sourceTree = "<group>"; };
 		75B7AFAD2521014100BFE537 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		75C0DF752524D52400D5B0FA /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				75E8FBE1255D0F55007CB6E5 /* ContainerView */,
 				75B7AFAD2521014100BFE537 /* AccountsViewController.swift */,
+				7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */,
 				75AE325025239E30004422F4 /* AccountsDetailViewController.swift */,
 			);
 			path = Controller;
@@ -178,7 +181,7 @@
 			children = (
 				758F854A24D2CF0A007CD161 /* TableViewCell.swift */,
 				75C328F52571A12100E9CAD4 /* DropDownTableViewCell.xib */,
-				7597CE6125B112A500372F79 /* CellForDropDown.xib */,
+				7597CE6125B112A500372F79 /* FirstDropDownTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -350,7 +353,7 @@
 				75EA2AFC24CDDB8B00D03E95 /* LaunchScreen.storyboard in Resources */,
 				75CB7A9E255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf in Resources */,
 				75CB7AA6255D50DA00451F1D /* SF-Pro-Text-Light.otf in Resources */,
-				7597CE6225B112A500372F79 /* CellForDropDown.xib in Resources */,
+				7597CE6225B112A500372F79 /* FirstDropDownTableViewCell.xib in Resources */,
 				75EA2AF924CDDB8B00D03E95 /* Assets.xcassets in Resources */,
 				75CB7AA0255D4E6000451F1D /* SF-Pro-Rounded-Light.otf in Resources */,
 				7542DE1924CE8FEC00E3AF96 /* NeomorphicView.xib in Resources */,
@@ -430,6 +433,7 @@
 				757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */,
 				75FA2BB2253B066800E8CCD8 /* Colors.swift in Sources */,
 				753180AE258A235200AC6B7A /* PickTypePopUpViewController.swift in Sources */,
+				7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */,
 				757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */,
 				758F854B24D2CF0A007CD161 /* TableViewCell.swift in Sources */,
 				75EA2AF024CDDB8200D03E95 /* AppDelegate.swift in Sources */,

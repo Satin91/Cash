@@ -16,7 +16,7 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
     @IBOutlet var calendarView: FSCalendar!
     
     let shapLayer = CAShapeLayer()
-    var entityModel: MonetaryEntity?
+    var entityModel: MonetaryAccount?
     
     func checkType(){
         switch entityModel?.stringAccountType {
@@ -82,11 +82,11 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
         calendarView.changeColorTheme(Calendar: calendarView)
         
         headerLabel.text = entityModel?.name
-        sumLabel.text = String(entityModel!.sum.currencyFR)
+        sumLabel.text = String(entityModel!.balance.currencyFR)
         
         navigationItem.title = entityModel?.initType()
         checkType()
-        
+        self.view.backgroundColor = whiteThemeBackground
         
         
         

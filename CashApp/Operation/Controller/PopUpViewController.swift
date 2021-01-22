@@ -14,15 +14,15 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     
     func dropDownAccountNameAndIndexPath(string: String, indexPath: Int) {
         buttonLabel.text = string
+      
         dropIndexPath = indexPath
+        
         closeDropDownMenu()
     }
     func dropDownAccountIdentifier(identifier: String) {
-        accountIdentifier = identifier
+        accountIdentifier = identifier // Принял идентификатор из drop down table view
     }
-    
-    //var accountEntity = MonetaryEntity() // For dropDownMenu
-    
+
     dynamic var enteredSum = "0"
     var accountIdentifier = ""
     var dropView = DropDownTableView()
@@ -58,8 +58,8 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
         let doubleEnteredSum = Double(replaceEnteredSum)
         guard doubleEnteredSum! > 0 else {return}
-        closePopUpMenuDelegate.closePopUpMenu(enteredSum: doubleEnteredSum!, indexPath: dropIndexPath)
         
+        closePopUpMenuDelegate.closePopUpMenu(enteredSum: doubleEnteredSum!, indexPath: dropIndexPath)
     }
     
     
@@ -82,9 +82,10 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         dropView.dropDelegate = self
         buttonLabel.text = "Choosse account"
         
-        self.view.layer.cornerRadius = 12
+        self.view.layer.cornerRadius = 16
         self.view.clipsToBounds = true // обрезает все на свете до своих границ
-        
+
+        self.view.setShadow(view: self.view, size: CGSize(width: 6, height: 6), opacity: 1, radius: 4, color: whiteThemeTranslucentText.cgColor)
         
         
     }

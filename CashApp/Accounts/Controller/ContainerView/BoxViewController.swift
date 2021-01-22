@@ -14,7 +14,7 @@ class BoxViewController: UIViewController {
     @IBOutlet var circleView: UIView!
     
     //// Color Declarations
-    let color2 = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000)
+ 
 
   
 
@@ -25,7 +25,7 @@ class BoxViewController: UIViewController {
     
     
     let totalBalance = AccountsDetailViewController()
-    var boxModel: MonetaryEntity?
+    var boxModel: MonetaryAccount?
     
     var gradientLayer = CAGradientLayer()
     
@@ -82,7 +82,7 @@ class BoxViewController: UIViewController {
     
     func setupCircle(circle: CAShapeLayer, color: CGColor,stokeEnd: CGFloat) -> CAShapeLayer {
         let circle = circle
-        let circleSize: CGFloat = circleView.frame.height / 3
+        let circleSize: CGFloat = circleView.frame.height / 4
         circleView.backgroundColor = .none
         let startAngle = -CGFloat.pi / 2 // Так как о начинается справа, нужное число отрицательное
         let endAngle = CGFloat.pi * 1.5 // таким образом pi/2 + p * 1.5 получается 2pi = диаметр
@@ -94,7 +94,7 @@ class BoxViewController: UIViewController {
         circle.path = circularPath.cgPath
         circle.strokeColor = color
         circle.fillColor = .none
-        circle.lineWidth = circleSize / 5
+        circle.lineWidth = circleSize / 4
         //Radius in line
         circle.lineCap = .round
         circle.strokeEnd = stokeEnd

@@ -68,6 +68,16 @@ func imageToData(imageName: String) -> Data{
     return imageData!
 }
 
+func EnumeratedAccounts (array: [Results<MonetaryAccount>]) -> [MonetaryAccount]  {
+    
+    var entity: [MonetaryAccount] = []
+    for (_, element) in array.enumerated() {
+        for (_, element2) in element.enumerated() {
+            entity.append(element2)
+        }
+    }
+    return entity
+}
 
 func EnumeratedSequence (array: [Results<MonetaryEntity>]) -> [MonetaryEntity]  {
     

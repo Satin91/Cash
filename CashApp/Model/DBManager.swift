@@ -10,23 +10,20 @@ import RealmSwift
 
 
 var realm = try! Realm(configuration: .init( deleteRealmIfMigrationNeeded: true))
-
 var results: Results<MonetaryEntity>!
 
 
 class DBManager {
-    
-    
-    static func updateAccount(accountType: [MonetaryEntity], indexPath: Int, addSum: Double) {
-        let count = EnumeratedSequence(array: accountsObjects).count // Когда отсутствуют счета count = 0
+    static func updateAccount(accountType: [MonetaryAccount], indexPath: Int, addSum: Double) {
+        let count = EnumeratedAccounts(array: accountsObjects).count // Когда отсутствуют счета count = 0
+
         try! realm.write {
-                if count > 0, indexPath > 0 {
-                accountType[indexPath].sum -= addSum
+                if count > 0, indexPath >= 0 {
+                accountType[indexPath].balance -= addSum
             }
                 realm.add(accountType, update: .all)
         }
  
-        
     }
     
     static func updateObject(objectType: [MonetaryEntity], indexPath: Int, addSum: Double) {
@@ -35,6 +32,17 @@ class DBManager {
             realm.add(objectType, update: .all)
     }
 }
+    
+    static func updateEntity(accountType: [MonetaryEntity], indexPath: Int, addSum: Double) {
+        let count = EnumeratedAccounts(array: accountsObjects).count // Когда отсутствуют счета count = 0
+        try! realm.write {
+                if count > 0, indexPath > 0 {
+                accountType[indexPath].sum -= addSum
+            }
+                realm.add(accountType, update: .all)
+        }
+    }
+
     static func removeObject(Object: MonetaryEntity){
         try! realm.write{
             realm.delete(Object)
@@ -54,7 +62,12 @@ class DBManager {
         }
     }
     ///Функиця для быстрой записи в БазуДанных
-    static func addObject(object: [MonetaryEntity]) {
+    static func addEntityObject(object: [MonetaryEntity]) {
+        try! realm.write {
+            realm.add(object)
+        }
+    }
+    static func addAccountObject(object: [MonetaryAccount]) {
         try! realm.write {
             realm.add(object)
         }

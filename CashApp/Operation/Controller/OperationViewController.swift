@@ -16,7 +16,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         
     }
     func dropDownAccountIdentifier(identifier: String) {
-        historyObject.accountIdentifier = identifier  // Применил идентификатор от счета
+        historyObject.accountIdentifier = identifier  // Применил идентификатор от счета из pop up view controller 
     }
     
     
@@ -43,14 +43,18 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         switch changeValue {
         case true:
             let addVC = storyboard.instantiateViewController(withIdentifier: "addVC") as! AddSpendingViewController
-            addVC.newEntityElement.stringAccountType = .operationExpence
-            addVC.middleText = "spending"
-            addVC.bottomText = "category"
+            addVC.newEntityElement.stringEntityType = .expence
+            addVC.textForUpperLabel = "Add"
+            addVC.textForMiddleLabel = "spending"
+            addVC.textForBottomLabel = "category"
             self.navigationController?.pushViewController(addVC, animated: true)
         case false:
-            let popUpVC = storyboard.instantiateViewController(withIdentifier: "popUpVC") as! PickTypePopUpViewController
-            let navVC = UINavigationController(rootViewController: popUpVC)
+            let pickTypeVC = storyboard.instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
+            pickTypeVC.buttonsNames = ["Approach","Recurring fee","Debt"]
+            pickTypeVC.goingTo = "addVC"
+            let navVC = UINavigationController(rootViewController: pickTypeVC)
             navVC.modalPresentationStyle = .pageSheet
+            
             //Передача данных описана в классе PickTypePopUpViewController
             present(navVC, animated: true, completion: nil)
         }
@@ -74,13 +78,14 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         operationEntity.sum = enteredSum //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО !
         historyObject.sum = enteredSum
         historyObject.date = Date()
+        
         if indexPath != nil {
-            DBManager.updateAccount(accountType: EnumeratedSequence(array: accountsObjects), indexPath: indexPath!, addSum: enteredSum)
+            DBManager.updateAccount(accountType: EnumeratedAccounts(array: accountsObjects), indexPath: indexPath!, addSum: enteredSum)
         }
         if enteredSum != 0 { // В будущем при переводе в double тип изменить условие !
         DBManager.addHistoryObject(object: historyObject)
         }
-        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationPayment: operationScheduler), indexPath: operationIndexPath.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
+        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationExpence: operationScheduler), indexPath: operationIndexPath.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
         
         closeChildViewController()
         operationTableView.reloadData()
@@ -96,13 +101,14 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         popoverVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
         popoverVC.dropDownProtocol = self
         if popViewController == nil {
-            // Проверка для того чтобы сто раз не добавлять viewController
+            // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
             popViewController = popoverVC
             popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.5)
             //popViewController.view.layer.cornerRadius = 25
             self.addChild(popViewController)
             self.view.animateView(animatedView: blurView, parentView: self.view)
             view.animateView(animatedView: popViewController.view, parentView: self.view)
+//            popViewController.view.setShadow(view: popViewController.view, size: CGSize(width: 50, height: 50), opacity: 1, radius: 4, color: UIColor.black.cgColor)
             //view.addSubview(popViewController.view)
             popViewController.didMove(toParent: self)
         }
@@ -141,13 +147,13 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
 extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     ///                          TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        changeValue ? EnumeratedSequence(array: operationPayment).count : EnumeratedSequence(array: operationScheduler).count
+        changeValue ? EnumeratedSequence(array: operationExpence).count : EnumeratedSequence(array: operationScheduler).count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.operationIdentifier, for: indexPath) as! TableViewCell
         switch changeValue {
         case true:
-            let object = EnumeratedSequence(array: operationPayment)[indexPath.row]
+            let object = EnumeratedSequence(array: operationExpence)[indexPath.row]
             cell.set(object: object)
         case false :
             let object = EnumeratedSequence(array: operationScheduler)[indexPath.row]
@@ -162,7 +168,7 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
         //Создание экземпляра
-        let cell = EnumeratedSequence(array: changeValue ? operationPayment : operationScheduler)[indexPath.row]
+        let cell = EnumeratedSequence(array: changeValue ? operationExpence : operationScheduler)[indexPath.row]
         //Копирование экземпляра
         let copyOfoperationEntity = MonetaryEntity()
         copyOfoperationEntity.name = cell.name
@@ -170,6 +176,7 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
         let copyOfHistoryObject = AccountsHistory()
         copyOfHistoryObject.name = cell.name
         copyOfHistoryObject.image = cell.image
+        copyOfHistoryObject.entityIdentifier = cell.monetaryID
         operationEntity = copyOfoperationEntity
         historyObject = copyOfHistoryObject
         // presentationPopUpMenu()
@@ -182,7 +189,7 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         var object = MonetaryEntity()
-        object = changeValue ? EnumeratedSequence(array: operationPayment)[indexPath.row] : EnumeratedSequence(array: operationScheduler)[indexPath.row]
+        object = changeValue ? EnumeratedSequence(array: operationExpence)[indexPath.row] : EnumeratedSequence(array: operationScheduler)[indexPath.row]
         
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in

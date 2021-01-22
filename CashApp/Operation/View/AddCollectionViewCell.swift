@@ -11,5 +11,7 @@ import UIKit
 class AddCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet var accountImageView: UIImageView!
     
+  
 }
