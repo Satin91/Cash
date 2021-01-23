@@ -13,5 +13,7 @@ class AddCollectionViewCell: UICollectionViewCell {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var accountImageView: UIImageView!
     
-  
+    func corner(image: UIImageView) {
+        image.layer.cornerRadius = 20
+    }
 }

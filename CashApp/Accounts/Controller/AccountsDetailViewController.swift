@@ -14,10 +14,13 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
     @IBOutlet var schedule: UIView!
     @IBOutlet var boxView: UIView!
     @IBOutlet var calendarView: FSCalendar!
+
+    @IBOutlet var accountImage: UIImageView!
+    
     
     let shapLayer = CAShapeLayer()
     var entityModel: MonetaryAccount?
-    
+    let image = UIImageView()
     func checkType(){
         switch entityModel?.stringAccountType {
         case .box:
@@ -67,11 +70,17 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
         
     }
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        image.frame = CGRect(x: 0, y: 0, width: totalBalanceElementView.bounds.width, height:totalBalanceElementView.bounds.height )
+        image.image = UIImage(data: (entityModel?.imageForAccount)!)
         
-        
+        image.layer.cornerRadius = 18
+        image.clipsToBounds = true
+        totalBalanceElementView.insertSubview(image, at: 1)
+        totalBalanceElementView.setShadow(view: totalBalanceElementView, size: CGSize(width: 2, height: 2), opacity: 0.6, radius: 3, color: whiteThemeShadowText.cgColor)
+
         upperButtonImage.setImageShadow(image: upperButtonImage)
         upperButtonImage.setImageShadow(image: middleButtonImage)
         upperButtonImage.setImageShadow(image: lowerButtonImage)
@@ -83,7 +92,7 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
         
         headerLabel.text = entityModel?.name
         sumLabel.text = String(entityModel!.balance.currencyFR)
-        
+        //accountImage.image = UIImage(data: entityModel!.imageForAccount!)
         navigationItem.title = entityModel?.initType()
         checkType()
         self.view.backgroundColor = whiteThemeBackground

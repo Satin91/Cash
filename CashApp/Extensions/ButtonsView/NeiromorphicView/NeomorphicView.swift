@@ -36,6 +36,8 @@ class NeomorphicView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
+        
+        
         self.backgroundColor = nil
     }
     
@@ -67,6 +69,7 @@ class NeomorphicView: UIView {
         darkShadow.shadowRadius = shadowRadius //Радиус
         self.layer.insertSublayer(darkShadow, at: 0)
         
+        
         lightShadow.frame = self.bounds
         lightShadow.cornerRadius = backgroundContentView.cornerRadius
         lightShadow.backgroundColor = whiteThemeBackground.cgColor
@@ -89,6 +92,7 @@ class NeomorphicView: UIView {
     
     //пока нужная вещь, потом нет
     func setupContentView() {
+        
         self.contentView.isHidden = false
         
         contentView.bounds = self.frame

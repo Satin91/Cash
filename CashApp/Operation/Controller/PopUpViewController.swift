@@ -11,7 +11,7 @@ import UIKit
 
 class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelegate{
     
-    
+    let neiroView = NeomorphicView()
     func dropDownAccountNameAndIndexPath(string: String, indexPath: Int) {
         buttonLabel.text = string
       
@@ -35,11 +35,9 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     var dropDownProtocol: DropDownProtocol!
     
     @IBOutlet var buttonLabel: UILabel!
-    
-    
-    
-    @IBOutlet var gradientPopUpView: UIView!
+
     @IBOutlet var dropButtonView: GradientView!
+    @IBOutlet var borderButtonView: BorderButtonView!
     ///             TEXT FIELD
     @IBOutlet var popUpTextField: UITextField!
     
@@ -70,10 +68,13 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
             closeDropDownMenu()
         }
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //self.view.frame = CGRect(x: super.view.frame.width / 2, y: super.view.frame.height / 2, width: super.view.frame.width * 0.8, height: super.view.bounds.height * 0.5)
+        //self.view.bounds = super.view.bounds
+        popUpTextField.borderStyle = .none
         registerForNotifications()
         popUpTextField.delegate = self
         popUpTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
@@ -81,15 +82,25 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         whiteThemeFunc()
         dropView.dropDelegate = self
         buttonLabel.text = "Choosse account"
+        popUpTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         
-        self.view.layer.cornerRadius = 16
-        self.view.clipsToBounds = true // обрезает все на свете до своих границ
-
-        self.view.setShadow(view: self.view, size: CGSize(width: 6, height: 6), opacity: 1, radius: 4, color: whiteThemeTranslucentText.cgColor)
+      
         
+      
+        self.view.layer.cornerRadius = 21
+        self.view.setShadow(view: self.view, size: CGSize(width: 4, height: 4), opacity: 0.6, radius: 4, color: whiteThemeShadowText.cgColor)
+       
+        
+        print(dropButtonView.bounds.width)
         
     }
-    //Разрешенные символы
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        dropButtonView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60)
+        dropButtonView.clipsToBounds = true
+        dropButtonView.selectivelyRoundedRadius(usingCorners: [.topRight,.topLeft], radius: CGSize(width: 20 , height: 20), view: dropButtonView)
+    }
+ 
     
     ///Функция для запрета ввода букв
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

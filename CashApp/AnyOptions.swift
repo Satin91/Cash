@@ -140,7 +140,7 @@ class GradientView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        self.autoresizingMask = [.flexibleWidth, . flexibleHeight]
         gradientLayer.frame = bounds
     }
     
@@ -229,6 +229,15 @@ extension UIView {
                 animatedView.removeFromSuperview()
                 
             }
+    }
+}
+
+extension UIView {
+    func selectivelyRoundedRadius(usingCorners: UIRectCorner, radius: CGSize, view: UIView) {
+        let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: usingCorners, cornerRadii: radius)
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        view.layer.mask = maskLayer
     }
 }
 //MARK:     Extension for hide keyboard

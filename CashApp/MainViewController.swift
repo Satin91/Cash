@@ -108,7 +108,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         for i in EnumeratedSequence(array: [expenceObjects]){
-            if i.monetaryID == object.entityIdentifier {
+            if object.entityIdentifier == i.monetaryID {
                 try! realm.write {
                     i.sum -= object.sum
                     realm.add(i, update: .all)
@@ -118,7 +118,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         for i in EnumeratedSequence(array: operationScheduler){
-            if i.monetaryID == object.entityIdentifier {
+            if  object.entityIdentifier == i.monetaryID {
                 try! realm.write {
                     i.sum -= object.sum
                     realm.add(i, update: .all)

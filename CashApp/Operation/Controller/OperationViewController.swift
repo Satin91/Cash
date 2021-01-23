@@ -104,7 +104,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
             popViewController = popoverVC
             popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.5)
-            //popViewController.view.layer.cornerRadius = 25
+            //popViewController.view.selectivelyRoundedRadius(usingCorners: [.topLeft,.topRight], radius: CGSize(width: 20, height: 20), view: popViewController.view)
             self.addChild(popViewController)
             self.view.animateView(animatedView: blurView, parentView: self.view)
             view.animateView(animatedView: popViewController.view, parentView: self.view)
