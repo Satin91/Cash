@@ -51,7 +51,7 @@ class MonetaryEntity: Object {
 //MARK: Monetary Account
 
 class MonetaryAccount: Object {
-    @objc dynamic var name: String = "Some Name"
+    @objc dynamic var name: String = "My account"
     @objc dynamic var balance: Double = 0
     @objc dynamic var targetSum: Double = 0
     @objc dynamic var date: Date?

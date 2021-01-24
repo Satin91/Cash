@@ -57,12 +57,44 @@ extension Numeric {
     
     
 }
+
+
+    
+extension UILabel {
+    
+    
+    func setLabelMiddleShadow(label: UILabel){
+        label.layer.shadowColor = whiteThemeShadowText.cgColor
+        label.layer.shadowRadius = 3
+        label.layer.shadowOpacity = 0.6
+        label.layer.shadowOffset = CGSize(width: 2, height: 2)
+        label.layer.masksToBounds = false
+    }
+    
+    func setLabelSmallShadow(label: UILabel){
+        label.layer.shadowColor = whiteThemeShadowText.cgColor
+        label.layer.shadowRadius = 1
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 1, height: 1)
+        label.layer.masksToBounds = false
+    }
+    var smallShadow: UILabel {
+        let label = UILabel()
+            label.layer.shadowColor = whiteThemeShadowText.cgColor
+            label.layer.shadowRadius = 1
+            label.layer.shadowOpacity = 0.3
+            label.layer.shadowOffset = CGSize(width: 1, height: 1)
+            label.layer.masksToBounds = false
+        return label
+    }
+    }
+
+
 ///SomeFunc
 //ImageToData
 func imageToData(imageName: String) -> Data{
     let imageName2 = imageName
     let image = UIImage(named: imageName2)
-    
     
     let imageData = image?.pngData()
     return imageData!
@@ -175,8 +207,6 @@ func setupNavigationController(Navigation Controller: UINavigationController) {
     Controller.navigationBar.setBackgroundImage(UIImage(), for: .default)
     Controller.navigationBar.tintColor = whiteThemeRed
     Controller.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: "Helvetica Neue", size: 26)!]
-    
-    
 }
 
 ///MARK: DropDownProtocol
@@ -230,9 +260,6 @@ extension UIView {
                 
             }
     }
-}
-
-extension UIView {
     func selectivelyRoundedRadius(usingCorners: UIRectCorner, radius: CGSize, view: UIView) {
         let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: usingCorners, cornerRadii: radius)
         let maskLayer = CAShapeLayer()
@@ -240,6 +267,10 @@ extension UIView {
         view.layer.mask = maskLayer
     }
 }
+
+
+
+
 //MARK:     Extension for hide keyboard
 
 extension UIViewController {
@@ -261,13 +292,6 @@ extension UIImageView {
     }
 }
 //MARK:    Shadows
-func setCustomShadow(label: UILabel,color: CGColor, radius: CGFloat, opacity: Float, size: CGSize ) {
-    label.layer.shadowColor = color
-    label.layer.shadowRadius = radius
-    label.layer.shadowOpacity = opacity
-    label.layer.shadowOffset = size
-    label.layer.masksToBounds = false
-}
 
 extension UIView{
     

@@ -36,7 +36,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var middleTextLabel: UILabel!
     @IBOutlet var bottomTextLabel: UILabel!
     
-    @IBOutlet var selectDateLabel: UILabel!
+ 
     
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var nameBorderButton: BorderButtonView!
@@ -224,12 +224,13 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     
     func shadows() {
         guard let buttonLabel = selectDateButton.titleLabel else {return}
-        setCustomShadow(label: buttonLabel, color: whiteThemeShadowText.cgColor, radius: 1, opacity: 0.3, size: CGSize(width: 1, height: 1))
+        
         okOutlet.setShadow(view: okOutlet, size: CGSize(width: 1.5, height: 1.5), opacity: 0.4, radius: 4, color: whiteThemeMainText.cgColor)
         //Добавление лейблам тень
-        setCustomShadow(label: upperTextLabel, color: whiteThemeShadowText.cgColor, radius: 3, opacity: 0.6, size: CGSize(width: 2, height: 2))
-        setCustomShadow(label: middleTextLabel, color: whiteThemeShadowText.cgColor, radius: 3, opacity: 0.6, size: CGSize(width: 2, height: 2))
-        setCustomShadow(label: bottomTextLabel, color: whiteThemeShadowText.cgColor, radius: 3, opacity: 0.6, size: CGSize(width: 2, height: 2))
+        buttonLabel.setLabelSmallShadow(label: buttonLabel)
+        upperTextLabel.setLabelMiddleShadow(label: upperTextLabel)
+        middleTextLabel.setLabelMiddleShadow(label: middleTextLabel)
+        bottomTextLabel.setLabelMiddleShadow(label: bottomTextLabel)
       
     }
     

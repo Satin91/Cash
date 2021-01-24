@@ -83,15 +83,8 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         dropView.dropDelegate = self
         buttonLabel.text = "Choosse account"
         popUpTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-        
-      
-        
-      
-        self.view.layer.cornerRadius = 21
-        self.view.setShadow(view: self.view, size: CGSize(width: 4, height: 4), opacity: 0.6, radius: 4, color: whiteThemeShadowText.cgColor)
        
-        
-        print(dropButtonView.bounds.width)
+
         
     }
     override func viewDidLayoutSubviews() {
@@ -99,6 +92,8 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         dropButtonView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60)
         dropButtonView.clipsToBounds = true
         dropButtonView.selectivelyRoundedRadius(usingCorners: [.topRight,.topLeft], radius: CGSize(width: 20 , height: 20), view: dropButtonView)
+        self.view.layer.cornerRadius = 21
+        self.view.setShadow(view: self.view, size: CGSize(width: 3, height: 4), opacity: 0.2, radius: 4, color: whiteThemeShadowText.cgColor)
     }
  
     
@@ -154,6 +149,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         buttonLabel.textColor = whiteThemeMainText
         self.view.backgroundColor = whiteThemeBackground
         buttonLabel.textColor = whiteThemeBackground
+        popUpTextField.textColor = whiteThemeMainText
     }
     
     
@@ -177,8 +173,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         NSLayoutConstraint.activate([self.dropDownHeight])
         UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: .calculationModeLinear, animations: { [self] in
             self.dropView.center.y -= self.dropView.frame.height / 2
-            self.dropView.layoutIfNeeded()  //Позиция должна быть пересчитана
-            
+            self.dropView.layoutIfNeeded()  //Позволяет менять констрейнты в реальном времени
         } )
     }
     
@@ -190,6 +185,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: .calculationModeLinear, animations: {
             self.dropView.layoutIfNeeded() //Позиция должна быть пересчитана
             self.dropView.center.y += self.dropView.frame.height / 2
+            self.dropView.selectivelyRoundedRadius(usingCorners: [.bottomLeft,.bottomRight], radius: CGSize(width: self.view.layer.cornerRadius , height: self.view.layer.cornerRadius), view: self.dropView)
         } )
     }
     

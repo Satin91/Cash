@@ -13,9 +13,6 @@
         <array key="SF-Pro-Rounded-Light.otf">
             <string>SFProRounded-Light</string>
         </array>
-        <array key="SF-Pro-Rounded-Medium.otf">
-            <string>SFProRounded-Medium</string>
-        </array>
         <array key="SF-Pro-Rounded-Regular.otf">
             <string>SFProRounded-Regular</string>
         </array>
@@ -400,7 +397,7 @@
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l52-SN-SRU">
                                         <rect key="frame" x="0.0" y="0.0" width="338" height="64"/>
-                                        <fontDescription key="fontDescription" name="SFProRounded-Medium" family="SF Pro Rounded" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
                                         <state key="normal" title="Middle">
                                             <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
@@ -439,7 +436,7 @@
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scx-YK-gLB">
                                         <rect key="frame" x="0.0" y="0.0" width="338" height="64"/>
-                                        <fontDescription key="fontDescription" name="SFProRounded-Medium" family="SF Pro Rounded" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
                                         <state key="normal" title="Lower">
                                             <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
@@ -554,7 +551,7 @@
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ye-ru-wB4">
                                         <rect key="frame" x="0.0" y="0.0" width="338" height="64"/>
-                                        <fontDescription key="fontDescription" name="SFProRounded-Medium" family="SF Pro Rounded" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
                                         <state key="normal" title="Upper">
                                             <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </state>
@@ -647,11 +644,13 @@
                     <connections>
                         <outlet property="accountImage" destination="WxT-yf-Pyh" id="9wB-9O-TXO"/>
                         <outlet property="balanceLabel" destination="c0y-XS-V8Q" id="hrh-Zk-blq"/>
+                        <outlet property="bottomButton" destination="Scx-YK-gLB" id="wob-rf-Cu1"/>
+                        <outlet property="bottomButtonImage" destination="nqs-5e-TJz" id="nCe-CY-VyE"/>
                         <outlet property="boxView" destination="eqc-kS-2dM" id="cXx-4t-RTR"/>
                         <outlet property="calendarView" destination="WBe-sB-AqX" id="MId-j0-MZ3"/>
                         <outlet property="editImage" destination="Q52-ty-Ba8" id="AyQ-rk-BF8"/>
                         <outlet property="headerLabel" destination="BDB-3l-rU9" id="tQN-cd-sAn"/>
-                        <outlet property="lowerButtonImage" destination="nqs-5e-TJz" id="nCe-CY-VyE"/>
+                        <outlet property="middleButton" destination="l52-SN-SRU" id="QEZ-7Q-d8J"/>
                         <outlet property="middleButtonImage" destination="1pq-ZY-Jnk" id="GKp-Ax-nfw"/>
                         <outlet property="schedule" destination="Zpl-43-djS" id="dPm-td-Sb5"/>
                         <outlet property="sumLabel" destination="NBi-XF-7Yd" id="rDi-pe-CyR"/>
@@ -1021,26 +1020,26 @@
                                                     <rect key="frame" x="26" y="12.666666666666664" width="338" height="59.999999999999993"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EFY-1k-qsG">
-                                                            <rect key="frame" x="24" y="13" width="48" height="34"/>
+                                                            <rect key="frame" x="13" y="13" width="48" height="34"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="48" id="IFp-h0-0uM"/>
                                                                 <constraint firstAttribute="height" constant="34" id="hPA-6A-occ"/>
                                                             </constraints>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="i9G-xS-5Eg">
-                                                            <rect key="frame" x="87" y="8.6666666666666679" width="236" height="42.333333333333329"/>
+                                                            <rect key="frame" x="85" y="8.6666666666666679" width="238" height="42.333333333333329"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Zqs-9u-d5F">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="201" height="42.333333333333336"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="203" height="42.333333333333336"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ox1-9n-Zoo">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="201" height="20"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="203" height="20"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                             <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aky-NT-nRa">
-                                                                            <rect key="frame" x="0.0" y="22.000000000000007" width="201" height="20.333333333333336"/>
+                                                                            <rect key="frame" x="0.0" y="22.000000000000007" width="203" height="20.333333333333336"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <color key="textColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                             <nil key="highlightedColor"/>
@@ -1048,7 +1047,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Sum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chA-xv-oQ9">
-                                                                    <rect key="frame" x="201" y="22.333333333333329" width="35" height="20"/>
+                                                                    <rect key="frame" x="203" y="22.333333333333329" width="35" height="20"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                                     <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                                     <nil key="highlightedColor"/>
@@ -1059,24 +1058,16 @@
                                                                 <constraint firstAttribute="bottom" secondItem="chA-xv-oQ9" secondAttribute="bottom" id="lTO-E0-P6b"/>
                                                             </constraints>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HI3-4Y-voL">
-                                                            <rect key="frame" x="24" y="22" width="48" height="15.666666666666664"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <color key="textColor" red="0.92531913519999998" green="0.94102805850000004" blue="0.95294934509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
-                                                        <constraint firstItem="i9G-xS-5Eg" firstAttribute="leading" secondItem="EFY-1k-qsG" secondAttribute="trailing" constant="15" id="9GU-cc-YfI"/>
-                                                        <constraint firstItem="EFY-1k-qsG" firstAttribute="leading" secondItem="Bip-co-ekB" secondAttribute="leading" constant="24" id="9dX-uf-8wn"/>
+                                                        <constraint firstItem="i9G-xS-5Eg" firstAttribute="leading" secondItem="EFY-1k-qsG" secondAttribute="trailing" constant="24" id="9GU-cc-YfI"/>
+                                                        <constraint firstItem="EFY-1k-qsG" firstAttribute="leading" secondItem="Bip-co-ekB" secondAttribute="leading" constant="13" id="9dX-uf-8wn"/>
                                                         <constraint firstItem="EFY-1k-qsG" firstAttribute="top" secondItem="Bip-co-ekB" secondAttribute="top" constant="13" id="9s7-CR-cV9"/>
                                                         <constraint firstAttribute="trailing" secondItem="i9G-xS-5Eg" secondAttribute="trailing" constant="15" id="C2k-hB-HJQ"/>
                                                         <constraint firstAttribute="bottom" secondItem="EFY-1k-qsG" secondAttribute="bottom" constant="13" id="OvB-fO-WYK"/>
                                                         <constraint firstItem="i9G-xS-5Eg" firstAttribute="centerY" secondItem="Bip-co-ekB" secondAttribute="centerY" id="QKs-CR-CM2"/>
                                                         <constraint firstAttribute="height" constant="60" id="Sjd-FP-zHL"/>
-                                                        <constraint firstItem="HI3-4Y-voL" firstAttribute="leading" secondItem="EFY-1k-qsG" secondAttribute="leading" id="dV4-Us-Ycd"/>
-                                                        <constraint firstItem="HI3-4Y-voL" firstAttribute="trailing" secondItem="EFY-1k-qsG" secondAttribute="trailing" id="iLA-LX-21n"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1095,7 +1086,6 @@
                                                 <constraint firstAttribute="trailing" secondItem="Bip-co-ekB" secondAttribute="trailing" constant="26" id="3oc-OP-paC"/>
                                                 <constraint firstItem="Bip-co-ekB" firstAttribute="leading" secondItem="owX-9Y-Xrx" secondAttribute="leading" constant="26" id="Xwq-oz-uNl"/>
                                                 <constraint firstItem="Bip-co-ekB" firstAttribute="centerY" secondItem="owX-9Y-Xrx" secondAttribute="centerY" id="Zm7-9F-qUg"/>
-                                                <constraint firstItem="HI3-4Y-voL" firstAttribute="centerY" secondItem="owX-9Y-Xrx" secondAttribute="centerY" id="ej5-gs-USn"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.92531913519999998" green="0.94102805850000004" blue="0.95294934509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1103,7 +1093,6 @@
                                             <outlet property="descriptionLabel" destination="Aky-NT-nRa" id="x8U-Qn-bVU"/>
                                             <outlet property="headerLabel" destination="Ox1-9n-Zoo" id="B7x-Ql-Zw6"/>
                                             <outlet property="sumLabel" destination="chA-xv-oQ9" id="3F6-pE-o9X"/>
-                                            <outlet property="typeLabel" destination="HI3-4Y-voL" id="gHK-Bo-8Uq"/>
                                             <outlet property="userImage" destination="EFY-1k-qsG" id="Wtb-y1-Yek"/>
                                             <segue destination="sYJ-mK-JTN" kind="show" identifier="showDetail" id="hER-Xx-noY"/>
                                         </connections>
@@ -1738,7 +1727,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="391" height="162"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cash" translatesAutoresizingMaskIntoConstraints="NO" id="ndi-Ch-4Dn">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cash" translatesAutoresizingMaskIntoConstraints="NO" id="ndi-Ch-4Dn">
                                                     <rect key="frame" x="52" y="0.0" width="287" height="162"/>
                                                 </imageView>
                                             </subviews>
@@ -1792,14 +1781,18 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="balanceBorderButton" destination="1rh-Ry-HZv" id="YNH-rB-XUb"/>
                         <outlet property="balanceTextField" destination="rWN-sU-UwX" id="sMA-mS-Mdt"/>
                         <outlet property="bottomTextLabel" destination="oJi-iF-D9Z" id="R9u-dT-4q4"/>
                         <outlet property="cancelButton" destination="D42-YF-cDP" id="kq1-BU-yY4"/>
                         <outlet property="collectionView" destination="6Th-CJ-LKH" id="2f7-Lt-sEQ"/>
                         <outlet property="doneButton" destination="eI0-Rv-r20" id="pjJ-DS-Oxn"/>
                         <outlet property="middleTextLabel" destination="Rvl-0s-Gqi" id="stK-Dj-k8I"/>
+                        <outlet property="nameBorderButton" destination="dsr-EC-BVn" id="OE3-4L-POY"/>
                         <outlet property="nameTextField" destination="F6z-kb-EjB" id="BKK-KN-31I"/>
                         <outlet property="selectDateButtonOutlet" destination="Zb6-ZF-gP1" id="HJP-n3-B9l"/>
+                        <outlet property="selectDateView" destination="FO0-4Z-lEM" id="C4F-hL-MyP"/>
+                        <outlet property="targetBorderButton" destination="d8g-K0-pyN" id="qP1-Xo-vHR"/>
                         <outlet property="targetTextField" destination="Qcm-AZ-S8R" id="3BU-7g-UBK"/>
                         <outlet property="upperTextLabel" destination="RVg-qo-MZJ" id="clN-gz-L7O"/>
                     </connections>

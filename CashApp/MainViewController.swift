@@ -46,8 +46,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func setLabelShadows() {
+        guard operationOutletButton.titleLabel?.text != nil, schedulerOutletButton.titleLabel?.text != nil, totalBalanceOutletButton.titleLabel?.text != nil else {return}
         for i in [operationOutletButton.titleLabel!, schedulerOutletButton.titleLabel!, totalBalanceOutletButton.titleLabel!] {
-            setCustomShadow(label: i, color: whiteThemeShadowText.cgColor, radius: 1, opacity: 0.3, size: CGSize(width: 1, height: 1))
+            i.setLabelSmallShadow(label: i)
         }
         
     }

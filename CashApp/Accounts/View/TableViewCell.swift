@@ -17,15 +17,13 @@ class TableViewCell: UITableViewCell {
     @IBOutlet var dropBownSum: UILabel!
     @IBOutlet var DropDownCellTwoLabel: UILabel!
     @IBOutlet var dropDownTape: UIImageView!
-    
-    
+        
     @IBOutlet var userImage: UIImageView!
     @IBOutlet var headerLabel: UILabel!
     @IBOutlet var sumLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var typeLabel: UILabel!
     @IBOutlet var tape: UIImageView!
-    
     
     static let historyIdentifier = "historyIdentifier"
     static let operationIdentifier = "operationIdentifier"
@@ -69,12 +67,19 @@ class TableViewCell: UITableViewCell {
         }else{
             descriptionLabel.text = "Balance"
         }
+        
+        
         self.sumLabel?.text = String(object.balance.currencyFR)
-        if let imageData = object.imageForCell {
-            userImage.image = UIImage(data:imageData)
-        }else{ userImage.image = UIImage(named: "card")}
-        guard let typeLabel = typeLabel else {return}
-        typeLabel.text = object.initType()
+        
+        switch object.accountType {
+        case 1 : userImage.image = UIImage(named: "card")
+        case 2 : userImage.image = UIImage(named: "cash")
+        case 3 : userImage.image = UIImage(named: "savings")
+            
+        default:
+            userImage.image = UIImage(named: "card")
+        }
+        
     }
 
 

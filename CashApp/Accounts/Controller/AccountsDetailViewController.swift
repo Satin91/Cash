@@ -17,34 +17,18 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
 
     @IBOutlet var accountImage: UIImageView!
     
-    
+    var upperButtonName = "Remittance"
+    var middleButtonName = "Top up"
+    var bottomButtonName = "Delete"
+        
     let shapLayer = CAShapeLayer()
     var entityModel: MonetaryAccount?
     let image = UIImageView()
-    func checkType(){
-        switch entityModel?.stringAccountType {
-        case .box:
-            calendarView.isHidden = true
-            schedule.isHidden = true
-            ///Box View
-            boxView.isHidden = false
-        case .cash :
-            schedule.isHidden = true
-            boxView.isHidden = true
-            
-            calendarView.isHidden = false
-        case .card :
-            calendarView.isHidden = true
-            boxView.isHidden = true
-            
-            schedule.isHidden = false
-            
-        default:
-            break
-        }
-    }
-    
+ 
+    //Buttons outlets
     @IBOutlet var upperButton: UIButton!
+    @IBOutlet var middleButton: UIButton!
+    @IBOutlet var bottomButton: UIButton!
     ///Unused
     @IBOutlet var editImage: UIImageView!
     @IBOutlet var balanceLabel: UILabel!
@@ -53,10 +37,10 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
     @IBOutlet var headerLabel: UILabel!
     @IBOutlet var sumLabel: UILabel!
     
-    ///Buttons
+    ///Buttons images
     @IBOutlet var upperButtonImage: UIImageView!
     @IBOutlet var middleButtonImage: UIImageView!
-    @IBOutlet var lowerButtonImage: UIImageView!
+    @IBOutlet var bottomButtonImage: UIImageView!
     
     @IBOutlet var totalBalanceElementView: UIView!
 
@@ -71,47 +55,79 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
     }
     
 
+ 
+    func namesForButtons(){
+        upperButton.setTitle(upperButtonName, for: .normal)
+        middleButton.setTitle(middleButtonName, for: .normal)
+        bottomButton.setTitle(bottomButtonName, for: .normal)
+    }
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        image.frame = CGRect(x: 0, y: 0, width: totalBalanceElementView.bounds.width, height:totalBalanceElementView.bounds.height )
-        image.image = UIImage(data: (entityModel?.imageForAccount)!)
-        
-        image.layer.cornerRadius = 18
-        image.clipsToBounds = true
-        totalBalanceElementView.insertSubview(image, at: 1)
-        totalBalanceElementView.setShadow(view: totalBalanceElementView, size: CGSize(width: 2, height: 2), opacity: 0.6, radius: 3, color: whiteThemeShadowText.cgColor)
-
-        upperButtonImage.setImageShadow(image: upperButtonImage)
-        upperButtonImage.setImageShadow(image: middleButtonImage)
-        upperButtonImage.setImageShadow(image: lowerButtonImage)
-       
-        lowerButtonImage.changePngColorTo(color: whiteThemeMainText)
-        
-        upperButton.setTitle("Done!", for: .normal)
+        namesForButtons()
+        shadowForImage()
+        bottomButtonImage.changePngColorTo(color: whiteThemeMainText)
         calendarView.changeColorTheme(Calendar: calendarView)
-        
         headerLabel.text = entityModel?.name
         sumLabel.text = String(entityModel!.balance.currencyFR)
         //accountImage.image = UIImage(data: entityModel!.imageForAccount!)
         navigationItem.title = entityModel?.initType()
         checkType()
         self.view.backgroundColor = whiteThemeBackground
-        
-        
-        
+        setLabelShadows()
+    }
+  
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        totalBalanceElementView.setShadow(view: totalBalanceElementView, size: CGSize(width: 2, height: 2), opacity: 0.6, radius: 3, color: whiteThemeShadowText.cgColor)
+        image.frame = CGRect(x: 0, y: 0, width: totalBalanceElementView.bounds.width, height:totalBalanceElementView.bounds.height )
+        image.image = UIImage(data: (entityModel?.imageForAccount)!)
+        image.layer.cornerRadius = 18
+        image.clipsToBounds = true
+        totalBalanceElementView.insertSubview(image, at: 1)
+    }
+    
+    func setLabelShadows() {
+        guard upperButton.titleLabel?.text != nil, middleButton.titleLabel?.text != nil, bottomButton.titleLabel?.text != nil else {return}
+        for i in [upperButton.titleLabel!, middleButton.titleLabel!, bottomButton.titleLabel!] {
+            i.setLabelSmallShadow(label: i)
+        }
+    }
+    
+    fileprivate func shadowForImage() {
+        upperButtonImage.setImageShadow(image: upperButtonImage)
+        upperButtonImage.setImageShadow(image: middleButtonImage)
+        upperButtonImage.setImageShadow(image: bottomButtonImage)
     }
     func scrolToDate(){
         guard let dates = entityModel?.date else {return}
         calendarView.select(dates, scrollToDate: true)
-        
     }
-    
-    
+    func checkType(){
+        switch entityModel?.stringAccountType {
+        case .box:
+            calendarView.isHidden = true
+            schedule.isHidden = true
+            //BoxView
+            boxView.isHidden = false
+        case .cash :
+            
+            schedule.isHidden = true
+            boxView.isHidden = true
+            //CalendarView
+            calendarView.isHidden = false
+        case .card :
+            calendarView.isHidden = true
+            boxView.isHidden = true
+            //CalendarView
+            schedule.isHidden = false
+        default:
+            break
+        }
+    }
     public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
         calendarView.setScope(.week, animated: true)
-        
-        
     }
     
     

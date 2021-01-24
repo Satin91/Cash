@@ -21,10 +21,8 @@ class AccountsViewController: UIViewController,UITableViewDataSource, UITableVie
         pickTypeVC.buttonsNames = ["Card","Cash","Savings"]
         pickTypeVC.goingTo = "addAccountVC"
         navVC.modalPresentationStyle = .pageSheet
-        
         //Передача данных описана в классе PickTypePopUpViewController
         present(navVC, animated: true, completion: nil)
-        
     }
     
     override func viewDidLoad() {
@@ -43,6 +41,8 @@ class AccountsViewController: UIViewController,UITableViewDataSource, UITableVie
         let object = EnumeratedAccounts(array: accountsObjects)[indexPath.row]
         cell.setAccount(object: object)
         cell.selectionStyle = .none
+        cell.userImage.setImageColor(color: whiteThemeMainText)
+        
         return cell
     }
     
