@@ -95,7 +95,7 @@ class DropDownTableView: UIView, UITableViewDataSource, UITableViewDelegate{
         
         self.dropDelegate.dropDownAccountIdentifier(identifier: object.accountID)
         self.tableView.deselectRow(at: indexPath, animated: true)
-        print(object.accountID)
+        
     }
     
 }

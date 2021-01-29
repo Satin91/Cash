@@ -9,11 +9,11 @@
 import UIKit
 import FSCalendar
 
-class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSource{
+class AccountsDetailViewController: UIViewController{
     
     @IBOutlet var schedule: UIView!
     @IBOutlet var boxView: UIView!
-    @IBOutlet var calendarView: FSCalendar!
+
 
     @IBOutlet var accountImage: UIImageView!
     
@@ -50,7 +50,7 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
   
     
     override func viewDidAppear(_ animated: Bool) {
-        scrolToDate()
+       // scrolToDate()
         
     }
     
@@ -66,16 +66,18 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
     override func viewDidLoad() {
         super.viewDidLoad()
         namesForButtons()
-        shadowForImage()
+        shadowsForImages()
         bottomButtonImage.changePngColorTo(color: whiteThemeMainText)
-        calendarView.changeColorTheme(Calendar: calendarView)
+        //calendarView.changeColorTheme(Calendar: calendarView)
         headerLabel.text = entityModel?.name
         sumLabel.text = String(entityModel!.balance.currencyFR)
         //accountImage.image = UIImage(data: entityModel!.imageForAccount!)
         navigationItem.title = entityModel?.initType()
+        
         checkType()
         self.view.backgroundColor = whiteThemeBackground
         setLabelShadows()
+       
     }
   
     override func viewDidLayoutSubviews() {
@@ -95,19 +97,16 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
         }
     }
     
-    fileprivate func shadowForImage() {
+    fileprivate func shadowsForImages() {
         upperButtonImage.setImageShadow(image: upperButtonImage)
         upperButtonImage.setImageShadow(image: middleButtonImage)
         upperButtonImage.setImageShadow(image: bottomButtonImage)
     }
-    func scrolToDate(){
-        guard let dates = entityModel?.date else {return}
-        calendarView.select(dates, scrollToDate: true)
-    }
+   
     func checkType(){
         switch entityModel?.stringAccountType {
         case .box:
-            calendarView.isHidden = true
+  
             schedule.isHidden = true
             //BoxView
             boxView.isHidden = false
@@ -115,31 +114,26 @@ class AccountsDetailViewController: UIViewController,FSCalendarDelegate,FSCalend
             
             schedule.isHidden = true
             boxView.isHidden = true
-            //CalendarView
-            calendarView.isHidden = false
+   
         case .card :
-            calendarView.isHidden = true
+          
             boxView.isHidden = true
-            //CalendarView
             schedule.isHidden = false
+            //CalendarView
+            
         default:
             break
         }
     }
-    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        calendarView.setScope(.week, animated: true)
-    }
-    
-    
-    ///сделать тут чтонбудь
+ 
+  
+  ///сделать тут чтонбудь
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+
         if segue.identifier == "Card" {
             let cardVC = segue.destination as! CardViewController
-            cardVC.scheduleModel = entityModel
-            
+            cardVC.cardModel = entityModel
         }
-        
         if segue.identifier == "Box" {
             let boxVC = segue.destination as! BoxViewController
             boxVC.boxModel = entityModel

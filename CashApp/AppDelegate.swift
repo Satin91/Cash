@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.enableAutoToolbar = false // Бар для доп кнопок
+        IQKeyboardManager.shared.enableAutoToolbar = true // Бар для доп кнопок
         
         
         let schemaVersion: UInt64 = 3 // Realm schemaVersion

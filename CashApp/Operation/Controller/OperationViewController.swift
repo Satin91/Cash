@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol, DropDownProtocol{
+class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol, DropDownProtocol,dismissVC{
     
     
     func dropDownAccountNameAndIndexPath(string: String, indexPath: Int) {
@@ -18,9 +18,35 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     func dropDownAccountIdentifier(identifier: String) {
         historyObject.accountIdentifier = identifier  // Применил идентификатор от счета из pop up view controller 
     }
+    func dismissVC(goingTo: String, restorationIdentifier: String) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddSpendingViewController
+        if goingTo == "addVC"{
+            switch restorationIdentifier {
+            case "upper":
+                addVC.newEntityElement.stringEntityType = .approach
+                addVC.textForMiddleLabel = entityLabelsNames[1]
+            case "middle":
+                addVC.newEntityElement.stringEntityType = .regular
+                addVC.textForMiddleLabel = entityLabelsNames[2]
+            case "bottom":
+                addVC.textForMiddleLabel = entityLabelsNames[3]
+                addVC.newEntityElement.stringEntityType = .debt
+            default:
+                return
+            }
+            let navVC = UINavigationController(rootViewController: addVC)
+            navVC.modalPresentationStyle = .pageSheet
+            addVC.textForUpperLabel = entityLabelsNames[0] // Здесь 0 для удобства т.к. модель начинается с единицы
+            addVC.textForBottomLabel = bottomLabelText[1]
+            present(navVC, animated: true)
+        }
+        
+    }
     
-    
-    
+    var entityLabelsNames = ["Add","approach","recurring fee","debt","spending"]
+    var bottomLabelText = ["to accounts","to schedule","category"]
+
     var popViewController: UIViewController! // Child View Controller
     var operationEntity = MonetaryEntity()// Used in this class
     var historyObject = AccountsHistory()
@@ -52,6 +78,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             let pickTypeVC = storyboard.instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
             pickTypeVC.buttonsNames = ["Approach","Recurring fee","Debt"]
             pickTypeVC.goingTo = "addVC"
+            pickTypeVC.delegate = self
             let navVC = UINavigationController(rootViewController: pickTypeVC)
             navVC.modalPresentationStyle = .pageSheet
             
@@ -75,7 +102,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     func closePopUpMenu(enteredSum: Double, indexPath: Int?) {
         
         guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
-        operationEntity.sum = enteredSum //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО !
+        operationEntity.sum = enteredSum //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО ! не понимаю что тут доделывать
         historyObject.sum = enteredSum
         historyObject.date = Date()
         
@@ -91,10 +118,8 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         operationTableView.reloadData()
         
     }
-    
-    
-    
-    //MARK: Add/Delete View Controller
+ 
+    //MARK: Add/Delete Child View Controller
     func addChildViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let popoverVC = storyboard.instantiateViewController(withIdentifier: "payPopUpVC") as! PopUpViewController
@@ -129,7 +154,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     }
     
     @IBAction func unwindSegueToOperationVC(_ segue: UIStoryboardSegue){
-        self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
+       self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
         operationTableView.reloadData()
     }
 }

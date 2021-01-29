@@ -9,5 +9,6 @@ target 'CashApp' do
   pod 'FSCalendar'
   pod 'RealmSwift'
   pod 'IQKeyboardManagerSwift'
+  pod 'Charts'
 
 end

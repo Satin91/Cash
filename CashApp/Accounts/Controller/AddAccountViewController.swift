@@ -10,16 +10,16 @@ import UIKit
 
 class AddAccountViewController: UIViewController {
     
-    
-    @IBOutlet var cancelButton: UIBarButtonItem!
-    @IBOutlet var doneButton: UIBarButtonItem!
+    @IBAction func okButton(_ sender: UIBarButtonItem) {
+        saveElement()
+        
+    }
     var imageView = UIImageView()
     let accountImages = ["account1","account2","account3","account4"]
     var textForUpperLabel = ""
     var textForMiddleLabel = ""
     var textForBottomLabel = ""
     var indexForImage: IndexPath = [0,0]
-    
     //Border neo bouds for textFields
     @IBOutlet var nameBorderButton: BorderButtonView!
     @IBOutlet var targetBorderButton: BorderButtonView!
@@ -29,7 +29,8 @@ class AddAccountViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView! // Делегат и источник назначены в сториборде
     
     //Actions buttons
-    @IBAction func doneAction(_ sender: Any) {
+    @IBAction func createAccountAction(_ sender: Any) {
+   
         saveElement()
     }
     @IBAction func cancelAction(_ sender: Any) {
@@ -52,40 +53,49 @@ class AddAccountViewController: UIViewController {
     //Actions
     @IBAction func selectDateButton(_ sender: Any) {
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+       
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionViwSettings()
         setupNavigationController(Navigation: navigationController!)
         setColorTheme()
-        textForLabels()
         visualSettings()
-        setTextForTextElements()
+        setTextForViewElements()
         checkType()
         
-        navigationItem.rightBarButtonItem?.title = "Create"
-        navigationItem.leftBarButtonItem?.title = "Cancel"
         
     }
     func saveElement(){
         newAccount.imageForAccount = UIImage(named: accountImages[indexForImage.row])?.pngData()
-        if !nameTextField.text!.isEmpty {
-        newAccount.name = nameTextField.text!
+        if !nameTextField.text!.isEmpty{
+            newAccount.name = nameTextField.text!
+        }
+        if !targetTextField.text!.isEmpty {
+            newAccount.targetSum = Double(targetTextField.text!)!
+        }
+        if !balanceTextField.text!.isEmpty {
+            newAccount.balance = Double(balanceTextField.text!)!
         }
         DBManager.addAccountObject(object: [newAccount])
         
     }
-    func setTextForTextElements() {
+    func setTextForViewElements() {
         nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         targetTextField.attributedPlaceholder = NSAttributedString(string: "Target", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         balanceTextField.attributedPlaceholder = NSAttributedString(string: "Balance", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         selectDateButtonOutlet.setTitle("Select Date", for: .normal)
-        selectDateButtonOutlet.setTitleColor(whiteThemeMainText, for: .normal)
-        guard let titleLabel = selectDateButtonOutlet.titleLabel else {return}
-        titleLabel.setLabelSmallShadow(label: titleLabel)
-        
-        
-        
+        navigationItem.rightBarButtonItem?.title = "Create"
+        navigationItem.leftBarButtonItem?.title = "Cancel"
+        //Labels
+        upperTextLabel.text = textForUpperLabel
+        middleTextLabel.text = textForMiddleLabel
+        bottomTextLabel.text = textForBottomLabel
     }
+    
     
     func collectionViwSettings() {
         let layout = UICollectionViewFlowLayout()
@@ -94,12 +104,6 @@ class AddAccountViewController: UIViewController {
         collectionView.isPagingEnabled = true // Позволяет считать ячейки для того чтобы центрировать при прокрутке, хотя тут вообще он сам по себе центрирует без лишних методов)) очень удобно!
     }
     
-    func textForLabels(){
-        upperTextLabel.text = textForUpperLabel
-        middleTextLabel.text = textForMiddleLabel
-        bottomTextLabel.text = textForBottomLabel
-        
-    }
     func languageSettings() {
         
     }
@@ -108,6 +112,12 @@ class AddAccountViewController: UIViewController {
         nameTextField.borderStyle = .none
         targetTextField.borderStyle = .none
         balanceTextField.borderStyle = .none
+        
+        selectDateButtonOutlet.setTitleColor(whiteThemeMainText, for: .normal)
+        selectDateButtonOutlet.titleLabel?.setLabelSmallShadow(label: selectDateButtonOutlet.titleLabel!)
+        for i in [nameTextField,targetTextField,balanceTextField]{
+            i!.textColor = whiteThemeMainText
+        }
     }
     func checkType () {
         switch newAccount.stringAccountType {
@@ -191,15 +201,15 @@ extension AddAccountViewController: UICollectionViewDelegate,UICollectionViewDat
         cell.accountImageView.clipsToBounds = true
         //collectionView.layer.masksToBounds = false
         //cell.accountImageView.setImageShadow(image: cell.accountImageView)
-//        shadow.frame = cell.accountImageView.bounds
-//        shadow.cornerRadius = 20
-//        shadow.backgroundColor = UIColor.white.cgColor
-//        shadow.shadowColor = #colorLiteral(red: 0.5019607843, green: 0.5960784314, blue: 0.6666666667, alpha: 1)
-//        shadow.shadowOffset = CGSize(width: 2, height: 2) // Размер
-//        shadow.shadowOpacity = 1
-//        shadow.shadowRadius = 4 //Радиус
+        //        shadow.frame = cell.accountImageView.bounds
+        //        shadow.cornerRadius = 20
+        //        shadow.backgroundColor = UIColor.white.cgColor
+        //        shadow.shadowColor = #colorLiteral(red: 0.5019607843, green: 0.5960784314, blue: 0.6666666667, alpha: 1)
+        //        shadow.shadowOffset = CGSize(width: 2, height: 2) // Размер
+        //        shadow.shadowOpacity = 1
+        //        shadow.shadowRadius = 4 //Радиус
         
-       // self.view.layer.insertSublayer(shadow, at: 1)
+        // self.view.layer.insertSublayer(shadow, at: 1)
         return cell
     }
     

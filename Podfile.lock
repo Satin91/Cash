@@ -1,4 +1,7 @@
 PODS:
+  - Charts (3.6.0):
+    - Charts/Core (= 3.6.0)
+  - Charts/Core (3.6.0)
   - FSCalendar (2.8.2)
   - IQKeyboardManagerSwift (6.5.6)
   - Realm (10.5.0):
@@ -8,23 +11,26 @@ PODS:
     - Realm (= 10.5.0)
 
 DEPENDENCIES:
+  - Charts
   - FSCalendar
   - IQKeyboardManagerSwift
   - RealmSwift
 
 SPEC REPOS:
   trunk:
+    - Charts
     - FSCalendar
     - IQKeyboardManagerSwift
     - Realm
     - RealmSwift
 
 SPEC CHECKSUMS:
+  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
   Realm: e1c22c3d83b229afb70ebc10e1771c91e9542d12
   RealmSwift: 6fc078d9d3fd7e58c71bfdbb694e252462f112a5
 
-PODFILE CHECKSUM: 807d27202d320a77a0c72500c7778e3a5d253145
+PODFILE CHECKSUM: 36754ff3570ae8d604cd21a263ab89e23fb9ad14
 
 COCOAPODS: 1.10.0

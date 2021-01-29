@@ -208,6 +208,11 @@ func setupNavigationController(Navigation Controller: UINavigationController) {
     Controller.navigationBar.tintColor = whiteThemeRed
     Controller.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: "Helvetica Neue", size: 26)!]
 }
+///MARK: dismissVC
+protocol dismissVC {
+    func dismissVC(goingTo: String,restorationIdentifier: String)
+}
+
 
 ///MARK: DropDownProtocol
 protocol DropDownProtocol {
@@ -268,7 +273,28 @@ extension UIView {
     }
 }
 
+//MARK:     Extension for UIView
+extension UIView {
+    func setGradient(view: UIView, startColor: UIColor, endColor: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
+        let gradientLayer: CAGradientLayer = {
+            let gradientView = CAGradientLayer()
+            let startColor = startColor
+            let endColor = endColor
+            let startPoint = startPoint
+            let endPoint = endPoint
 
+            gradientView.colors = [startColor.cgColor,endColor.cgColor]
+            gradientView.backgroundColor = .none
+            gradientView.startPoint = startPoint
+            gradientView.endPoint = endPoint
+            
+            return gradientView
+        }()
+        gradientLayer.frame = view.bounds
+        view.layer.addSublayer(gradientLayer)
+        
+    }
+}
 
 
 //MARK:     Extension for hide keyboard

@@ -50,7 +50,7 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
     
     
     @IBAction func okPopUpAction(_ sender: Any) {
-        dropDownProtocol.dropDownAccountIdentifier(identifier: accountIdentifier)
+        dropDownProtocol.dropDownAccountIdentifier(identifier: accountIdentifier)//перенаправляет принятый идентификатор в следующий контроллер
         //guard let enteredSum = enteredSum  else {return}
         //Перевод запятой в точку для послдующей обработки
         let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
@@ -69,7 +69,10 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         }
     }
 
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        //dismiss(animated: true, completion: nil)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.view.frame = CGRect(x: super.view.frame.width / 2, y: super.view.frame.height / 2, width: super.view.frame.width * 0.8, height: super.view.bounds.height * 0.5)
@@ -83,9 +86,6 @@ class PopUpViewController: UIViewController, DropDownProtocol, UITextFieldDelega
         dropView.dropDelegate = self
         buttonLabel.text = "Choosse account"
         popUpTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-       
-
-        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

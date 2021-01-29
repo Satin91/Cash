@@ -11,8 +11,15 @@ import FSCalendar
 import RealmSwift
 class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     
+  
+  
+    
+    
     @IBOutlet var selectDateView: NeomorphicView!
     
+    func goToAddVC(restorationIdentifier: String) {
+        
+    }
     
     var newEntityElement = MonetaryEntity()
     var changeValue = true
@@ -36,7 +43,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var middleTextLabel: UILabel!
     @IBOutlet var bottomTextLabel: UILabel!
     
- 
+    
     
     @IBOutlet var selectDateButton: UIButton!
     @IBOutlet var nameBorderButton: BorderButtonView!
@@ -57,7 +64,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+       
     }
     @IBAction func okAction(_ sender: Any) {
         
@@ -83,6 +90,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(true)
+        
         
     }
     ///                     View Did Load
@@ -205,7 +213,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         middleTextLabel.textColor = whiteThemeRed
         bottomTextLabel.textColor = whiteThemeMainText
         ///Остальные настройки для TextField
-
+        
         nameTextField.borderStyle = .none
         sumTextField.borderStyle = .none
         //Остальные view
@@ -231,7 +239,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         upperTextLabel.setLabelMiddleShadow(label: upperTextLabel)
         middleTextLabel.setLabelMiddleShadow(label: middleTextLabel)
         bottomTextLabel.setLabelMiddleShadow(label: bottomTextLabel)
-      
+        
     }
     
     // Сохраняет элементы в базу
