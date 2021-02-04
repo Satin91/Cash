@@ -95,6 +95,14 @@ class NeomorphicView: UIView {
         
         self.contentView.isHidden = false
         
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        //применили констрейнты для собственной вьюшки
+        contentView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        contentView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        
         contentView.bounds = self.frame
         contentView.layer.cornerRadius = 70
         self.contentView.layer.cornerRadius = 70

@@ -133,6 +133,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             self.addChild(popViewController)
             self.view.animateView(animatedView: blurView, parentView: self.view)
             view.animateView(animatedView: popViewController.view, parentView: self.view)
+            
 //            popViewController.view.setShadow(view: popViewController.view, size: CGSize(width: 50, height: 50), opacity: 1, radius: 4, color: UIColor.black.cgColor)
             //view.addSubview(popViewController.view)
             popViewController.didMove(toParent: self)

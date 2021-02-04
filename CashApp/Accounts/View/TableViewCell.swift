@@ -17,7 +17,6 @@ class TableViewCell: UITableViewCell {
     @IBOutlet var dropDownSum: UILabel!
     @IBOutlet var DropDownCellTwoLabel: UILabel!
     @IBOutlet var dropDownTape: UIImageView!
-        
     @IBOutlet var userImage: UIImageView!
     @IBOutlet var headerLabel: UILabel!
     @IBOutlet var sumLabel: UILabel!
@@ -35,6 +34,7 @@ class TableViewCell: UITableViewCell {
         super.awakeFromNib()
         
     }
+    
     func setCellColor(cell: UITableViewCell) {
         cell.backgroundColor =            whiteThemeBackground
         self.userImage.setImageColor(color: whiteThemeMainText)

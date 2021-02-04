@@ -47,7 +47,7 @@ class AccountsDetailViewController: UIViewController{
     
     
  
-  
+    
     
     override func viewDidAppear(_ animated: Bool) {
        // scrolToDate()
@@ -65,6 +65,7 @@ class AccountsDetailViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         namesForButtons()
         shadowsForImages()
         bottomButtonImage.changePngColorTo(color: whiteThemeMainText)

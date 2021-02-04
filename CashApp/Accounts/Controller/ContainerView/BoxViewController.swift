@@ -15,16 +15,16 @@ class BoxViewController: UIViewController {
     
     //// Color Declarations
  
-
+    
   
-
+    
 
     var shadowgroundCircle = CAShapeLayer()
     var backgroundCircle = CAShapeLayer()
     var foregroundCircle = CAShapeLayer()
     
     
-    let totalBalance = AccountsDetailViewController()
+   // let totalBalance = AccountsDetailViewController()
     var boxModel: MonetaryAccount?
     
     var gradientLayer = CAGradientLayer()

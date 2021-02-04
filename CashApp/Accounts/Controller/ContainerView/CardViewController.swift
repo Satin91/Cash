@@ -12,6 +12,7 @@ import AAInfographics
 class CardViewController: UIViewController {
     let detailViewController = AccountsDetailViewController()
     var cardModel: MonetaryAccount?
+    
     var chart = AAChart()
     // colors : красный ("#F02C65") , темно синий("#44505E"), фоновый ("#F5F7F8")
     var aaChartView: AAChartView = {
@@ -23,10 +24,11 @@ class CardViewController: UIViewController {
     }()
     var chartSeries: [AASeriesElement]?
     
- 
+    
+    static var CardViewBounds: CGRect!
     
     var aaChartModel = AAChartModel()
-    
+    var tableView: ChartsTableView!
     
     var isOperationDone = false //Булька для функции checkOperations
     let textViewIfOperationIsntDone = UITextView() //Текст если не было операций на счете
@@ -58,6 +60,9 @@ class CardViewController: UIViewController {
         super.viewDidLoad()
         
         
+        print("view did load")
+        CardViewController.CardViewBounds = self.view.bounds
+        
         self.view.backgroundColor = whiteThemeBackground
         //aaChartModel.margin(top: -50, right: -50, bottom: -50, left: -50)
         setMyData()
@@ -65,9 +70,12 @@ class CardViewController: UIViewController {
         textViewSettings()
         aaChartModel.series(chartSeries!)
         aaChartView.aa_drawChartWithChartModel(aaChartModel)
-        self.view.addSubview(aaChartView)
+        //self.view.addSubview(aaChartView)
         //self.view.addSubview(gradientViewForLineChartView)
         //checkOperations()
+        //self.view.clipsToBounds = true
+        tableView = ChartsTableView(frame: .zero, style: .plain)
+        self.view.addSubview(tableView)
         
         
     }
@@ -76,6 +84,8 @@ class CardViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         let height = self.view.bounds.height * 0.5
         aaChartView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        tableView.frame = self.view.bounds
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         aaChartView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // ВАЖНЕЙШАЯ ПОМЕТКА, без нее вьюха размером с родительским вью
         aaChartView.layer.cornerRadius = 8
         
@@ -124,7 +134,7 @@ class CardViewController: UIViewController {
         shadow.offsetY(2)
         shadow.opacity(0.4)
   
-        chartSeries = [(AASeriesElement().name("Total") .data(sumArray).color("#F02C65").lineWidth(3).shadow(shadow))]//изза того, что он нил, не получается использовать метод append
+        chartSeries = [(AASeriesElement().name("Total") .data(sumArray).color("#44505E").lineWidth(3).shadow(shadow))]//изза того, что он нил, не получается использовать метод append
         
         
     }
@@ -135,7 +145,7 @@ class CardViewController: UIViewController {
         
         aaChartModel.markerSymbol(.circle) // Это если радиус не стоит 0
         aaChartModel.yAxisVisible = false
-        aaChartModel.markerRadius = 0
+        aaChartModel.markerRadius = 3
         aaChartModel.animationType(.easeInSine)
         aaChartModel.legendEnabled = false
         aaChartModel.animationDuration(1200)
