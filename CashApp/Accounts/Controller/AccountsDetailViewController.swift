@@ -10,7 +10,6 @@ import UIKit
 import FSCalendar
 
 class AccountsDetailViewController: UIViewController{
-    
     @IBOutlet var schedule: UIView!
     @IBOutlet var boxView: UIView!
 
@@ -130,10 +129,10 @@ class AccountsDetailViewController: UIViewController{
   
   ///сделать тут чтонбудь
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
         if segue.identifier == "Card" {
-            let cardVC = segue.destination as! CardViewController
-            cardVC.cardModel = entityModel
+            let cardVC = segue.destination as! ContainerViewController
+            cardVC.destinationAccount = entityModel
+            ContainerViewController.destinationName = entityModel?.name
         }
         if segue.identifier == "Box" {
             let boxVC = segue.destination as! BoxViewController

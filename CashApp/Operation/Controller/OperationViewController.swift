@@ -90,6 +90,8 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     @IBAction func cancelBarButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,7 +99,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         segmentedControl.changeValuesForCashApp(segmentOne: "Payment", segmentTwo: "Scheduler")
         setupNavigationController(Navigation: navigationController!)
         blurView.bounds = self.view.frame
-        
+      
     }
     func closePopUpMenu(enteredSum: Double, indexPath: Int?) {
         
@@ -130,7 +132,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             popViewController = popoverVC
             popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.5)
             //popViewController.view.selectivelyRoundedRadius(usingCorners: [.topLeft,.topRight], radius: CGSize(width: 20, height: 20), view: popViewController.view)
-            self.addChild(popViewController)
+            self.addChild(popViewController) // Не знаю зачем это, надо удалить без него тоже работает
             self.view.animateView(animatedView: blurView, parentView: self.view)
             view.animateView(animatedView: popViewController.view, parentView: self.view)
             

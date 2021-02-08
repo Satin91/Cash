@@ -32,7 +32,7 @@ let regularObjects =           fetchEntity(accountType: 2).sorted(byKeyPath: "da
 let debtObjects =              fetchEntity(accountType: 3).sorted(byKeyPath: "date", ascending: false)//Debt = 3
 
 //let historyObjects =           outstanding(accountType: 8).sorted(byKeyPath: "date", ascending: false)//History = 8
-let expenceObjects = fetchEntity(accountType: 4).sorted(byKeyPath: "date", ascending: false)//OperExpence
+let expenceObjects =             fetchEntity(accountType: 4).sorted(byKeyPath: "date", ascending: false)//OperExpence
 
 let historyObjects =              realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
 
@@ -52,7 +52,7 @@ func fetchAccounts(accountType: Int) ->Results<MonetaryAccount>{
     return object
 }
 
-func fetchEntity(accountType: Int)->Results<MonetaryEntity> {
+func fetchEntity(accountType: Int) ->Results<MonetaryEntity> {
     let IntToString: String = String(accountType)
     let object = realm.objects(MonetaryEntity.self).filter("accountType = \(IntToString)")
     return object
