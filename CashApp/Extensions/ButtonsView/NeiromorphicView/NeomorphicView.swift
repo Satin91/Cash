@@ -78,6 +78,7 @@ class NeomorphicView: UIView {
         lightShadow.shadowOpacity = 1
         lightShadow.shadowRadius = shadowRadius // Радиус
         self.layer.insertSublayer(lightShadow, at: 1)
+        self.autoresizingMask = [.flexibleHeight,.flexibleWidth]
     }
     
     

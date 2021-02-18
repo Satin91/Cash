@@ -21,8 +21,8 @@ class ChartsTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         self.delegate = self
         self.dataSource = self
         self.backgroundColor = .clear
-        self.register(UITableViewCell.self, forCellReuseIdentifier: "FirstCell")
-        self.register(UITableViewCell.self, forCellReuseIdentifier: "SecondCell")
+        self.register(LineChartTableViewCell.self, forCellReuseIdentifier: "LineChartCell")
+        self.register(PieChartTableViewCell.self, forCellReuseIdentifier: "PieChartCell")
         self.isPagingEnabled = true
         
         
@@ -34,7 +34,7 @@ class ChartsTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        return self.frame.height
+        return self.frame.height 
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
@@ -43,18 +43,12 @@ class ChartsTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "FirstCell", for: indexPath)
-            collectionView = LineChartCollectionViewController(collectionViewLayout: LineChartCollectionViewController.layout)
-            collectionView.view.frame = cell.contentView.bounds
-            cell.backgroundColor = .clear
-            cell.contentView.backgroundColor = .clear
-            cell.contentView.addSubview(collectionView.view)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LineChartCell", for: indexPath)
+
             return cell
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier:"SecondCell", for: indexPath)
-            cell.textLabel?.text = "Second cell"
-            cell.textLabel?.textColor = .darkGray
-            cell.backgroundColor = .gray
+            let cell = tableView.dequeueReusableCell(withIdentifier:"PieChartCell", for: indexPath)
+
             return cell
         }
     }

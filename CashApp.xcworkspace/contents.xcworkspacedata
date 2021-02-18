@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "container:"
-      name = "ChartsView">
-      <FileRef
-         location = "group:ChartsTableViewCell.swift">
-      </FileRef>
-      <FileRef
-         location = "group:ChartsTableView.swift">
-      </FileRef>
-      <FileRef
-         location = "group:ChartsCollectionView.swift">
-      </FileRef>
-      <FileRef
-         location = "group:ChartsCollectionViewCell.swift">
-      </FileRef>
-   </Group>
    <FileRef
       location = "group:CashApp.xcodeproj">
    </FileRef>

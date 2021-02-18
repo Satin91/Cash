@@ -11,10 +11,9 @@ import AAInfographics
 
 class ContainerViewController: UIViewController {
   
-    
-    
+
     var destinationAccount: MonetaryAccount?
-    static var destinationName: String?
+    static var destinationAccount: MonetaryAccount?
     
     var tableView: ChartsTableView!
     var isOperationDone = false //Булька для функции checkOperations
@@ -24,19 +23,15 @@ class ContainerViewController: UIViewController {
         //sendCardNameDelegate.cardName(string: "sd")
     }
     
-    let collectionView = LineChartCollectionViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         print("Cardview did load")
         self.view.backgroundColor = .clear
        // textViewSettings()
         self.view.layer.cornerRadius = 18
         self.view.clipsToBounds = true
-        
-        
-        let collectionView = LineChartCollectionViewController(collectionViewLayout: LineChartCollectionViewController.layout)
-        print(collectionView.accountName)
-        
         tableView = ChartsTableView(frame: self.view.bounds, style: .plain)
         tableView.autoresizingMask = [.flexibleWidth,.flexibleHeight] //Ресайз размеров для дочерних вью
         self.view.addSubview(tableView)

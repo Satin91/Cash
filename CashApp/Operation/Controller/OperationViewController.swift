@@ -18,7 +18,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     func dropDownAccountIdentifier(identifier: String) {
         historyObject.accountIdentifier = identifier  // Применил идентификатор от счета из pop up view controller 
     }
-    func dismissVC(goingTo: String, restorationIdentifier: String) {
+    func dismissVC(goingTo: String, restorationIdentifier: String) { // Вызывается после подтверждения выбора в addVc
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddSpendingViewController
         if goingTo == "addVC"{
@@ -120,25 +120,37 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         operationTableView.reloadData()
         
     }
- 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+    }
     //MARK: Add/Delete Child View Controller
     func addChildViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let popoverVC = storyboard.instantiateViewController(withIdentifier: "payPopUpVC") as! PopUpViewController
+        let popoverVC = storyboard.instantiateViewController(withIdentifier: "payPopUpVC") as! QuickPayViewController
+        
         popoverVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
         popoverVC.dropDownProtocol = self
+
         if popViewController == nil {
             // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
+
             popViewController = popoverVC
-            popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.5)
+            popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.55)
+            popViewController.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+
             //popViewController.view.selectivelyRoundedRadius(usingCorners: [.topLeft,.topRight], radius: CGSize(width: 20, height: 20), view: popViewController.view)
             self.addChild(popViewController) // Не знаю зачем это, надо удалить без него тоже работает
             self.view.animateView(animatedView: blurView, parentView: self.view)
+            //popoverVC.view.frame = CGRect(x: 50, y: 240, width: 320, height: 450)
+            //self.view.addSubview(popoverVC.view)
+
             view.animateView(animatedView: popViewController.view, parentView: self.view)
-            
+
 //            popViewController.view.setShadow(view: popViewController.view, size: CGSize(width: 50, height: 50), opacity: 1, radius: 4, color: UIColor.black.cgColor)
             //view.addSubview(popViewController.view)
             popViewController.didMove(toParent: self)
+
         }
     }
     

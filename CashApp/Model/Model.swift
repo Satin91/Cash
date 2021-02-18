@@ -93,6 +93,12 @@ class MonetaryAccount: Object {
     }
 }
 
+struct historyStructModel {  // Создал структуру для сортировки объектов т.к. ПОЧЕМУ ТО нельзя сортировать realm массивы
+    var name = ""
+    var sum = Double()
+    var date = Date()
+}
+
 extension MonetaryEntity {
     func updateObjext() {
         try! realm!.write{

@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import AAInfographics
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
     @IBOutlet var headerLabel: UILabel!
@@ -25,15 +26,24 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidAppear(true)
         
         setColorsForText(text: [headerLabel,freeLabel,freeSumLabel,headerTotalSumLabel,totalBalanceOutletButton.titleLabel!,schedulerOutletButton.titleLabel!,operationOutletButton.titleLabel!])
-       
-        
     }
+    let chartView = AAChartView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+//        let chartseries = [(AASeriesElement().name("kek").data([4,63,2,4,6,7]))]
+//        let model = AAChartModel()
+//        model.series(chartseries)
+//        chartView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
+//        chartView.aa_drawChartWithChartModel(model)
+//        self.view.addSubview(chartView)
+        
+        
         //  navigationItem.title = todayDateToString(date: someDateOfComponents!)
- 
+        
+       
+
         setLabelShadows()
         navigationItem.setValue("March, 13", forKey: "title")
         navigationController!.navigationBar.tintColor = whiteThemeMainText // не работае почему то

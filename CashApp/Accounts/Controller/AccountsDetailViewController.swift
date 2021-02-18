@@ -132,7 +132,7 @@ class AccountsDetailViewController: UIViewController{
         if segue.identifier == "Card" {
             let cardVC = segue.destination as! ContainerViewController
             cardVC.destinationAccount = entityModel
-            ContainerViewController.destinationName = entityModel?.name
+            ContainerViewController.destinationAccount = entityModel
         }
         if segue.identifier == "Box" {
             let boxVC = segue.destination as! BoxViewController

@@ -360,4 +360,77 @@ extension UIButton{
 
 }
 
+//MARK: Date ext
+extension Date {
+    var startOfDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+    var removeOter: Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month,.day], from: self)
+        
+        return calendar.date(from: components)!
+    }
+    
+    var startOfMonth: Date {
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let components = calendar.dateComponents([.year, .month], from: self)
+        
+        return  calendar.date(from: components)!
+    }
+    
+    var endOfDay: Date {
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        return Calendar.current.date(byAdding: components, to: startOfDay)!
+    }
+    
+    var endOfMonth: Date {
+        var components = DateComponents()
+        components.month = 1
+        components.second = -1
+        return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth)!
+    }
+    var nextMonth: Date {
+        var components = DateComponents()
+        components.month = 1
+        return Calendar(identifier: .gregorian).date(byAdding: components, to: startOfMonth)!
+    }
+    
+    
+    func isMonday() -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        let components = calendar.dateComponents([.weekday], from: self)
+        return components.weekday == 2
+    }
+    
+    
+    
+}
 
+///MARK : Notification
+
+func reportIndex(notificationName: String, collectionView: UICollectionView) {
+    var visibleRect = CGRect() // создали квадрат
+    
+    visibleRect.origin = collectionView.contentOffset // инициализировали квадрат
+    visibleRect.size = collectionView.bounds.size // задали ему размеры как у колекции
+    
+    let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY) // установили точку в центре квадрата
+    guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return } //проверка на присутствие ячейки в этой точке
+    var notification = NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationName), object: nil, userInfo: ["index":indexPath])
+}
+
+//MARK: Init constraints
+
+func initConstraints(view: UIView, to: UIView) {
+    view.translatesAutoresizingMaskIntoConstraints = false
+    //применили констрейнты для собственной вьюшки
+    view.leftAnchor.constraint(equalTo: to.leftAnchor).isActive = true
+    view.rightAnchor.constraint(equalTo: to.rightAnchor).isActive = true
+    view.topAnchor.constraint(equalTo: to.topAnchor).isActive = true
+    view.bottomAnchor.constraint(equalTo: to.bottomAnchor).isActive = true
+    view.centerYAnchor.constraint(equalTo: to.centerYAnchor).isActive = true
+}

@@ -15,6 +15,7 @@ import AAInfographics
 class ChartsView: UIView {
     
     var aaChartView: AAChartView = {
+        
         var chartsView = AAChartView()
         chartsView.isClearBackgroundColor = true // Если это не сделать, фон будет белым
         chartsView.backgroundColor = .clear
