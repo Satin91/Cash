@@ -59,7 +59,7 @@ extension Numeric {
 }
 
 
-    
+
 extension UILabel {
     
     
@@ -80,14 +80,14 @@ extension UILabel {
     }
     var smallShadow: UILabel {
         let label = UILabel()
-            label.layer.shadowColor = whiteThemeShadowText.cgColor
-            label.layer.shadowRadius = 1
-            label.layer.shadowOpacity = 0.3
-            label.layer.shadowOffset = CGSize(width: 1, height: 1)
-            label.layer.masksToBounds = false
+        label.layer.shadowColor = whiteThemeShadowText.cgColor
+        label.layer.shadowRadius = 1
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 1, height: 1)
+        label.layer.masksToBounds = false
         return label
     }
-    }
+}
 
 
 ///SomeFunc
@@ -99,16 +99,15 @@ func imageToData(imageName: String) -> Data{
     let imageData = image?.pngData()
     return imageData!
 }
-
-func EnumeratedAccounts (array: [Results<MonetaryAccount>]) -> [MonetaryAccount]  {
-    
-    var entity: [MonetaryAccount] = []
-    for (_, element) in array.enumerated() {
+//MARK: Enumerateds & append Realm objects
+func EnumeratedAccounts (array: [Results<MonetaryAccount>]) -> [MonetaryAccount] {
+    var account: [MonetaryAccount] = []
+    for (_, element) in array.enumerated(){
         for (_, element2) in element.enumerated() {
-            entity.append(element2)
+            account.append(element2)
         }
     }
-    return entity
+    return account
 }
 
 func EnumeratedSequence (array: [Results<MonetaryEntity>]) -> [MonetaryEntity]  {
@@ -121,6 +120,13 @@ func EnumeratedSequence (array: [Results<MonetaryEntity>]) -> [MonetaryEntity]  
     }
     return entity
 }
+func appendAccounts(object: [Results<MonetaryAccount>]) -> [MonetaryAccount]{
+    var monetaryArray: [MonetaryAccount] = []
+    for (_, index) in object.enumerated() {
+        monetaryArray.append(contentsOf: index)
+    }
+     return monetaryArray
+    }
 
 
 //MARK: anyOptions
@@ -258,8 +264,8 @@ extension UIView {
             animatedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             animatedView.alpha = 0}completion: { _ in
                 if viewController != nil {
-                viewController!.willMove(toParent: nil)
-                viewController!.removeFromParent()
+                    viewController!.willMove(toParent: nil)
+                    viewController!.removeFromParent()
                 }
                 animatedView.removeFromSuperview()
                 
@@ -282,7 +288,7 @@ extension UIView {
             let endColor = endColor
             let startPoint = startPoint
             let endPoint = endPoint
-
+            
             gradientView.colors = [startColor.cgColor,endColor.cgColor]
             gradientView.backgroundColor = .none
             gradientView.startPoint = startPoint
@@ -351,13 +357,13 @@ extension UIImageView {
 }
 
 extension UIButton{
-
+    
     func setImageTintColor(_ color: UIColor) {
         let tintedImage = self.imageView?.image?.withRenderingMode(.alwaysTemplate)
         self.setImage(tintedImage, for: .disabled)
         self.tintColor = color
     }
-
+    
 }
 
 //MARK: Date ext

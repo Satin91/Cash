@@ -73,13 +73,7 @@ func addObject(text: String, image: UIImage?,sum: Double?,secondSum: Double?, ty
     DBManager.addEntityObject(object: [object2])
 }
 
-func appendAccountsArray(object: [Results<MonetaryAccount>]) -> [MonetaryAccount]{
-    var monetaryArray: [MonetaryAccount] = []
-    for (_, index) in object.enumerated() {
-        monetaryArray.append(contentsOf: index)
-    }
-     return monetaryArray
-    }
+
 
 
 

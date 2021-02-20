@@ -1268,7 +1268,7 @@
         <!--Quick Pay View Controller-->
         <scene sceneID="FAJ-G5-yEV">
             <objects>
-                <viewController storyboardIdentifier="payPopUpVC" id="qVp-rf-Vff" customClass="QuickPayViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="QuickPayVC" id="qVp-rf-Vff" customClass="QuickPayViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sFM-84-q5r">
                         <rect key="frame" x="0.0" y="0.0" width="338" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -14,16 +14,14 @@ var results: Results<MonetaryEntity>!
 
 
 class DBManager {
+    
     static func updateAccount(accountType: [MonetaryAccount], indexPath: Int, addSum: Double) {
-        let count = EnumeratedAccounts(array: accountsObjects).count // Когда отсутствуют счета count = 0
-
-        try! realm.write {
-                if count > 0, indexPath >= 0 {
+        let count = EnumeratedAccounts(array: accountsObjects).count - 1 // Когда отсутствуют счета count = 0
+        guard indexPath <= count else {return}
+                try! realm.write {
                 accountType[indexPath].balance -= addSum
-            }
                 realm.add(accountType, update: .all)
-        }
- 
+            }
     }
     
     static func updateObject(objectType: [MonetaryEntity], indexPath: Int, addSum: Double) {

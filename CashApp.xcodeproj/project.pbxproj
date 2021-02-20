@@ -30,12 +30,12 @@
 		7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */; };
 		7578AC44258B80ED0089B754 /* BorderButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578AC43258B80ED0089B754 /* BorderButtonView.swift */; };
 		757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D64AA25250679008CDEE1 /* DateSettings.swift */; };
+		757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */; };
 		757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F2F25402BBB00F0B1D0 /* DBManager.swift */; };
 		757F8F3A25402E5600F0B1D0 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F3925402E5600F0B1D0 /* Animations.swift */; };
 		7587F47725CB7E2600CE1F6B /* ChartsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A8045325CB7CCA00378C3D /* ChartsTableView.swift */; };
 		7587F47825CB7E2600CE1F6B /* LineChartCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A8045425CB7CCA00378C3D /* LineChartCollectionViewController.swift */; };
 		758F854B24D2CF0A007CD161 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758F854A24D2CF0A007CD161 /* TableViewCell.swift */; };
-		7597CE6225B112A500372F79 /* FirstDropDownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7597CE6125B112A500372F79 /* FirstDropDownTableViewCell.xib */; };
 		75AE325125239E30004422F4 /* AccountsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE325025239E30004422F4 /* AccountsDetailViewController.swift */; };
 		75AE5A9325CCAC25006AC7E0 /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE5A9225CCAC25006AC7E0 /* ChartsView.swift */; };
 		75B7AFAE2521014100BFE537 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B7AFAD2521014100BFE537 /* AccountsViewController.swift */; };
@@ -86,10 +86,10 @@
 		7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
 		7578AC43258B80ED0089B754 /* BorderButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderButtonView.swift; sourceTree = "<group>"; };
 		757D64AA25250679008CDEE1 /* DateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSettings.swift; sourceTree = "<group>"; };
+		757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableVIewCell.swift; sourceTree = "<group>"; };
 		757F8F2F25402BBB00F0B1D0 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		757F8F3925402E5600F0B1D0 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		758F854A24D2CF0A007CD161 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		7597CE6125B112A500372F79 /* FirstDropDownTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FirstDropDownTableViewCell.xib; sourceTree = "<group>"; };
 		75A8045325CB7CCA00378C3D /* ChartsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsTableView.swift; sourceTree = "<group>"; };
 		75A8045425CB7CCA00378C3D /* LineChartCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCollectionViewController.swift; sourceTree = "<group>"; };
 		75AE325025239E30004422F4 /* AccountsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsDetailViewController.swift; sourceTree = "<group>"; };
@@ -212,7 +212,6 @@
 			isa = PBXGroup;
 			children = (
 				755A1D6A257012A400CE034F /* AddCollectionViewCell.swift */,
-				75EE502D2571844C007A7E97 /* DropDownTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -237,8 +236,6 @@
 				75AE5A9225CCAC25006AC7E0 /* ChartsView.swift */,
 				755397E625D0CE3400F95DE2 /* ChartsModel.swift */,
 				758F854A24D2CF0A007CD161 /* TableViewCell.swift */,
-				75C328F52571A12100E9CAD4 /* DropDownTableViewCell.xib */,
-				7597CE6125B112A500372F79 /* FirstDropDownTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -247,8 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				7510F83D2509A87600030A52 /* OperationViewController.swift */,
-				7560D033259482E700E496B0 /* QuickPayViewController.swift */,
-				7537E57F25DEF0730019768C /* QuickTableView.swift */,
 				75D9DE7D253B6294007677BA /* AddSpendingViewController.swift */,
 			);
 			path = Controller;
@@ -281,6 +276,33 @@
 				75FA2BB1253B066800E8CCD8 /* Colors.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		757E4B5D25E003F200D8A7F7 /* QuickPayViewController */ = {
+			isa = PBXGroup;
+			children = (
+				757E4B5E25E0042100D8A7F7 /* View */,
+				757E4B5F25E0042800D8A7F7 /* Controller */,
+			);
+			path = QuickPayViewController;
+			sourceTree = "<group>";
+		};
+		757E4B5E25E0042100D8A7F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7537E57F25DEF0730019768C /* QuickTableView.swift */,
+				75C328F52571A12100E9CAD4 /* DropDownTableViewCell.xib */,
+				757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		757E4B5F25E0042800D8A7F7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7560D033259482E700E496B0 /* QuickPayViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		758F857524D2E9E9007CD161 /* MainView */ = {
@@ -321,6 +343,7 @@
 		75EA2AEE24CDDB8200D03E95 /* CashApp */ = {
 			isa = PBXGroup;
 			children = (
+				75EE502D2571844C007A7E97 /* DropDownTableView.swift */,
 				75EA2AEF24CDDB8200D03E95 /* AppDelegate.swift */,
 				75EA2AF124CDDB8200D03E95 /* SceneDelegate.swift */,
 				757D64AE25250688008CDEE1 /* Extensions */,
@@ -329,6 +352,7 @@
 				75EDDC35250AD352000C0E27 /* AnyOptions.swift */,
 				757F8F3925402E5600F0B1D0 /* Animations.swift */,
 				7528F6C0253B08A4004B210B /* Model */,
+				757E4B5D25E003F200D8A7F7 /* QuickPayViewController */,
 				751573C7255C12130075C3B8 /* Accounts */,
 				755A1D6E2570530D00CE034F /* Operation */,
 				758F857524D2E9E9007CD161 /* MainView */,
@@ -413,7 +437,6 @@
 				75EA2AFC24CDDB8B00D03E95 /* LaunchScreen.storyboard in Resources */,
 				75CB7A9E255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf in Resources */,
 				75CB7AA6255D50DA00451F1D /* SF-Pro-Text-Light.otf in Resources */,
-				7597CE6225B112A500372F79 /* FirstDropDownTableViewCell.xib in Resources */,
 				75EA2AF924CDDB8B00D03E95 /* Assets.xcassets in Resources */,
 				75CB7AA0255D4E6000451F1D /* SF-Pro-Rounded-Light.otf in Resources */,
 				7542DE1924CE8FEC00E3AF96 /* NeomorphicView.xib in Resources */,
@@ -501,6 +524,7 @@
 				7537E58025DEF0730019768C /* QuickTableView.swift in Sources */,
 				757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */,
 				75FA2BB2253B066800E8CCD8 /* Colors.swift in Sources */,
+				757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */,
 				753180AE258A235200AC6B7A /* PickTypePopUpViewController.swift in Sources */,
 				751AAAE725D48C7E0042AC06 /* LineChartCollectionViewCell.swift in Sources */,
 				7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */,

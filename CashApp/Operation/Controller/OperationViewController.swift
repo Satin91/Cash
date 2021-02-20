@@ -9,15 +9,9 @@
 import UIKit
 import RealmSwift
 
-class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol, DropDownProtocol,dismissVC{
+class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol, dismissVC{
     
-    
-    func dropDownAccountNameAndIndexPath(string: String, indexPath: Int) {
-        
-    }
-    func dropDownAccountIdentifier(identifier: String) {
-        historyObject.accountIdentifier = identifier  // Применил идентификатор от счета из pop up view controller 
-    }
+   
     func dismissVC(goingTo: String, restorationIdentifier: String) { // Вызывается после подтверждения выбора в addVc
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddSpendingViewController
@@ -48,8 +42,6 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     var bottomLabelText = ["to accounts","to schedule","category"]
 
     var popViewController: UIViewController! // Child View Controller
-    var operationEntity = MonetaryEntity()// Used in this class
-    var historyObject = AccountsHistory()
     var changeValue = true
     ///             Outlets:
     @IBOutlet var segmentedControl: HBSegmentedControl!
@@ -101,56 +93,39 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         blurView.bounds = self.view.frame
       
     }
+    
     func closePopUpMenu(enteredSum: Double, indexPath: Int?) {
-        
-        guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
-        operationEntity.sum = enteredSum //ДОДЕЛАТЬ ОБЯЗАТЕЛЬНО ! не понимаю что тут доделывать
-        historyObject.sum = enteredSum
-        historyObject.date = Date()
-        
-        if indexPath != nil {
-            DBManager.updateAccount(accountType: EnumeratedAccounts(array: accountsObjects), indexPath: indexPath!, addSum: enteredSum)
-        }
-        if enteredSum != 0 { // В будущем при переводе в double тип изменить условие !
-        DBManager.addHistoryObject(object: historyObject)
-        }
-        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationExpence: operationScheduler), indexPath: operationIndexPath.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
-        
+//        guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
+//        historyObject.sum = enteredSum
+//        historyObject.date = Date()
+//        if indexPath != nil { //Если счет не "Выбрать без счета"
+//            DBManager.updateAccount(accountType: appendAccounts(object: accountsObjects), indexPath: indexPath!, addSum: enteredSum)
+//        }
+//        if enteredSum != 0 { // В будущем при переводе в double тип изменить условие !
+//        DBManager.addHistoryObject(object: historyObject)
+//        }
+//        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationExpence: operationScheduler), indexPath: operationIndexPath.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
+//        
         closeChildViewController()
         operationTableView.reloadData()
-        
     }
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-    }
+ 
     //MARK: Add/Delete Child View Controller
-    func addChildViewController() {
+    func addChildViewController(PayObject: MonetaryEntity) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let popoverVC = storyboard.instantiateViewController(withIdentifier: "payPopUpVC") as! QuickPayViewController
-        
-        popoverVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
-        popoverVC.dropDownProtocol = self
-
+        let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
+        QuiclPayVC.payObject = PayObject
+        QuiclPayVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
+        // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
+     
         if popViewController == nil {
-            // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
-
-            popViewController = popoverVC
+            popViewController = QuiclPayVC
             popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.55)
             popViewController.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
-
-            //popViewController.view.selectivelyRoundedRadius(usingCorners: [.topLeft,.topRight], radius: CGSize(width: 20, height: 20), view: popViewController.view)
             self.addChild(popViewController) // Не знаю зачем это, надо удалить без него тоже работает
             self.view.animateView(animatedView: blurView, parentView: self.view)
-            //popoverVC.view.frame = CGRect(x: 50, y: 240, width: 320, height: 450)
-            //self.view.addSubview(popoverVC.view)
-
             view.animateView(animatedView: popViewController.view, parentView: self.view)
-
-//            popViewController.view.setShadow(view: popViewController.view, size: CGSize(width: 50, height: 50), opacity: 1, radius: 4, color: UIColor.black.cgColor)
-            //view.addSubview(popViewController.view)
             popViewController.didMove(toParent: self)
-
         }
     }
     
@@ -158,6 +133,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         self.view.reservedAnimateView(animatedView: popViewController.view, viewController: popViewController)
         popViewController = nil // Это нужно для того, чтобы снова его открыть. Потому что в открытии стоит условие
         self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
+        
     }
     
     // Переход на экран добавления объекта
@@ -210,17 +186,17 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
         //Создание экземпляра
         let cell = EnumeratedSequence(array: changeValue ? operationExpence : operationScheduler)[indexPath.row]
         //Копирование экземпляра
-        let copyOfoperationEntity = MonetaryEntity()
-        copyOfoperationEntity.name = cell.name
-        copyOfoperationEntity.image = cell.image
-        let copyOfHistoryObject = AccountsHistory()
-        copyOfHistoryObject.name = cell.name
-        copyOfHistoryObject.image = cell.image
-        copyOfHistoryObject.entityIdentifier = cell.monetaryID
-        operationEntity = copyOfoperationEntity
-        historyObject = copyOfHistoryObject
-        // presentationPopUpMenu()
-        addChildViewController()
+//        let copyOfoperationEntity = MonetaryEntity()
+//        copyOfoperationEntity.name = cell.name
+//        copyOfoperationEntity.image = cell.image
+//        let copyOfHistoryObject = AccountsHistory()
+//        copyOfHistoryObject.name = cell.name
+//        copyOfHistoryObject.image = cell.image
+//        copyOfHistoryObject.entityIdentifier = cell.monetaryID
+//
+//        historyObject = copyOfHistoryObject
+//        // presentationPopUpMenu()
+        addChildViewController(PayObject: cell)
         
         
     }
