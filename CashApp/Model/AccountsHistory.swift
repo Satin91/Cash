@@ -15,8 +15,8 @@ class AccountsHistory: Object {
     @objc dynamic var accountIdentifier = ""
     @objc dynamic var sum: Double = 0
     @objc dynamic var date: Date?
-    @objc dynamic var image: Data?
-    convenience init (name: String, accountIdentifier: String,entityIdentifier: String, sum: Double, date: Date?, image:Data?) {
+    @objc dynamic var image: String?
+    convenience init (name: String, accountIdentifier: String,entityIdentifier: String, sum: Double, date: Date?, image:String?) {
         self.init()
         self.name = name
         self.accountIdentifier = accountIdentifier

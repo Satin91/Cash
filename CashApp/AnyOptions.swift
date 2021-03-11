@@ -440,3 +440,6 @@ func initConstraints(view: UIView, to: UIView) {
     view.bottomAnchor.constraint(equalTo: to.bottomAnchor).isActive = true
     view.centerYAnchor.constraint(equalTo: to.centerYAnchor).isActive = true
 }
+//MARK: Keyboard settings
+
+

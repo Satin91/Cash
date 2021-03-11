@@ -30,7 +30,7 @@ class LineChartCollectionViewController: UICollectionViewController,UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        monthTransactions(account: ContainerViewController.destinationAccount!)
+        //monthTransactions(account: ContainerViewController.destinationAccount!)
         self.collectionView.register(LineChartCollectionViewCell.self, forCellWithReuseIdentifier: "LineChartViewCell")
         
         self.collectionView.isPagingEnabled = true
@@ -90,7 +90,7 @@ class LineChartCollectionViewController: UICollectionViewController,UICollection
 //        })
         
     }
-   
+  
     override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
        
        

@@ -15,6 +15,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     func dismissVC(goingTo: String, restorationIdentifier: String) { // Вызывается после подтверждения выбора в addVc
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddSpendingViewController
+        
         if goingTo == "addVC"{
             switch restorationIdentifier {
             case "upper":
@@ -34,6 +35,10 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
             addVC.textForUpperLabel = entityLabelsNames[0] // Здесь 0 для удобства т.к. модель начинается с единицы
             addVC.textForBottomLabel = bottomLabelText[1]
             present(navVC, animated: true)
+            guard popViewController != nil else {return}
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                self.closeChildViewController()
+            })
         }
         
     }
@@ -60,12 +65,19 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         switch changeValue {
         case true:
+            
+            
             let addVC = storyboard.instantiateViewController(withIdentifier: "addVC") as! AddSpendingViewController
             addVC.newEntityElement.stringEntityType = .expence
             addVC.textForUpperLabel = "Add"
             addVC.textForMiddleLabel = "spending"
             addVC.textForBottomLabel = "category"
             self.navigationController?.pushViewController(addVC, animated: true)
+            guard popViewController != nil else {return}
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
+                self.closeChildViewController()
+            })
+            
         case false:
             let pickTypeVC = storyboard.instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
             pickTypeVC.buttonsNames = ["Approach","Recurring fee","Debt"]
@@ -104,8 +116,9 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
 //        if enteredSum != 0 { // В будущем при переводе в double тип изменить условие !
 //        DBManager.addHistoryObject(object: historyObject)
 //        }
-//        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationExpence: operationScheduler), indexPath: operationIndexPath.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
-//        
+        
+        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationExpence: operationScheduler), indexPath: operationTableView.indexPathForSelectedRow!.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
+        
         closeChildViewController()
         operationTableView.reloadData()
     }

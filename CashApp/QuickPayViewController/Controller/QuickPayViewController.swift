@@ -35,21 +35,20 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var dropDownIsOpen = false
     var changeValue = true
     var commaIsPressed = false // Запятая
-    var closePopUpMenuDelegate: PopUpProtocol!
-    var dropDownProtocol: DropDownProtocol!
+    var closePopUpMenuDelegate: PopUpProtocol! // Под этот протокол подписан operationController
     var calendar = FSCalendarView()
     
     //MARK: начинается заворужка с объектами
     var payObject: MonetaryEntity?
     var quickAccountObject: MonetaryAccount = {
-       var object = MonetaryAccount()
+        var object = MonetaryAccount()
         object.name = "Without account"
         object.balance = 0
         object.accountID = "NO ACCOUNT"
         return object
     }()
     var historyObject = AccountsHistory()
-    var historyDate: Date?
+    
     
     ///             TEXT FIELD
     var popUpTextField =  UITextField()
@@ -63,26 +62,24 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     
     @IBAction func okAction(_ sender: Any) {
-        dropDownProtocol.dropDownAccountIdentifier(identifier: accountIdentifier)//перенаправляет принятый идентификатор в следующий контроллер
         //guard let enteredSum = enteredSum  else {return}
         //Перевод запятой в точку для послдующей обработки
-        saveHistoryElement()
+        
         let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
         let doubleEnteredSum = Double(replaceEnteredSum)
         guard doubleEnteredSum! > 0 else {return}
         closePopUpMenuDelegate.closePopUpMenu(enteredSum: doubleEnteredSum!, indexPath: dropIndexPath)
-        
+        saveHistoryElement()
         
     }
     
     func saveHistoryElement() {
         guard payObject != nil else {return}
         historyObject.name = payObject!.name
-        if historyDate != nil {
-            historyObject.date = historyDate
-        }else {
+        if historyObject.date == nil {
             historyObject.date = Date()
         }
+        
         let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
         let doubleEnteredSum = Double(replaceEnteredSum)
         historyObject.sum = doubleEnteredSum!
@@ -91,7 +88,12 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         historyObject.accountIdentifier = quickAccountObject.accountID
         DBManager.addHistoryObject(object: historyObject)
         guard let indexPath = tableView.tableView.indexPathForSelectedRow?.row else {return}
-        DBManager.updateAccount(accountType: appendAccounts(object: accountsObjects), indexPath: indexPath, addSum: 25000)
+        DBManager.updateAccount(accountType: appendAccounts(object: accountsObjects), indexPath: indexPath, addSum: doubleEnteredSum!)
+        
+    }
+    
+    func updateEntity() {
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -170,7 +172,7 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     //
     //    }
     func pageControlSettings() {
-        pageControl.currentPage = 1
+        pageControl.currentPage = 0 // Если поставить иное число, при загрузке происходит задержка первой страницы
         pageControl.pageIndicatorTintColor = whiteThemeTranslucentText
         pageControl.currentPageIndicatorTintColor = whiteThemeMainText
         pageControl.numberOfPages = 3
@@ -180,7 +182,9 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = whiteThemeBackground
-        print(popUpTextField.text)
+        
+        
+        
         pageControlSettings()
         buttonsSettings()
         scrollView.contentSize = CGSize(width: 1200, height: 0)
@@ -191,6 +195,7 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.delegate = self
         textFiedldSettings()
+        
         
         calendar = FSCalendarView(frame: .zero)//Границы календаря обусловлены констрейнтами, по этому фрейм можно ставить зиро
         tableView = QuickTableView(frame: .zero) // Аналогично
@@ -204,8 +209,24 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
         //registerForNotifications()
+        addDoneButtonOnKeyboard()
         
-        
+    }
+    
+    func addDoneButtonOnKeyboard(){ // По сути это тоже самое как и в iqKeyboard только без нее
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 140))
+        doneToolbar.barStyle = .default
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Закрыть", style: .done, target: self, action: #selector(self.doneButtonAction))
+        let items = [flexSpace, done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        popUpTextField.inputAccessoryView = doneToolbar
+    }
+    
+    @objc func doneButtonAction(){
+        popUpTextField.resignFirstResponder()
+        //popUpTextField.text! += ","
     }
     
     
@@ -258,9 +279,7 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         popUpTextField.delegate = self
         popUpTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         popUpTextField.backgroundColor = .clear
-        
-        
-        
+        popUpTextField.keyboardType = .decimalPad
     }
     
     
@@ -286,11 +305,12 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         let length = !string.isEmpty ? popUpTextField.text!.count + 1 : popUpTextField.text!.count - 1
         var allowedCharacters = CharacterSet(charactersIn: "0123456789")
         
+        
         switch commaIsPressed {
         case true: // Запятая нажата
             allowedCharacters = CharacterSet(charactersIn: "0123456789")
         case false where length > 1: // запятая не нажата
-            allowedCharacters = CharacterSet(charactersIn: ",0123456789")
+            allowedCharacters = CharacterSet(charactersIn: ".0123456789")
         default:
             allowedCharacters = CharacterSet(charactersIn: "0123456789")
         }
@@ -301,22 +321,26 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         }
         return allowedCharacters.isSuperset(of: characterSet)
     }
+    
+    var zeroInFirstIndex = false
     @objc private func textFieldChanged() {
         guard popUpTextField.text?.isEmpty == false else {return}
         
-        if popUpTextField.text?.count == 0 {
-        }
+        
         self.enteredSum = popUpTextField.text!
         //Цикл для того, чтобы сделать одну запятую в тексте
         for i in enteredSum {
-            if i == "," {
+            if i == "." {
                 commaIsPressed = true
-                //allowedCharacters = CharacterSet(charactersIn: "0123456789")
                 return
             }else {
                 commaIsPressed = false
-                //allowedCharacters = CharacterSet(charactersIn: ",0123456789")
             }
+        }
+        //оператор для установки запятой автоматически после нуля
+        if popUpTextField.text?.count == 2, ((popUpTextField.text?.firstIndex(of: "0")) != nil) {
+            popUpTextField.text?.insert(".", at:   popUpTextField.text!.index(  popUpTextField.text!.startIndex, offsetBy: 1))
+            commaIsPressed = true
         }
     }
     
@@ -370,13 +394,12 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.origin.y + keyboardSize.height / 3 )
         
     }
-    
 }
-
+///MARK: Table view
 extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
     
     func privateAccounts() -> [MonetaryAccount] {
-    
+        
         
         var accounts = appendAccounts(object: accountsObjects) //Кастомная функция для добавления счета в массив
         accounts.append(quickAccountObject) //дефолтная функция по добавлению
@@ -389,37 +412,41 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
+        
         return privateAccounts().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-    
+        
         var appendAccount = appendAccounts(object: accountsObjects)
         appendAccount.append(quickAccountObject)
         
         let object = appendAccount[indexPath.row]
         
-//    if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "QuickTableViewCell", for: indexPath) as! QuickTableVIewCell
-            cell.set(object: object)
-            return cell
+        //    if indexPath.row == 0 {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "QuickTableViewCell", for: indexPath) as! QuickTableVIewCell
+        cell.set(object: object)
+        return cell
         
-
+        
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let object = privateAccounts()[indexPath.row]
         quickAccountObject = object
         scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
+        
     }
+    
+    
 }
 
+///MARK: Calendar
 extension QuickPayViewController: FSCalendarDelegate {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
         scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
+        historyObject.date = date
     }
 }
 

@@ -20,7 +20,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
     func goToAddVC(restorationIdentifier: String) {
         
     }
-    
+    var selectedImageName: String?
     var newEntityElement = MonetaryEntity()
     var changeValue = true
     let pointBetweenItems = 15
@@ -248,7 +248,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
         if ((secondSumTextField.text?.isEmpty) != nil) {
             secondSumTextField.text = "0"
         }
-        addObject(text: nameTextField.text!, image: imageView.image, sum: Double(sumTextField.text!), secondSum: Double(secondSumTextField.text!), type: MonetaryType(rawValue: newEntityElement.accountType)!)
+        addObject(text: nameTextField.text!, image: selectedImageName, sum: Double(sumTextField.text!), secondSum: Double(secondSumTextField.text!), type: MonetaryType(rawValue: newEntityElement.accountType)!)
     }
     
     ///Проверка на пустую строку
@@ -293,6 +293,7 @@ extension AddSpendingViewController: UICollectionViewDelegateFlowLayout, UIColle
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = imagesForCollection[indexPath.row]
         let selectedImage = UIImage(named: image)
+        selectedImageName = image
         imageView.image = selectedImage
         
         view.reservedAnimateView(animatedView: popUpView, viewController: nil)

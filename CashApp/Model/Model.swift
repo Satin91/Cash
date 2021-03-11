@@ -14,7 +14,7 @@ class MonetaryEntity: Object {
     @objc dynamic var sum: Double = 0
     @objc dynamic var secondSum: Double = 0
     @objc dynamic var date: Date?
-    @objc dynamic var image: Data?
+    @objc dynamic var image: String?
     @objc dynamic var accountType: Int = MonetaryType.approach.rawValue
     @objc dynamic var monetaryID = NSUUID.init().uuidString
     var stringEntityType: MonetaryType {
@@ -24,7 +24,7 @@ class MonetaryEntity: Object {
     override static func primaryKey() -> String? {
         return "monetaryID"
     }
-    convenience init(name: String,sum:Double, secondSum: Double,date:Date?,image:Data?,accountType:MonetaryType?) {
+    convenience init(name: String,sum:Double, secondSum: Double,date:Date?,image:String?,accountType:MonetaryType?) {
         self.init()
         self.name = name
         self.sum = sum
@@ -55,8 +55,8 @@ class MonetaryAccount: Object {
     @objc dynamic var balance: Double = 0
     @objc dynamic var targetSum: Double = 0
     @objc dynamic var date: Date?
-    @objc dynamic var imageForCell: Data?
-    @objc dynamic var imageForAccount: Data?
+    @objc dynamic var imageForCell: String?
+    @objc dynamic var imageForAccount: String?
     @objc dynamic var isMainAccount = false
     @objc dynamic var accountType: Int = AccountType.card.rawValue
     @objc dynamic var accountID = NSUUID.init().uuidString
@@ -67,7 +67,7 @@ class MonetaryAccount: Object {
     override static func primaryKey() -> String? {
         return "accountID"
     }
-    convenience init(name: String,balance:Double,targetSum: Double,date:Date?,imageForAccount:Data?,imageForCell: Data?,accountType:AccountType?,isMainAccount: Bool) {
+    convenience init(name: String,balance:Double,targetSum: Double,date:Date?,imageForAccount:String?,imageForCell: String?,accountType:AccountType?,isMainAccount: Bool) {
         self.init()
         self.name = name
         self.imageForCell = imageForCell

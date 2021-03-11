@@ -34,6 +34,12 @@ class TableViewCell: UITableViewCell {
         super.awakeFromNib()
         
     }
+    @IBOutlet var heightConstraint: NSLayoutConstraint!
+    
+    func changeConstraint(rowHeight: CGFloat ) {
+        self.contentView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: rowHeight)
+        self.backgroundColor = .red
+    }
     
     func setCellColor(cell: UITableViewCell) {
         cell.backgroundColor =            whiteThemeBackground
@@ -41,6 +47,20 @@ class TableViewCell: UITableViewCell {
         self.headerLabel.textColor =      whiteThemeMainText
         self.sumLabel.textColor =         whiteThemeMainText
         self.descriptionLabel.textColor = whiteThemeTranslucentText
+    }
+    
+    func set(object: AccountsHistory) {
+        self.headerLabel?.text = object.name
+        guard descriptionLabel != nil else {return}
+        if object.date != nil {
+            self.descriptionLabel?.text = todayDateToString(date: object.date!)
+        }else{
+            descriptionLabel.text = "Balance"
+        }
+        self.sumLabel?.text = String(object.sum.currencyFR)
+        if let image = object.image {
+            userImage.image = UIImage(named: image)
+        }else{ userImage.image = UIImage(named: "card")}
     }
     
     func set(object: MonetaryEntity) {
@@ -53,7 +73,7 @@ class TableViewCell: UITableViewCell {
         }
         self.sumLabel?.text = String(object.sum.currencyFR)
         if let imageData = object.image {
-            userImage.image = UIImage(data:imageData)
+            userImage.image = UIImage(named: object.image!)
         }else{ userImage.image = UIImage(named: "card")}
         guard let typeLabel = typeLabel else {return}
         typeLabel.text = object.initType()

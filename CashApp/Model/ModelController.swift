@@ -58,7 +58,7 @@ func fetchEntity(accountType: Int) ->Results<MonetaryEntity> {
     return object
 }
 
-func addObject(text: String, image: UIImage?,sum: Double?,secondSum: Double?, type: MonetaryType){
+func addObject(text: String, image: String?,sum: Double?,secondSum: Double?, type: MonetaryType){
     
     var summ: Double = 0
     var secondSumm: Double = 0
@@ -68,7 +68,7 @@ func addObject(text: String, image: UIImage?,sum: Double?,secondSum: Double?, ty
     if secondSum != nil {
         secondSumm = secondSum!
     }
-    let object2 = MonetaryEntity(name: text, sum: summ, secondSum: secondSumm, date: Date(), image: image?.pngData(), accountType: type)
+    let object2 = MonetaryEntity(name: text, sum: summ, secondSum: secondSumm, date: Date(), image: image, accountType: type)
     
     DBManager.addEntityObject(object: [object2])
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AccountCell" id="gTV-IL-0wX" customClass="AccountCollectionViewCell" customModule="CashApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="317" height="166"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="317" height="166"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" semanticContentAttribute="spatial" translatesAutoresizingMaskIntoConstraints="NO" id="K8c-Yy-Km2">
+                        <rect key="frame" x="0.0" y="0.0" width="317" height="166"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncz-Ok-QqT">
+                                <rect key="frame" x="16" y="109" width="88" height="31"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="26"/>
+                                <color key="textColor" red="0.92531913519999998" green="0.94102805850000004" blue="0.95294934509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zw-pc-M7K">
+                                <rect key="frame" x="237" y="16" width="64" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="PSz-fc-sEP"/>
+                                    <constraint firstAttribute="height" constant="34" id="nrn-xf-Uag"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="editButtonAction:" destination="gTV-IL-0wX" eventType="touchUpInside" id="SaL-tO-YT7"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CV6-e1-xhq">
+                                <rect key="frame" x="16" y="16" width="213" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1CE-we-QZq">
+                                <rect key="frame" x="120" y="106" width="171" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="1CE-we-QZq" secondAttribute="trailing" constant="26" id="8s0-Fp-9mx"/>
+                            <constraint firstItem="ncz-Ok-QqT" firstAttribute="leading" secondItem="K8c-Yy-Km2" secondAttribute="leading" constant="16" id="98P-sA-ADe"/>
+                            <constraint firstAttribute="bottom" secondItem="1CE-we-QZq" secondAttribute="bottom" constant="26" id="Phb-zd-IfF"/>
+                            <constraint firstItem="9zw-pc-M7K" firstAttribute="top" secondItem="K8c-Yy-Km2" secondAttribute="top" constant="16" id="aTp-Gp-bNr"/>
+                            <constraint firstItem="CV6-e1-xhq" firstAttribute="top" secondItem="K8c-Yy-Km2" secondAttribute="top" constant="16" id="dyS-Ks-yog"/>
+                            <constraint firstItem="9zw-pc-M7K" firstAttribute="leading" secondItem="CV6-e1-xhq" secondAttribute="trailing" constant="8" symbolic="YES" id="eId-xo-zqj"/>
+                            <constraint firstAttribute="trailing" secondItem="9zw-pc-M7K" secondAttribute="trailing" constant="16" id="eVB-ew-mXq"/>
+                            <constraint firstAttribute="bottom" secondItem="ncz-Ok-QqT" secondAttribute="bottom" constant="26" id="jqm-sK-WsS"/>
+                            <constraint firstItem="CV6-e1-xhq" firstAttribute="leading" secondItem="K8c-Yy-Km2" secondAttribute="leading" constant="16" id="mc3-kO-17h"/>
+                            <constraint firstItem="1CE-we-QZq" firstAttribute="leading" secondItem="ncz-Ok-QqT" secondAttribute="trailing" constant="16" id="sAx-RK-66D"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="K8c-Yy-Km2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="26Y-zb-1QJ"/>
+                <constraint firstAttribute="bottom" secondItem="K8c-Yy-Km2" secondAttribute="bottom" id="CR0-hH-N1N"/>
+                <constraint firstItem="K8c-Yy-Km2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mgM-Ff-9yw"/>
+                <constraint firstAttribute="trailing" secondItem="K8c-Yy-Km2" secondAttribute="trailing" id="ulG-FG-bga"/>
+            </constraints>
+            <size key="customSize" width="317" height="166"/>
+            <connections>
+                <outlet property="balanceLabel" destination="ncz-Ok-QqT" id="R7w-5b-sWE"/>
+                <outlet property="cellBackground" destination="K8c-Yy-Km2" id="yp6-az-EkP"/>
+                <outlet property="editButtonOutlet" destination="9zw-pc-M7K" id="wnx-TI-1Uj"/>
+                <outlet property="headerTextField" destination="CV6-e1-xhq" id="WEL-4u-0aK"/>
+                <outlet property="sumTextField" destination="1CE-we-QZq" id="Psx-22-4Ic"/>
+            </connections>
+            <point key="canvasLocation" x="216.66666666666669" y="164.73214285714286"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

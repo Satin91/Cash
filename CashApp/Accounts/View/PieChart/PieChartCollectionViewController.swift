@@ -30,7 +30,7 @@ class PieChartCollectionViewController: UICollectionViewController,UICollectionV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        monthTransactions(account: ContainerViewController.destinationAccount!)
+        //monthTransactions(account: ContainerViewController.destinationAccount!)
         self.collectionView.register(PieChartCollectionViewCell.self, forCellWithReuseIdentifier: "PieChartViewCell")
         //self.collectionView.register(LineChartCollectionViewCell.self, forCellWithReuseIdentifier: "LineChartViewCell")
         self.collectionView.isPagingEnabled = true

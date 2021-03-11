@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+let accountsImages = ["account1","account2","account3","account4"]
 class AddAccountViewController: UIViewController {
     
     @IBAction func okButton(_ sender: UIBarButtonItem) {
@@ -15,7 +15,7 @@ class AddAccountViewController: UIViewController {
         
     }
     var imageView = UIImageView()
-    let accountImages = ["account1","account2","account3","account4"]
+    
     var textForUpperLabel = ""
     var textForMiddleLabel = ""
     var textForBottomLabel = ""
@@ -32,11 +32,11 @@ class AddAccountViewController: UIViewController {
     @IBAction func createAccountAction(_ sender: Any) {
    
         saveElement()
+        dismiss(animated: true, completion: nil)
     }
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
     
     var newAccount = MonetaryAccount()
     //TextLabels
@@ -66,11 +66,9 @@ class AddAccountViewController: UIViewController {
         visualSettings()
         setTextForViewElements()
         checkType()
-        
-        
     }
     func saveElement(){
-        newAccount.imageForAccount = UIImage(named: accountImages[indexForImage.row])?.pngData()
+        newAccount.imageForAccount = accountsImages[indexForImage.row]
         if !nameTextField.text!.isEmpty{
             newAccount.name = nameTextField.text!
         }
@@ -81,6 +79,10 @@ class AddAccountViewController: UIViewController {
             newAccount.balance = Double(balanceTextField.text!)!
         }
         DBManager.addAccountObject(object: [newAccount])
+        
+    }
+    
+    override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
         
     }
     func setTextForViewElements() {
@@ -175,7 +177,7 @@ extension AddAccountViewController: UICollectionViewDelegate,UICollectionViewDat
     }
     //CollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return accountImages.count
+        return accountsImages.count
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -194,9 +196,9 @@ extension AddAccountViewController: UICollectionViewDelegate,UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addAccountCell", for: indexPath) as! AddCollectionViewCell
-        let images = accountImages[indexPath.item]
-        let image = imageToData(imageName: images) // Перевод в Data нужен лишь для того чтобы потом можно было с легкостью сохранить изображение в базу данных, открыть в ячейке можно и не png файл
-        cell.accountImageView.image = UIImage(data: image)
+        let images = accountsImages[indexPath.item]
+        //let image = imageToData(imageName: images) // Перевод в Data нужен лишь для того чтобы потом можно было с легкостью сохранить изображение в базу данных, открыть в ячейке можно и не png файл
+        cell.accountImageView.image = UIImage(named: images)
         cell.accountImageView.layer.cornerRadius = 20
         cell.accountImageView.clipsToBounds = true
         //collectionView.layer.masksToBounds = false
