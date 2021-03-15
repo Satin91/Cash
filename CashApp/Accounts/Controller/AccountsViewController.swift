@@ -12,8 +12,9 @@ import FSCalendar
 
 
 class AccountsViewController: UIViewController, dismissVC{
-    @IBOutlet var schedule: UIView!
-    @IBOutlet var boxView: UIView!
+ 
+    
+    @IBOutlet var containerView: UIView!
     
     @IBOutlet var blurView: UIVisualEffectView!
     @IBOutlet var topConstreintOfCollectionView: NSLayoutConstraint!
@@ -53,11 +54,18 @@ class AccountsViewController: UIViewController, dismissVC{
     
  
     
-    
+    func sendNotification() {
+        guard let indexPath = visibleIndexPath else {return}
+        visibleObject = EnumeratedAccounts(array: accountsObjects)[indexPath.row]
+        
+        guard let Object = visibleObject else{return}
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "MonetaryAccount"), object: Object)
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
         visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
+        sendNotification()
     }
     
 
@@ -96,7 +104,7 @@ class AccountsViewController: UIViewController, dismissVC{
         navigationItem.title = entityModel?.initType()
         self.view.insertSubview(self.blurView, at: 5)
         blurView.layer.opacity = 0
-        checkType()
+        
         self.view.backgroundColor = whiteThemeBackground
         setLabelShadows()
         
@@ -126,39 +134,25 @@ class AccountsViewController: UIViewController, dismissVC{
         upperButtonImage.setImageShadow(image: bottomButtonImage)
     }
    
-    func checkType(){
-        switch entityModel?.stringAccountType {
-        case .box:
-            schedule.isHidden = true
-            //BoxView
-            boxView.isHidden = false
-        case .cash :
-            schedule.isHidden = true
-            boxView.isHidden = true
-        case .card :
-            boxView.isHidden = true
-            schedule.isHidden = false
-            //CalendarView
-            
-        default:
-            break
-        }
-    }
+//    func checkType(){
+//        switch entityModel?.stringAccountType {
+//        case .box:
+//            schedule.isHidden = true
+//            //BoxView
+//            boxView.isHidden = false
+//        case .cash :
+//            schedule.isHidden = true
+//            boxView.isHidden = true
+//        case .card :
+//            boxView.isHidden = true
+//            schedule.isHidden = false
+//            //CalendarView
+//
+//        default:
+//            break
+//        }
+//    }
  
-  
-  ///сделать тут чтонбудь
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("Prepare!")
-        if segue.identifier == "Card" {
-            let cardVC = segue.destination as! ContainerViewController
-            cardVC.destinationAccount = entityModel
-            ContainerViewController.destinationAccount = entityModel
-        }
-        if segue.identifier == "Box" {
-            let boxVC = segue.destination as! BoxViewController
-            boxVC.boxModel = entityModel
-        }
-        }
     var accountsLabelsNames = ["Add","card","cash","savings"]
     var bottomLabelText = ["to accounts","to schedule","category"]
     func dismissVC(goingTo: String,restorationIdentifier: String) {
@@ -186,6 +180,8 @@ class AccountsViewController: UIViewController, dismissVC{
         
         present(navVC, animated: true)
     }
+    
+    var visibleObject:     MonetaryAccount?
     var visibleIndexPath:  IndexPath!
     var selectedIndexPath: IndexPath!
     var selectedObject:    MonetaryAccount?
@@ -229,8 +225,25 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
 extension AccountsViewController: collectionCellProtocol {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if visibleIndexPath != accountsCollectionView.indexPathsForVisibleItems.first{
+            visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
+            sendNotification()
+           // print("NewValue")
+        }else{
+           // print("oldValue")
+        }
         visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
+        //print(visibleIndexPath)
         accountsCollectionView.reloadData() // Нужно для того чтобы в момент редактирования текстфилда обновлялась коллекция при смене изображения
+        
+        
+        var indexPath = visibleIndexPath
+        if visibleObject != visibleObject {
+            sendNotification()
+        }else{
+            
+        }
+        
         
     }
     

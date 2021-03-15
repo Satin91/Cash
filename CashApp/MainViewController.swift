@@ -27,8 +27,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         setColorsForText(text: [headerLabel,freeLabel,freeSumLabel,headerTotalSumLabel,totalBalanceOutletButton.titleLabel!,schedulerOutletButton.titleLabel!,operationOutletButton.titleLabel!])
     }
-    let chartView = AAChartView()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

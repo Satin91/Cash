@@ -91,10 +91,7 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         DBManager.updateAccount(accountType: appendAccounts(object: accountsObjects), indexPath: indexPath, addSum: doubleEnteredSum!)
         
     }
-    
-    func updateEntity() {
-        
-    }
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -338,13 +335,15 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             }
         }
         //оператор для установки запятой автоматически после нуля
-        if popUpTextField.text?.count == 2, ((popUpTextField.text?.firstIndex(of: "0")) != nil) {
+        if popUpTextField.text?.count == 2, popUpTextField.text?.first == "0" {
             popUpTextField.text?.insert(".", at:   popUpTextField.text!.index(  popUpTextField.text!.startIndex, offsetBy: 1))
             commaIsPressed = true
         }
     }
     
     
+//    if popUpTextField.text?.count == 2, ((popUpTextField.text?.firstIndex(of: "0")) != nil) { // Это то что было написано до фикса бага
+
     
     func whiteThemeFunc() {
         buttonLabel.textColor = whiteThemeMainText
