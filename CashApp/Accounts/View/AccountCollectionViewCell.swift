@@ -24,8 +24,10 @@ class AccountCollectionViewCell: UICollectionViewCell {
     @IBOutlet var editButtonOutlet: UIButton!
     @IBOutlet var cellBackground: UIView!
     
+    @IBOutlet var targetTextField: UITextField!
     @IBOutlet var headerTextField: UITextField!
-    @IBOutlet var sumTextField: UITextField!
+    @IBOutlet var balanceTextField: UITextField!
+    @IBOutlet var targetLabel : UILabel!
     @IBOutlet var balanceLabel: UILabel!
     var accountsImageView: UIImageView!
     
@@ -33,22 +35,23 @@ class AccountCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
      
         changeTFPropherties(textField: headerTextField)
-        changeTFPropherties(textField: sumTextField)
+        changeTFPropherties(textField: balanceTextField)
+        changeTFPropherties(textField: targetTextField)
         editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
         accountsImageView = UIImageView(frame: self.bounds)
         cellBackground.insertSubview(accountsImageView, at: 0)
         initConstraints(view: accountsImageView, to: cellBackground)
         headerTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
-        sumTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(receive), name: NSNotification.Name(rawValue: "TextFieldIsEnabled"), object: nil)
-        self.layer.cornerRadius = 19
+        balanceTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
+        targetTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
+        self.layer.cornerRadius = 20
         self.clipsToBounds = true
+        NotificationCenter.default.addObserver(self, selector: #selector(receive), name: NSNotification.Name(rawValue: "TextFieldIsEnabled"), object: nil)
     }
     
     func changeTFPropherties(textField: UITextField) {
         
-        textField.font = UIFont.systemFont(ofSize: 46)
+        textField.font = UIFont.systemFont(ofSize: 34)
         textField.backgroundColor = .clear
         textField.textColor = .white
         textField.borderStyle = .none
@@ -62,8 +65,10 @@ class AccountCollectionViewCell: UICollectionViewCell {
         
         if headerTextField.isEditing {
             whoIsEditing = "HeaderIsEditing"
-        }else if sumTextField.isEditing {
-            whoIsEditing = "SumIsEditing"
+        }else if balanceTextField.isEditing {
+            whoIsEditing = "BalanceIsEditing"
+        }else if targetTextField.isEditing {
+            whoIsEditing = "TargetIsEditing"
         }
         
         print(whoIsEditing)
@@ -71,25 +76,48 @@ class AccountCollectionViewCell: UICollectionViewCell {
         delegate!.cellTextFieldChanged(self, didEndEditingWithText: sender.text, textFieldName: whoIsEditing)
     }
     
-    func setForSelect(image: UIImage, name: String,sum: String, account: MonetaryAccount) {
+    func setForSelect(image: UIImage, name: String, balance: String, target:String, account: MonetaryAccount) {
+        if account.accountType == AccountType.box.rawValue {
+            targetTextField.isHidden = false
+            targetLabel.isHidden = false
+        }else{
+            targetTextField.isHidden = true
+            targetLabel.isHidden = true
+        }
         headerTextField.text = name
-        sumTextField.text = sum
+        balanceTextField.text = balance
+        targetTextField.text = target
         accountsImageView.image = image
+        
     }
+
     
-    func set(image: UIImage, name: String,sum: String, account: MonetaryAccount) {
-        headerTextField.text = name
-        sumTextField.text =  String(account.balance.currencyFR)
-        accountsImageView.image = image
+    func setAccount(account: MonetaryAccount) {
+        targetTextField.isHidden = true
+        targetLabel.isHidden = true
+        if account.accountType == AccountType.box.rawValue {
+            targetTextField.isHidden = false
+            targetLabel.isHidden = false
+            
+            
+        }
+        headerTextField.text = account.name
+        targetTextField.text = String(account.targetSum.currencyFR)
+        balanceTextField.text =  String(account.balance.currencyFR)
+        guard let image = account.imageForAccount else {return}
+        accountsImageView.image = UIImage(named: image)
+        
     }
     @objc func receive(notification: NSNotification) {
         let notf = notification.userInfo!["CASE"] as! Bool
         if notf {
             headerTextField.isEnabled = true
-            sumTextField.isEnabled = true
-        }else {
+            targetTextField.isEnabled = true
+            balanceTextField.isEnabled = true
+        }else{
             headerTextField.isEnabled = false
-            sumTextField.isEnabled = false
+            targetTextField.isEnabled = false
+            balanceTextField.isEnabled = false
         }
     }
 }

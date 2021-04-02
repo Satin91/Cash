@@ -14,7 +14,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
    
     func dismissVC(goingTo: String, restorationIdentifier: String) { // Вызывается после подтверждения выбора в addVc
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddSpendingViewController
+        let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddOperationViewController
         
         if goingTo == "addVC"{
             switch restorationIdentifier {
@@ -50,9 +50,9 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     var changeValue = true
     ///             Outlets:
     @IBOutlet var segmentedControl: HBSegmentedControl!
-    
     @IBOutlet var operationTableView: UITableView!
     
+    ///            Actions:
     @IBAction func actionSegmentedControl(_ sender: HBSegmentedControl) {
         changeSegmentAnimation(TableView: operationTableView, ChangeValue: &changeValue)
         
@@ -62,33 +62,26 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     ///             ACTIONS
     @IBAction func addButton(_ sender: Any) {
         //addVC
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addVC") as! AddOperationViewController
+        
         switch changeValue {
         case true:
-            
-            
-            let addVC = storyboard.instantiateViewController(withIdentifier: "addVC") as! AddSpendingViewController
             addVC.newEntityElement.stringEntityType = .expence
             addVC.textForUpperLabel = "Add"
             addVC.textForMiddleLabel = "spending"
             addVC.textForBottomLabel = "category"
-            self.navigationController?.pushViewController(addVC, animated: true)
-            guard popViewController != nil else {return}
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
-                self.closeChildViewController()
-            })
-            
         case false:
-            let pickTypeVC = storyboard.instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
-            pickTypeVC.buttonsNames = ["Approach","Recurring fee","Debt"]
-            pickTypeVC.goingTo = "addVC"
-            pickTypeVC.delegate = self
-            let navVC = UINavigationController(rootViewController: pickTypeVC)
-            navVC.modalPresentationStyle = .pageSheet
-            
-            //Передача данных описана в классе PickTypePopUpViewController
-            present(navVC, animated: true, completion: nil)
+            addVC.newEntityElement.stringEntityType = .income
+            addVC.textForUpperLabel = "Add"
+            addVC.textForMiddleLabel = "income"
+            addVC.textForBottomLabel = "category"
+           
         }
+        self.navigationController?.pushViewController(addVC, animated: true)
+        guard popViewController != nil else {return}
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
+            self.closeChildViewController()
+        })
     }
     
     @IBAction func cancelBarButton(_ sender: Any) {
@@ -103,7 +96,12 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         segmentedControl.changeValuesForCashApp(segmentOne: "Payment", segmentTwo: "Scheduler")
         setupNavigationController(Navigation: navigationController!)
         blurView.bounds = self.view.frame
-      
+        self.view.backgroundColor = whiteThemeBackground
+    }
+    
+    //wait for Figma 
+    func classColor() {
+        self.view.backgroundColor = whiteThemeBackground
     }
     
     func closePopUpMenu(enteredSum: Double, indexPath: Int?) {
@@ -117,7 +115,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
 //        DBManager.addHistoryObject(object: historyObject)
 //        }
         
-        DBManager.updateObject(objectType: EnumeratedSequence(array: changeValue ? operationExpence: operationScheduler), indexPath: operationTableView.indexPathForSelectedRow!.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
+        DBManager.updateObject(objectType: changeValue ? Array(expenceObjects) : Array(incomeObjects), indexPath: operationTableView.indexPathForSelectedRow!.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
         
         closeChildViewController()
         operationTableView.reloadData()
@@ -152,7 +150,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     // Переход на экран добавления объекта
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAddVC"{
-            let addSpandingVC = segue.destination as! AddSpendingViewController
+            let addSpandingVC = segue.destination as! AddOperationViewController
             addSpandingVC.changeValue = self.changeValue
         }
     }
@@ -176,18 +174,18 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
 extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     ///                          TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        changeValue ? EnumeratedSequence(array: operationExpence).count : EnumeratedSequence(array: operationScheduler).count
+        changeValue ? Array(expenceObjects).count : Array(incomeObjects).count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.operationIdentifier, for: indexPath) as! TableViewCell
         switch changeValue {
         case true:
-            let object = EnumeratedSequence(array: operationExpence)[indexPath.row]
+            let object = expenceObjects[indexPath.row]
             cell.set(object: object)
         case false :
-            let object = EnumeratedSequence(array: operationScheduler)[indexPath.row]
+            let object = incomeObjects[indexPath.row]
             cell.set(object: object)
-            cell.setSelected(false, animated: true)
+            //cell.setSelected(false, animated: true)
         }
         cell.selectionStyle = .none
         cell.setCellColor(cell: cell)
@@ -197,7 +195,7 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
         //Создание экземпляра
-        let cell = EnumeratedSequence(array: changeValue ? operationExpence : operationScheduler)[indexPath.row]
+        let cell =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
         //Копирование экземпляра
 //        let copyOfoperationEntity = MonetaryEntity()
 //        copyOfoperationEntity.name = cell.name
@@ -218,7 +216,7 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         var object = MonetaryEntity()
-        object = changeValue ? EnumeratedSequence(array: operationExpence)[indexPath.row] : EnumeratedSequence(array: operationScheduler)[indexPath.row]
+        object = changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
         
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in

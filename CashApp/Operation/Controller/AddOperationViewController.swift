@@ -9,7 +9,7 @@
 import UIKit
 import FSCalendar
 import RealmSwift
-class AddSpendingViewController: UIViewController, UITextFieldDelegate{
+class AddOperationViewController: UIViewController, UITextFieldDelegate{
     
   
   
@@ -163,7 +163,21 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
             //segmented
             segmentedControl.isHidden = true
             segmentedontrolNeomorph.isHidden = true
+        case .income :
+            sumTextField.isHidden = true
+            sumBorderButton.isHidden = true
+            //secondSum
+            secondSumTextField.isHidden = true
+            secondSumBorderButton.isHidden = true
+            //date button
+            selectDateButton.isHidden = true
+            selectDateView.isHidden = true
+            //segmented
+            segmentedControl.isHidden = true
+            segmentedontrolNeomorph.isHidden = true
+            
         }
+        
     }
     
     ///                     TEXT FIELD FUNC
@@ -263,7 +277,7 @@ class AddSpendingViewController: UIViewController, UITextFieldDelegate{
 
 
 ///                           COLLECTION VIEW
-extension AddSpendingViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,UICollectionViewDataSource {
+extension AddOperationViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,UICollectionViewDataSource {
     
     
     //                  UICollectionViewDelegateFlowLayout

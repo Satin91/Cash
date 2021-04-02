@@ -11,9 +11,8 @@ import AAInfographics
 
 class LineChartContainerViewController: UIViewController {
   
-    var destinationAccount: MonetaryAccount?
+    var destinationAccount: MonetaryAccount? 
     var chartElement: [AASeriesElement] = []
-    
     @IBOutlet var collectionView: UICollectionView!
     
     
@@ -22,14 +21,15 @@ class LineChartContainerViewController: UIViewController {
         
     }
     
-    
+  
 
     @objc func receiveObject(_ notification: NSNotification) {
-        let object = notification.object as! MonetaryAccount
+        
+        guard let object = notification.object as? MonetaryAccount else {return}
+        
         destinationAccount = object
         //Надо подумать как сделать так, чтобы добавление в чарт елемент не происходили постоянно при смене карты
         monthTransactions(account: destinationAccount!)
-        
         collectionView.reloadData()
         
         
@@ -43,7 +43,8 @@ class LineChartContainerViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         
-        
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.collectionViewLayout = layout
     }
@@ -52,11 +53,13 @@ class LineChartContainerViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
         collectionView.backgroundColor = .clear
-        
+      
         collectionView.delegate = self
         collectionView.dataSource = self
         layout()
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveObject(_:)), name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
+        print("line container did load ")
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveObject(_:)), name: NSNotification.Name(rawValue: "ContainerObject"), object: nil)
+        
         let xib = UINib(nibName: "LineChartCell", bundle: nil)
         self.collectionView.register(xib, forCellWithReuseIdentifier: "LineChartIdentifier")
     }

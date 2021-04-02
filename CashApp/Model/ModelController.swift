@@ -32,15 +32,15 @@ let regularObjects =           fetchEntity(accountType: 2).sorted(byKeyPath: "da
 let debtObjects =              fetchEntity(accountType: 3).sorted(byKeyPath: "date", ascending: false)//Debt = 3
 
 //let historyObjects =           outstanding(accountType: 8).sorted(byKeyPath: "date", ascending: false)//History = 8
-let expenceObjects =             fetchEntity(accountType: 4).sorted(byKeyPath: "date", ascending: false)//OperExpence
-
-let historyObjects =              realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
+let expenceObjects =           fetchEntity(accountType: 4).sorted(byKeyPath: "date", ascending: false)//OperExpence
+let incomeObjects =            fetchEntity(accountType: 5).sorted(byKeyPath: "date", ascending: false)//OperIncome
+let historyObjects =            realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
 
 ///Меню в OperationViewController сегмент 1
 ///Operation Payment
-var operationExpence = [expenceObjects]
+var paymentObjects = [expenceObjects,incomeObjects]
 ///Operation Scheduler
-//var operationProfit = [operationIncomeObjects,incomeObjects]
+
 var operationScheduler = [approachObjects,regularObjects,debtObjects]
 ///Меню в AccountsViewController
 var accountsObjects = [cardObjects,boxObjects,cashObjects]

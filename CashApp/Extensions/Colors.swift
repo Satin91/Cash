@@ -16,7 +16,7 @@ let whiteThemetranslucentText: UIColor
     
 }
 
-let whiteThemeBackground: UIColor = #colorLiteral(red: 0.9490196078, green: 0.9568627451, blue: 0.9607843137, alpha: 1)
+let whiteThemeBackground: UIColor = .white
 let whiteThemeMainText: UIColor = #colorLiteral(red: 0.2274509804, green: 0.2745098039, blue: 0.3411764706, alpha: 1)
 let whiteThemeTranslucentText: UIColor = #colorLiteral(red: 0.6823529412, green: 0.7333333333, blue: 0.768627451, alpha: 1)
 let whiteThemeRed: UIColor = #colorLiteral(red: 0.9411764706, green: 0.1725490196, blue: 0.3960784314, alpha: 1)

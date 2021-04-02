@@ -9,36 +9,50 @@
 import UIKit
 
 class ContainerViewController: UIViewController {
-
+    
     
     
     @IBOutlet var lineChartContainer: UIView!
     @IBOutlet var savingsContainer: UIView!
     
-    @objc func receiveObject(_ notification: NSNotification) {
-        
-        let object = notification.object as! MonetaryAccount
-        
-        if object.accountType == AccountType.card.rawValue || object.accountType == AccountType.cash.rawValue  {
-            lineChartContainer.isHidden = false
-            savingsContainer.isHidden = true
-        }else {
-            lineChartContainer.isHidden = true
-            savingsContainer.isHidden = false
+    var monetaryAccount: MonetaryAccount?
+    
+    func animateContainer(object: MonetaryAccount) {
+        UIView.animate(withDuration: 0.1) {
+            self.lineChartContainer.alpha = 0; self.savingsContainer.alpha = 0
+        } completion: { (true) in
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ContainerObject"), object: object)
+            
+            UIView.animate(withDuration: 0.1) {
+                
+                if object.accountType == AccountType.card.rawValue || object.accountType == AccountType.cash.rawValue{
+                    self.lineChartContainer.alpha = 1
+                }else{
+                    
+                    self.savingsContainer.alpha = 1
+                }
+            }
         }
     }
-  
     
+    
+    @objc func receiveObject(_ notification: NSNotification) {
+        let object = notification.object as! MonetaryAccount
+       // print(object)
+        animateContainer(object: object)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
-        savingsContainer.isHidden = true
-        lineChartContainer.isHidden = true
+        savingsContainer.alpha = 0
+        lineChartContainer.alpha = 0
         NotificationCenter.default.addObserver(self, selector: #selector(receiveObject), name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
-        
-        
     }
-    
-
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        print("container did disappear")
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
+    }
 }

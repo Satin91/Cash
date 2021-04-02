@@ -42,6 +42,7 @@ class MonetaryEntity: Object {
         case 2 : text = "Regular"
         case 3 : text = "Debt"
         case 4 : text = "Expence"
+        case 5 : text = "Income"
         default:break
         }
         return text
@@ -120,6 +121,7 @@ enum MonetaryType: Int {
     case regular = 2
     case debt = 3
     case expence = 4
+    case income = 5
 }
 
 

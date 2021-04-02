@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Nd4-Gg-bEv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eLe-7Y-XUo">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -24,15 +24,34 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Main View Controller-->
+        <!--Main Tab Bar Controller-->
+        <scene sceneID="j7O-La-ZKJ">
+            <objects>
+                <tabBarController id="eLe-7Y-XUo" customClass="MainTabBarController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bJo-Ch-j8D">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <outlet property="mainBar" destination="bJo-Ch-j8D" id="dKu-QR-zll"/>
+                        <segue destination="vSU-cC-Q3u" kind="relationship" relationship="viewControllers" id="yt6-Rd-pSV"/>
+                        <segue destination="k0S-rv-zeQ" kind="relationship" relationship="viewControllers" id="n82-qU-tWZ"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C5A-de-Ad1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="443" y="-488"/>
+        </scene>
+        <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" semanticContentAttribute="spatial" translatesAutoresizingMaskIntoConstraints="NO" id="O5B-T4-F7Y" customClass="NeomorphicView" customModule="CashApp" customModuleProvider="target">
+                            <view autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" semanticContentAttribute="spatial" translatesAutoresizingMaskIntoConstraints="NO" id="O5B-T4-F7Y">
                                 <rect key="frame" x="26" y="104" width="338" height="152"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Wallet" translatesAutoresizingMaskIntoConstraints="NO" id="So9-7v-y2k">
@@ -72,7 +91,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lb5-8N-edh">
                                         <rect key="frame" x="0.0" y="0.0" width="338" height="152"/>
                                         <connections>
-                                            <segue destination="sYJ-mK-JTN" kind="show" id="4kP-nK-P2f"/>
+                                            <segue destination="F9X-AH-uIo" kind="presentation" id="KgC-MI-kae"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -132,114 +151,8 @@
                                     </mask>
                                 </variation>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GW-RO-NE5" customClass="NeomorphicView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="651" width="338" height="67"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Scheduler" translatesAutoresizingMaskIntoConstraints="NO" id="mce-zV-iK6">
-                                        <rect key="frame" x="26" y="20.666666666666629" width="26" height="26"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="26" id="rI4-iL-ZJZ"/>
-                                            <constraint firstAttribute="width" constant="26" id="zIn-KQ-MTj"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCU-25-JoL">
-                                        <rect key="frame" x="0.0" y="0.0" width="338" height="67"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
-                                        <state key="normal" title="Scheduler">
-                                            <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="mce-zV-iK6" firstAttribute="leading" secondItem="7GW-RO-NE5" secondAttribute="leading" constant="26" id="2vg-oe-7xr"/>
-                                    <constraint firstItem="tCU-25-JoL" firstAttribute="top" secondItem="7GW-RO-NE5" secondAttribute="top" id="Aog-hY-nUg"/>
-                                    <constraint firstItem="tCU-25-JoL" firstAttribute="leading" secondItem="7GW-RO-NE5" secondAttribute="leading" id="Pg3-a7-2OP"/>
-                                    <constraint firstAttribute="trailing" secondItem="tCU-25-JoL" secondAttribute="trailing" id="S52-5f-Bu0"/>
-                                    <constraint firstItem="mce-zV-iK6" firstAttribute="centerY" secondItem="7GW-RO-NE5" secondAttribute="centerY" id="Vnz-Ya-afg"/>
-                                    <constraint firstAttribute="bottom" secondItem="tCU-25-JoL" secondAttribute="bottom" id="ZRe-d2-RAe"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowSize">
-                                        <integer key="value" value="6"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XKe-Cc-HLq" customClass="NeoView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="740" width="338" height="67"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Operation" translatesAutoresizingMaskIntoConstraints="NO" id="A5L-vT-LC8">
-                                        <rect key="frame" x="23" y="19.666666666666629" width="31" height="28"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZbT-h0-ffG">
-                                        <rect key="frame" x="0.0" y="0.0" width="338" height="67"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
-                                        <state key="normal" title="Operation">
-                                            <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="Xsi-Y3-fw8" kind="show" id="lGy-r8-y7d"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="ZbT-h0-ffG" secondAttribute="trailing" id="31b-bH-ngh"/>
-                                    <constraint firstItem="ZbT-h0-ffG" firstAttribute="top" secondItem="XKe-Cc-HLq" secondAttribute="top" id="TjI-qP-ItJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="ZbT-h0-ffG" secondAttribute="bottom" id="coP-02-3mt"/>
-                                    <constraint firstItem="A5L-vT-LC8" firstAttribute="leading" secondItem="XKe-Cc-HLq" secondAttribute="leading" constant="23" id="d3u-ZM-4cs"/>
-                                    <constraint firstItem="A5L-vT-LC8" firstAttribute="centerY" secondItem="XKe-Cc-HLq" secondAttribute="centerY" id="uhL-tD-hDn"/>
-                                    <constraint firstItem="ZbT-h0-ffG" firstAttribute="leading" secondItem="XKe-Cc-HLq" secondAttribute="leading" id="vmf-lJ-O41"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" id="hMq-l9-Y08" customClass="NeomorphicView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="562" width="338" height="67"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Total Balance" translatesAutoresizingMaskIntoConstraints="NO" id="4Te-z8-e44">
-                                        <rect key="frame" x="26" y="20.666666666666629" width="26" height="26"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="26" id="sNT-pw-sYS"/>
-                                            <constraint firstAttribute="width" constant="26" id="tRH-sQ-NDr"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DyZ-1I-g9o">
-                                        <rect key="frame" x="0.0" y="0.0" width="338" height="67"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
-                                        <state key="normal" title="Today Balance">
-                                            <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="DyZ-1I-g9o" firstAttribute="top" secondItem="hMq-l9-Y08" secondAttribute="top" id="ObL-3k-q4r"/>
-                                    <constraint firstItem="4Te-z8-e44" firstAttribute="centerY" secondItem="hMq-l9-Y08" secondAttribute="centerY" id="YCB-7i-vCE"/>
-                                    <constraint firstItem="4Te-z8-e44" firstAttribute="leading" secondItem="hMq-l9-Y08" secondAttribute="leading" constant="26" id="bwG-Rp-fEg"/>
-                                    <constraint firstAttribute="bottom" secondItem="DyZ-1I-g9o" secondAttribute="bottom" id="jnr-Es-6uk"/>
-                                    <constraint firstItem="DyZ-1I-g9o" firstAttribute="leading" secondItem="hMq-l9-Y08" secondAttribute="leading" id="pXN-h6-fGU"/>
-                                    <constraint firstAttribute="trailing" secondItem="DyZ-1I-g9o" secondAttribute="trailing" id="tLb-sf-HVk"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowSize">
-                                        <integer key="value" value="6"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="y2p-0h-rRz">
-                                <rect key="frame" x="26" y="303.33333333333331" width="338" height="244.66666666666669"/>
+                                <rect key="frame" x="26" y="449" width="338" height="395"/>
                                 <color key="backgroundColor" red="0.19215686274509802" green="0.26666666666666666" blue="0.35686274509803922" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.26201200489999998" green="0.3210253119" blue="0.36475604769999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
@@ -329,24 +242,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.95686274510000002" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="hMq-l9-Y08" firstAttribute="height" secondItem="XKe-Cc-HLq" secondAttribute="height" id="3mf-y5-jyq"/>
-                            <constraint firstItem="7GW-RO-NE5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="5WR-bY-OgC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="y2p-0h-rRz" secondAttribute="trailing" constant="26" id="A8c-v9-6sO"/>
                             <constraint firstItem="O5B-T4-F7Y" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.18" id="CBH-pa-Qh6"/>
-                            <constraint firstItem="y2p-0h-rRz" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.29" id="EcD-sL-aH1"/>
+                            <constraint firstItem="y2p-0h-rRz" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.29" constant="150.24000000000001" id="EcD-sL-aH1"/>
                             <constraint firstItem="O5B-T4-F7Y" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="NG8-yi-nLP"/>
-                            <constraint firstItem="XKe-Cc-HLq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="PFg-ov-ABj"/>
                             <constraint firstItem="O5B-T4-F7Y" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="Vqe-vS-AUI"/>
-                            <constraint firstItem="7GW-RO-NE5" firstAttribute="top" secondItem="hMq-l9-Y08" secondAttribute="bottom" constant="22" id="ajh-rI-mMc"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XKe-Cc-HLq" secondAttribute="trailing" constant="26" id="bCg-TV-ZMO"/>
-                            <constraint firstItem="hMq-l9-Y08" firstAttribute="height" secondItem="7GW-RO-NE5" secondAttribute="height" id="dxv-78-oCh"/>
+                            <constraint firstAttribute="bottom" secondItem="y2p-0h-rRz" secondAttribute="bottom" id="gGl-MO-K27"/>
                             <constraint firstItem="UrX-9I-Pp9" firstAttribute="top" secondItem="O5B-T4-F7Y" secondAttribute="bottom" constant="6" id="gTG-R2-Xaa"/>
                             <constraint firstItem="UrX-9I-Pp9" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lQ3-DW-F7L"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="O5B-T4-F7Y" secondAttribute="trailing" constant="26" id="lUZ-s5-Fih"/>
-                            <constraint firstItem="XKe-Cc-HLq" firstAttribute="top" secondItem="7GW-RO-NE5" secondAttribute="bottom" constant="22" id="lxN-YN-jTo"/>
                             <constraint firstItem="y2p-0h-rRz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="uXa-01-5Yr"/>
-                            <constraint firstItem="hMq-l9-Y08" firstAttribute="top" secondItem="y2p-0h-rRz" secondAttribute="bottom" constant="14" id="vzL-6u-S9m"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7GW-RO-NE5" secondAttribute="trailing" constant="26" id="zdc-xg-57x"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hW4-Y9-Zn1">
@@ -358,106 +263,26 @@
                         <outlet property="headerLabel" destination="k0R-je-jRD" id="lcX-If-HtG"/>
                         <outlet property="headerTotalSumLabel" destination="epc-w4-bm6" id="hhx-jF-aVs"/>
                         <outlet property="historyTableView" destination="y2p-0h-rRz" id="93D-8E-KRF"/>
-                        <outlet property="operationOutletButton" destination="ZbT-h0-ffG" id="mM9-cq-Z8R"/>
-                        <outlet property="schedulerOutletButton" destination="tCU-25-JoL" id="Umu-Ac-vbA"/>
-                        <outlet property="totalBalanceOutletButton" destination="DyZ-1I-g9o" id="yw4-mw-HbV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1163.0769230769231" y="133.64928909952607"/>
+            <point key="canvasLocation" x="-178" y="256"/>
         </scene>
         <!--Accounts View Controller-->
         <scene sceneID="bws-JP-uUu">
             <objects>
                 <viewController storyboardIdentifier="TotalBalanceDetailViewController" id="sYJ-mK-JTN" customClass="AccountsViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fFh-aT-D1t">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P1f-mg-r76" customClass="NeomorphicView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="648" width="338" height="64"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Income" translatesAutoresizingMaskIntoConstraints="NO" id="1pq-ZY-Jnk">
-                                        <rect key="frame" x="30" y="19.666666666666629" width="28" height="28"/>
-                                        <color key="tintColor" red="0.30196078430000001" green="0.73725490199999999" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="28" id="wuG-vj-Ngw"/>
-                                            <constraint firstAttribute="height" constant="28" id="zZu-8L-L4O"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l52-SN-SRU">
-                                        <rect key="frame" x="0.0" y="0.0" width="338" height="64"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
-                                        <state key="normal" title="Middle">
-                                            <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="1pq-ZY-Jnk" firstAttribute="centerY" secondItem="P1f-mg-r76" secondAttribute="centerY" constant="1.6666666666666288" id="8jV-CV-xn0"/>
-                                    <constraint firstItem="l52-SN-SRU" firstAttribute="top" secondItem="P1f-mg-r76" secondAttribute="top" id="HJS-iQ-o3I"/>
-                                    <constraint firstAttribute="bottom" secondItem="l52-SN-SRU" secondAttribute="bottom" id="UdA-GM-N6L"/>
-                                    <constraint firstItem="l52-SN-SRU" firstAttribute="leading" secondItem="P1f-mg-r76" secondAttribute="leading" id="aHW-vR-s2C"/>
-                                    <constraint firstItem="1pq-ZY-Jnk" firstAttribute="leading" secondItem="P1f-mg-r76" secondAttribute="leading" constant="30" id="gAZ-vl-aEn"/>
-                                    <constraint firstAttribute="trailing" secondItem="l52-SN-SRU" secondAttribute="trailing" id="mc1-45-r7e"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowSize">
-                                        <integer key="value" value="6"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bev-Py-k0m" customClass="NeomorphicView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="734" width="338" height="64"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Delete" translatesAutoresizingMaskIntoConstraints="NO" id="nqs-5e-TJz">
-                                        <rect key="frame" x="30" y="18" width="28" height="28"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="28" id="p5a-zw-Qle"/>
-                                            <constraint firstAttribute="width" constant="28" id="yo6-dU-T6k"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Scx-YK-gLB">
-                                        <rect key="frame" x="0.0" y="0.0" width="338" height="64"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
-                                        <state key="normal" title="Lower">
-                                            <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Scx-YK-gLB" secondAttribute="bottom" id="5ub-Q6-7xn"/>
-                                    <constraint firstItem="Scx-YK-gLB" firstAttribute="top" secondItem="Bev-Py-k0m" secondAttribute="top" id="ETC-Xk-kV4"/>
-                                    <constraint firstItem="nqs-5e-TJz" firstAttribute="centerY" secondItem="Bev-Py-k0m" secondAttribute="centerY" id="JvE-L9-PXO"/>
-                                    <constraint firstItem="nqs-5e-TJz" firstAttribute="centerY" secondItem="Bev-Py-k0m" secondAttribute="centerY" id="WS0-XF-thp"/>
-                                    <constraint firstAttribute="trailing" secondItem="Scx-YK-gLB" secondAttribute="trailing" id="ewb-Cs-crd"/>
-                                    <constraint firstItem="nqs-5e-TJz" firstAttribute="leading" secondItem="Bev-Py-k0m" secondAttribute="leading" constant="30" id="mgm-eS-t8x"/>
-                                    <constraint firstItem="Scx-YK-gLB" firstAttribute="leading" secondItem="Bev-Py-k0m" secondAttribute="leading" id="p0z-qG-3FF"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowSize">
-                                        <integer key="value" value="6"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="M4K-Pj-z9y">
-                                <rect key="frame" x="0.0" y="102" width="390" height="174"/>
+                                <rect key="frame" x="0.0" y="70" width="390" height="163"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="163" id="UAt-6c-ZOm"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9IP-wt-h85">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -475,75 +300,49 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <view contentMode="scaleToFill" id="X6Z-Ck-7F7" customClass="NeomorphicView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="562" width="338" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Done!!" translatesAutoresizingMaskIntoConstraints="NO" id="Pcu-zG-o5I">
-                                        <rect key="frame" x="26" y="14" width="39" height="36"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="39" id="Blq-Kn-qWo"/>
-                                            <constraint firstAttribute="height" constant="36" id="kfO-5Y-ant"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ye-ru-wB4">
-                                        <rect key="frame" x="0.0" y="0.0" width="338" height="64"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
-                                        <state key="normal" title="Upper">
-                                            <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="0Ye-ru-wB4" secondAttribute="trailing" id="Kol-yW-Bpp"/>
-                                    <constraint firstItem="0Ye-ru-wB4" firstAttribute="leading" secondItem="X6Z-Ck-7F7" secondAttribute="leading" id="Vnz-qT-yUl"/>
-                                    <constraint firstItem="Pcu-zG-o5I" firstAttribute="centerY" secondItem="X6Z-Ck-7F7" secondAttribute="centerY" id="YH7-PC-8CR"/>
-                                    <constraint firstItem="Pcu-zG-o5I" firstAttribute="leading" secondItem="X6Z-Ck-7F7" secondAttribute="leading" constant="26" id="ZMb-57-EWA"/>
-                                    <constraint firstItem="0Ye-ru-wB4" firstAttribute="top" secondItem="X6Z-Ck-7F7" secondAttribute="top" id="cgx-1I-USn"/>
-                                    <constraint firstAttribute="bottom" secondItem="0Ye-ru-wB4" secondAttribute="bottom" id="qMQ-I7-gEC"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="18"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowSize">
-                                        <integer key="value" value="6"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVu-wh-0n4">
-                                <rect key="frame" x="26" y="295" width="338" height="249"/>
+                                <rect key="frame" x="26" y="330" width="338" height="233"/>
                                 <connections>
                                     <segue destination="DXJ-ri-XWo" kind="embed" id="L9E-w9-Mxl"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ye-ru-wB4">
+                                <rect key="frame" x="26" y="580" width="338" height="60.666666666666629"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60.670000000000002" id="0hb-Nc-TEG"/>
+                                    <constraint firstAttribute="width" constant="338" id="9bx-SF-VLo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
+                                <state key="normal" title="Upper">
+                                    <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="upperAactionButton:" destination="sYJ-mK-JTN" eventType="touchUpInside" id="Wzx-9z-IQ2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="TEg-Fc-Y8B"/>
                         <color key="backgroundColor" red="0.92531913519999998" green="0.94102805850000004" blue="0.95294934509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="M4K-Pj-z9y" firstAttribute="height" secondItem="fFh-aT-D1t" secondAttribute="height" multiplier="0.206161" id="3Z8-9r-MYJ"/>
-                            <constraint firstItem="0Ye-ru-wB4" firstAttribute="top" secondItem="NVu-wh-0n4" secondAttribute="bottom" constant="18" id="8pf-4u-do9"/>
-                            <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="Bev-Py-k0m" secondAttribute="trailing" constant="26" id="C71-Tp-zVo"/>
-                            <constraint firstItem="P1f-mg-r76" firstAttribute="height" secondItem="X6Z-Ck-7F7" secondAttribute="height" id="Fkp-Pg-aW5"/>
                             <constraint firstItem="NVu-wh-0n4" firstAttribute="height" secondItem="fFh-aT-D1t" secondAttribute="height" multiplier="0.295024" id="GzJ-pg-Qir"/>
                             <constraint firstItem="M4K-Pj-z9y" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" id="H5z-pE-apf"/>
+                            <constraint firstItem="NVu-wh-0n4" firstAttribute="top" secondItem="M4K-Pj-z9y" secondAttribute="bottom" constant="97" id="Ibr-qc-r5y"/>
+                            <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="0Ye-ru-wB4" secondAttribute="trailing" constant="26" id="ItN-Al-b3G"/>
                             <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="NVu-wh-0n4" secondAttribute="trailing" constant="26" id="RDN-6D-50U"/>
-                            <constraint firstItem="P1f-mg-r76" firstAttribute="top" secondItem="X6Z-Ck-7F7" secondAttribute="bottom" constant="22" id="Rzq-E3-KaB"/>
-                            <constraint firstItem="Bev-Py-k0m" firstAttribute="top" secondItem="P1f-mg-r76" secondAttribute="bottom" constant="22" id="f0W-4d-1ww"/>
                             <constraint firstItem="M4K-Pj-z9y" firstAttribute="top" secondItem="TEg-Fc-Y8B" secondAttribute="top" constant="14" id="hRK-lh-UYK"/>
                             <constraint firstItem="NVu-wh-0n4" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" constant="26" id="i2e-gm-Fat"/>
-                            <constraint firstItem="Bev-Py-k0m" firstAttribute="height" secondItem="X6Z-Ck-7F7" secondAttribute="height" id="opy-eo-jBH"/>
-                            <constraint firstItem="Bev-Py-k0m" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" constant="26" id="pV9-jt-wjR"/>
+                            <constraint firstItem="0Ye-ru-wB4" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" constant="26" id="qaH-Gt-dWN"/>
+                            <constraint firstItem="0Ye-ru-wB4" firstAttribute="top" secondItem="NVu-wh-0n4" secondAttribute="bottom" constant="17" id="qwL-Lq-eZs"/>
                             <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="M4K-Pj-z9y" secondAttribute="trailing" id="rNf-VU-rRc"/>
-                            <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="P1f-mg-r76" secondAttribute="trailing" constant="26" id="xWn-gt-Uo6"/>
-                            <constraint firstItem="P1f-mg-r76" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" constant="26" id="yQU-Z5-Gm2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mTu-hr-qr2">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="BFz-2S-or1">
+                            <connections>
+                                <action selector="backButton:" destination="sYJ-mK-JTN" id="TnL-9T-lhN"/>
+                                <segue destination="zSX-SQ-KcF" kind="unwind" unwindAction="unwindSegueToMainVC:" id="X1p-l8-rNe"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Create" id="0Xm-Jq-2RQ">
                             <connections>
                                 <action selector="addButton:" destination="sYJ-mK-JTN" id="w8Y-Ps-fjY"/>
@@ -553,17 +352,13 @@
                     <connections>
                         <outlet property="accountsCollectionView" destination="M4K-Pj-z9y" id="eA0-yB-ZeL"/>
                         <outlet property="blurView" destination="APG-M2-qx5" id="k2E-IG-Y1u"/>
-                        <outlet property="bottomButton" destination="Scx-YK-gLB" id="wob-rf-Cu1"/>
-                        <outlet property="bottomButtonImage" destination="nqs-5e-TJz" id="nCe-CY-VyE"/>
                         <outlet property="containerView" destination="NVu-wh-0n4" id="LJg-wm-B1I"/>
-                        <outlet property="middleButton" destination="l52-SN-SRU" id="QEZ-7Q-d8J"/>
-                        <outlet property="middleButtonImage" destination="1pq-ZY-Jnk" id="GKp-Ax-nfw"/>
                         <outlet property="topConstreintOfCollectionView" destination="hRK-lh-UYK" id="t3o-qv-tBC"/>
                         <outlet property="upperButton" destination="0Ye-ru-wB4" id="qMf-te-5aD"/>
-                        <outlet property="upperButtonImage" destination="Pcu-zG-o5I" id="KYY-7Q-kWL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PoK-Gc-HFg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="zSX-SQ-KcF" userLabel="Exit" sceneMemberID="exit"/>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" id="APG-M2-qx5">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -574,12 +369,12 @@
                     <blurEffect style="regular"/>
                 </visualEffectView>
             </objects>
-            <point key="canvasLocation" x="1956.9230769230769" y="-534.59715639810429"/>
+            <point key="canvasLocation" x="2781.5384615384614" y="951.89573459715632"/>
         </scene>
-        <!--Add Spending View Controller-->
+        <!--Add Operation View Controller-->
         <scene sceneID="mWo-xc-SEO">
             <objects>
-                <viewController storyboardIdentifier="addVC" modalPresentationStyle="pageSheet" id="ZWE-Us-Wua" customClass="AddSpendingViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addVC" modalPresentationStyle="pageSheet" id="ZWE-Us-Wua" customClass="AddOperationViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L7Y-ag-M49">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <subviews>
@@ -908,7 +703,7 @@
                     </constraints>
                 </view>
             </objects>
-            <point key="canvasLocation" x="5271" y="1211"/>
+            <point key="canvasLocation" x="9916.9230769230762" y="1210.6635071090047"/>
         </scene>
         <!--Operation View Controller-->
         <scene sceneID="PWt-al-KWR">
@@ -1080,7 +875,7 @@
                 </visualEffectView>
                 <exit id="svW-sd-CoL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2777" y="348"/>
+            <point key="canvasLocation" x="2212" y="256"/>
         </scene>
         <!--Quick Pay View Controller-->
         <scene sceneID="FAJ-G5-yEV">
@@ -1148,7 +943,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFL-cl-To4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3487.6923076923076" y="224.64454976303315"/>
+            <point key="canvasLocation" x="5346.1538461538457" y="224.64454976303315"/>
         </scene>
         <!--Pick Type Pop Up View Controller-->
         <scene sceneID="cHw-XD-E7q">
@@ -1317,7 +1112,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5270.7692307692305" y="374.64454976303318"/>
+            <point key="canvasLocation" x="11775.384615384615" y="374.64454976303318"/>
         </scene>
         <!--Add Account View Controller-->
         <scene sceneID="F8T-Hw-4qz">
@@ -1534,47 +1329,6 @@
             <point key="canvasLocation" x="3522" y="-1585"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="4Yr-22-HG8">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Nd4-Gg-bEv" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KFb-A9-Cs2">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="x3V-9p-IjZ">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="wf2-Ir-haM"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WgB-Pt-tIm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="1xO-HO-V4u">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xsi-Y3-fw8" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="rRj-kr-Uby"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qQ9-tg-bLG">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Yei-tz-Kgf" kind="relationship" relationship="rootViewController" id="cYR-fb-5m5"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zja-HC-Gyu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1957" y="152"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="Zex-qL-bOb">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uIu-JA-BS0" sceneMemberID="viewController">
@@ -1591,7 +1345,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hH3-S7-ESp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4332" y="374.66266866566718"/>
+            <point key="canvasLocation" x="10833.846153846154" y="374.64454976303318"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="a0k-5B-YIn">
@@ -1609,7 +1363,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TKz-YT-cEm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4331" y="1211"/>
+            <point key="canvasLocation" x="8975.3846153846152" y="1210.6635071090047"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="90l-n8-Zeo">
@@ -1634,17 +1388,17 @@
             <objects>
                 <viewController id="DXJ-ri-XWo" customClass="ContainerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="28K-lX-Jdr">
-                        <rect key="frame" x="0.0" y="0.0" width="338" height="249"/>
+                        <rect key="frame" x="0.0" y="0.0" width="338" height="233"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2cQ-Fy-hbM">
-                                <rect key="frame" x="0.0" y="0.0" width="338" height="249"/>
+                                <rect key="frame" x="0.0" y="0.0" width="338" height="233"/>
                                 <connections>
-                                    <segue destination="7xa-kf-0dy" kind="embed" id="K5G-eQ-xP7"/>
+                                    <segue destination="7xa-kf-0dy" kind="embed" identifier="LineChart" id="K5G-eQ-xP7"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SjM-fs-xPG">
-                                <rect key="frame" x="0.0" y="0.0" width="338" height="249"/>
+                                <rect key="frame" x="0.0" y="0.0" width="338" height="233"/>
                                 <connections>
                                     <segue destination="fNV-tV-W3u" kind="embed" id="41G-Dj-gHT"/>
                                 </connections>
@@ -1670,18 +1424,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OdV-2M-3EQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2729" y="-534"/>
+            <point key="canvasLocation" x="-1035" y="1597"/>
         </scene>
         <!--Line Chart Container View Controller-->
         <scene sceneID="qwA-2G-9G8">
             <objects>
-                <viewController id="7xa-kf-0dy" customClass="LineChartContainerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LineChart" id="7xa-kf-0dy" customClass="LineChartContainerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dZ9-EA-NMK">
-                        <rect key="frame" x="0.0" y="0.0" width="338" height="249"/>
+                        <rect key="frame" x="0.0" y="0.0" width="338" height="233"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v28-fo-5Cr">
-                                <rect key="frame" x="0.0" y="0.0" width="338" height="249"/>
+                                <rect key="frame" x="0.0" y="0.0" width="338" height="233"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fXX-8g-Ecr">
                                     <size key="itemSize" width="128" height="128"/>
@@ -1707,48 +1461,122 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jgk-HM-fRH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3441.5384615384614" y="-708.41232227488149"/>
+            <point key="canvasLocation" x="-709" y="1898"/>
         </scene>
         <!--Savings Container View Controller-->
         <scene sceneID="SQx-ic-WXF">
             <objects>
                 <viewController id="fNV-tV-W3u" customClass="SavingsContainerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="70E-Qj-ajr">
-                        <rect key="frame" x="0.0" y="0.0" width="338" height="249"/>
+                        <rect key="frame" x="0.0" y="0.0" width="338" height="233"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ssV-Ua-8d2">
-                                <rect key="frame" x="26" y="205" width="286" height="4"/>
-                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5x2-aK-n33">
+                                <rect key="frame" x="26" y="26" width="108" height="55"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="46"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPX-fx-2Gj" customClass="NeoView" customModule="CashApp" customModuleProvider="target">
+                                <rect key="frame" x="26" y="181" width="286" height="26"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2p1-U7-rn7" customClass="ProgressBar" customModule="CashApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="286" height="26"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="2p1-U7-rn7" secondAttribute="bottom" id="4vP-wq-uY0"/>
+                                    <constraint firstAttribute="trailing" secondItem="2p1-U7-rn7" secondAttribute="trailing" id="V4v-jd-FcE"/>
+                                    <constraint firstItem="2p1-U7-rn7" firstAttribute="top" secondItem="dPX-fx-2Gj" secondAttribute="top" id="WbB-Qs-HI5"/>
+                                    <constraint firstItem="2p1-U7-rn7" firstAttribute="leading" secondItem="dPX-fx-2Gj" secondAttribute="leading" id="npO-Qf-mnm"/>
+                                    <constraint firstAttribute="height" constant="26" id="pck-1g-k3g"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Kyf-L5-PNq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Kyf-L5-PNq" firstAttribute="trailing" secondItem="ssV-Ua-8d2" secondAttribute="trailing" constant="26" id="a8c-uo-7S1"/>
-                            <constraint firstItem="Kyf-L5-PNq" firstAttribute="bottom" secondItem="ssV-Ua-8d2" secondAttribute="bottom" constant="40" id="flh-jB-6dO"/>
-                            <constraint firstItem="ssV-Ua-8d2" firstAttribute="leading" secondItem="Kyf-L5-PNq" secondAttribute="leading" constant="26" id="kh4-Pk-Tc0"/>
+                            <constraint firstItem="Kyf-L5-PNq" firstAttribute="bottom" secondItem="dPX-fx-2Gj" secondAttribute="bottom" constant="26" id="0ja-AL-lJH"/>
+                            <constraint firstItem="Kyf-L5-PNq" firstAttribute="trailing" secondItem="dPX-fx-2Gj" secondAttribute="trailing" constant="26" id="9Qc-lf-BE5"/>
+                            <constraint firstItem="5x2-aK-n33" firstAttribute="leading" secondItem="Kyf-L5-PNq" secondAttribute="leading" constant="26" id="UeS-bR-9aX"/>
+                            <constraint firstItem="5x2-aK-n33" firstAttribute="top" secondItem="70E-Qj-ajr" secondAttribute="top" constant="26" id="X0v-o9-vBM"/>
+                            <constraint firstItem="dPX-fx-2Gj" firstAttribute="leading" secondItem="Kyf-L5-PNq" secondAttribute="leading" constant="26" id="d2W-PK-gZ2"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="progressView" destination="ssV-Ua-8d2" id="Bv5-G9-8nc"/>
+                        <outlet property="progressBar" destination="2p1-U7-rn7" id="qiH-5M-YX9"/>
+                        <outlet property="progressLabel" destination="5x2-aK-n33" id="hEf-5L-GCd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rU7-1w-xC9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3441.5384615384614" y="-469.54976303317534"/>
+            <point key="canvasLocation" x="-1460" y="1898"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="dn3-Zg-S0R">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vSU-cC-Q3u" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="SvX-FA-Z4Y"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XQh-Q9-BOq">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="0uP-0C-HJ5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vgi-EM-KoJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-994" y="256"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="xsd-jc-2Mt">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="flipHorizontal" modalPresentationStyle="pageSheet" id="k0S-rv-zeQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="EZU-Dq-woI"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MuF-m3-etm">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Yei-tz-Kgf" kind="relationship" relationship="rootViewController" id="zsC-6t-Lnd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mGB-O6-rAH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1282" y="256"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5rQ-IA-SBx">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="F9X-AH-uIo" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="j9B-oo-GTI"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DPK-y8-Ggv">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="sYJ-mK-JTN" kind="relationship" relationship="rootViewController" id="BYC-CC-I82"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="077-hO-cfR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1852.3076923076922" y="951.89573459715632"/>
         </scene>
     </scenes>
     <resources>
         <image name="Check Mark" width="70" height="70"/>
-        <image name="Delete" width="26" height="26"/>
-        <image name="Done!!" width="31" height="22"/>
         <image name="History " width="29" height="27"/>
-        <image name="Income" width="37" height="37"/>
         <image name="Lenta" width="14" height="45"/>
-        <image name="Operation" width="31" height="28"/>
-        <image name="Scheduler" width="26" height="26"/>
         <image name="Settings" width="45" height="45"/>
-        <image name="Total Balance" width="27" height="25"/>
         <image name="Wallet" width="61" height="65"/>
         <image name="alcohol" width="35" height="35"/>
         <image name="bowling" width="35" height="35"/>

@@ -39,7 +39,7 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
     var calendar = FSCalendarView()
     
     //MARK: начинается заворужка с объектами
-    var payObject: MonetaryEntity?
+    
     var quickAccountObject: MonetaryAccount = {
         var object = MonetaryAccount()
         object.name = "Without account"
@@ -48,7 +48,7 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
         return object
     }()
     var historyObject = AccountsHistory()
-    
+    var payObject: MonetaryEntity?
     
     ///             TEXT FIELD
     var popUpTextField =  UITextField()
@@ -80,8 +80,14 @@ class QuickPayViewController: UIViewController, UITextFieldDelegate, UIScrollVie
             historyObject.date = Date()
         }
         
+        
         let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
-        let doubleEnteredSum = Double(replaceEnteredSum)
+        var doubleEnteredSum = Double(replaceEnteredSum)
+        if payObject?.accountType == 4 { // Это на случай если отрицательный счет
+            doubleEnteredSum?.negate() // превращение числа в негативное
+        }
+        
+        
         historyObject.sum = doubleEnteredSum!
         historyObject.image = payObject?.image
         historyObject.entityIdentifier = payObject!.monetaryID

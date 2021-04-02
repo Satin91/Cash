@@ -86,7 +86,6 @@ class LineChartCell: UICollectionViewCell {
 
      
         guard element.first?.name != "ArrayIsEmpty" else {
-            print("ArrayIsEmpty")
             lineChartView.isHidden = true
             textView.isHidden = false
             textView.text = "You have not made a single transaction"

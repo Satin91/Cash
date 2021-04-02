@@ -9,59 +9,42 @@
 import UIKit
 import RealmSwift
 import AAInfographics
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
     @IBOutlet var headerLabel: UILabel!
     @IBOutlet var headerTotalSumLabel: UILabel!
     @IBOutlet var freeLabel: UILabel!
     @IBOutlet var freeSumLabel: UILabel!
     
-    @IBOutlet var totalBalanceOutletButton: UIButton!
-    @IBOutlet var schedulerOutletButton: UIButton!
-    @IBOutlet var operationOutletButton: UIButton!
+   
         
     @IBOutlet var historyTableView: UITableView!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        setColorsForText(text: [headerLabel,freeLabel,freeSumLabel,headerTotalSumLabel,totalBalanceOutletButton.titleLabel!,schedulerOutletButton.titleLabel!,operationOutletButton.titleLabel!])
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let chartseries = [(AASeriesElement().name("kek").data([4,63,2,4,6,7]))]
-//        let model = AAChartModel()
-//        model.series(chartseries)
-//        chartView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
-//        chartView.aa_drawChartWithChartModel(model)
-//        self.view.addSubview(chartView)
-        //selectedIndex = IndexPath(row: 0, section: 0)
-        
+
         //  navigationItem.title = todayDateToString(date: someDateOfComponents!)
         
        
 //        historyTableView.estimatedRowHeight = 500
 //        historyTableView.rowHeight = UITableView.automaticDimension
         
-        setLabelShadows()
         navigationItem.setValue("March, 13", forKey: "title")
         navigationController!.navigationBar.tintColor = whiteThemeMainText // не работае почему то, потому ято наверно стоит следом функция
       
         setupNavigationController(Navigation: navigationController!)
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
         //DBManager.addAccountObject(object: accountObjectsToSave)
-        
+        self.view.backgroundColor = whiteThemeBackground
        
     }
-    
-    func setLabelShadows() {
-        guard operationOutletButton.titleLabel?.text != nil, schedulerOutletButton.titleLabel?.text != nil, totalBalanceOutletButton.titleLabel?.text != nil else {return}
-        for i in [operationOutletButton.titleLabel!, schedulerOutletButton.titleLabel!, totalBalanceOutletButton.titleLabel!] {
-            i.setLabelSmallShadow(label: i)
-        }
-        
-    }
+   
+
     
     func numberOfSections(in tableView: UITableView) -> Int{
         
@@ -151,23 +134,29 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         }
         
-        for i in EnumeratedSequence(array: [expenceObjects]){
+        
+        //Методы для изменения суммы в категориях
+        for i in EnumeratedSequence(array: paymentObjects){
             if object.entityIdentifier == i.monetaryID {
+                let localSum = object.sum > 0 ? 0 - object.sum :  object.sum // Небольшое условия для локального отражения числа
+               
+                
                 try! realm.write {
-                    i.sum -= object.sum
+                    
+                    i.sum += localSum
                     realm.add(i, update: .all)
             }
-               
+
             }
         }
-        
+
         for i in EnumeratedSequence(array: operationScheduler){
             if  object.entityIdentifier == i.monetaryID {
                 try! realm.write {
                     i.sum -= object.sum
                     realm.add(i, update: .all)
             }
-               
+
             }
         }
         
@@ -194,7 +183,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func unwindSegueToMainVC(_ segue: UIStoryboardSegue){
         
         //guard let newPayment = segue.source as? OperationViewController else { return }
-        
         historyTableView.reloadData()
     }
   
