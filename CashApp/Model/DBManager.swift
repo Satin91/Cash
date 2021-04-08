@@ -10,13 +10,13 @@ import RealmSwift
 
 
 var realm = try! Realm(configuration: .init( deleteRealmIfMigrationNeeded: true))
-var results: Results<MonetaryEntity>!
+var results: Results<MonetaryCategory>!
 
 
 class DBManager {
     
     static func updateAccount(accountType: [MonetaryAccount], indexPath: Int, addSum: Double) {
-        let count = EnumeratedAccounts(array: accountsObjects).count - 1 // Когда отсутствуют счета count = 0
+        let count = EnumeratedAccounts(array: accountsGroup).count - 1 // Когда отсутствуют счета count = 0
         guard indexPath <= count else {return}
                 try! realm.write {
                 accountType[indexPath].balance -= addSum
@@ -24,15 +24,15 @@ class DBManager {
             }
     }
     
-    static func updateObject(objectType: [MonetaryEntity], indexPath: Int, addSum: Double) {
+    static func updateCategory(objectType: [MonetaryCategory], indexPath: Int, addSum: Double) {
         try! realm.write {
             objectType[indexPath].sum += addSum
             realm.add(objectType, update: .all)
     }
 }
     
-    static func updateEntity(accountType: [MonetaryEntity], indexPath: Int, addSum: Double) {
-        let count = EnumeratedAccounts(array: accountsObjects).count // Когда отсутствуют счета count = 0
+    static func updateEntity(accountType: [MonetaryCategory], indexPath: Int, addSum: Double) {
+        let count = EnumeratedAccounts(array: accountsGroup).count // Когда отсутствуют счета count = 0
         try! realm.write {
                 if count > 0, indexPath > 0 {
                 accountType[indexPath].sum -= addSum
@@ -41,7 +41,7 @@ class DBManager {
         }
     }
 
-    static func removeObject(Object: MonetaryEntity){
+    static func removeCategoryObject(Object: MonetaryCategory){
         try! realm.write{
             realm.delete(Object)
         }
@@ -54,13 +54,19 @@ class DBManager {
         }
     }
     
+    static func addObject(object: Object) {
+        try! realm.write {
+            realm.add(object)
+        }
+    }
+    
     static func addHistoryObject(object: AccountsHistory) {
         try! realm.write {
             realm.add(object)
         }
     }
     ///Функиця для быстрой записи в БазуДанных
-    static func addEntityObject(object: [MonetaryEntity]) {
+    static func addCategoryObject(object: MonetaryCategory) {
         try! realm.write {
             realm.add(object)
         }
@@ -71,8 +77,8 @@ class DBManager {
         }
     }
     
-    static func obtainAnyObjects(type: String)-> [MonetaryEntity] {
-        results = realm.objects(MonetaryEntity.self).filter("accountType = \(type)")
+    static func obtainAnyObjects(type: String)-> [MonetaryCategory] {
+        results = realm.objects(MonetaryCategory.self).filter("accountType = \(type)")
        // let models = realm.objects(MonetaryEntity.self).filter("accountType = \(type)")
         return Array(results)
     }

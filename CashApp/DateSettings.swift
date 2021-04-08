@@ -29,7 +29,7 @@ let stringOnDataComponents = someDateFormatterEx.string(from: someDateOfComponen
 ///Так как нельзя в класе инициилизировать объекты, я создам функцию
 
 ///Дата в текст
-func todayDateToString(date: Date) -> String {
+func dateToString(date: Date) -> String {
     someDateFormatterEx.dateFormat = "MMM, d, Y"
    //let dateComponents = dateCalendar.dateComponents([.year,.month,.day], from: todayDate)
     

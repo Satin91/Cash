@@ -110,9 +110,9 @@ func EnumeratedAccounts (array: [Results<MonetaryAccount>]) -> [MonetaryAccount]
     return account
 }
 
-func EnumeratedSequence (array: [Results<MonetaryEntity>]) -> [MonetaryEntity]  {
+func EnumeratedSequence(array: [Results<MonetaryCategory>]) -> [MonetaryCategory]  {
     
-    var entity: [MonetaryEntity] = []
+    var entity: [MonetaryCategory] = []
     for (_, element) in array.enumerated() {
         for (_, element2) in element.enumerated() {
             entity.append(element2)
@@ -120,8 +120,8 @@ func EnumeratedSequence (array: [Results<MonetaryEntity>]) -> [MonetaryEntity]  
     }
     return entity
 }
-func appendAccounts(object: [Results<MonetaryAccount>]) -> [MonetaryAccount]{
-    var monetaryArray: [MonetaryAccount] = []
+func EnumeratedSchedulers(object: [Results<MonetaryScheduler>]) -> [MonetaryScheduler]{
+    var monetaryArray: [MonetaryScheduler] = []
     for (_, index) in object.enumerated() {
         monetaryArray.append(contentsOf: index)
     }
@@ -218,7 +218,7 @@ func setupNavigationController(Navigation Controller: UINavigationController) {
 protocol dismissVC {
     func dismissVC(goingTo: String,restorationIdentifier: String)
 }
-
+///MARK: ScrollToAccount
 
 ///MARK: DropDownProtocol
 protocol DropDownProtocol {
@@ -228,7 +228,7 @@ protocol DropDownProtocol {
 
 ///MARK: PopUpProtocol
 protocol PopUpProtocol {
-    func closePopUpMenu(enteredSum: Double, indexPath: Int?)
+    func closePopUpMenu()
 }
 
 extension UIImageView{
@@ -355,7 +355,7 @@ extension UIImageView {
         
     }
 }
-
+//MARK: Button settings
 extension UIButton{
     
     func setImageTintColor(_ color: UIColor) {
@@ -364,7 +364,19 @@ extension UIButton{
         self.tintColor = color
     }
     
+  
+    func mainButtonTheme() {
+        self.layer.cornerRadius = 25
+        self.layer.cornerCurve = .continuous
+        self.backgroundColor = .systemGray5
+        self.clipsToBounds = true
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.systemGray2.cgColor
+        
+    }
+
 }
+
 
 //MARK: Date ext
 extension Date {

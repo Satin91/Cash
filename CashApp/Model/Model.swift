@@ -9,40 +9,39 @@
 import RealmSwift
 
 //MARK: Monetary Entity
-class MonetaryEntity: Object {
-    @objc dynamic var name: String = "Some Name"
+class MonetaryCategory: Object {
+    @objc dynamic var name: String = "My category"
     @objc dynamic var sum: Double = 0
-    @objc dynamic var secondSum: Double = 0
-    @objc dynamic var date: Date?
-    @objc dynamic var image: String?
-    @objc dynamic var accountType: Int = MonetaryType.approach.rawValue
-    @objc dynamic var monetaryID = NSUUID.init().uuidString
-    var stringEntityType: MonetaryType {
-        get { return MonetaryType(rawValue: accountType)! }
+    @objc dynamic var limit: Double = 0
+    @objc dynamic var limitBalance: Double = 0
+    @objc dynamic var isEnabledLimit = false
+    @objc dynamic var image = "card"
+    @objc dynamic var accountType: Int = CategoryType.expence.rawValue
+    @objc dynamic var categoryID = NSUUID.init().uuidString
+    var stringEntityType: CategoryType {
+        get { return CategoryType(rawValue: accountType)! }
         set { accountType = newValue.rawValue }
         }
     override static func primaryKey() -> String? {
-        return "monetaryID"
+        return "categoryID"
     }
-    convenience init(name: String,sum:Double, secondSum: Double,date:Date?,image:String?,accountType:MonetaryType?) {
+    convenience init(name: String,sum:Double, limit: Double,limitBalance: Double,image:String,categoryType:CategoryType?) {
         self.init()
         self.name = name
         self.sum = sum
-        self.secondSum = secondSum
+        self.limit = limit
+        self.limitBalance = limitBalance
+        self.isEnabledLimit = isEnabledLimit
         self.image = image
-        self.date = date
-        if let typeAC = accountType?.rawValue{
+        if let typeAC = categoryType?.rawValue{
         self.accountType = typeAC
         }else {print("Вернулся nil")}
     }
     func initType() -> String {
         var text = ""
         switch accountType{
-        case 1 : text = "Approach"
-        case 2 : text = "Regular"
-        case 3 : text = "Debt"
-        case 4 : text = "Expence"
-        case 5 : text = "Income"
+        case 1 : text = "Expence"
+        case 2 : text = "Income"
         default:break
         }
         return text
@@ -54,12 +53,12 @@ class MonetaryEntity: Object {
 class MonetaryAccount: Object {
     @objc dynamic var name: String = "My account"
     @objc dynamic var balance: Double = 0
-    @objc dynamic var targetSum: Double = 0
+    @objc dynamic var targetSum: Double = 0 // не используется в данной версии
     @objc dynamic var date: Date?
-    @objc dynamic var imageForCell: String?
-    @objc dynamic var imageForAccount: String?
+    @objc dynamic var imageForCell = "card"
+    @objc dynamic var imageForAccount = "account1"
     @objc dynamic var isMainAccount = false
-    @objc dynamic var accountType: Int = AccountType.card.rawValue
+    @objc dynamic var accountType: Int = AccountType.ordinary.rawValue
     @objc dynamic var accountID = NSUUID.init().uuidString
     var stringAccountType: AccountType {
         get { return AccountType(rawValue: accountType)! }
@@ -68,7 +67,7 @@ class MonetaryAccount: Object {
     override static func primaryKey() -> String? {
         return "accountID"
     }
-    convenience init(name: String,balance:Double,targetSum: Double,date:Date?,imageForAccount:String?,imageForCell: String?,accountType:AccountType?,isMainAccount: Bool) {
+    convenience init(name: String,balance:Double,targetSum: Double,date:Date?,imageForAccount:String,imageForCell: String,accountType:AccountType?,isMainAccount: Bool) {
         self.init()
         self.name = name
         self.imageForCell = imageForCell
@@ -84,9 +83,9 @@ class MonetaryAccount: Object {
     func initType() -> String {
         var text = ""
         switch accountType{
-        case 1 : text = "Card"
-        case 2 : text = "Cash"
-        case 3 : text = "Box"
+        case 1 : text = "Ordinary"
+        case 2 : text = "Savings"
+
         
         default:break
         }
@@ -94,13 +93,58 @@ class MonetaryAccount: Object {
     }
 }
 
+//MARK: Monetary scheduler
+
+class MonetaryScheduler: Object {
+    @objc dynamic var name: String = "My schedule"
+    @objc dynamic var sum: Double = 0
+    @objc dynamic var balance: Double = 0
+    @objc dynamic var sumPerTime: Double = 0
+    @objc dynamic var date: Date?
+    @objc dynamic var dateRhytm: Int = 0
+    @objc dynamic var image: String = "card"
+    @objc dynamic var isUseForTudayBalance = true
+    @objc dynamic var scheduleType: Int = ScheduleType.oneTime.rawValue
+    @objc dynamic var scheduleID = NSUUID.init().uuidString
+    var stringScheduleType: ScheduleType {
+        get { return ScheduleType(rawValue: scheduleType)! }
+        set { scheduleType = newValue.rawValue }
+        }
+    override static func primaryKey() -> String? {
+        return "scheduleID"
+    }
+    convenience init(name: String,sum: Double,balance:Double,sumPerTime:Double,date:Date?,dateRhytm:Int?,image: String,isUseForTudayBalance: Bool,scheduleType:ScheduleType?) {
+        self.init()
+        self.name = name
+        self.image = image
+        self.sum = sum
+        self.balance = balance
+        self.sumPerTime = sumPerTime
+        self.date = date
+        self.isUseForTudayBalance = isUseForTudayBalance
+        if let typeSC = scheduleType?.rawValue{
+        self.scheduleType = typeSC
+        }else {print("Вернулся nil, Model viw controller")}
+    }
+    func initType() -> String {
+        var text = ""
+        switch scheduleType{
+        case 1 : text = "OneTime"
+        case 2 : text = "Regular"
+        default:break
+        }
+        return text
+    }
+}
+
+
 struct historyStructModel {  // Создал структуру для сортировки объектов т.к. ПОЧЕМУ ТО нельзя сортировать realm массивы
     var name = ""
     var sum = Double()
     var date = Date()
 }
 
-extension MonetaryEntity {
+extension MonetaryCategory {
     func updateObjext() {
         try! realm!.write{
             realm?.add(self, update: .all)
@@ -111,18 +155,21 @@ extension MonetaryEntity {
         case to
         case out
     }
+
+
+enum CategoryType: Int {
+    case expence = 1
+    case income = 2
+}
 enum AccountType: Int {
-    case card = 1
-    case cash = 2
-    case box =  3
+    case ordinary = 1
+    case savings =  2 // не используется в доной версии
 }
-enum MonetaryType: Int {
-    case approach = 1
+enum ScheduleType: Int {
+    case oneTime = 1
     case regular = 2
-    case debt = 3
-    case expence = 4
-    case income = 5
 }
+
 
 
 

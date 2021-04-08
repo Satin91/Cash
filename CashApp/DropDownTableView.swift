@@ -49,9 +49,9 @@ class DropDownTableView: UIView, UITableViewDataSource, UITableViewDelegate{
     func appendInFirstIndex() {
         returnObjects.insert(dontUseAccount, at: 0)//Вставляем объект "Не использовать счет" в первую строку
     }
-    var returnObjects = appendAccounts(object: accountsObjects)//Создаем массив для table view
+    var returnObjects = EnumeratedAccounts(array: accountsGroup)//Создаем массив для table view
     
-    let dontUseAccount = MonetaryAccount(name: "Don't use account", balance: 0, targetSum: 0, date: Date(), imageForAccount: nil, imageForCell: nil, accountType: nil, isMainAccount: false)
+    let dontUseAccount = MonetaryAccount(name: "Don't use account", balance: 0, targetSum: 0, date: Date(), imageForAccount: "account1", imageForCell: "card", accountType: nil, isMainAccount: false)
     /// TableViewSettings
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  returnObjects.count //EnumeratedSequence(array: accountsObjects).count

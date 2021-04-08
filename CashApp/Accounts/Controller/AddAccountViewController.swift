@@ -8,77 +8,77 @@
 
 import UIKit
 let accountsImages = ["account1","account2","account3","account4"]
+protocol scrollToNewAccount {
+    func scrollToNewAccount(account: MonetaryAccount)
+}
 class AddAccountViewController: UIViewController {
-    
-    @IBAction func okButton(_ sender: UIBarButtonItem) {
-        saveElement()
-        
-    }
-    var imageView = UIImageView()
-    
-    var textForUpperLabel = ""
-    var textForMiddleLabel = ""
-    var textForBottomLabel = ""
+
     var indexForImage: IndexPath = [0,0]
     //Border neo bouds for textFields
-    @IBOutlet var nameBorderButton: BorderButtonView!
-    @IBOutlet var targetBorderButton: BorderButtonView!
-    @IBOutlet var balanceBorderButton: BorderButtonView!
-    
-    
+
+    func namesForLabels(){
+        switch newAccountObject.stringAccountType {
+        case .ordinary:
+            middleTextLabel.text = "ordynary"
+        case .savings :
+            middleTextLabel.text = "savings"
+        }
+    }
+    var scrollToNewAccountDelegate: scrollToNewAccount!
     @IBOutlet var collectionView: UICollectionView! // Делегат и источник назначены в сториборде
     
     //Actions buttons
     @IBAction func createAccountAction(_ sender: Any) {
-   
         saveElement()
+        scrollToNewAccountDelegate.scrollToNewAccount(account: newAccountObject)
         dismiss(animated: true, completion: nil)
+        
+        
     }
     @IBAction func cancelAction(_ sender: Any) {
+        
+        
         dismiss(animated: true, completion: nil)
     }
-    
-    var newAccount = MonetaryAccount()
+ 
+    var newAccountObject = MonetaryAccount()
     //TextLabels
     @IBOutlet var upperTextLabel : UILabel!
     @IBOutlet var middleTextLabel : UILabel!
     @IBOutlet var bottomTextLabel : UILabel!
     //TextFields
     @IBOutlet var nameTextField : UITextField!
-    @IBOutlet var targetTextField : UITextField!
     @IBOutlet var balanceTextField : UITextField!
     //Outlets
     @IBOutlet var selectDateButtonOutlet: UIButton!
-    @IBOutlet var selectDateView: NeomorphicView!
     //Actions
     @IBAction func selectDateButton(_ sender: Any) {
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-       
+        
     }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         collectionViwSettings()
         setupNavigationController(Navigation: navigationController!)
         setColorTheme()
         visualSettings()
         setTextForViewElements()
-        checkType()
+        namesForLabels()
     }
     func saveElement(){
-        newAccount.imageForAccount = accountsImages[indexForImage.row]
+        newAccountObject.imageForAccount = accountsImages[indexForImage.row]
         if !nameTextField.text!.isEmpty{
-            newAccount.name = nameTextField.text!
-        }
-        if !targetTextField.text!.isEmpty {
-            newAccount.targetSum = Double(targetTextField.text!)!
+            newAccountObject.name = nameTextField.text!
         }
         if !balanceTextField.text!.isEmpty {
-            newAccount.balance = Double(balanceTextField.text!)!
+            newAccountObject.balance = Double(balanceTextField.text!)!
         }
-        DBManager.addAccountObject(object: [newAccount])
+        DBManager.addAccountObject(object: [newAccountObject])
         
     }
     
@@ -87,15 +87,13 @@ class AddAccountViewController: UIViewController {
     }
     func setTextForViewElements() {
         nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-        targetTextField.attributedPlaceholder = NSAttributedString(string: "Target", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         balanceTextField.attributedPlaceholder = NSAttributedString(string: "Balance", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         selectDateButtonOutlet.setTitle("Select Date", for: .normal)
         navigationItem.rightBarButtonItem?.title = "Create"
         navigationItem.leftBarButtonItem?.title = "Cancel"
         //Labels
-        upperTextLabel.text = textForUpperLabel
-        middleTextLabel.text = textForMiddleLabel
-        bottomTextLabel.text = textForBottomLabel
+        upperTextLabel.text = "Add"
+        bottomTextLabel.text = "account"
     }
     
     
@@ -112,45 +110,21 @@ class AddAccountViewController: UIViewController {
     
     func visualSettings(){
         nameTextField.borderStyle = .none
-        targetTextField.borderStyle = .none
         balanceTextField.borderStyle = .none
         
         selectDateButtonOutlet.setTitleColor(whiteThemeMainText, for: .normal)
         selectDateButtonOutlet.titleLabel?.setLabelSmallShadow(label: selectDateButtonOutlet.titleLabel!)
-        for i in [nameTextField,targetTextField,balanceTextField]{
-            i!.textColor = whiteThemeMainText
+        for i in [nameTextField,balanceTextField]{
+            i!.textColor = .systemGray
         }
     }
-    func checkType () {
-        switch newAccount.stringAccountType {
-        case .card :
-            targetTextField.isHidden = true
-            targetBorderButton.isHidden = true
-        case .cash :
-            targetBorderButton.isHidden = true
-            targetTextField.isHidden = true
-        case .box  :
-            targetTextField.isHidden = false
-        }
-    }
-    let shadow = CALayer()
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        
-        
-    }
+  
     func setColorTheme() {
         self.view.backgroundColor = whiteThemeBackground
         self.collectionView.backgroundColor = .none
         upperTextLabel.textColor = whiteThemeMainText
         middleTextLabel.textColor = whiteThemeRed
         bottomTextLabel.textColor = whiteThemeMainText
-        
-        
-        upperTextLabel.setLabelMiddleShadow(label: upperTextLabel)
-        middleTextLabel.setLabelMiddleShadow(label: middleTextLabel)
-        bottomTextLabel.setLabelMiddleShadow(label: bottomTextLabel)
         
     }
     

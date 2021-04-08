@@ -9,42 +9,31 @@
 import UIKit
 import RealmSwift
 
-class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PopUpProtocol, dismissVC{
+
+class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC {
     
-   
+    
+  
+    
     func dismissVC(goingTo: String, restorationIdentifier: String) { // Вызывается после подтверждения выбора в addVc
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let addVC = storyboard.instantiateViewController(identifier: "addVC") as! AddOperationViewController
-        
-        if goingTo == "addVC"{
+   
+        let addCategoryVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addCategoryVC") as! AddOperationViewController
+        if goingTo == "addCategoryVC" {
             switch restorationIdentifier {
-            case "upper":
-                addVC.newEntityElement.stringEntityType = .approach
-                addVC.textForMiddleLabel = entityLabelsNames[1]
-            case "middle":
-                addVC.newEntityElement.stringEntityType = .regular
-                addVC.textForMiddleLabel = entityLabelsNames[2]
-            case "bottom":
-                addVC.textForMiddleLabel = entityLabelsNames[3]
-                addVC.newEntityElement.stringEntityType = .debt
+            case "first":
+                addCategoryVC.newCategoryObject.stringEntityType = .income
+            case "second":
+                addCategoryVC.newCategoryObject.stringEntityType = .expence
             default:
                 return
             }
-            let navVC = UINavigationController(rootViewController: addVC)
-            navVC.modalPresentationStyle = .pageSheet
-            addVC.textForUpperLabel = entityLabelsNames[0] // Здесь 0 для удобства т.к. модель начинается с единицы
-            addVC.textForBottomLabel = bottomLabelText[1]
-            present(navVC, animated: true)
-            guard popViewController != nil else {return}
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-                self.closeChildViewController()
-            })
         }
-        
+        addCategoryVC.tableReloadDelegate = self
+        let navVC = UINavigationController(rootViewController: addCategoryVC)
+        navVC.modalPresentationStyle = .automatic
+        present(navVC, animated: true, completion: nil)
     }
     
-    var entityLabelsNames = ["Add","approach","recurring fee","debt","spending"]
-    var bottomLabelText = ["to accounts","to schedule","category"]
 
     var popViewController: UIViewController! // Child View Controller
     var changeValue = true
@@ -55,48 +44,55 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
     ///            Actions:
     @IBAction func actionSegmentedControl(_ sender: HBSegmentedControl) {
         changeSegmentAnimation(TableView: operationTableView, ChangeValue: &changeValue)
-        
     }
     ///             POPUP VIEW
     @IBOutlet var blurView: UIVisualEffectView!
     ///             ACTIONS
     @IBAction func addButton(_ sender: Any) {
         //addVC
-        let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addVC") as! AddOperationViewController
+        let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
+        pickTypeVC.buttonsNames = ["Income","Expence"]
+        pickTypeVC.goingTo = "addCategoryVC"
+        pickTypeVC.delegate = self
         
-        switch changeValue {
-        case true:
-            addVC.newEntityElement.stringEntityType = .expence
-            addVC.textForUpperLabel = "Add"
-            addVC.textForMiddleLabel = "spending"
-            addVC.textForBottomLabel = "category"
-        case false:
-            addVC.newEntityElement.stringEntityType = .income
-            addVC.textForUpperLabel = "Add"
-            addVC.textForMiddleLabel = "income"
-            addVC.textForBottomLabel = "category"
-           
-        }
-        self.navigationController?.pushViewController(addVC, animated: true)
+        let navVC = UINavigationController(rootViewController: pickTypeVC)
+        navVC.modalPresentationStyle = .popover
+        let popVC = navVC.popoverPresentationController
+        popVC?.delegate = self
+        let barButtonView = self.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
+        popVC?.sourceView = barButtonView
+        popVC?.sourceRect = barButtonView!.bounds
+        pickTypeVC.preferredContentSize = CGSize(width: 200, height: 150)
+        // Передача данных описана в классе PickTypePopUpViewController
+        present(navVC, animated: true, completion: nil)
         guard popViewController != nil else {return}
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
             self.closeChildViewController()
         })
     }
-    
-    @IBAction func cancelBarButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
+
    
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        operationTableView.reloadData()
+        self.tabBarController?.tabBar.showTabBar()
+        print("operationview did appear")
+        //При переходе через таб бар обновления не происходят
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        isModalInPresentation = true // невозможность скрыть сдвигом вьюшку
-        segmentedControl.changeValuesForCashApp(segmentOne: "Payment", segmentTwo: "Scheduler")
+        
+        segmentedControl.changeValuesForCashApp(segmentOne: "Expence", segmentTwo: "Income")
         setupNavigationController(Navigation: navigationController!)
         blurView.bounds = self.view.frame
         self.view.backgroundColor = whiteThemeBackground
+        let cellNib = UINib(nibName: "MainTableViewCell", bundle: nil)
+        operationTableView.register(cellNib, forCellReuseIdentifier: "MainIdentifier")
+        operationTableView.delegate = self
+        operationTableView.dataSource = self
+        operationTableView.separatorStyle = .none
+        operationTableView.backgroundColor = .clear
     }
     
     //wait for Figma 
@@ -104,28 +100,14 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         self.view.backgroundColor = whiteThemeBackground
     }
     
-    func closePopUpMenu(enteredSum: Double, indexPath: Int?) {
-//        guard let operationIndexPath = operationTableView.indexPathForSelectedRow else {return}
-//        historyObject.sum = enteredSum
-//        historyObject.date = Date()
-//        if indexPath != nil { //Если счет не "Выбрать без счета"
-//            DBManager.updateAccount(accountType: appendAccounts(object: accountsObjects), indexPath: indexPath!, addSum: enteredSum)
-//        }
-//        if enteredSum != 0 { // В будущем при переводе в double тип изменить условие !
-//        DBManager.addHistoryObject(object: historyObject)
-//        }
-        
-        DBManager.updateObject(objectType: changeValue ? Array(expenceObjects) : Array(incomeObjects), indexPath: operationTableView.indexPathForSelectedRow!.row, addSum: enteredSum) // Если что потом в operation Scheduler положить 'Box'
-        
-        closeChildViewController()
-        operationTableView.reloadData()
-    }
+ 
  
     //MARK: Add/Delete Child View Controller
-    func addChildViewController(PayObject: MonetaryEntity) {
+    func addChildViewController(PayObject: MonetaryCategory) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
         QuiclPayVC.payObject = PayObject
+        QuiclPayVC.payObject2 = PayObject
         QuiclPayVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
         // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
      
@@ -155,6 +137,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, UIPopoverP
         }
     }
     
+    
     @IBAction func unwindSegueToOperationVC(_ segue: UIStoryboardSegue){
        self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
         operationTableView.reloadData()
@@ -177,18 +160,17 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
         changeValue ? Array(expenceObjects).count : Array(incomeObjects).count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.operationIdentifier, for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MainIdentifier", for: indexPath) as! MainTableViewCell
+        
         switch changeValue {
         case true:
             let object = expenceObjects[indexPath.row]
-            cell.set(object: object)
+            cell.set(monetaryObject: object)
         case false :
             let object = incomeObjects[indexPath.row]
-            cell.set(object: object)
-            //cell.setSelected(false, animated: true)
+            cell.set(monetaryObject: object)
         }
-        cell.selectionStyle = .none
-        cell.setCellColor(cell: cell)
+        
         return cell
     }
     
@@ -215,12 +197,12 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         
-        var object = MonetaryEntity()
+        var object = MonetaryCategory()
         object = changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
         
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
-            DBManager.removeObject(Object: object) // Метод удаляет файлы из базы данных
+            DBManager.removeCategoryObject(Object: object) // Метод удаляет файлы из базы данных
             self.operationTableView.deleteRows(at: [indexPath], with: .middle) // метод удаляет ячейку
         }// Можно предложить пользователю удалить суму из operation tableView
         deleteAction.backgroundColor = whiteThemeRed
@@ -231,5 +213,28 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     
+}
+
+extension OperationViewController: ReloadTableView {
+    func reloadTableView() {
+        operationTableView.reloadData()
+    }
+}
+
+
+
+extension OperationViewController: PopUpProtocol {
+    
+    func closePopUpMenu() {
+        closeChildViewController()
+        operationTableView.reloadData()
+    }
+}
+
+extension OperationViewController: UIPopoverPresentationControllerDelegate{
+
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
 }
 

@@ -106,7 +106,7 @@ extension LineChartContainerViewController: UICollectionViewDelegate, UICollecti
         var accountHistory = [historyStructModel]()
         
         for x in historyObjects {
-            if x.accountIdentifier == account.accountID {
+            if x.accountID == account.accountID {
                 accountHistory.append(historyStructModel(name: x.name, sum: x.sum, date: x.date!))
             }
         }

@@ -14,7 +14,7 @@ class SavingsContainerViewController: UIViewController {
     @IBOutlet var progressBar: ProgressBar!
     
     var savingsModel: MonetaryAccount?
-    var subView = NeoView()
+    
     @IBOutlet var progressLabel: UILabel!
     @objc func receiveObject(_ notification: NSNotification) {
         guard let object = notification.object as? MonetaryAccount else {return}
@@ -37,14 +37,12 @@ class SavingsContainerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        subView.frame = self.view.bounds
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.addSubview(subView)
-        self.view.sendSubviewToBack(subView)
+
         self.view.backgroundColor = .clear
         
         NotificationCenter.default.addObserver(self, selector: #selector(receiveObject(_:)), name: NSNotification.Name(rawValue: "ContainerObject"), object: nil)

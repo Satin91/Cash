@@ -27,4 +27,37 @@ func changeSegmentAnimation (TableView: UITableView, ChangeValue: inout Bool) {
     
 }
 
+var tabbarOrigin: CGPoint! // пока не используется, нужен для фиксации tab bar
+extension UITabBar {
+    
+    func showTabBar() {
+        if self.isHidden == true {
+            self.isHidden = false
+            UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: 1) {
+                    
+                    self.frame.origin.y = self.frame.origin.y - self.frame.height
+
+                }
+        }
+        }
+    }
+    func hideTabBar() {
+        if self.isHidden == false {
+            
+            UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: 1) {
+                    self.frame.origin.y = self.frame.origin.y + self.frame.height
+            } completion: { (true) in
+                self.isHidden = true
+            }
+
+  
+        }
+        
+    
+        }
+}
+}
+
 

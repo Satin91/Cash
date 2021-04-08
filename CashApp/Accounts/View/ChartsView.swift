@@ -90,7 +90,7 @@ class ChartsView: UIView {
         var containsName: [String] = []
         for i in historyObjects {
             containsName.append(i.name)
-            if i.accountIdentifier == cardModel.accountID {
+            if i.accountID == cardModel.accountID {
                 historyObject.insert(i, at: 0)// append почему то добавляет все наоборот
                 containsName.append(i.name)
             }

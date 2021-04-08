@@ -9,25 +9,24 @@
 import UIKit
 import FSCalendar
 import RealmSwift
+
+protocol ReloadTableView{
+    func reloadTableView()
+}
 class AddOperationViewController: UIViewController, UITextFieldDelegate{
     
   
-  
+    var tableReloadDelegate: ReloadTableView!
     
-    
-    @IBOutlet var selectDateView: NeomorphicView!
+    @IBOutlet var doneButton: UIBarButtonItem!
     
     func goToAddVC(restorationIdentifier: String) {
         
     }
     var selectedImageName: String?
-    var newEntityElement = MonetaryEntity()
+    var newCategoryObject = MonetaryCategory()
     var changeValue = true
     let pointBetweenItems = 15
-    var textForUpperLabel = ""
-    var textForMiddleLabel = "" // Переменная для принятия текста из других классов
-    var textForBottomLabel = "" // Переменная для принятия текста из других классов
-    
     ///                OUTLETS
     
     ///             [BLUR, POPUP, COLLECTION]
@@ -35,47 +34,49 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var popUpView: UIView!
     @IBOutlet var collectionView: UICollectionView!
     
-    @IBOutlet var okOutlet: UIButton!
-    //exit в сториборде
-    @IBOutlet var imageView: UIImageView!
+    
+    
     //TextLabels
     @IBOutlet var upperTextLabel: UILabel!
     @IBOutlet var middleTextLabel: UILabel!
     @IBOutlet var bottomTextLabel: UILabel!
+    @IBOutlet var limitLabel: UILabel!
+    //switch
+    @IBAction func isEnabledLimit(_ sender: Any) {
+        if limitSwitch.isOn {
+            limitTextField.isHidden = false
+        }else{
+            limitTextField.isHidden = true
+        }
+        
+    }
+    @IBOutlet var limitSwitch: UISwitch!
     
-    
-    
-    @IBOutlet var selectDateButton: UIButton!
-    @IBOutlet var nameBorderButton: BorderButtonView!
-    @IBOutlet var sumBorderButton: BorderButtonView!
-    @IBOutlet var secondSumBorderButton: BorderButtonView!
-    @IBOutlet var okNeomorph: NeomorphicView!
-    @IBOutlet var segmentedontrolNeomorph: NeomorphicView!
+ 
     
     ///                TEXT FIELDS
     @IBOutlet var nameTextField: UITextField!
-    @IBOutlet var sumTextField: UITextField!
-    @IBOutlet var secondSumTextField: UITextField!
+    @IBOutlet var limitTextField: UITextField!
     
     ///              STACK
     @IBOutlet var stackView: UIStackView!
     ///            ACTION BUTTONS
-    @IBOutlet var segmentedControl: HBSegmentedControl!
     
     
     @IBAction func backButton(_ sender: UIBarButtonItem) {
-       
-    }
-    @IBAction func okAction(_ sender: Any) {
+     //Выход описан в сториборде спомощью unwind
         
-        for i in EnumeratedSequence(array: [expenceObjects]){
-            if i.name == nameTextField.text {
-                print("Такое имя существует!") /// Не знаю нафига исправлять эту ошибку, если все происходит по идентификатору
-            }
-        }
-        saveElement()
     }
-    @IBAction func addIconButton(_ sender: Any) {
+    @IBAction func doneAction(_ sender: Any) {
+        
+        saveElement()
+        tableReloadDelegate.reloadTableView()
+        dismiss(animated: true, completion: nil) // Если модальное окно
+        _ = navigationController?.popViewController(animated: true) //Exit если нет
+        
+    }
+    @IBOutlet var selectImageButton: UIButton!
+    @IBAction func selectImageAction(_ sender: Any) {
         view.animateView(animatedView: blurView, parentView: self.view)
         view.animateView(animatedView: popUpView, parentView: self.view)
         view.endEditing(true) // Это для того случая, если пользователь выберет "Добавить иконку" до того, как скроется клавиатура
@@ -88,114 +89,90 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate{
     ///            IMAGES ARRAY
     let imagesForCollection = ["alcohol", "appliances", "bank", "bankCard", "books", "bowling", "cancel", "car", "carRepair", "carwash", "casino", "cellphone", "charity", "cigarettes", "cinema", "cleaning", "clothes", "construction", "cosmetics", "delivery", "dentist", "drugs", "education", "electricity", "error", "fitness", "flights", "flowers", "food", "fuel", "furniture", "games", "gas", "gifts", "glasses", "goverment", "hello", "hotel", "housing", "identification", "insurancy", "internet", "kids", "laundry", "lock", "luxuries", "magazine", "media", "medicine", "musicalInstruments", "other", "parking", "pets", "pool", "publicTransport", "purchases", "refill", "request", "send", "shoeRepair", "sport", "stadium", "stationery", "taxes", "taxi", "telephone", "tollRoad", "tourism", "toys", "trafficFine", "train", "tv", "unlock", "waterRransport", "withdraw"]
     
-    override func viewDidAppear(_ animated: Bool) {
-        super .viewDidAppear(true)
-        
-        
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.hideTabBar()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.tabBarController?.tabBar.showTabBar()
+    }
+    
+    deinit {
+    }
+    
+    func namesForLabels(){
+        upperTextLabel.text = "Add"
+        bottomTextLabel.text = "category"
+        switch newCategoryObject.stringEntityType {
+        case .income:
+            middleTextLabel.text = "income"
+        case .expence:
+            middleTextLabel.text = "expence"
+        }
+    }
+    
     ///                     View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
         isModalInPresentation = true
+        limitSettings()
+        namesForLabels()
         viewSelection()
         stackViewSettings()
-        upperTextLabel.text = textForUpperLabel
-        middleTextLabel.text = textForMiddleLabel
-        bottomTextLabel.text = textForBottomLabel
-        //okNeomorph.bounds.origin.y = 700
-        okNeomorph.cornerRadius = okNeomorph.bounds.height / 2
-        segmentedControl.changeValuesForCashApp(segmentOne: "To you", segmentTwo: "From you")
-        //navigationItem.setValue("Add", forKey: "title")
+        selectImageButton.setImage(UIImage(named: "card"), for: .normal)
+        selectImageButton.imageView?.contentMode = .scaleAspectFill
+        selectImageButton.mainButtonTheme()
+        
+        ///////
+//        segmentedControl.changeValuesForCashApp(segmentOne: "To you", segmentTwo: "From you")
+        ////
+        
         setupNavigationController(Navigation: self.navigationController!)
         collectionView.clipsToBounds = true
         //Делегаты для collectionView назначены в сториборде
         popUpAndBlurSize()
         whiteThemeColors()
-        okOutlet.isEnabled = false
-        shadows()
+        doneButton.isEnabled = false
         setupButtonsAndFields()
     }
     
+    
     ///               view selection func
     func viewSelection(){
-        switch newEntityElement.stringEntityType {
-        case .approach:
-            sumTextField.isHidden = false
-            sumBorderButton.isHidden = false
-            secondSumTextField.isHidden = true
-            secondSumBorderButton.isHidden = true
-            segmentedControl.isHidden = false
-            segmentedontrolNeomorph.isHidden = false
-            selectDateButton.isHidden = false
-            selectDateView.isHidden = false
-        case .debt :
-            sumTextField.isHidden = false
-            sumBorderButton.isHidden = false
-            secondSumTextField.isHidden = false
-            secondSumBorderButton.isHidden = false
-            segmentedControl.isHidden = true
-            segmentedontrolNeomorph.isHidden = true
-            selectDateButton.isHidden = false
-            selectDateView.isHidden = false
-        case .regular:
-            //sum
-            sumTextField.isHidden = false
-            sumBorderButton.isHidden = false
-            //secondSum
-            secondSumTextField.isHidden = true
-            secondSumBorderButton.isHidden = true
-            //segmented
-            segmentedControl.isHidden = true
-            segmentedontrolNeomorph.isHidden = true
-            //date button
-            selectDateButton.isHidden = false
-            selectDateView.isHidden = false
+        switch newCategoryObject.stringEntityType {
         case .expence:
             //sum
-            sumTextField.isHidden = true
-            sumBorderButton.isHidden = true
-            //secondSum
-            secondSumTextField.isHidden = true
-            secondSumBorderButton.isHidden = true
-            //date button
-            selectDateButton.isHidden = true
-            selectDateView.isHidden = true
-            //segmented
-            segmentedControl.isHidden = true
-            segmentedontrolNeomorph.isHidden = true
+            limitTextField.isHidden = true
         case .income :
-            sumTextField.isHidden = true
-            sumBorderButton.isHidden = true
+            limitTextField.isHidden = true
             //secondSum
-            secondSumTextField.isHidden = true
-            secondSumBorderButton.isHidden = true
-            //date button
-            selectDateButton.isHidden = true
-            selectDateView.isHidden = true
-            //segmented
-            segmentedControl.isHidden = true
-            segmentedontrolNeomorph.isHidden = true
-            
+            limitSwitch.isHidden = true
+            limitLabel.isHidden = true
         }
         
     }
-    
+    func limitSettings() {
+        limitSwitch.isOn = false
+        limitTextField.isHidden = true
+       
+    }
     ///                     TEXT FIELD FUNC
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         nameTextField.resignFirstResponder()
-        sumTextField.resignFirstResponder()
+        limitTextField.resignFirstResponder()
         return false
     }
     func setupButtonsAndFields() {
-        selectDateButton.setTitle("Select date", for: .normal)
         nameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         //nameTextField.placeholder = "Name"
         nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-        sumTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
+        limitTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         
         nameTextField.delegate = self
-        sumTextField.delegate = self
+        limitTextField.delegate = self
     }
     
     //              BLUR SIZE
@@ -208,30 +185,26 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate{
     
     func whiteThemeColors() {
         // labels
-        selectDateButton.setTitleColor(whiteThemeMainText, for: .normal)
-        imageView.setImageColor(color: whiteThemeMainText)
-        okOutlet.setTitleColor(        whiteThemeMainText, for: .normal)
-        okOutlet.setTitleColor(        whiteThemeTranslucentText, for: .disabled)
-        okOutlet.setImageTintColor(whiteThemeTranslucentText)
+        
         //shadow
         nameTextField.textColor =      whiteThemeMainText
-        sumTextField.backgroundColor = .none
-        sumTextField.textColor =       whiteThemeMainText
+        limitTextField.backgroundColor = .none
+        limitTextField.textColor =       whiteThemeMainText
         //text
         middleTextLabel.textColor =    whiteThemeRed
         //collectionView
         collectionView.layer.backgroundColor = .none
         //line
-        popUpView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        popUpView.backgroundColor = .white
         upperTextLabel.textColor = whiteThemeMainText
         middleTextLabel.textColor = whiteThemeRed
         bottomTextLabel.textColor = whiteThemeMainText
         ///Остальные настройки для TextField
         
-        nameTextField.borderStyle = .none
-        sumTextField.borderStyle = .none
+        nameTextField.borderStyle = .roundedRect
+        limitTextField.borderStyle = .roundedRect
         //Остальные view
-        self.view.backgroundColor =  whiteThemeBackground
+        self.view.backgroundColor =  .white
         
         
     }
@@ -244,35 +217,32 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    func shadows() {
-        guard let buttonLabel = selectDateButton.titleLabel else {return}
-        
-        okOutlet.setShadow(view: okOutlet, size: CGSize(width: 1.5, height: 1.5), opacity: 0.4, radius: 4, color: whiteThemeMainText.cgColor)
-        //Добавление лейблам тень
-        buttonLabel.setLabelSmallShadow(label: buttonLabel)
-        upperTextLabel.setLabelMiddleShadow(label: upperTextLabel)
-        middleTextLabel.setLabelMiddleShadow(label: middleTextLabel)
-        bottomTextLabel.setLabelMiddleShadow(label: bottomTextLabel)
-        
+    ///Проверка на пустую строку
+    @objc private func textFieldChanged() {
+        if nameTextField.text?.isEmpty == false {
+            doneButton.isEnabled = true
+        } else {
+            doneButton.isEnabled = false
+        }
     }
     
     // Сохраняет элементы в базу
     func saveElement(){
-        guard (nameTextField.text?.isEmpty) != nil else {return} //Проверка на всякий случай на присутствие текста
-        if ((secondSumTextField.text?.isEmpty) != nil) {
-            secondSumTextField.text = "0"
+
+        switch limitSwitch.isOn {
+        case true:
+            newCategoryObject.name = nameTextField.text!
+            newCategoryObject.limit = Double(limitTextField.text!)!
+        case false:
+            newCategoryObject.name = nameTextField.text!
         }
-        addObject(text: nameTextField.text!, image: selectedImageName, sum: Double(sumTextField.text!), secondSum: Double(secondSumTextField.text!), type: MonetaryType(rawValue: newEntityElement.accountType)!)
+        
+        newCategoryObject.isEnabledLimit = limitSwitch.isOn
+        DBManager.addCategoryObject(object: newCategoryObject)
     }
     
-    ///Проверка на пустую строку
-    @objc private func textFieldChanged() {
-        if nameTextField.text?.isEmpty == false {
-            okOutlet.isEnabled = true
-        } else {
-            okOutlet.isEnabled = false
-        }
-    }
+    
+  
 }
 
 
@@ -308,7 +278,7 @@ extension AddOperationViewController: UICollectionViewDelegateFlowLayout, UIColl
         let image = imagesForCollection[indexPath.row]
         let selectedImage = UIImage(named: image)
         selectedImageName = image
-        imageView.image = selectedImage
+        selectImageButton.setImage(selectedImage, for: .normal)
         
         view.reservedAnimateView(animatedView: popUpView, viewController: nil)
         view.reservedAnimateView(animatedView: blurView, viewController: nil)

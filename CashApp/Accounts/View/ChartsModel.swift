@@ -29,7 +29,7 @@ extension AAChartModel {
         var chartSeries = [AASeriesElement()]
         var sumArray: [Double] = []
         for i in historyObjects {
-            if i.accountIdentifier == object.accountID{
+            if i.accountID == object.accountID{
                 sumArray.append(i.sum)
             }
             chartSeries.append(AASeriesElement()

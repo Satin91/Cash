@@ -16,9 +16,9 @@ class PickTypePopUpViewController: UIViewController{
     var buttonsNames = [String]()
     var goingTo: String = ""
 
-    
+ 
     deinit {
-        print("PickTypePopUpViewController did closed")
+        
     }
     @IBAction func goToAddVC(_ sender: UIButton) {
     
@@ -27,18 +27,21 @@ class PickTypePopUpViewController: UIViewController{
             dismiss(animated: true, completion: nil)
             delegate.dismissVC(goingTo: "addAccountVC", restorationIdentifier: sender.restorationIdentifier!)
          
-        case "addVC" :
+        case "addCategoryVC" :
             dismiss(animated: true, completion: nil)
-            delegate.dismissVC(goingTo: "addVC", restorationIdentifier: sender.restorationIdentifier!)
+            delegate.dismissVC(goingTo: "addCategoryVC", restorationIdentifier: sender.restorationIdentifier!)
            
         default:
             break
         } 
     }
     
-    @IBOutlet var upperButton: UIButton!
-    @IBOutlet var middleButton: UIButton!
-    @IBOutlet var bottomButton: UIButton!
+   
+    
+        
+    @IBOutlet var firstButton: UIButton!
+    
+    @IBOutlet var secondbutton: UIButton!
     
     @IBAction func bottomButton(_ sender: Any) {
     }
@@ -47,27 +50,31 @@ class PickTypePopUpViewController: UIViewController{
         dismiss(animated: true, completion: nil)
     }
   
-    @IBOutlet var popUpView: UIView!
-    
     @IBAction func pickGesture(_ sender: UITapGestureRecognizer) {
         dismiss(animated: true, completion: nil)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
- 
+        
     }
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let navigationController = self.navigationController else {return}
         setupNavigationController(Navigation: navigationController)
         buttonsName()
         isModalInPresentation = false
-        popUpSettings()
+        blurView.frame = self.view.bounds
+        //self.view.addSubview(blurView)
+        self.view.backgroundColor = .clear
+        blurView.backgroundColor = .clear
+        
+        
     }
     func buttonsName(){
-        upperButton.setTitle(buttonsNames[0], for: .normal)
-        middleButton.setTitle(buttonsNames[1], for: .normal)
-        bottomButton.setTitle(buttonsNames[2], for: .normal)
+        firstButton.setTitle(buttonsNames[0], for: .normal)
+        secondbutton.setTitle(buttonsNames[1], for: .normal)
+       // bottomButton.setTitle(buttonsNames[2], for: .normal)
     }
 
 
@@ -75,11 +82,7 @@ class PickTypePopUpViewController: UIViewController{
         dismiss(animated: true, completion: nil)
     }
     
-    fileprivate func popUpSettings() {
-        popUpView.backgroundColor = whiteThemeBackground
-        popUpView.layer.cornerRadius = 16
-        popUpView.setShadow(view: popUpView, size: CGSize(width: 8 , height: 8), opacity: 0.6, radius: 12, color: whiteThemeMainText.cgColor)
-    }
+ 
     
     
 }

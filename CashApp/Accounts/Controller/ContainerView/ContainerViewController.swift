@@ -26,7 +26,7 @@ class ContainerViewController: UIViewController {
             
             UIView.animate(withDuration: 0.1) {
                 
-                if object.accountType == AccountType.card.rawValue || object.accountType == AccountType.cash.rawValue{
+                if object.accountType == AccountType.ordinary.rawValue{
                     self.lineChartContainer.alpha = 1
                 }else{
                     
@@ -44,7 +44,9 @@ class ContainerViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .clear
+        self.view.backgroundColor = .systemGray6
+        self.view.layer.cornerRadius = 20
+        self.view.layer.cornerCurve = .continuous
         savingsContainer.alpha = 0
         lineChartContainer.alpha = 0
         NotificationCenter.default.addObserver(self, selector: #selector(receiveObject), name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)

@@ -13,10 +13,9 @@ class QuickTableView: UIView {
     
    
     var tableView: UITableView!
-    var neoView = NeoView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        neoView = NeoView(frame: frame)
         
         
         tableView = UITableView(frame: frame, style: .plain)
@@ -24,11 +23,8 @@ class QuickTableView: UIView {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
         self.backgroundColor = .clear
-        neoView.addSubview(tableView)
-        
-        self.addSubview(neoView)
-        initConstraints(view: tableView, to: neoView)
-        initConstraints(view: neoView, to: self)
+        self.addSubview(tableView)
+        initConstraints(view: tableView, to: self)
         
         
 

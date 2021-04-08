@@ -53,7 +53,7 @@ class TableViewCell: UITableViewCell {
         self.headerLabel?.text = object.name
         guard descriptionLabel != nil else {return}
         if object.date != nil {
-            self.descriptionLabel?.text = todayDateToString(date: object.date!)
+            self.descriptionLabel?.text = dateToString(date: object.date!)
         }else{
             descriptionLabel.text = "Balance"
         }
@@ -63,27 +63,27 @@ class TableViewCell: UITableViewCell {
         }else{ userImage.image = UIImage(named: "card")}
     }
     
-    func set(object: MonetaryEntity) {
-        self.headerLabel?.text = object.name
-        guard descriptionLabel != nil else {return}
-        if object.date != nil {
-            self.descriptionLabel?.text = todayDateToString(date: object.date!)
-        }else{
-            descriptionLabel.text = "Balance"
-        }
-        self.sumLabel?.text = String(object.sum.currencyFR)
-        if let imageData = object.image {
-            userImage.image = UIImage(named: object.image!)
-        }else{ userImage.image = UIImage(named: "card")}
-        guard let typeLabel = typeLabel else {return}
-        typeLabel.text = object.initType()
-    }
+//    func set(object: MonetaryCategory) {
+//        self.headerLabel?.text = object.name
+//        guard descriptionLabel != nil else {return}
+//        if object.date != nil {
+//            self.descriptionLabel?.text = dateToString(date: object.date!)
+//        }else{
+//            descriptionLabel.text = "Balance"
+//        }
+//        self.sumLabel?.text = String(object.sum.currencyFR)
+//        if let imageData = object.image {
+//            userImage.image = UIImage(named: object.image)
+//        }else{ userImage.image = UIImage(named: "card")}
+//        guard let typeLabel = typeLabel else {return}
+//        typeLabel.text = object.initType()
+//    }
     
     func setAccount(object: MonetaryAccount) {
         self.headerLabel?.text = object.name
         guard descriptionLabel != nil else {return}
         if object.date != nil {
-            self.descriptionLabel?.text = todayDateToString(date: object.date!)
+            self.descriptionLabel?.text = dateToString(date: object.date!)
         }else{
             descriptionLabel.text = "Balance"
         }
