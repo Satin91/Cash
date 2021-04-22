@@ -55,7 +55,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var payObject: MonetaryCategory?
     var payObject2: Any!
     ///             TEXT FIELD
-    var popUpTextField =  NumberTextField()
+    var popUpTextField = NumberTextField()
     
     @IBAction func cancelAction(_ sender: Any) {
         popUpTextField.text = ""
@@ -95,7 +95,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         scrollView.addSubview(buttonLabel)
         scrollView.addSubview(popUpTextField)
         //addGradient(label: buttonLabel)
-        calendar.calendarView.delegate = self
+        calendar.delegate = self
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
         //registerForNotifications()
@@ -189,10 +189,11 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         historyObject.date = self.date
         historyObject.accountID = withoutAccountObject.accountID
         historyObject.sum = Double(popUpTextField.enteredSum)!
-        
+
         guard selectedAccountObject != nil else{
             DBManager.addHistoryObject(object: historyObject)
             return}
+        //Если счет выбран
         historyObject.accountID = selectedAccountObject!.accountID
         try! realm.write {
 

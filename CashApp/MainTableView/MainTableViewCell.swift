@@ -28,8 +28,10 @@ class MainTableViewCell: UITableViewCell {
     
     func toSchedule(schedule: MonetaryScheduler) {
         primaryLabel.text = schedule.name
-        secondaryLabel.text = "Balance"
+        guard let date = schedule.date else {return}
+        secondaryLabel.text = dateToString(date: date)
         monetaryImage.image = UIImage(named: schedule.image)
+        
     }
     
     func toHistory(history: AccountsHistory) {

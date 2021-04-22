@@ -101,7 +101,7 @@ class MonetaryScheduler: Object {
     @objc dynamic var balance: Double = 0
     @objc dynamic var sumPerTime: Double = 0
     @objc dynamic var date: Date?
-    @objc dynamic var dateRhytm: Int = 0
+    @objc dynamic var dateRhythm: Int = DateRhythm.none.rawValue
     @objc dynamic var image: String = "card"
     @objc dynamic var isUseForTudayBalance = true
     @objc dynamic var scheduleType: Int = ScheduleType.oneTime.rawValue
@@ -110,10 +110,14 @@ class MonetaryScheduler: Object {
         get { return ScheduleType(rawValue: scheduleType)! }
         set { scheduleType = newValue.rawValue }
         }
+    var stringDateRhythm: DateRhythm {
+        get { return DateRhythm(rawValue: dateRhythm)!}
+        set { dateRhythm = newValue.rawValue}
+    }
     override static func primaryKey() -> String? {
         return "scheduleID"
     }
-    convenience init(name: String,sum: Double,balance:Double,sumPerTime:Double,date:Date?,dateRhytm:Int?,image: String,isUseForTudayBalance: Bool,scheduleType:ScheduleType?) {
+    convenience init(name: String,sum: Double,balance:Double,sumPerTime:Double,date:Date?,dateRhytm:Int?,image: String,isUseForTudayBalance: Bool,scheduleType:ScheduleType,dateRhythm: DateRhythm) {
         self.init()
         self.name = name
         self.image = image
@@ -122,19 +126,18 @@ class MonetaryScheduler: Object {
         self.sumPerTime = sumPerTime
         self.date = date
         self.isUseForTudayBalance = isUseForTudayBalance
-        if let typeSC = scheduleType?.rawValue{
-        self.scheduleType = typeSC
-        }else {print("Вернулся nil, Model viw controller")}
+        self.scheduleType = scheduleType.rawValue
+        self.dateRhythm = dateRhythm.rawValue
     }
-    func initType() -> String {
-        var text = ""
-        switch scheduleType{
-        case 1 : text = "OneTime"
-        case 2 : text = "Regular"
-        default:break
-        }
-        return text
-    }
+//    func initType() -> String {
+//        var text = ""
+//        switch scheduleType{
+//        case 1 : text = "OneTime"
+//        case 2 : text = "Regular"
+//        default:break
+//        }
+//        return text
+//    }
 }
 
 
@@ -157,6 +160,7 @@ extension MonetaryCategory {
     }
 
 
+
 enum CategoryType: Int {
     case expence = 1
     case income = 2
@@ -170,7 +174,11 @@ enum ScheduleType: Int {
     case regular = 2
 }
 
-
+enum DateRhythm: Int {
+    case none = 0
+    case week = 1
+    case month = 2
+}
 
 
 

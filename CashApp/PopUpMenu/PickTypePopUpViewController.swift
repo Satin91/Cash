@@ -23,14 +23,12 @@ class PickTypePopUpViewController: UIViewController{
     @IBAction func goToAddVC(_ sender: UIButton) {
     
         switch goingTo {
-        case "addAccountVC" :
-            dismiss(animated: true, completion: nil)
-            delegate.dismissVC(goingTo: "addAccountVC", restorationIdentifier: sender.restorationIdentifier!)
-         
         case "addCategoryVC" :
             dismiss(animated: true, completion: nil)
             delegate.dismissVC(goingTo: "addCategoryVC", restorationIdentifier: sender.restorationIdentifier!)
-           
+        case "addScheduleVC" :
+            dismiss(animated: true, completion: nil)
+            delegate.dismissVC(goingTo: "addScheduleVC", restorationIdentifier: sender.restorationIdentifier!)
         default:
             break
         } 
@@ -68,6 +66,7 @@ class PickTypePopUpViewController: UIViewController{
         //self.view.addSubview(blurView)
         self.view.backgroundColor = .clear
         blurView.backgroundColor = .clear
+        
         
         
     }

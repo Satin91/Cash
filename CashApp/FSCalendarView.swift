@@ -8,28 +8,25 @@
 
 import UIKit
 import FSCalendar
-class FSCalendarView: UIView {
+class FSCalendarView: FSCalendar {
 
-    var calendarView: FSCalendar!
+   
     override init(frame: CGRect) {
         super.init(frame: frame)
-        calendarView = FSCalendar(frame: frame)
         calendarSettings()
-        calendarView.scrollDirection = .vertical
-        self.addSubview(calendarView)
-        initConstraints(view: calendarView, to: self)
+        self.scrollDirection = .vertical
     }
     
     func calendarSettings() {
-        calendarView.appearance.titlePlaceholderColor = whiteThemeTranslucentText
+        self.appearance.titlePlaceholderColor = whiteThemeTranslucentText
         
 //        calendarView.appearance.headerDateFormat = DateFormatter.dateFormat(fromTemplate: "D", options: 0, locale: .current)
-        calendarView.appearance.titleTodayColor = whiteThemeBackground
-        calendarView.appearance.titleDefaultColor = whiteThemeMainText
-        calendarView.appearance.titleWeekendColor = whiteThemeRed
-        calendarView.appearance.headerTitleColor = whiteThemeRed
-        calendarView.appearance.weekdayTextColor = whiteThemeTranslucentText
-        calendarView.firstWeekday = 2
+        self.appearance.titleTodayColor = whiteThemeBackground
+        self.appearance.titleDefaultColor = whiteThemeMainText
+        self.appearance.titleWeekendColor = whiteThemeRed
+        self.appearance.headerTitleColor = whiteThemeRed
+        self.appearance.weekdayTextColor = whiteThemeTranslucentText
+        self.firstWeekday = 2
         
     }
     

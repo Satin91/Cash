@@ -11,7 +11,6 @@ import UIKit
 class ProgressBar: UIView {
  
     
-    var neo = NeoView()
     var sizeView = UIView()
     
     

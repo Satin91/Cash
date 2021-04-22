@@ -91,7 +91,7 @@ func fetchSchedulers(scheduleType: Int) ->Results<MonetaryScheduler> {
 
 
 
-var accountObjectsToSave = [MonetaryAccount(name: "MyCard", balance: 2547, targetSum: 0, date: nil, imageForAccount: "account1", imageForCell: "card", accountType: .ordinary, isMainAccount: true),MonetaryAccount(name: "Savings on new phone!", balance: 25, targetSum: 3750, date: nil, imageForAccount: "cash", imageForCell: "cash", accountType: .savings, isMainAccount: false)]
-var schedulerObjectsToSave = [MonetaryScheduler(name: "Schedyle", sum: 1450, balance: 0, sumPerTime: 0, date: Date(), dateRhytm: nil, image: "savings", isUseForTudayBalance: true, scheduleType: .oneTime)]
-var categoryObjectToSave = [MonetaryCategory(name: "Expence", sum: 15, limit: 0, limitBalance: 0, image: "card", categoryType: .expence),MonetaryCategory(name: "Income", sum: 15, limit: 0, limitBalance: 0, image: "savings", categoryType: .income)]
+//var accountObjectsToSave = [MonetaryAccount(name: "MyCard", balance: 2547, targetSum: 0, date: nil, imageForAccount: "account1", imageForCell: "card", accountType: .ordinary, isMainAccount: true),MonetaryAccount(name: "Savings on new phone!", balance: 25, targetSum: 3750, date: nil, imageForAccount: "cash", imageForCell: "cash", accountType: .savings, isMainAccount: false)]
+//var schedulerObjectsToSave = [MonetaryScheduler(name: "Schedyle", sum: 1450, balance: 0, sumPerTime: 0, date: Date(), dateRhytm: nil, image: "savings", isUseForTudayBalance: true, scheduleType: .oneTime)]
+//var categoryObjectToSave = [MonetaryCategory(name: "Expence", sum: 15, limit: 0, limitBalance: 0, image: "card", categoryType: .expence),MonetaryCategory(name: "Income", sum: 15, limit: 0, limitBalance: 0, image: "savings", categoryType: .income)]
 

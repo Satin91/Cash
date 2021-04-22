@@ -14,10 +14,17 @@ class NumberTextField: UITextField,UITextFieldDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        commonInit()
+    }
+
+    func commonInit() {
+        self.backgroundColor = .clear
+        self.textAlignment = .center
+        self.borderStyle = .roundedRect
         self.delegate = self
         self.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
     }
-
+    
 
     var commaIsPressed = false
     @objc func textFieldChanged() {
@@ -62,6 +69,7 @@ class NumberTextField: UITextField,UITextFieldDelegate {
         return allowedCharacters.isSuperset(of: characterSet)
     }
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        commonInit()
     }
 }

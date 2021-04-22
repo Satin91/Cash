@@ -125,8 +125,8 @@ func EnumeratedSchedulers(object: [Results<MonetaryScheduler>]) -> [MonetarySche
     for (_, index) in object.enumerated() {
         monetaryArray.append(contentsOf: index)
     }
-     return monetaryArray
-    }
+    return monetaryArray
+}
 
 
 //MARK: anyOptions
@@ -271,6 +271,17 @@ extension UIView {
                 
             }
     }
+    
+    func reservedAnimateView2(animatedView: UIView){
+        //start the animation
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
+            animatedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            animatedView.alpha = 0}completion: { _ in
+                
+                animatedView.removeFromSuperview()
+                
+            }
+    }
     func selectivelyRoundedRadius(usingCorners: UIRectCorner, radius: CGSize, view: UIView) {
         let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: usingCorners, cornerRadii: radius)
         let maskLayer = CAShapeLayer()
@@ -364,7 +375,7 @@ extension UIButton{
         self.tintColor = color
     }
     
-  
+    
     func mainButtonTheme() {
         self.layer.cornerRadius = 25
         self.layer.cornerCurve = .continuous
@@ -374,7 +385,7 @@ extension UIButton{
         self.layer.borderColor = UIColor.systemGray2.cgColor
         
     }
-
+    
 }
 
 
@@ -452,6 +463,48 @@ func initConstraints(view: UIView, to: UIView) {
     view.bottomAnchor.constraint(equalTo: to.bottomAnchor).isActive = true
     view.centerYAnchor.constraint(equalTo: to.centerYAnchor).isActive = true
 }
-//MARK: Keyboard settings
+///MARK: Present Pop ip view controller
+func goToPickTypeVC(delegateController: UIViewController,buttonsNames: [String],goingTo: String) {
+    let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
+    pickTypeVC.buttonsNames = buttonsNames
+    pickTypeVC.goingTo = goingTo
+    pickTypeVC.delegate = delegateController as? dismissVC
+    
+    let navVC = UINavigationController(rootViewController: pickTypeVC)
+    navVC.modalPresentationStyle = .popover
+    let popVC = navVC.popoverPresentationController
+    popVC?.delegate = delegateController as? UIPopoverPresentationControllerDelegate
+    let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
+    popVC?.sourceView = barButtonView
+    popVC?.sourceRect = barButtonView!.bounds
+    pickTypeVC.preferredContentSize = CGSize(width: 200, height: 150)
+    delegateController.present(navVC, animated: true, completion: nil)
+}
 
 
+
+func goToSelectDateVC(delegateController: UIViewController,schedulerObject: MonetaryScheduler, sourseView: UIView) {
+    let selectDateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "selectDateVC") as! SelectDateCalendarPopUpViewController
+    // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
+    selectDateVC.schedulerObject = schedulerObject
+    let navVC = UINavigationController(rootViewController: selectDateVC)
+    navVC.modalPresentationStyle = .popover
+    let popVC = navVC.popoverPresentationController
+    popVC?.delegate = delegateController as? UIPopoverPresentationControllerDelegate
+    //let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
+    popVC?.sourceView = sourseView
+    popVC?.sourceRect = sourseView.bounds
+    selectDateVC.preferredContentSize = CGSize(width: 200, height: 150)
+    delegateController.present(navVC, animated: true, completion: nil)
+}
+
+///MARK: Alert controller
+
+extension UIViewController {
+    func showAlert(message: String, title: String = "") {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+}

@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 
 
+
 class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC {
     
     
@@ -48,6 +49,8 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
     ///             POPUP VIEW
     @IBOutlet var blurView: UIVisualEffectView!
     ///             ACTIONS
+    
+
     @IBAction func addButton(_ sender: Any) {
         //addVC
         let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
@@ -63,8 +66,8 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         popVC?.sourceView = barButtonView
         popVC?.sourceRect = barButtonView!.bounds
         pickTypeVC.preferredContentSize = CGSize(width: 200, height: 150)
-        // Передача данных описана в классе PickTypePopUpViewController
         present(navVC, animated: true, completion: nil)
+        // Передача данных описана в классе PickTypePopUpViewController
         guard popViewController != nil else {return}
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
             self.closeChildViewController()
@@ -76,7 +79,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         super.viewDidAppear(true)
         operationTableView.reloadData()
         self.tabBarController?.tabBar.showTabBar()
-        print("operationview did appear")
+        print("operationview did appear operationVC")
         //При переходе через таб бар обновления не происходят
     }
     
@@ -127,14 +130,6 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         popViewController = nil // Это нужно для того, чтобы снова его открыть. Потому что в открытии стоит условие
         self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
         
-    }
-    
-    // Переход на экран добавления объекта
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toAddVC"{
-            let addSpandingVC = segue.destination as! AddOperationViewController
-            addSpandingVC.changeValue = self.changeValue
-        }
     }
     
     
