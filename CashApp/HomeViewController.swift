@@ -34,18 +34,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         historyTableView.separatorStyle = .none
         historyTableView.backgroundColor = .clear
         navigationItem.setValue("March, 13", forKey: "title")
-        navigationController!.navigationBar.tintColor = whiteThemeMainText // не работае почему то, потому ято наверно стоит следом функция
+        navigationController!.navigationBar.tintColor = whiteThemeMainText // не работае почему то, потому что наверно стоит следом функция
         setupNavigationController(Navigation: navigationController!)
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
-//        try! realm.write {
-//            realm.add(accountObjectsToSave)
-//        }
-//        try! realm.write {
-//            realm.add(schedulerObjectsToSave)
-//        }
-//        try! realm.write {
-//            realm.add(categoryObjectToSave)
-//        }
         self.view.backgroundColor = .white
     }
    
@@ -138,7 +129,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //Методы для изменения суммы в категориях
         for i in EnumeratedSequence(array: categoryGroup){
-            if object.monetaryID == i.categoryID {
+            if object.categoryID == i.categoryID {
                 let localSum = object.sum > 0 ? 0 - object.sum :  object.sum // Небольшое условия для локального отражения числа
                
                 
@@ -152,9 +143,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         for i in EnumeratedSchedulers(object: schedulerGroup){
-            if  object.monetaryID == i.scheduleID {
+            if  object.categoryID == i.scheduleID {
                 try! realm.write {
-                    i.balance -= object.sum
+                    i.available -= object.sum
                     realm.add(i, update: .all)
             }
 

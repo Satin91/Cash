@@ -40,9 +40,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     
     
     //TextLabels
-    @IBOutlet var upperTextLabel: UILabel!
-    @IBOutlet var middleTextLabel: UILabel!
-    @IBOutlet var bottomTextLabel: UILabel!
+    @IBOutlet var headingTextLabel: UILabel!
     @IBOutlet var limitLabel: UILabel!
     //switch
     @IBAction func isEnabledLimit(_ sender: Any) {
@@ -87,7 +85,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         iconsCollectionView = IconsCollectionView(frame: self.view.bounds)
         iconsCollectionView.sendImageDelegate = self
         self.view.addSubview(iconsCollectionView)
-        view.animateView(animatedView: iconsCollectionView, parentView: self.view)
+        view.animateViewWithBlur(animatedView: iconsCollectionView, parentView: self.view)
         
     }
     
@@ -106,13 +104,12 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     
     
     func namesForLabels(){
-        upperTextLabel.text = "Add"
-        bottomTextLabel.text = "category"
+        
         switch newCategoryObject.stringEntityType {
         case .income:
-            middleTextLabel.text = "income"
+            headingTextLabel.text = "Add\nincome\ncategory"
         case .expence:
-            middleTextLabel.text = "expence"
+            headingTextLabel.text = "Add\nexpence\ncategory"
         }
     }
     
@@ -120,6 +117,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     override func viewDidLoad() {
         super.viewDidLoad()
         isModalInPresentation = true
+        headingTextLabel.numberOfLines = 0
         limitSettings()
         namesForLabels()
         stackViewBasedCategory()
@@ -185,15 +183,9 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         nameTextField.textColor =      whiteThemeMainText
         limitTextField.backgroundColor = .none
         limitTextField.textColor =       whiteThemeMainText
-        //text
-        middleTextLabel.textColor =    whiteThemeRed
-        //collectionView
-        
         //line
         
-        upperTextLabel.textColor = whiteThemeMainText
-        middleTextLabel.textColor = whiteThemeRed
-        bottomTextLabel.textColor = whiteThemeMainText
+        headingTextLabel.textColor = whiteThemeMainText
         ///Остальные настройки для TextField
         
         nameTextField.borderStyle = .roundedRect

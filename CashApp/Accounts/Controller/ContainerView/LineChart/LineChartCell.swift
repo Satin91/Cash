@@ -21,6 +21,7 @@ class LineChartCell: UICollectionViewCell {
         model.title = ""
         model.subtitle = ""
         model.tooltipValueSuffix("USD")
+        model.tooltipCrosshairs = false
         model.chartType(.spline)
         model.dataLabelsEnabled = false
         model.xAxisTitle = ""
@@ -35,7 +36,7 @@ class LineChartCell: UICollectionViewCell {
         model.yAxisGridLineWidth = 0
       //  model.stacking(.none)
         
-        model.margin(top: 10, right: 10, bottom: 0, left: 10)
+        model.margin(top: 10, right: 10, bottom: 40, left: 10)
         
         return model
     }()
@@ -119,10 +120,6 @@ class LineChartCell: UICollectionViewCell {
     
     
     func elementVisualSettings(element: AASeriesElement) {
-        element.lineWidth = 4
-        var shadow = AAShadow()
-        shadow.offsetX = 2
-        shadow.offsetY = 2
-        element.shadow(shadow)
+        element.lineWidth = 2
     }
 }

@@ -16,14 +16,6 @@ class AddAccountViewController: UIViewController {
     var indexForImage: IndexPath = [0,0]
     //Border neo bouds for textFields
 
-    func namesForLabels(){
-        switch newAccountObject.stringAccountType {
-        case .ordinary:
-            middleTextLabel.text = "ordynary"
-        case .savings :
-            middleTextLabel.text = "savings"
-        }
-    }
     var scrollToNewAccountDelegate: scrollToNewAccount!
     @IBOutlet var collectionView: UICollectionView! // Делегат и источник назначены в сториборде
     
@@ -43,12 +35,10 @@ class AddAccountViewController: UIViewController {
  
     var newAccountObject = MonetaryAccount()
     //TextLabels
-    @IBOutlet var upperTextLabel : UILabel!
-    @IBOutlet var middleTextLabel : UILabel!
-    @IBOutlet var bottomTextLabel : UILabel!
+    @IBOutlet var headingTextLabel : UILabel!
     //TextFields
     @IBOutlet var nameTextField : UITextField!
-    @IBOutlet var balanceTextField : UITextField!
+    @IBOutlet var balanceTextField : NumberTextField!
     //Outlets
     @IBOutlet var selectDateButtonOutlet: UIButton!
     //Actions
@@ -68,7 +58,7 @@ class AddAccountViewController: UIViewController {
         setColorTheme()
         visualSettings()
         setTextForViewElements()
-        namesForLabels()
+        
     }
     func saveElement(){
         newAccountObject.imageForAccount = accountsImages[indexForImage.row]
@@ -92,8 +82,8 @@ class AddAccountViewController: UIViewController {
         navigationItem.rightBarButtonItem?.title = "Create"
         navigationItem.leftBarButtonItem?.title = "Cancel"
         //Labels
-        upperTextLabel.text = "Add"
-        bottomTextLabel.text = "account"
+        headingTextLabel.numberOfLines = 0
+        headingTextLabel.text = "Add \nnew\naccount"
     }
     
     
@@ -122,9 +112,8 @@ class AddAccountViewController: UIViewController {
     func setColorTheme() {
         self.view.backgroundColor = whiteThemeBackground
         self.collectionView.backgroundColor = .none
-        upperTextLabel.textColor = whiteThemeMainText
-        middleTextLabel.textColor = whiteThemeRed
-        bottomTextLabel.textColor = whiteThemeMainText
+        headingTextLabel.textColor = whiteThemeMainText
+
         
     }
     
@@ -175,17 +164,6 @@ extension AddAccountViewController: UICollectionViewDelegate,UICollectionViewDat
         cell.accountImageView.image = UIImage(named: images)
         cell.accountImageView.layer.cornerRadius = 20
         cell.accountImageView.clipsToBounds = true
-        //collectionView.layer.masksToBounds = false
-        //cell.accountImageView.setImageShadow(image: cell.accountImageView)
-        //        shadow.frame = cell.accountImageView.bounds
-        //        shadow.cornerRadius = 20
-        //        shadow.backgroundColor = UIColor.white.cgColor
-        //        shadow.shadowColor = #colorLiteral(red: 0.5019607843, green: 0.5960784314, blue: 0.6666666667, alpha: 1)
-        //        shadow.shadowOffset = CGSize(width: 2, height: 2) // Размер
-        //        shadow.shadowOpacity = 1
-        //        shadow.shadowRadius = 4 //Радиус
-        
-        // self.view.layer.insertSublayer(shadow, at: 1)
         return cell
     }
     

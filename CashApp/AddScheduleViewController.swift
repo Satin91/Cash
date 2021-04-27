@@ -7,18 +7,19 @@
 //
 import FSCalendar
 import UIKit
-
+import RealmSwift
 class AddScheduleViewController: UIViewController {
     
     
     var reloadParentTableView: ReloadTableView!
     // @IBOutlet var nameTextField: NumberTextField!
     
+    @IBOutlet var headingTextLabel: UILabel!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var totalSumTextField: NumberTextField!
     @IBOutlet var sumPerTimeTextField: NumberTextField!
     var dateRhythm: DateRhythm = .week
-    
+    var payArray = [PayPerTime]() // Используется в записи платежных данных
     @IBOutlet var scrollView: UIScrollView! // Нужен только для отмены скролинга в случае выбора одноразовой операции
     
     
@@ -38,14 +39,14 @@ class AddScheduleViewController: UIViewController {
         iconsCollectionView = IconsCollectionView(frame: self.view.bounds)
         iconsCollectionView.sendImageDelegate = self
         self.view.addSubview(iconsCollectionView)
-        view.animateView(animatedView: iconsCollectionView, parentView: self.view)
+        view.animateViewWithBlur(animatedView: iconsCollectionView, parentView: self.view)
     }
     @IBOutlet var segmentedControl: HBSegmentedControl!
     @IBOutlet var selectDateButtonOutlet: UIButton!
     @IBOutlet var selectImageButtonOutlet: UIButton!
     @IBAction func selectDateButtonAction(_ sender: Any) {
-        self.view.animateView(animatedView: blurView, parentView: self.view)
-        self.view.animateView(animatedView: calendar, parentView: self.view)
+        self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
+        self.view.animateViewWithBlur(animatedView: calendar, parentView: self.view)
     }
     @IBOutlet var stackView: UIStackView! //для редактирования расстояния для четчайшести
     @IBOutlet var doneButtonOutlet: UIBarButtonItem!
@@ -77,6 +78,7 @@ class AddScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         calendar.delegate = self
+        headingTextLabel.numberOfLines = 0
         segmentedControl.changeValuesForCashApp(segmentOne: "Week", segmentTwo: "Month")
         checkScheduleType()
         setupCalendarAndBlur()
@@ -122,10 +124,12 @@ class AddScheduleViewController: UIViewController {
     func checkScheduleType() {
         switch newScheduleObject.stringScheduleType{
         case .oneTime :
+            headingTextLabel.text = "Add\none time\nschedule"
             sumPerTimeTextField.isHidden = true
             segmentedControl.isHidden = true
             scrollView.isScrollEnabled = false
         case .regular :
+            headingTextLabel.text = "Add\nregular\nschedule"
             break
         }
     }
@@ -149,14 +153,78 @@ class AddScheduleViewController: UIViewController {
     }
     
     
+   
     
+    func savePayPerTime() {
+        let targetSum = newScheduleObject.target
+        let sumPerTime = newScheduleObject.sumPerTime
+        let resultNumbersAndRemainder: (Int, Double?) = getNumberOfMonts(targetSum: targetSum, sumPerTime: sumPerTime)
+        if newScheduleObject.stringScheduleType == .regular {
+        writeRegularPayPerTime(numberOfMonth: resultNumbersAndRemainder.0, remainingSum: resultNumbersAndRemainder.1)
+        }
+    }
+    
+    
+
+    func writeOneTimePayPerTime() {
+        let payperTimeObject = PayPerTime()
+        payperTimeObject.scheduleName = newScheduleObject.name
+        payperTimeObject.date = newScheduleObject.date!
+        payperTimeObject.available = 0
+        payperTimeObject.scheduleID = newScheduleObject.scheduleID
+        payperTimeObject.sumPerTime = newScheduleObject.target
+        try! realm.write {
+            realm.add(payperTimeObject)
+        }
+    }
+    func writeRegularPayPerTime(numberOfMonth: Int, remainingSum: Double?){
+        var iterationDate = date //дата с которой нужно работать в цикле
+        let object = newScheduleObject
+        var counter = 0 //счетчик
+        
+        
+        
+        for _ in 0..<numberOfMonth {
+            counter += 1
+            if counter == numberOfMonth { // Если итерация послелняя т.е. соответствует количеству месяцев
+                if remainingSum != nil {
+                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, available: 0, sumPerTime: remainingSum!, scheduleID: object.scheduleID))
+                }else{
+                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, available: 0, sumPerTime: object.sumPerTime, scheduleID: object.scheduleID))
+                }
+            }else{
+                payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, available: 0, sumPerTime: object.sumPerTime, scheduleID: object.scheduleID))
+                let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: iterationDate!)
+            iterationDate = nextMonth
+            }
+            ///Занести payArray в базу
+            for i in payArray {
+                try! realm.write {
+                    realm.add(i)
+                }
+            }
+        }
+    }
+    func getNumberOfMonts(targetSum: Double, sumPerTime: Double) -> (Int,Double?) {
+        let remainderDivision = targetSum.truncatingRemainder(dividingBy: sumPerTime) //remainder division
+        let divisionWithoutRemainder = targetSum / sumPerTime //division without remainder
+        var numberOfMonth: Int = 0
+        if remainderDivision != sumPerTime {
+            numberOfMonth = Int(divisionWithoutRemainder.rounded(.up)) // round to up integer(Double)
+            return (numberOfMonth,remainderDivision)
+        }else{
+            numberOfMonth = Int(divisionWithoutRemainder)
+            return (numberOfMonth, nil)
+        }
+    }
     
     func saveOneTime()-> Bool {
         //sumPerTimeTextField.text = "0"
         if nameTextField.text != "", totalSumTextField.text != "", self.date != nil{
             newScheduleObject.name = nameTextField.text!
-            newScheduleObject.sum = Double(totalSumTextField.text!)!
             newScheduleObject.date = date
+            newScheduleObject.target = Double(totalSumTextField.text!)!
+            writeOneTimePayPerTime()
             DBManager.addObject(object: newScheduleObject)
             return true
         }else{
@@ -167,11 +235,12 @@ class AddScheduleViewController: UIViewController {
     func saveRegular()-> Bool {
         if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", date != nil{
             newScheduleObject.name = nameTextField.text!
-            newScheduleObject.sum = Double(totalSumTextField.text!)!
+            newScheduleObject.target = Double(totalSumTextField.text!)!
             newScheduleObject.sumPerTime = Double(sumPerTimeTextField.text!)!
             newScheduleObject.date = date
             newScheduleObject.dateRhythm = dateRhythm.rawValue
-            guard newScheduleObject.sum >= newScheduleObject.sumPerTime else {
+            savePayPerTime()
+            guard newScheduleObject.target >= newScheduleObject.sumPerTime else {
                 self.showAlert(message: "Ошибка", title: "Разовый платежь больше общей суммы :)")
                 return false
             }
@@ -182,10 +251,6 @@ class AddScheduleViewController: UIViewController {
             return false
         }
     }
-    
-    
-    
-    
 }
 
 extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {

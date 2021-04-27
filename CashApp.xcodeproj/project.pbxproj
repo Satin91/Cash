@@ -11,18 +11,18 @@
 		7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7507A619253BAA2D0029EF44 /* ModelController.swift */; };
 		7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509C5942603675D00BD34D4 /* CustomProgressBar.swift */; };
 		7510F83E2509A87600030A52 /* OperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7510F83D2509A87600030A52 /* OperationViewController.swift */; };
-		751573C1255C075C0075C3B8 /* SavingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751573C0255C075C0075C3B8 /* SavingsContainerViewController.swift */; };
 		751AAAED25D4B4140042AC06 /* PieChartCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751AAAEC25D4B4140042AC06 /* PieChartCollectionViewController.swift */; };
 		751AAAF025D4B4570042AC06 /* PieChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751AAAEF25D4B4570042AC06 /* PieChartCollectionViewCell.swift */; };
 		7522652E24D1D55700D30CD6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7522652D24D1D55700D30CD6 /* Model.swift */; };
 		7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */; };
 		753180AE258A235200AC6B7A /* PickTypePopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753180AD258A235100AC6B7A /* PickTypePopUpViewController.swift */; };
 		7537E58025DEF0730019768C /* QuickTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E57F25DEF0730019768C /* QuickTableView.swift */; };
+		7539D3CB2637962A00A966BB /* SelectDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7539D3C92637962A00A966BB /* SelectDateTableViewCell.swift */; };
+		7539D3CC2637962A00A966BB /* SelectDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7539D3CA2637962A00A966BB /* SelectDateTableViewCell.xib */; };
 		753CDA0326026D0500487715 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753CDA0226026D0500487715 /* ProgressBar.swift */; };
 		7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545C91B25AFD06000042332 /* AccountsHistory.swift */; };
 		7545E1B1255C45F600454803 /* LineChartContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */; };
-		754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpViewController.swift */; };
-		754D66F02631CA5E00B2383C /* SelectDateViewControllerXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = 754D66EF2631CA5E00B2383C /* SelectDateViewControllerXib.xib */; };
+		754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */; };
 		7552BFE626169CBC00BACB65 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7552BFE526169CBC00BACB65 /* MainTabBarController.swift */; };
 		755397E725D0CE3400F95DE2 /* ChartsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755397E625D0CE3400F95DE2 /* ChartsModel.swift */; };
 		755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755DE792262DD70D00CA835D /* IconsCollectionView.swift */; };
@@ -74,18 +74,18 @@
 		7507A619253BAA2D0029EF44 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		7509C5942603675D00BD34D4 /* CustomProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		7510F83D2509A87600030A52 /* OperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewController.swift; sourceTree = "<group>"; };
-		751573C0255C075C0075C3B8 /* SavingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsContainerViewController.swift; sourceTree = "<group>"; };
 		751AAAEC25D4B4140042AC06 /* PieChartCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewController.swift; sourceTree = "<group>"; };
 		751AAAEF25D4B4570042AC06 /* PieChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		7522652D24D1D55700D30CD6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		753180AD258A235100AC6B7A /* PickTypePopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickTypePopUpViewController.swift; sourceTree = "<group>"; };
 		7537E57F25DEF0730019768C /* QuickTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableView.swift; sourceTree = "<group>"; };
+		7539D3C92637962A00A966BB /* SelectDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateTableViewCell.swift; sourceTree = "<group>"; };
+		7539D3CA2637962A00A966BB /* SelectDateTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectDateTableViewCell.xib; sourceTree = "<group>"; };
 		753CDA0226026D0500487715 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		7545C91B25AFD06000042332 /* AccountsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsHistory.swift; sourceTree = "<group>"; };
 		7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartContainerViewController.swift; sourceTree = "<group>"; };
-		754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateCalendarPopUpViewController.swift; sourceTree = "<group>"; };
-		754D66EF2631CA5E00B2383C /* SelectDateViewControllerXib.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectDateViewControllerXib.xib; sourceTree = "<group>"; };
+		754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateCalendarPopUpTableViewController.swift; sourceTree = "<group>"; };
 		7552BFE526169CBC00BACB65 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		755397E625D0CE3400F95DE2 /* ChartsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsModel.swift; sourceTree = "<group>"; };
 		755DE792262DD70D00CA835D /* IconsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionView.swift; sourceTree = "<group>"; };
@@ -185,6 +185,24 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		7539D3CE2637962F00A966BB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7539D3C92637962A00A966BB /* SelectDateTableViewCell.swift */,
+				7539D3CA2637962A00A966BB /* SelectDateTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7539D3D02637963D00A966BB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				753180AD258A235100AC6B7A /* PickTypePopUpViewController.swift */,
+				754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		7548192A25D4CA7700C20A01 /* LineChart */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,9 +225,8 @@
 		754D66EA2631C53600B2383C /* PopUpMenu */ = {
 			isa = PBXGroup;
 			children = (
-				753180AD258A235100AC6B7A /* PickTypePopUpViewController.swift */,
-				754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpViewController.swift */,
-				754D66EF2631CA5E00B2383C /* SelectDateViewControllerXib.xib */,
+				7539D3D02637963D00A966BB /* Controller */,
+				7539D3CE2637962F00A966BB /* View */,
 			);
 			path = PopUpMenu;
 			sourceTree = "<group>";
@@ -217,17 +234,9 @@
 		755A1D6E2570530D00CE034F /* Operation */ = {
 			isa = PBXGroup;
 			children = (
-				755A1D702570537C00CE034F /* View */,
 				755A1D782570561300CE034F /* Controller */,
 			);
 			path = Operation;
-			sourceTree = "<group>";
-		};
-		755A1D702570537C00CE034F /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		755A1D712570539700CE034F /* Controller */ = {
@@ -334,7 +343,6 @@
 			children = (
 				755E675C25FE024B0049E113 /* ContainerViewController.swift */,
 				7548192A25D4CA7700C20A01 /* LineChart */,
-				751573C0255C075C0075C3B8 /* SavingsContainerViewController.swift */,
 				753CDA0226026D0500487715 /* ProgressBar.swift */,
 			);
 			path = ContainerView;
@@ -463,7 +471,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				754D66F02631CA5E00B2383C /* SelectDateViewControllerXib.xib in Resources */,
 				75CB7AA9255D50DA00451F1D /* SF-Pro-Text-Regular.otf in Resources */,
 				75EA2AFC24CDDB8B00D03E95 /* LaunchScreen.storyboard in Resources */,
 				75CB7A9E255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf in Resources */,
@@ -477,6 +484,7 @@
 				75EA2AF724CDDB8200D03E95 /* Main.storyboard in Resources */,
 				7575718525FFA02F00C2F663 /* LineChartCell.xib in Resources */,
 				75CB7A9F255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf in Resources */,
+				7539D3CC2637962A00A966BB /* SelectDateTableViewCell.xib in Resources */,
 				75C328F72571A12100E9CAD4 /* DropDownTableViewCell.xib in Resources */,
 				75CB7AA7255D50DA00451F1D /* SF-Pro-Text-Medium.otf in Resources */,
 			);
@@ -535,11 +543,12 @@
 				755397E725D0CE3400F95DE2 /* ChartsModel.swift in Sources */,
 				75AE325125239E30004422F4 /* AccountsViewController.swift in Sources */,
 				7552BFE626169CBC00BACB65 /* MainTabBarController.swift in Sources */,
-				754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpViewController.swift in Sources */,
+				754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift in Sources */,
 				75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */,
 				7575718425FFA02F00C2F663 /* LineChartCell.swift in Sources */,
 				759130CA25F10EF9009F2C93 /* AccountCollectionViewCell.swift in Sources */,
 				7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */,
+				7539D3CB2637962A00A966BB /* SelectDateTableViewCell.swift in Sources */,
 				75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */,
 				751AAAF025D4B4570042AC06 /* PieChartCollectionViewCell.swift in Sources */,
 				7510F83E2509A87600030A52 /* OperationViewController.swift in Sources */,
@@ -557,7 +566,6 @@
 				75D9DE7E253B6294007677BA /* AddOperationViewController.swift in Sources */,
 				755E675D25FE024B0049E113 /* ContainerViewController.swift in Sources */,
 				75EE502E2571844C007A7E97 /* DropDownTableView.swift in Sources */,
-				751573C1255C075C0075C3B8 /* SavingsContainerViewController.swift in Sources */,
 				7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */,
 				75AE5A9325CCAC25006AC7E0 /* ChartsView.swift in Sources */,
 				75EA2AF424CDDB8200D03E95 /* HomeViewController.swift in Sources */,

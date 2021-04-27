@@ -109,7 +109,7 @@ func EnumeratedAccounts (array: [Results<MonetaryAccount>]) -> [MonetaryAccount]
     }
     return account
 }
-
+//func EnumeratedPayPerTime(array: [])
 func EnumeratedSequence(array: [Results<MonetaryCategory>]) -> [MonetaryCategory]  {
     
     var entity: [MonetaryCategory] = []
@@ -243,7 +243,7 @@ extension UIImageView{
 //MARK: Extension UIView (Animate)
 extension UIView {
     ///
-    func animateView (animatedView: UIView, parentView: UIView) {
+    func animateViewWithBlur (animatedView: UIView, parentView: UIView) {
         let background = parentView
         background.addSubview(animatedView)
         animatedView.center = parentView.center
@@ -254,6 +254,7 @@ extension UIView {
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut) {
             animatedView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             animatedView.alpha = 1
+        
             
         }
     }
@@ -267,8 +268,8 @@ extension UIView {
                     viewController!.willMove(toParent: nil)
                     viewController!.removeFromParent()
                 }
+
                 animatedView.removeFromSuperview()
-                
             }
     }
     
@@ -480,13 +481,30 @@ func goToPickTypeVC(delegateController: UIViewController,buttonsNames: [String],
     pickTypeVC.preferredContentSize = CGSize(width: 200, height: 150)
     delegateController.present(navVC, animated: true, completion: nil)
 }
+///MARK: Go to some VC
+func goToQuickPayVC(delegateController: UIViewController, classViewController: inout UIViewController?, PayObject: Any) {
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
+    
+    QuiclPayVC.payObject = PayObject
+    QuiclPayVC.closePopUpMenuDelegate = delegateController as! PopUpProtocol //Почему то работает делегат только если кастить до popupviiewController'a
+    // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
+ 
+    if classViewController == nil {
+        classViewController = QuiclPayVC
+        classViewController!.view.frame = CGRect(x: delegateController.view.frame.width / 2, y: delegateController.view.frame.height / 2, width: delegateController.view.bounds.width * 0.8, height: delegateController.view.bounds.height * 0.55)
+        classViewController!.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+        //delegateController.addChild(classViewController!) // Не знаю зачем это, надо удалить без него тоже работает
+        delegateController.view.animateViewWithBlur(animatedView: classViewController!.view, parentView: delegateController.view)
+        classViewController!.didMove(toParent: delegateController)
+    }
+}
 
-
-
-func goToSelectDateVC(delegateController: UIViewController,schedulerObject: MonetaryScheduler, sourseView: UIView) {
-    let selectDateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "selectDateVC") as! SelectDateCalendarPopUpViewController
+func goToSelectDateVC(delegateController: UIViewController,payPerTimeObject: [PayPerTime], sourseView: UIView) {
+    let selectDateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "selectDateVC") as! SelectDateCalendarPopUpTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
-    selectDateVC.schedulerObject = schedulerObject
+    selectDateVC.closeSelectDateDelegate = delegateController as! closeSelectDateProtocol
+    selectDateVC.payPerTimeObject = payPerTimeObject
     let navVC = UINavigationController(rootViewController: selectDateVC)
     navVC.modalPresentationStyle = .popover
     let popVC = navVC.popoverPresentationController
@@ -494,7 +512,7 @@ func goToSelectDateVC(delegateController: UIViewController,schedulerObject: Mone
     //let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
     popVC?.sourceView = sourseView
     popVC?.sourceRect = sourseView.bounds
-    selectDateVC.preferredContentSize = CGSize(width: 200, height: 150)
+    selectDateVC.preferredContentSize = CGSize(width: 200, height: selectDateVC.payPerTimeObject.count * 120)
     delegateController.present(navVC, animated: true, completion: nil)
 }
 

@@ -35,9 +35,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     @IBAction func addButton(_ sender: Any) {
         gotoNextVC()
     }
-    @IBAction func upperAactionButton(_ sender: Any) {
-        accountsCollectionView.scrollToItem(at: IndexPath(item: 2, section: 0), at: .centeredHorizontally, animated: true)
-    }
+   
     var newAccount = MonetaryAccount()
     
     @IBOutlet var blurView: UIVisualEffectView!
@@ -149,16 +147,17 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     
     func changeConstraint() {
         if topConstreintOfCollectionView.constant == 14{
-      
+            
             UIView.animate(withDuration: 0.6) {
                 self.blurView.layer.opacity = 1
                 //self.view.layoutIfNeeded()
                 self.topConstreintOfCollectionView.constant = 250
                 self.view.layoutIfNeeded()
             }
-            goToImageIndex()
+            
             self.view.bringSubviewToFront(accountsCollectionView)// Для того чтобы графики не перекрывали карту
             self.accountsCollectionView.reloadData()
+            goToImageIndex()
         }else{
             
             UIView.animate(withDuration: 0.6) {
@@ -184,8 +183,6 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
                 imageIndex.row = index
             }
         }
-        
-        print(imageIndex)
         //Непонятно почему, но при анимировании скролится в пустоту
         accountsCollectionView.scrollToItem(at: imageIndex, at: .centeredHorizontally, animated: false)
         visibleIndexPath = imageIndex // В момент загрузки новых ячеек видимый индекс равен nil, по этому видемый индекс равен индексу текущего изображения
@@ -210,6 +207,7 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
             let object = selectedObject
             let images = UIImage(named: accountsImages[indexPath.row])
             cell.setForSelect(image: images!, name: object!.name, balance: String(object!.balance), account: object!)
+            
             //Установил наблюдатель иммено здесь потому что нужно чтобы он действовал на все выводимые ячейки, а не на единственную как было бы, если б установил это в протоколе нажатия на кнопку
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil, userInfo: ["CASE":true])
             return cell
@@ -279,7 +277,9 @@ extension AccountsViewController: collectionCellProtocol {
             // Вытащил объект по индексу
             selectedObject = EnumeratedAccounts(array: accountsGroup)[selectedIndexPath.row]
             // Сменил констрейнт и переместился к текущему изображению в редакторе
+            
             changeConstraint()
+            
             toggle.toggle()
             //accountsCollectionView.isScrollEnabled = true
          //   accountsCollectionView.reloadData()

@@ -27,7 +27,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }()
     
     
-   
+    
     
     dynamic var enteredSum = "0"
     var accountIdentifier = ""
@@ -52,8 +52,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }()
     var selectedAccountObject: MonetaryAccount?
     var historyObject = AccountsHistory()
-    var payObject: MonetaryCategory?
-    var payObject2: Any!
+    //var payObject: MonetaryCategory?
+    var payObject: Any!
     ///             TEXT FIELD
     var popUpTextField = NumberTextField()
     
@@ -66,7 +66,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     @IBAction func okAction(_ sender: Any) {
         let doubleEnteredSum = Double(popUpTextField.enteredSum)
         guard doubleEnteredSum! > 0 else {return}
-
+        
         newSave()
         closePopUpMenuDelegate.closePopUpMenu()
         
@@ -103,8 +103,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
     }
     
-
-
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -150,62 +150,108 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
         
     }
-
-    func saveHistoryElement() {
-        guard payObject != nil else {return}
-        historyObject.name = payObject!.name
-        if historyObject.date == nil {
-            historyObject.date = Date()
+    
+    //    func saveHistoryElement() {
+    //        guard payObject != nil else {return}
+    //        historyObject.name = payObject!.name
+    //        if historyObject.date == nil {
+    //            historyObject.date = Date()
+    //        }
+    //        let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
+    //        var doubleEnteredSum = Double(replaceEnteredSum)
+    //        if payObject?.accountType == 4 { // Это на случай если отрицательный счет
+    //            doubleEnteredSum?.negate() // превращение числа в негативное
+    //        }
+    //        historyObject.sum = doubleEnteredSum!
+    //        historyObject.image = payObject?.image
+    //        historyObject.monetaryID = payObject!.categoryID
+    //        if selectedAccountObject != nil{
+    //            historyObject.accountID = selectedAccountObject!.accountID
+    //        }else{
+    //            historyObject.accountID = withoutAccountObject.accountID
+    //        }
+    //        DBManager.addHistoryObject(object: historyObject)
+    //        guard let indexPath = tableView.tableView.indexPathForSelectedRow?.row else {return}
+    //        DBManager.updateAccount(accountType: EnumeratedAccounts(array: accountsGroup), indexPath: indexPath, addSum: doubleEnteredSum!)
+    //    }
+    
+    func saveSchedule(){
+        var scheduleObject = MonetaryScheduler()
+        let payPerTime = payObject as! PayPerTime
+        for i in EnumeratedSchedulers(object: schedulerGroup) {
+            if payPerTime.scheduleID == i.scheduleID{
+                scheduleObject = i
+            }
         }
-        let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
-        var doubleEnteredSum = Double(replaceEnteredSum)
-        if payObject?.accountType == 4 { // Это на случай если отрицательный счет
-            doubleEnteredSum?.negate() // превращение числа в негативное
-        }
-        historyObject.sum = doubleEnteredSum!
-        historyObject.image = payObject?.image
-        historyObject.monetaryID = payObject!.categoryID
-        if selectedAccountObject != nil{
-            historyObject.accountID = selectedAccountObject!.accountID
+        if payPerTime.available + Double(popUpTextField.enteredSum)! > payPerTime.sumPerTime {
+            self.showAlert(message: "Перенести остаток на следующий раз?")
+            //Цикл по нахождению плана
+            //обновление payPerTime объекта
+            try! realm.write {
+                // payPerTime.available += Double(popUpTextField.enteredSum)!
+                realm.delete(payPerTime)
+            }
         }else{
-            historyObject.accountID = withoutAccountObject.accountID
+            try! realm.write {
+                payPerTime.available += Double(popUpTextField.enteredSum)!
+                realm.add(payPerTime,update: .all)
+            }
         }
-        DBManager.addHistoryObject(object: historyObject)
-        guard let indexPath = tableView.tableView.indexPathForSelectedRow?.row else {return}
-        DBManager.updateAccount(accountType: EnumeratedAccounts(array: accountsGroup), indexPath: indexPath, addSum: doubleEnteredSum!)
-    }
-    func newSave() {
         
-        if payObject2 is MonetaryCategory {
-            let category = payObject2 as! MonetaryCategory
+        historyObject.image = scheduleObject.image
+        historyObject.name = scheduleObject.name
+        historyObject.scheduleID = scheduleObject.scheduleID
+        
+        
+        try! realm.write {
+            scheduleObject.target -= Double(popUpTextField.enteredSum)!
+            realm.add(scheduleObject, update: .all)
+        }
+        
+        //Проверка и удаление в случае если план меньше нуля
+        guard scheduleObject.target > 0 else {
+            try! realm.write {
+                realm.delete(scheduleObject)
+            }
+            return}
+        
+    }
+    
+    func saveCategory() {
+        
+            let category = payObject as! MonetaryCategory
             historyObject.image = category.image
             historyObject.name = category.name
+            historyObject.categoryID = category.categoryID
             try! realm.write {
                 category.sum += Double(popUpTextField.enteredSum)!
                 realm.add(category,update: .all)
             }
-        }
+    }
+    
+    func newSave() {
         //Настройки по умолчанию для всех типов транзакций
         historyObject.date = self.date
         historyObject.accountID = withoutAccountObject.accountID
         historyObject.sum = Double(popUpTextField.enteredSum)!
-
+        if payObject is MonetaryCategory {
+            saveCategory()
+        }else if payObject is PayPerTime {
+            saveSchedule()
+        }
+        
         guard selectedAccountObject != nil else{
             DBManager.addHistoryObject(object: historyObject)
             return}
         //Если счет выбран
         historyObject.accountID = selectedAccountObject!.accountID
         try! realm.write {
-
+            
             selectedAccountObject!.balance -= Double(popUpTextField.enteredSum)!
-            realm.add(selectedAccountObject!)
+            realm.add(selectedAccountObject!,update: .all)
         }
         DBManager.addHistoryObject(object: historyObject)
     }
-    func saveHistory() {
-        
-    }
-    
     func addDoneButtonOnKeyboard(){ // По сути это тоже самое как и в iqKeyboard только без нее
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 140))
         doneToolbar.barStyle = .default
@@ -224,11 +270,11 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     
     func buttonsSettings() {
-      
+        
         okButtonOutlet.backgroundColor = .clear
         cancelButtomOutlet.backgroundColor = .clear
         guard cancelButtomOutlet.titleLabel != nil,okButtonOutlet.titleLabel != nil  else {return}
-
+        
         cancelButtomOutlet.titleLabel!.setLabelSmallShadow(label: cancelButtomOutlet.titleLabel!)
         cancelButtomOutlet.setTitleColor( whiteThemeMainText, for: .normal)
         okButtonOutlet.titleLabel!.setLabelSmallShadow(label: okButtonOutlet.titleLabel!)
@@ -239,7 +285,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         buttonLabel = UILabel(frame: .zero)
         buttonLabel.textColor = whiteThemeRed
     }
-
+    
     func textFiedldSettings() {
         popUpTextField = NumberTextField(frame: .zero)
         popUpTextField.borderStyle = .none
@@ -247,7 +293,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         popUpTextField.textAlignment = .center
         popUpTextField.textColor = whiteThemeMainText
         popUpTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-//        popUpTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        //        popUpTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         popUpTextField.backgroundColor = .clear
         popUpTextField.keyboardType = .decimalPad
     }
@@ -268,7 +314,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             break
         }
     }
-
+    
     
     func whiteThemeFunc() {
         buttonLabel.textColor = whiteThemeMainText
@@ -276,12 +322,12 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         buttonLabel.textColor = whiteThemeBackground
         popUpTextField.textColor = whiteThemeMainText
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         popUpTextField.resignFirstResponder()
         return false
     }
-
+    
     deinit {
         print("Deinit popUpView прошел успешно")
         removeKeyboardNotifications()
@@ -322,7 +368,9 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         var accounts = EnumeratedAccounts(array: accountsGroup) //Кастомная функция для добавления счета в массив
+        if !accounts.isEmpty {
         accounts.append(withoutAccountObject) //дефолтная функция по добавлению
+        }
         return accounts
         
     }
@@ -340,7 +388,9 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         var appendAccount = EnumeratedAccounts(array: accountsGroup)
+        
         appendAccount.append(withoutAccountObject)
+        
         
         let object = appendAccount[indexPath.row]
         
@@ -353,6 +403,10 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let object = privateAccounts()[indexPath.row]
+        guard object != privateAccounts().last else {
+             selectedAccountObject = nil
+            scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
+            return}
         selectedAccountObject = object
         scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
         

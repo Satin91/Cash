@@ -34,7 +34,10 @@ class PickTypePopUpViewController: UIViewController{
         } 
     }
     
-   
+      override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          navigationController?.setNavigationBarHidden(true, animated: animated)
+      }
     
         
     @IBOutlet var firstButton: UIButton!

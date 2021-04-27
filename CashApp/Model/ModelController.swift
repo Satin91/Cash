@@ -38,7 +38,7 @@ let regularObjects =           fetchSchedulers(scheduleType: 2).sorted(byKeyPath
 let expenceObjects =           fetchCategories(accountType: 1).sorted(byKeyPath: "name", ascending: false)//OperExpence
 let incomeObjects =            fetchCategories(accountType: 2).sorted(byKeyPath: "name", ascending: false)//OperIncome
 let historyObjects =            realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
-
+let payPerTimeObjects =          realm.objects(PayPerTime.self).sorted(byKeyPath: "date", ascending: false)
 ///Меню в OperationViewController сегмент 1
 ///Operation Payment
 var categoryGroup = [expenceObjects,incomeObjects]
@@ -48,7 +48,9 @@ var schedulerGroup = [oneTimeObjects,regularObjects]
 ///Меню в AccountsViewController
 var accountsGroup = [cardObjects]
 
-
+func fetchPayPerTime() {
+    
+}
 func fetchAccounts(accountType: Int) ->Results<MonetaryAccount>{
     let IntToString: String = String(accountType)
     let object = realm.objects(MonetaryAccount.self).filter("accountType = \(IntToString)")

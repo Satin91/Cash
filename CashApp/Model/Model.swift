@@ -94,11 +94,10 @@ class MonetaryAccount: Object {
 }
 
 //MARK: Monetary scheduler
-
 class MonetaryScheduler: Object {
     @objc dynamic var name: String = "My schedule"
-    @objc dynamic var sum: Double = 0
-    @objc dynamic var balance: Double = 0
+    @objc dynamic var target: Double = 0
+    @objc dynamic var available: Double = 0
     @objc dynamic var sumPerTime: Double = 0
     @objc dynamic var date: Date?
     @objc dynamic var dateRhythm: Int = DateRhythm.none.rawValue
@@ -121,23 +120,14 @@ class MonetaryScheduler: Object {
         self.init()
         self.name = name
         self.image = image
-        self.sum = sum
-        self.balance = balance
+        self.target = sum
+        self.available = balance
         self.sumPerTime = sumPerTime
         self.date = date
         self.isUseForTudayBalance = isUseForTudayBalance
         self.scheduleType = scheduleType.rawValue
         self.dateRhythm = dateRhythm.rawValue
     }
-//    func initType() -> String {
-//        var text = ""
-//        switch scheduleType{
-//        case 1 : text = "OneTime"
-//        case 2 : text = "Regular"
-//        default:break
-//        }
-//        return text
-//    }
 }
 
 
@@ -181,5 +171,24 @@ enum DateRhythm: Int {
 }
 
 
+class PayPerTime: Object {
+    @objc dynamic var scheduleName = ""
+    @objc dynamic var date: Date = Date()
+    @objc dynamic var available: Double = 0.0
+    @objc dynamic var sumPerTime: Double = 0.0
+    @objc dynamic var scheduleID = ""
+    @objc dynamic var payPerTimeID = NSUUID.init().uuidString
+    override static func primaryKey() -> String? {
+        return "payPerTimeID"
+    }
+    convenience init(scheduleName: String,date: Date, available: Double,sumPerTime: Double,scheduleID: String) {
+        self.init()
+        self.scheduleName = scheduleName
+        self.date = date
+        self.available = available
+        self.sumPerTime = sumPerTime
+        self.scheduleID = scheduleID
+}
+}
 
 

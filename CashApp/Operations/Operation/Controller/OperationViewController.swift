@@ -110,7 +110,6 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
         QuiclPayVC.payObject = PayObject
-        QuiclPayVC.payObject2 = PayObject
         QuiclPayVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
         // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
      
@@ -119,8 +118,8 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
             popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.55)
             popViewController.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
             self.addChild(popViewController) // Не знаю зачем это, надо удалить без него тоже работает
-            self.view.animateView(animatedView: blurView, parentView: self.view)
-            view.animateView(animatedView: popViewController.view, parentView: self.view)
+            self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
+            view.animateViewWithBlur(animatedView: popViewController.view, parentView: self.view)
             popViewController.didMove(toParent: self)
         }
     }

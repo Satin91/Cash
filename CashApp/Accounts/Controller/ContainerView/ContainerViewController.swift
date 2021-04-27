@@ -39,7 +39,6 @@ class ContainerViewController: UIViewController {
     
     @objc func receiveObject(_ notification: NSNotification) {
         let object = notification.object as! MonetaryAccount
-       // print(object)
         animateContainer(object: object)
     }
     override func viewDidLoad() {

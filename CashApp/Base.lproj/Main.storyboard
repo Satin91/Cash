@@ -167,9 +167,6 @@
                                 <state key="normal" title="Upper">
                                     <color key="titleColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
-                                <connections>
-                                    <action selector="upperAactionButton:" destination="sYJ-mK-JTN" eventType="touchUpInside" id="Wzx-9z-IQ2"/>
-                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="TEg-Fc-Y8B"/>
@@ -229,25 +226,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Rt7-r0-EdV">
-                                <rect key="frame" x="0.0" y="88" width="390" height="165"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="194"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vDh-HO-EoZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="55"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="194"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                                        <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <size key="shadowOffset" width="2" height="2"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="spending" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="28Z-uJ-zEm">
-                                        <rect key="frame" x="0.0" y="55" width="390" height="55"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="46"/>
-                                        <nil key="textColor"/>
-                                        <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <size key="shadowOffset" width="2" height="2"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="category" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLC-wX-Dzd">
-                                        <rect key="frame" x="0.0" y="110" width="390" height="55"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="46"/>
                                         <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <size key="shadowOffset" width="2" height="2"/>
@@ -255,7 +238,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" axis="vertical" distribution="fillProportionally" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="8Vt-ma-cWZ">
-                                <rect key="frame" x="52" y="433" width="286" height="143"/>
+                                <rect key="frame" x="52" y="462" width="286" height="143"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PVW-Hf-5sZ">
                                         <rect key="frame" x="0.0" y="0.0" width="286" height="34"/>
@@ -289,7 +272,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYG-N9-xfM" userLabel="SelectImage">
-                                <rect key="frame" x="125" y="273" width="140" height="140"/>
+                                <rect key="frame" x="125" y="302" width="140" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fYG-N9-xfM" secondAttribute="height" multiplier="1:1" id="azX-nE-fLc"/>
                                 </constraints>
@@ -305,6 +288,7 @@
                         <color key="backgroundColor" red="0.94901960780000005" green="0.95686274510000002" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wMu-x0-0C3" firstAttribute="trailing" secondItem="8Vt-ma-cWZ" secondAttribute="trailing" constant="52" id="3TU-Ux-uWd"/>
+                            <constraint firstItem="Rt7-r0-EdV" firstAttribute="height" secondItem="L7Y-ag-M49" secondAttribute="height" multiplier="0.229858" id="AYu-bA-ExM"/>
                             <constraint firstItem="fYG-N9-xfM" firstAttribute="top" secondItem="Rt7-r0-EdV" secondAttribute="bottom" constant="20" id="E3k-9g-oIF"/>
                             <constraint firstItem="Rt7-r0-EdV" firstAttribute="leading" secondItem="wMu-x0-0C3" secondAttribute="leading" id="Pba-Rz-227"/>
                             <constraint firstItem="wMu-x0-0C3" firstAttribute="trailing" secondItem="Rt7-r0-EdV" secondAttribute="trailing" id="SP5-uw-R5R"/>
@@ -334,16 +318,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="blurView" destination="K5S-E5-gY9" id="c5q-Vm-pPp"/>
-                        <outlet property="bottomTextLabel" destination="PLC-wX-Dzd" id="CZz-4Q-7eZ"/>
                         <outlet property="doneButton" destination="bkw-lx-cx3" id="6wf-EL-Xvb"/>
+                        <outlet property="headingTextLabel" destination="vDh-HO-EoZ" id="vCF-jh-p7F"/>
                         <outlet property="limitLabel" destination="VMw-9x-ZQC" id="g1h-YZ-kDh"/>
                         <outlet property="limitSwitch" destination="TO8-Lv-ZSn" id="wgt-dG-DCP"/>
                         <outlet property="limitTextField" destination="nl9-ay-hVG" id="4pd-K3-7e0"/>
-                        <outlet property="middleTextLabel" destination="28Z-uJ-zEm" id="WAj-21-YoE"/>
                         <outlet property="nameTextField" destination="PVW-Hf-5sZ" id="xLC-tA-lzs"/>
                         <outlet property="selectImageButton" destination="fYG-N9-xfM" id="tey-PR-Hnw"/>
                         <outlet property="stackView" destination="8Vt-ma-cWZ" id="KM8-P5-deR"/>
-                        <outlet property="upperTextLabel" destination="vDh-HO-EoZ" id="vCF-jh-p7F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="puY-iD-wCm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -501,6 +483,35 @@
             </objects>
             <point key="canvasLocation" x="2420.625" y="255.63380281690141"/>
         </scene>
+        <!--Select Date Calendar Pop Up Table View Controller-->
+        <scene sceneID="44N-Au-RnG">
+            <objects>
+                <tableViewController storyboardIdentifier="selectDateVC" id="bcH-HC-ZAM" customClass="SelectDateCalendarPopUpTableViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="pEg-WD-03L">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Jr3-Da-vZF">
+                                <rect key="frame" x="0.0" y="28" width="390" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jr3-Da-vZF" id="2Hs-YT-Myz">
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="bcH-HC-ZAM" id="7L0-3G-v5e"/>
+                            <outlet property="delegate" destination="bcH-HC-ZAM" id="M4B-7b-cks"/>
+                        </connections>
+                    </tableView>
+                    <size key="freeformSize" width="390" height="844"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fdl-0h-eFk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3390" y="332"/>
+        </scene>
         <!--Add Schedule View Controller-->
         <scene sceneID="bCR-gc-51B">
             <objects>
@@ -519,22 +530,8 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="165"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Uv-sg-Crk">
-                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="165"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                                                        <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <size key="shadowOffset" width="2" height="2"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="spending" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="agf-x5-gq1">
-                                                        <rect key="frame" x="0.0" y="55" width="320" height="55"/>
-                                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="46"/>
-                                                        <nil key="textColor"/>
-                                                        <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <size key="shadowOffset" width="2" height="2"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="category" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TgZ-hu-fjt">
-                                                        <rect key="frame" x="0.0" y="110" width="320" height="55"/>
-                                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="46"/>
                                                         <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <size key="shadowOffset" width="2" height="2"/>
@@ -607,6 +604,7 @@
                                             <constraint firstAttribute="height" constant="607" id="9aM-Gh-ubc"/>
                                             <constraint firstItem="8GH-hr-jcK" firstAttribute="centerX" secondItem="tCu-fJ-Lbt" secondAttribute="centerX" id="BmU-Db-XTn"/>
                                             <constraint firstAttribute="trailing" secondItem="yvG-b6-Ods" secondAttribute="trailing" id="EaA-Ni-Q8d"/>
+                                            <constraint firstItem="yvG-b6-Ods" firstAttribute="height" secondItem="tCu-fJ-Lbt" secondAttribute="height" multiplier="0.271829" id="Fah-xN-bMf"/>
                                             <constraint firstItem="8GH-hr-jcK" firstAttribute="width" secondItem="tCu-fJ-Lbt" secondAttribute="width" multiplier="0.359375" id="KKP-5s-vMg"/>
                                             <constraint firstItem="yvG-b6-Ods" firstAttribute="top" secondItem="tCu-fJ-Lbt" secondAttribute="top" id="TRo-9l-KVf"/>
                                             <constraint firstAttribute="trailing" secondItem="yvG-b6-Ods" secondAttribute="trailing" id="WcF-Vo-xNo"/>
@@ -651,6 +649,7 @@
                     <size key="freeformSize" width="320" height="700"/>
                     <connections>
                         <outlet property="doneButtonOutlet" destination="q3z-fE-KQo" id="gEr-Jz-FE0"/>
+                        <outlet property="headingTextLabel" destination="9Uv-sg-Crk" id="AQh-uC-Yyi"/>
                         <outlet property="nameTextField" destination="XTC-pL-78w" id="qC2-m7-Nl0"/>
                         <outlet property="scrollView" destination="a1I-te-m23" id="xLN-S2-J8D"/>
                         <outlet property="segmentedControl" destination="lsj-cx-RDy" id="bMM-Ya-cpD"/>
@@ -664,22 +663,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jpr-bP-cPs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2715" y="1162"/>
-        </scene>
-        <!--Select Date Calendar Pop Up View Controller-->
-        <scene sceneID="xOE-6n-WST">
-            <objects>
-                <viewController storyboardIdentifier="selectDateVC" id="tov-vT-Rcm" customClass="SelectDateCalendarPopUpViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="V7Z-wf-igq">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="400"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="cvG-3Y-92t"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <size key="freeformSize" width="390" height="400"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="r73-WH-TBi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3103" y="327"/>
         </scene>
         <!--Quick Pay View Controller-->
         <scene sceneID="FAJ-G5-yEV">
@@ -821,22 +804,8 @@
                                 <rect key="frame" x="0.0" y="88" width="390" height="194"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RVg-qo-MZJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="73.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="194"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                                        <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <size key="shadowOffset" width="2" height="2"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="common" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rvl-0s-Gqi">
-                                        <rect key="frame" x="0.0" y="60.333333333333336" width="390" height="73.333333333333314"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="46"/>
-                                        <nil key="textColor"/>
-                                        <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <size key="shadowOffset" width="2" height="2"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="account" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJi-iF-D9Z">
-                                        <rect key="frame" x="0.0" y="120.66666666666666" width="390" height="73.333333333333343"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="46"/>
                                         <color key="textColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <color key="highlightedColor" red="0.68235294120000001" green="0.73333333329999995" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <size key="shadowOffset" width="2" height="2"/>
@@ -852,7 +821,7 @@
                                         <fontDescription key="fontDescription" name="SFProRounded-Regular" family="SF Pro Rounded" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rWN-sU-UwX">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rWN-sU-UwX" customClass="NumberTextField" customModule="CashApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="56" width="338" height="34"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="SFProRounded-Regular" family="SF Pro Rounded" pointSize="17"/>
@@ -937,12 +906,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="balanceTextField" destination="rWN-sU-UwX" id="sMA-mS-Mdt"/>
-                        <outlet property="bottomTextLabel" destination="oJi-iF-D9Z" id="R9u-dT-4q4"/>
                         <outlet property="collectionView" destination="6Th-CJ-LKH" id="2f7-Lt-sEQ"/>
-                        <outlet property="middleTextLabel" destination="Rvl-0s-Gqi" id="stK-Dj-k8I"/>
+                        <outlet property="headingTextLabel" destination="RVg-qo-MZJ" id="clN-gz-L7O"/>
                         <outlet property="nameTextField" destination="F6z-kb-EjB" id="BKK-KN-31I"/>
                         <outlet property="selectDateButtonOutlet" destination="Zb6-ZF-gP1" id="HJP-n3-B9l"/>
-                        <outlet property="upperTextLabel" destination="RVg-qo-MZJ" id="clN-gz-L7O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5H5-4f-4gy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1089,10 +1056,6 @@
                             <constraint firstItem="dPX-fx-2Gj" firstAttribute="leading" secondItem="Kyf-L5-PNq" secondAttribute="leading" constant="26" id="d2W-PK-gZ2"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="progressBar" destination="2p1-U7-rn7" id="qiH-5M-YX9"/>
-                        <outlet property="progressLabel" destination="5x2-aK-n33" id="hEf-5L-GCd"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rU7-1w-xC9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1139,6 +1102,7 @@
         <!--Item-->
         <scene sceneID="e9f-1m-GPX">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a4h-3a-Cst" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SZn-aT-ufO" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="pgN-mV-s02"/>
                     <toolbarItems/>
@@ -1151,7 +1115,6 @@
                         <segue destination="3VW-AZ-Ohg" kind="relationship" relationship="rootViewController" id="kA9-dB-Jun"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="a4h-3a-Cst" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1686" y="256"/>
         </scene>
