@@ -16,6 +16,7 @@ extension Locale {
     static let frenchFR: Locale = .init(identifier: "fr_FR")
     static let portugueseBR: Locale = .init(identifier: "pt_BR")
     static let belarusBY: Locale = .init(identifier: "be_BY")
+    
     // ... and so on
 }
 extension Formatter {
@@ -23,8 +24,6 @@ extension Formatter {
     static let withSeparator: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        
-        
         formatter.groupingSeparator = " "
         return formatter
     }()
@@ -32,8 +31,32 @@ extension Formatter {
 //extension Numeric {
 //    var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
 //}
-
+extension String {
+  
+}
 extension Numeric {
+    
+    func currencyFormatter( ISO: String?) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        // formatter.locale = NSLocale.currentLocale() // This is the default
+        // In Swift 4, this ^ was renamed to simply NSLocale.current
+        var id = String()
+       
+        //let decimalsISO = ["SEK","NOK","CZK","JPY","HUF","IDR","ISK"]
+        for i in curIdentifiers {
+            if i.key == ISO {
+                id = i.value.rawValue
+                
+            }
+        }
+        formatter.usesGroupingSeparator = true
+        formatter.locale = Locale(identifier: id)
+        
+        return formatter.string(for: self) ?? "ISO value is empty"
+    }
+    
+    
     func formatted(with groupingSeparator: String? = nil, style: NumberFormatter.Style, locale: Locale = .current) -> String {
         Formatter.number.locale = locale
         Formatter.number.numberStyle = style
@@ -42,10 +65,10 @@ extension Numeric {
         }
         return Formatter.number.string(for: self) ?? ""
     }
+    
     // Localized
     var currency:   String { formatted(style: .currency) }
-    // Fixed locales
-    
+   // var format: String {}
     var currencyBY: String { formatted(style: .currency, locale: .belarusBY) }
     var currencyUS: String { formatted(style: .currency, locale: .englishUS) }
     var currencyFR: String { formatted(style: .currency, locale: .frenchFR) }
@@ -53,9 +76,6 @@ extension Numeric {
     // ... and so on
     //  var calculator: String { formatted(groupingSeparator: " ", style: .decimal) }
     ///func for tableviews change animations
-    
-    
-    
 }
 
 
@@ -216,7 +236,7 @@ func setupNavigationController(Navigation Controller: UINavigationController) {
 }
 ///MARK: dismissVC
 protocol dismissVC {
-    func dismissVC(goingTo: String,restorationIdentifier: String)
+    func dismissVC(goingTo: String,typeIdentifier: String)
 }
 ///MARK: ScrollToAccount
 
@@ -466,8 +486,8 @@ func initConstraints(view: UIView, to: UIView) {
 }
 ///MARK: Present Pop ip view controller
 func goToPickTypeVC(delegateController: UIViewController,buttonsNames: [String],goingTo: String) {
-    let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
-    pickTypeVC.buttonsNames = buttonsNames
+    let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpTableViewController
+    pickTypeVC.cellNames = buttonsNames
     pickTypeVC.goingTo = goingTo
     pickTypeVC.delegate = delegateController as? dismissVC
     
@@ -478,7 +498,7 @@ func goToPickTypeVC(delegateController: UIViewController,buttonsNames: [String],
     let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
     popVC?.sourceView = barButtonView
     popVC?.sourceRect = barButtonView!.bounds
-    pickTypeVC.preferredContentSize = CGSize(width: 200, height: 150)
+    pickTypeVC.preferredContentSize = CGSize(width: 200, height: pickTypeVC.cellNames.count * 60)
     delegateController.present(navVC, animated: true, completion: nil)
 }
 ///MARK: Go to some VC
@@ -500,11 +520,11 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
     }
 }
 
-func goToSelectDateVC(delegateController: UIViewController,payPerTimeObject: [PayPerTime], sourseView: UIView) {
+func goToSelectDateVC(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
     let selectDateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "selectDateVC") as! SelectDateCalendarPopUpTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
     selectDateVC.closeSelectDateDelegate = delegateController as! closeSelectDateProtocol
-    selectDateVC.payPerTimeObject = payPerTimeObject
+    selectDateVC.payObject = payObject
     let navVC = UINavigationController(rootViewController: selectDateVC)
     navVC.modalPresentationStyle = .popover
     let popVC = navVC.popoverPresentationController
@@ -512,7 +532,7 @@ func goToSelectDateVC(delegateController: UIViewController,payPerTimeObject: [Pa
     //let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
     popVC?.sourceView = sourseView
     popVC?.sourceRect = sourseView.bounds
-    selectDateVC.preferredContentSize = CGSize(width: 200, height: selectDateVC.payPerTimeObject.count * 120)
+    selectDateVC.preferredContentSize = CGSize(width: 200, height: selectDateVC.payObject.count * 120)
     delegateController.present(navVC, animated: true, completion: nil)
 }
 

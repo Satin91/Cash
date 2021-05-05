@@ -116,41 +116,46 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let object = historyObjects[indexPath.row] // создание экземпляра
         
-        //Арифметическая функция для вычитания суммы удаляемого объекта
-        for a in EnumeratedAccounts(array: accountsGroup){
-            if a.accountID == object.accountID {
-                try! realm.write {
-                    a.balance += object.sum   // Так как со счетов в историю всегда идут траты, тут +=
-                    realm.add(a, update: .all)
+        for i in EnumeratedAccounts(array: accountsGroup){
+            if object.accountID == i.accountID{
+            try! realm.write{
+                i.balance -= object.sum
+                realm.add(i, update: .all)
+            }
             }
         }
-        }
-        
-        
+        //Арифметическая функция для вычитания суммы удаляемого объекта
+
+
         //Методы для изменения суммы в категориях
         for i in EnumeratedSequence(array: categoryGroup){
             if object.categoryID == i.categoryID {
-                let localSum = object.sum > 0 ? 0 - object.sum :  object.sum // Небольшое условия для локального отражения числа
-               
-                
+                //let localSum = object.sum > 0 ? 0 - object.sum :  object.sum // Небольшое условия для локального отражения числа
                 try! realm.write {
-                    
-                    i.sum += localSum
+                    i.sum -= object.sum
                     realm.add(i, update: .all)
-            }
-
+                }
             }
         }
-
-        for i in EnumeratedSchedulers(object: schedulerGroup){
-            if  object.categoryID == i.scheduleID {
-                try! realm.write {
-                    i.available -= object.sum
-                    realm.add(i, update: .all)
+        for i in payPerTimeObjects {
+            if object.payPerTimeID == i.payPerTimeID{
+            try! realm.write {
+                i.target -= object.sum
+                realm.add(i, update: .all)
             }
-
             }
         }
+//        for i in EnumeratedSchedulers(object: schedulerGroup){
+//            if  object.categoryID == i.scheduleID {
+//                if i.stringScheduleType == .goal, i.stringScheduleType == .oneTime {
+//                try! realm.write {
+//                    i.available -= object.sum
+//                    realm.add(i, update: .all)
+//            }
+//                }
+//
+//            }
+//        }
         
         
         //                  DELETE ACTION

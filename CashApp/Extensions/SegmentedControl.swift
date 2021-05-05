@@ -191,6 +191,7 @@ class HBSegmentedControl: UIControl {
         self.selectedLabelColor = whiteThemeMainText
         self.unselectedLabelColor = whiteThemeBackground
         self.thumbColor = whiteThemeBackground
-        self.layer.borderColor = whiteThemeBackground.cgColor
+       //self.borderColor = .black
+        self.layer.borderColor = UIColor.systemGray.cgColor
     }
 }

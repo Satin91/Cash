@@ -51,7 +51,7 @@ class DropDownTableView: UIView, UITableViewDataSource, UITableViewDelegate{
     }
     var returnObjects = EnumeratedAccounts(array: accountsGroup)//Создаем массив для table view
     
-    let dontUseAccount = MonetaryAccount(name: "Don't use account", balance: 0, targetSum: 0, date: Date(), imageForAccount: "account1", imageForCell: "card", accountType: nil, isMainAccount: false)
+    let dontUseAccount = MonetaryAccount(name: "Don't use account", balance: 0, targetSum: 0, date: Date(), imageForAccount: "account1", imageForCell: "card", accountType: nil, currencyISO: "USD", isMainAccount: false, isUseForTudayBalance: true)
     /// TableViewSettings
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  returnObjects.count //EnumeratedSequence(array: accountsObjects).count

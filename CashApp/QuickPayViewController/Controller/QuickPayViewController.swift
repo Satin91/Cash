@@ -55,21 +55,32 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     //var payObject: MonetaryCategory?
     var payObject: Any!
     ///             TEXT FIELD
-    var popUpTextField = NumberTextField()
+    var sumTextField = NumberTextField()
     
     @IBAction func cancelAction(_ sender: Any) {
-        popUpTextField.text = ""
+        sumTextField.text = ""
         closePopUpMenuDelegate.closePopUpMenu()
     }
     
     
     @IBAction func okAction(_ sender: Any) {
-        let doubleEnteredSum = Double(popUpTextField.enteredSum)
+        let doubleEnteredSum = Double(sumTextField.enteredSum)
         guard doubleEnteredSum! > 0 else {return}
         
         newSave()
         closePopUpMenuDelegate.closePopUpMenu()
         
+    }
+    
+    var scrollOffset: CGFloat = 0
+    var isOffsetUsed = false {
+        didSet {
+            guard oldValue == false else {return}
+            scrollView.contentOffset.x = scrollOffset
+        }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
     }
     
     override func viewDidLoad() {
@@ -85,7 +96,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.delegate = self
         textFiedldSettings()
-        
+        checkPPTAndSetItValueToTextField()
         
         calendar = FSCalendarView(frame: .zero)//Границы календаря обусловлены констрейнтами, по этому фрейм можно ставить зиро
         tableView = QuickTableView(frame: .zero) // Аналогично
@@ -93,7 +104,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         scrollView.addSubview(tableView)
         scrollView.addSubview(calendar)
         scrollView.addSubview(buttonLabel)
-        scrollView.addSubview(popUpTextField)
+        scrollView.addSubview(sumTextField)
         //addGradient(label: buttonLabel)
         calendar.delegate = self
         tableView.tableView.delegate = self
@@ -102,35 +113,19 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         addDoneButtonOnKeyboard()
         
     }
-    
-    
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-    }
-    var scrollOffset: CGFloat = 0
-    var isOffsetUsed = false {
-        didSet {
-            guard oldValue == false else {return}
-            scrollView.contentOffset.x = scrollOffset
-        }
-    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let edge: CGFloat = 22
         let buttonHeight: CGFloat = 60
         let viewWidth = self.view.bounds.width
         let scrollViewHeight = scrollView.bounds.height
-        //let viewHeight = self.view.bounds.height * 0.75
         tableView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
         tableView.frame = CGRect(x: edge, y: edge, width: viewWidth - (edge * 2), height:scrollViewHeight - (edge * 2))
         
         scrollOffset = self.view.bounds.width
         scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
         
-        popUpTextField.frame = CGRect(x: viewWidth, y: buttonHeight, width: viewWidth, height: scrollViewHeight - buttonHeight )
+        sumTextField.frame = CGRect(x: viewWidth, y: buttonHeight, width: viewWidth, height: scrollViewHeight - buttonHeight )
         calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge)
         buttonLabel.frame = CGRect(x: viewWidth + edge, y: 0, width: self.view.bounds.width - (edge * 2), height: buttonHeight)
         isOffsetUsed = true
@@ -151,50 +146,26 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
     }
     
-    //    func saveHistoryElement() {
-    //        guard payObject != nil else {return}
-    //        historyObject.name = payObject!.name
-    //        if historyObject.date == nil {
-    //            historyObject.date = Date()
-    //        }
-    //        let replaceEnteredSum = enteredSum.replacingOccurrences(of: ",", with: ".")
-    //        var doubleEnteredSum = Double(replaceEnteredSum)
-    //        if payObject?.accountType == 4 { // Это на случай если отрицательный счет
-    //            doubleEnteredSum?.negate() // превращение числа в негативное
-    //        }
-    //        historyObject.sum = doubleEnteredSum!
-    //        historyObject.image = payObject?.image
-    //        historyObject.monetaryID = payObject!.categoryID
-    //        if selectedAccountObject != nil{
-    //            historyObject.accountID = selectedAccountObject!.accountID
-    //        }else{
-    //            historyObject.accountID = withoutAccountObject.accountID
-    //        }
-    //        DBManager.addHistoryObject(object: historyObject)
-    //        guard let indexPath = tableView.tableView.indexPathForSelectedRow?.row else {return}
-    //        DBManager.updateAccount(accountType: EnumeratedAccounts(array: accountsGroup), indexPath: indexPath, addSum: doubleEnteredSum!)
-    //    }
-    
-    func saveSchedule(){
-        var scheduleObject = MonetaryScheduler()
-        let payPerTime = payObject as! PayPerTime
-        for i in EnumeratedSchedulers(object: schedulerGroup) {
-            if payPerTime.scheduleID == i.scheduleID{
-                scheduleObject = i
+    func checkPPTAndSetItValueToTextField() {
+        if payObject is PayPerTime {
+            let object = payObject as! PayPerTime
+            sumTextField.text = String(object.target)
+            sumTextField.enteredSum = String(object.target)
+        }else if payObject is MonetaryScheduler {
+            let object = payObject as! MonetaryScheduler
+            if object.stringScheduleType == .oneTime {
+                sumTextField.text = String(object.target - object.available)
+                sumTextField.enteredSum = String(object.target - object.available)
             }
         }
-        if payPerTime.available + Double(popUpTextField.enteredSum)! > payPerTime.sumPerTime {
-            self.showAlert(message: "Перенести остаток на следующий раз?")
-            //Цикл по нахождению плана
-            //обновление payPerTime объекта
-            try! realm.write {
-                // payPerTime.available += Double(popUpTextField.enteredSum)!
-                realm.delete(payPerTime)
-            }
-        }else{
-            try! realm.write {
-                payPerTime.available += Double(popUpTextField.enteredSum)!
-                realm.add(payPerTime,update: .all)
+    }
+    
+    func saveScheduler() {
+        var scheduleObject = payObject as! MonetaryScheduler
+        
+        for i in EnumeratedSchedulers(object: schedulerGroup) {
+            if scheduleObject.scheduleID == i.scheduleID {
+                scheduleObject = i
             }
         }
         
@@ -202,44 +173,266 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         historyObject.name = scheduleObject.name
         historyObject.scheduleID = scheduleObject.scheduleID
         
-        
-        try! realm.write {
-            scheduleObject.target -= Double(popUpTextField.enteredSum)!
-            realm.add(scheduleObject, update: .all)
-        }
-        
-        //Проверка и удаление в случае если план меньше нуля
-        guard scheduleObject.target > 0 else {
+        if scheduleObject.available + Double(sumTextField.enteredSum)! >= scheduleObject.target {
+            self.showAlert(message: "Закрыть план?")
             try! realm.write {
                 realm.delete(scheduleObject)
             }
-            return}
+        }else{
+            try! realm.write {
+                scheduleObject.available += Double(sumTextField.enteredSum)!
+                realm.add(scheduleObject,update: .all)
+            }
+        }
+        
+    }
+    func updatePPTArray(scheduleObject: MonetaryScheduler) -> [PayPerTime]?{
+        var payArray = [PayPerTime]()
+        for (_,i) in Array(payPerTimeObjects).enumerated() {
+            if i.scheduleID == scheduleObject.scheduleID{
+                payArray.append(i)
+            }
+        }
+        if payArray.first != nil {
+            return payArray
+        }else{
+            return nil
+        }
+    }
+    func getLastRegularObject(scheduleObject: MonetaryScheduler) -> (firstObject:PayPerTime?,lastObject:PayPerTime?) {
+        var calendarComponent = Calendar.Component.month
+        switch scheduleObject.stringDateRhythm {
+        case .week:
+            calendarComponent = .weekOfMonth
+        case .month:
+            calendarComponent = .month
+        case .none:
+            break
+        }
+        var regularObject: PayPerTime?
+        
+        
+        
+            for (_,i) in Array(payPerTimeObjects).enumerated() {
+                if i.scheduleID == scheduleObject.scheduleID{
+                    regularObject = i
+                
+            }
+        }
+        guard regularObject != nil else {return (nil,nil)}
+        let newNextObject = PayPerTime(scheduleName: scheduleObject.name, date: Calendar.current.date(byAdding: calendarComponent, value: 1, to: regularObject!.date)!, target: scheduleObject.sumPerTime, scheduleID: scheduleObject.scheduleID, vector: regularObject!.vector)
+        return (regularObject,newNextObject)
+    }
+    ///Распределение для регулярного платежа
+    func distributionForRegularObjects(scheduleObject:MonetaryScheduler, enteredSum : Double) {
+        var enteredSum = enteredSum
+        var cortage = getLastRegularObject(scheduleObject: scheduleObject)
+        guard cortage.firstObject != nil else {return}
+        
+        if enteredSum > cortage.0!.target && scheduleObject.sumPerTime >= enteredSum {
+            enteredSum -= cortage.firstObject!.target
+            try! realm.write {
+                cortage = getLastRegularObject(scheduleObject: scheduleObject)
+                realm.add(cortage.1!)
+                realm.delete(cortage.0!)
+            }
+        }
+        while enteredSum >= scheduleObject.sumPerTime {
+            try! realm.write {
+                cortage = getLastRegularObject(scheduleObject: scheduleObject)
+                realm.add(cortage.1!)
+                realm.delete(cortage.0!)
+            }
+            enteredSum -= scheduleObject.sumPerTime
+        }
+        guard getLastRegularObject(scheduleObject: scheduleObject).firstObject != nil else {return}
+        try! realm.write {
+            cortage = getLastRegularObject(scheduleObject: scheduleObject)
+            cortage.firstObject!.target -= enteredSum
+            realm.add(cortage.firstObject!,update: .all)
+        }
+        
         
     }
     
-    func saveCategory() {
-        
-            let category = payObject as! MonetaryCategory
-            historyObject.image = category.image
-            historyObject.name = category.name
-            historyObject.categoryID = category.categoryID
-            try! realm.write {
-                category.sum += Double(popUpTextField.enteredSum)!
-                realm.add(category,update: .all)
+    func sumEqualTargetOfMultiplyObjects(scheduleObject: MonetaryScheduler) {
+        let scheduleObject = scheduleObject
+        let payArray: [PayPerTime]? = updatePPTArray(scheduleObject: scheduleObject)
+        try! realm.write {
+            for i in payArray! {
+                
+                realm.delete(i)
             }
+            realm.delete(scheduleObject)
+        }
+    }
+    ///Распределение для многоразового платежа
+    func distributionForMultiplyObjects(scheduleObject:MonetaryScheduler, enteredSum : Double) {
+        var payArray: [PayPerTime]? = updatePPTArray(scheduleObject: scheduleObject)
+        let scheduler = scheduleObject
+        var arraySum = Double()
+        var enteredSum = enteredSum
+        try! realm.write {
+            scheduleObject.available += enteredSum
+            realm.add(scheduler,update: .all)
+        }
+       
+        //Общая сумма ммассива
+        for i in payArray! {
+            arraySum += i.target
+        }
+        guard payArray != nil else{return}
+        //чтобы объект не уходил в минус
+        if enteredSum > payArray!.first!.target && scheduleObject.sumPerTime >= enteredSum {
+            enteredSum -= payArray!.first!.target
+            try! realm.write {
+                realm.delete(payArray!.first!)
+            }
+        }
+        //чтобы удалить план
+        if enteredSum > arraySum {
+            showAlert(message: "Завершить план?")
+            try! realm.write {
+                realm.delete(payArray!)
+                payArray = nil
+            }
+        }else{
+            //удалить разовые оплаты, которые входят в сумму общего платежа
+            while enteredSum >= scheduleObject.sumPerTime {
+                payArray = updatePPTArray(scheduleObject: scheduleObject)
+                enteredSum -= payArray!.first!.target
+                try! realm.write {
+                    realm.delete(payArray!.first!)
+                    // realm.add(updatePPTRegularOfArray(scheduleObject: scheduleObject)!)
+                }
+            }
+        }
+        payArray = updatePPTArray(scheduleObject: scheduleObject)
+        //перенос остатка
+        guard payArray != nil else {
+            try! realm.write {
+                realm.delete(scheduler)
+            }
+            return}
+        payArray = updatePPTArray(scheduleObject: scheduleObject)
+        try! realm.write {
+            payArray!.first!.target -= enteredSum
+            if payArray!.first!.target == 0 {
+                realm.delete(payArray!.first!)
+            }else{
+            realm.add(payArray!.first!,update: .all)
+            }
+        }
+        
+        
+    }
+    func savePayPerTime(){
+        var scheduleObject = MonetaryScheduler()
+        let payPerTimeObject = payObject as! PayPerTime
+        let enteredSum = Double(sumTextField.enteredSum)!
+        //print(payPerTimeObject)
+        for i in EnumeratedSchedulers(object: schedulerGroup) {
+            if payPerTimeObject.scheduleID == i.scheduleID{
+                scheduleObject = i
+            }
+        }
+        historyObject.image = scheduleObject.image
+        historyObject.name = scheduleObject.name
+        historyObject.scheduleID = scheduleObject.scheduleID
+        historyObject.payPerTimeID = payPerTimeObject.payPerTimeID
+        //если сумма больше
+        
+        
+        
+        switch scheduleObject.stringScheduleType {
+        
+        
+        ///MULTIPLY
+        case .multiply:
+            if enteredSum < payPerTimeObject.target {
+                    try! realm.write {
+                        payPerTimeObject.target -= enteredSum
+                        realm.add(payPerTimeObject,update: .all)
+                        scheduleObject.available += enteredSum
+                        realm.add(scheduleObject,update: .all)
+                    }
+               
+            }else if enteredSum == payPerTimeObject.target {
+                //Это последний месяц кредита??
+                enteredSum == (scheduleObject.target - scheduleObject.available) ? sumEqualTargetOfMultiplyObjects(scheduleObject: scheduleObject) : distributionForMultiplyObjects(scheduleObject: scheduleObject, enteredSum: enteredSum)
+                
+            }else if enteredSum > payPerTimeObject.target{
+                enteredSum == (scheduleObject.target - scheduleObject.available) ? sumEqualTargetOfMultiplyObjects(scheduleObject: scheduleObject) : distributionForMultiplyObjects(scheduleObject: scheduleObject, enteredSum: enteredSum)
+            }
+            
+        ///REGULAR
+        case .regular:
+            if enteredSum < payPerTimeObject.target {
+            try! realm.write {
+                scheduleObject.available += enteredSum
+                realm.add(scheduleObject, update: .all)
+                payPerTimeObject.target -= enteredSum
+                realm.add(payPerTimeObject,update: .all)
+            }
+            }else if enteredSum == payPerTimeObject.target {
+                try! realm.write {
+                    ///удалить и поставить в конец новый объект регулярной оплаты
+                    scheduleObject.available += enteredSum
+                    realm.add(scheduleObject, update: .all)
+                    realm.add(getLastRegularObject(scheduleObject: scheduleObject).lastObject!)
+                    realm.delete(payPerTimeObject)
+                    
+                }
+            }else if enteredSum > payPerTimeObject.target {
+                distributionForRegularObjects(scheduleObject: scheduleObject, enteredSum: enteredSum)
+                try! realm.write {
+                    ///удалить и поставить в конец новый объект регулярной оплаты
+                    scheduleObject.available += enteredSum
+                    realm.add(scheduleObject, update: .all)
+                }
+            }
+        default:
+            break
+        }
+    }
+
+    func saveHistorySum(vector: Bool){
+        if vector {
+            historyObject.sum = Double(sumTextField.enteredSum)!
+        }else {
+            historyObject.sum = -Double(sumTextField.enteredSum)!
+        }
+    }
+    func saveCategory() {
+        let category = payObject as! MonetaryCategory
+        historyObject.image = category.image
+        historyObject.name = category.name
+        historyObject.categoryID = category.categoryID
+        try! realm.write {
+            category.sum += historyObject.sum
+            realm.add(category,update: .all)
+        }
     }
     
     func newSave() {
         //Настройки по умолчанию для всех типов транзакций
+        
         historyObject.date = self.date
         historyObject.accountID = withoutAccountObject.accountID
-        historyObject.sum = Double(popUpTextField.enteredSum)!
+        
         if payObject is MonetaryCategory {
+            let object = payObject as! MonetaryCategory
+            saveHistorySum(vector: object.vector)
             saveCategory()
         }else if payObject is PayPerTime {
-            saveSchedule()
+            let object = payObject as! PayPerTime
+            saveHistorySum(vector: object.vector)
+            savePayPerTime()
+        }else if payObject is MonetaryScheduler {
+            let object = payObject as! MonetaryScheduler
+            saveHistorySum(vector: object.vector)
+            saveScheduler()
         }
-        
         guard selectedAccountObject != nil else{
             DBManager.addHistoryObject(object: historyObject)
             return}
@@ -247,7 +440,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         historyObject.accountID = selectedAccountObject!.accountID
         try! realm.write {
             
-            selectedAccountObject!.balance -= Double(popUpTextField.enteredSum)!
+            selectedAccountObject!.balance += historyObject.sum
             realm.add(selectedAccountObject!,update: .all)
         }
         DBManager.addHistoryObject(object: historyObject)
@@ -260,11 +453,11 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         let items = [flexSpace, done]
         doneToolbar.items = items
         doneToolbar.sizeToFit()
-        popUpTextField.inputAccessoryView = doneToolbar
+        sumTextField.inputAccessoryView = doneToolbar
     }
     
     @objc func doneButtonAction(){
-        popUpTextField.resignFirstResponder()
+        sumTextField.resignFirstResponder()
         //popUpTextField.text! += ","
     }
     
@@ -287,15 +480,15 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }
     
     func textFiedldSettings() {
-        popUpTextField = NumberTextField(frame: .zero)
-        popUpTextField.borderStyle = .none
-        popUpTextField.font = UIFont.systemFont(ofSize: 46)
-        popUpTextField.textAlignment = .center
-        popUpTextField.textColor = whiteThemeMainText
-        popUpTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
+        sumTextField = NumberTextField(frame: .zero)
+        sumTextField.borderStyle = .none
+        sumTextField.font = UIFont.systemFont(ofSize: 46)
+        sumTextField.textAlignment = .center
+        sumTextField.textColor = whiteThemeMainText
+        sumTextField.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
         //        popUpTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-        popUpTextField.backgroundColor = .clear
-        popUpTextField.keyboardType = .decimalPad
+        sumTextField.backgroundColor = .clear
+        sumTextField.keyboardType = .decimalPad
     }
     
     
@@ -320,11 +513,11 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         buttonLabel.textColor = whiteThemeMainText
         self.view.backgroundColor = whiteThemeBackground
         buttonLabel.textColor = whiteThemeBackground
-        popUpTextField.textColor = whiteThemeMainText
+        sumTextField.textColor = whiteThemeMainText
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        popUpTextField.resignFirstResponder()
+        sumTextField.resignFirstResponder()
         return false
     }
     
@@ -369,7 +562,7 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
         
         var accounts = EnumeratedAccounts(array: accountsGroup) //Кастомная функция для добавления счета в массив
         if !accounts.isEmpty {
-        accounts.append(withoutAccountObject) //дефолтная функция по добавлению
+            accounts.append(withoutAccountObject) //дефолтная функция по добавлению
         }
         return accounts
         
@@ -388,10 +581,12 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         var appendAccount = EnumeratedAccounts(array: accountsGroup)
-        
+        for i in appendAccount {
+            if i.isMainAccount {
+                selectedAccountObject = i
+            }
+        }
         appendAccount.append(withoutAccountObject)
-        
-        
         let object = appendAccount[indexPath.row]
         
         //    if indexPath.row == 0 {
@@ -404,7 +599,7 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let object = privateAccounts()[indexPath.row]
         guard object != privateAccounts().last else {
-             selectedAccountObject = nil
+            selectedAccountObject = nil
             scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
             return}
         selectedAccountObject = object

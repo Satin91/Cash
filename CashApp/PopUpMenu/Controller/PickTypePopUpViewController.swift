@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PickTypePopUpViewController: UIViewController{
+class PickTypePopUpTableViewController: UIViewController{
     
     
     
@@ -25,10 +25,10 @@ class PickTypePopUpViewController: UIViewController{
         switch goingTo {
         case "addCategoryVC" :
             dismiss(animated: true, completion: nil)
-            delegate.dismissVC(goingTo: "addCategoryVC", restorationIdentifier: sender.restorationIdentifier!)
+            delegate.dismissVC(goingTo: "addCategoryVC", typeIdentifier: sender.restorationIdentifier!)
         case "addScheduleVC" :
             dismiss(animated: true, completion: nil)
-            delegate.dismissVC(goingTo: "addScheduleVC", restorationIdentifier: sender.restorationIdentifier!)
+            delegate.dismissVC(goingTo: "addScheduleVC", typeIdentifier: sender.restorationIdentifier!)
         default:
             break
         } 

@@ -10,7 +10,7 @@ import UIKit
 
 class NumberTextField: UITextField,UITextFieldDelegate {
 
-    dynamic var enteredSum = "0"
+     var enteredSum = "0"
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,7 +28,9 @@ class NumberTextField: UITextField,UITextFieldDelegate {
 
     var commaIsPressed = false
     @objc func textFieldChanged() {
-        guard self.text?.isEmpty == false else {return}
+        //print(self.text?.count)
+        guard self.text?.isEmpty == false else {
+            enteredSum = "0"; return}
         self.enteredSum = self.text!
         //Цикл для того, чтобы сделать одну запятую в тексте
         for i in enteredSum {
@@ -47,6 +49,7 @@ class NumberTextField: UITextField,UITextFieldDelegate {
             //self.enteredSum = popUpTextField.text!
             self.enteredSum = self.text! // дублируется присвоение для того чтобы установилась автоматическая плавающая точка
         }
+        
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

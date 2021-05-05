@@ -10,8 +10,8 @@ import UIKit
 import FSCalendar
 import RealmSwift
 
-protocol ReloadTableView{
-    func reloadTableView()
+protocol CloseController{
+    func reloadData()
 }
 class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIconToParentViewController{
    
@@ -21,7 +21,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     
     
   //Protocol for reload data to previous table view
-    var tableReloadDelegate: ReloadTableView!
+    var tableReloadDelegate: CloseController!
     var ImageCollectionView: IconsCollectionView!
     @IBOutlet var doneButton: UIBarButtonItem!
     
@@ -69,7 +69,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     @IBAction func doneAction(_ sender: Any) {
         
         saveElement()
-        tableReloadDelegate.reloadTableView()
+        tableReloadDelegate.reloadData()
         dismiss(animated: true, completion: nil) // Если модальное окно
         _ = navigationController?.popViewController(animated: true) //Exit если нет
         

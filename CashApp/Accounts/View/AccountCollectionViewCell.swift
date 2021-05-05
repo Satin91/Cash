@@ -18,6 +18,11 @@ class AccountCollectionViewCell: UICollectionViewCell {
     let identifier = "AccountCell"
     var delegate: collectionCellProtocol!
     
+    @IBOutlet var isMainAccountOutlet: UISwitch!
+    @IBAction func isMineAccountAction(_ sender: UISwitch) {
+        changeMineAccountProperties(sender: sender.isOn)
+    }
+ 
     @IBAction func editButtonAction(_ sender: Any) {
         delegate.tapped(tapped: true)
     }
@@ -27,7 +32,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     @IBOutlet var balanceTextField: NumberTextField!
     @IBOutlet var balanceLabel: UILabel!
     var accountsImageView: UIImageView!
-    
+    var accountObject = MonetaryAccount()
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -57,9 +62,21 @@ class AccountCollectionViewCell: UICollectionViewCell {
         textField.borderStyle = .none
         textField.isEnabled = false
         balanceTextField.textAlignment = .right
-        
     }
     
+    func changeMineAccountProperties(sender: Bool) {
+        var secondaryAccounts = [MonetaryAccount]()
+        for i in EnumeratedAccounts(array: accountsGroup) {
+            try! realm.write {
+            i.isMainAccount = false
+                realm.add(i, update: .all)
+            }
+            try! realm.write {
+            accountObject.isMainAccount = sender
+                realm.add(accountObject, update: .all)
+            }
+        }
+    }
     
     @objc func didEndEditing(_ sender: UITextField) {
         guard delegate != nil else {return}
@@ -85,11 +102,13 @@ class AccountCollectionViewCell: UICollectionViewCell {
     }
     
     func setAccount(account: MonetaryAccount) {
+        isMainAccountOutlet.isOn = account.isMainAccount
         nameTextField.text = account.name
         balanceTextField.text =  String(account.balance.currencyFR)
         accountsImageView.image = UIImage(named: account.imageForAccount)
         ///эта функция нужна здесь, потому что только тут происходит инициализация значений
         disableUnderLine(textField: nameTextField)
+        accountObject = account
     }
     
     

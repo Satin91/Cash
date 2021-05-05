@@ -16,14 +16,14 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
     
   
     
-    func dismissVC(goingTo: String, restorationIdentifier: String) { // Вызывается после подтверждения выбора в addVc
+    func dismissVC(goingTo: String, typeIdentifier: String) { // Вызывается после подтверждения выбора в addVc
    
         let addCategoryVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addCategoryVC") as! AddOperationViewController
         if goingTo == "addCategoryVC" {
-            switch restorationIdentifier {
-            case "first":
+            switch typeIdentifier {
+            case "Income":
                 addCategoryVC.newCategoryObject.stringEntityType = .income
-            case "second":
+            case "Expence":
                 addCategoryVC.newCategoryObject.stringEntityType = .expence
             default:
                 return
@@ -53,8 +53,8 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
 
     @IBAction func addButton(_ sender: Any) {
         //addVC
-        let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpViewController
-        pickTypeVC.buttonsNames = ["Income","Expence"]
+        let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpTableViewController
+        pickTypeVC.cellNames = ["Income","Expence"]
         pickTypeVC.goingTo = "addCategoryVC"
         pickTypeVC.delegate = self
         
@@ -65,7 +65,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         let barButtonView = self.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
         popVC?.sourceView = barButtonView
         popVC?.sourceRect = barButtonView!.bounds
-        pickTypeVC.preferredContentSize = CGSize(width: 200, height: 150)
+        pickTypeVC.preferredContentSize = CGSize(width: 200, height: pickTypeVC.cellNames.count * 50)
         present(navVC, animated: true, completion: nil)
         // Передача данных описана в классе PickTypePopUpViewController
         guard popViewController != nil else {return}
@@ -209,8 +209,8 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension OperationViewController: ReloadTableView {
-    func reloadTableView() {
+extension OperationViewController: CloseController {
+    func reloadData() {
         operationTableView.reloadData()
     }
 }

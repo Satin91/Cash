@@ -22,9 +22,26 @@ class SelectDateTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func set(payPerTime: PayPerTime) {
+    
+    func set(object: Any){
+        if object is MonetaryScheduler {
+            let obj = object as! MonetaryScheduler
+            setSchedule(scheduleObject: obj)
+        }else if object is PayPerTime {
+            let obj = object as! PayPerTime
+            setPayPerTime(payPerTime: obj)
+        }
+    }
+    
+    func setSchedule(scheduleObject: MonetaryScheduler){
+        nameLabel.text = scheduleObject.name
+        let totalSum = scheduleObject.target - scheduleObject.available
+        sumLabel.text = String(totalSum.currencyFR)
+        
+    }
+    func setPayPerTime(payPerTime: PayPerTime) {
         nameLabel.text = payPerTime.scheduleName
-        let totalSum = payPerTime.sumPerTime - payPerTime.available
+        let totalSum = payPerTime.target
         sumLabel.text = String(totalSum.currencyFR)
     }
     

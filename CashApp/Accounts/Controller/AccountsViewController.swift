@@ -252,7 +252,6 @@ extension AccountsViewController: UIPopoverPresentationControllerDelegate {
 extension AccountsViewController: collectionCellProtocol {
     
     func cellTextFieldChanged(_ levelTableViewCell: AccountCollectionViewCell, didEndEditingWithText: String?, textFieldName: String!) {
-        
         switch textFieldName {
         case "HeaderIsEditing":
             try! realm.write {

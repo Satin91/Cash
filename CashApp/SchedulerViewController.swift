@@ -10,24 +10,30 @@ import UIKit
 import FSCalendar
 
 
-class SchedulerViewController: UIViewController,dismissVC,ReloadTableView {
-    func reloadTableView() {
+class SchedulerViewController: UIViewController,dismissVC,CloseController {
+    func reloadData() {
+        datesArray = updateDatesArray()
         tableView.reloadData()
         calendar.reloadData()
         calendar.collectionView.reloadData()
+        calendar.select(Date(), scrollToDate: true)
     }
     
+    @IBOutlet var heightCalendarConstraint: NSLayoutConstraint!
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-  
-    
-    func dismissVC(goingTo: String, restorationIdentifier: String) {
+
+    func dismissVC(goingTo: String, typeIdentifier: String) {
         let addScheduleVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
         if goingTo == "addScheduleVC" {
-            switch restorationIdentifier {
-            case "first":
+            switch typeIdentifier {
+            case "One time":
                 addScheduleVC.newScheduleObject.stringScheduleType = .oneTime
-            case "second":
+            case "Multiple":
+                addScheduleVC.newScheduleObject.stringScheduleType = .multiply
+            case "Regular":
                 addScheduleVC.newScheduleObject.stringScheduleType = .regular
+            case "Goal":
+                addScheduleVC.newScheduleObject.stringScheduleType = .goal
             default:
                 return
             }
@@ -38,24 +44,52 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadTableView {
         present(navVC, animated: true, completion: nil)
     }
     
-
     
     @IBOutlet var calendarBackground: UIView!
     @IBOutlet var tableView: UITableView!
     var calendar = FSCalendarView()
     var quickPayVC: UIViewController!
     @IBAction func addButton(_ sender: Any) {
-        goToPickTypeVC(delegateController: self, buttonsNames: ["One time","Regular"], goingTo: "addScheduleVC")
+        goToPickTypeVC(delegateController: self, buttonsNames: ["One time","Multiple","Regular","Goal"], goingTo: "addScheduleVC")
+    }
+    var datesArray = [Date]()
+    //Я ее напихал во все обновляющие функции т.к. календарь все время обновляется
+    
+  
+    func updateDatesArray() ->[Date]  {
+        let datesArray: [Date] = {
+            var dates = [Date]()
+            for i in payPerTimeObjects{
+                dates.append(i.date)
+                
+            }
+            for x in Array(oneTimeObjects) {
+                dates.append(x.date!)
+            }
+            for y in Array(goalObjects) {
+                dates.append(y.date!)
+            }
+            return dates
+        }()
+        return datesArray
     }
     
-    let datesArray: [Date] = {
-        var dates = [Date]()
-        for i in payPerTimeObjects{
-            dates.append(i.date)
-        }
-        return dates
-    }()
     
+    private func uniq<S: Sequence, T: Hashable> (source: S) -> [T] where S.Iterator.Element == T {
+        var buffer = [T]() // возвращаемый массив
+        var added = Set<T>() // набор - уникальные значения
+        var repeating = [T]()
+        for elem in source {
+            if !added.contains(elem) {
+                buffer.append(elem)
+                added.insert(elem)
+            }else{
+                repeating.append(elem)
+            }
+        }
+        return repeating
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addBlur()
@@ -63,11 +97,16 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadTableView {
         installTableView()
         calendar.delegate = self
         calendar.dataSource = self
+        datesArray = updateDatesArray()
+  
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        datesArray = updateDatesArray()
         calendar.reloadData()
-        calendar.select(Date(), scrollToDate: true)
+        calendar.collectionView.reloadData()
+        
+        
     }
     func installTableView() {
         let nib = UINib(nibName: "MainTableViewCell", bundle: nil)
@@ -88,6 +127,26 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadTableView {
         initConstraints(view: calendar, to: calendarBackground)
         calendar.register(FSCalendarCell.self, forCellReuseIdentifier: "Cell")
     }
+    func createObjectsArray(date: Date) -> [Any] {
+        var objectsArray = [Any]()
+        for i in payPerTimeObjects{
+            if i.date == date {
+            objectsArray.append(i)
+            }
+        }
+        for x in Array(oneTimeObjects) {
+            if x.date == date {
+            objectsArray.append(x)
+            }
+        }
+        for y in Array(goalObjects) {
+            if y.date == date{
+            objectsArray.append(y)
+            }
+        }
+        return objectsArray
+    }
+   
 
 }
 
@@ -95,76 +154,34 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadTableView {
 extension SchedulerViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+ 
+        let anyArray = createObjectsArray(date: date) // Воспользовался функцией сверху (тут разовый, регулярный платеж и платеж в раз)
         
-       // let payPerDateObjects = payPerTimeObjects.filter { $0.date.c }
-        let payPerDateObjects: [PayPerTime] = {
-            var ppt = [PayPerTime]()
-            for i in payPerTimeObjects {
-                if date == i.date {
-                    ppt.append(i)
-                }
-            }
-            return ppt
-        }()
-        //persons.filter { $0.hobbies.contains(stringToSearch) }
-        
-        let cell = calendar.dequeueReusableCell(withIdentifier: "Cell", for: date, at: monthPosition)
-        for i in payPerTimeObjects {
-            if date == i.date {
-                
-                goToSelectDateVC(delegateController: self, payPerTimeObject: payPerDateObjects, sourseView: calendar.cell(for: date, at: monthPosition)!)
-                print("Содержит дату, она пренадлежит \(i.scheduleName),Сумма \(i.sumPerTime)")
+        guard !anyArray.isEmpty else {return}
+        for i in datesArray {
+            if date == i {
+                goToSelectDateVC(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!)
             }
             
         }
        
+            
     }
-    
+   
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-
-        var datesArray = [Date]()
-        for i in payPerTimeObjects {
-            datesArray.append(i.date)
-        }
-        if datesArray.contains(date) {
-            return 1
+        let a = uniq(source: datesArray)
+        if a.contains(date) {
+            return a.count + 1
         }else{
             return 0
         }
     }
-    
-//    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-//        let cell = calendar.dequeueReusableCell(withIdentifier: "Cell", for: date, at: position)
-//        //let object = payPerTimeObjects[position.hashValue]
-//        var datesArray = [Date]()
-//        for i in payPerTimeObjects {
-//            datesArray.append(i.date)
-//        }
-//
-//        if datesArray.contains(date) {
-//            cell.contentView.backgroundColor = .systemGray
-//            cell.contentView.layer.cornerRadius = 5
-//        }
-//        return cell
-//    }
-//    func minimumDate(for calendar: FSCalendar) -> Date {
-//
-//        return Date()
-//    }
-    
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderDefaultColorFor date: Date) -> UIColor? {
-        for i in self.datesArray {
-            if date == i {
-                return .systemGray4
-            }
-        }
-        return nil
-    }
-    
+
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
+        
         for i in self.datesArray {
             if date == i {
-                return .systemGray
+                return .systemPink
             }
             }
         return nil
@@ -172,13 +189,12 @@ extension SchedulerViewController: FSCalendarDelegate, FSCalendarDataSource, FSC
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderRadiusFor date: Date) -> CGFloat {
         
-//        for i in self.datesArray {
-//            if date == i {
-//                return 1
-//            }
-//            }
-        return 1
         
+        if datesArray.contains(date) {
+            return 0.5
+        }
+        return 0.5
+    
     }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         for i in self.datesArray {
@@ -202,6 +218,34 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
+        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
+        let pptObject: PayPerTime? = {
+           var pptObjects = [PayPerTime]()
+            for i in payPerTimeObjects {
+                if i.scheduleID == object.scheduleID{
+                    pptObjects.append(i)
+                }
+            }
+            guard pptObjects.first != nil else {return nil}
+            return pptObjects.first!
+        }()
+        
+        switch object.stringScheduleType {
+        case .goal:
+            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
+        case .oneTime:
+            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
+        case .multiply:
+            guard pptObject != nil else {return}
+            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
+        case .regular:
+            guard pptObject != nil else {return}
+            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
+        }
+    }
 }
 
 extension SchedulerViewController : UIPopoverPresentationControllerDelegate{
@@ -212,21 +256,24 @@ extension SchedulerViewController : UIPopoverPresentationControllerDelegate{
 }
 
 extension SchedulerViewController: closeSelectDateProtocol, PopUpProtocol {
+    func closeSelectDate(payObject: Any) {
+        guard blur.alpha != 1 else {return}
+        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
+        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: payObject)
+        
+    }
+    
     func closePopUpMenu() {
         self.view.reservedAnimateView2(animatedView: blur)
         self.view.reservedAnimateView(animatedView: quickPayVC.view, viewController: nil)
         self.quickPayVC = nil
+        datesArray = updateDatesArray()
         tableView.reloadData()
         calendar.collectionView.reloadData()
         calendar.reloadData()
     }
     
-    func closeSelectDate(payPerTimeObject: PayPerTime) {
-        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: payPerTimeObject)
-        
-        
-    }
+
     
     
 }

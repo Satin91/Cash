@@ -16,16 +16,24 @@ class MonetaryCategory: Object {
     @objc dynamic var limitBalance: Double = 0
     @objc dynamic var isEnabledLimit = false
     @objc dynamic var image = "card"
-    @objc dynamic var accountType: Int = CategoryType.expence.rawValue
+    @objc dynamic var currencyISO = "USD"
+    @objc dynamic var categoryType: Int = CategoryType.expence.rawValue
     @objc dynamic var categoryID = NSUUID.init().uuidString
     var stringEntityType: CategoryType {
-        get { return CategoryType(rawValue: accountType)! }
-        set { accountType = newValue.rawValue }
+        get { return CategoryType(rawValue: categoryType)! }
+        set { categoryType = newValue.rawValue }
         }
+    var vector : Bool {
+        get { if CategoryType(rawValue: categoryType)! == .expence {
+            return false
+        }else {
+            return true
+        }}
+    }
     override static func primaryKey() -> String? {
         return "categoryID"
     }
-    convenience init(name: String,sum:Double, limit: Double,limitBalance: Double,image:String,categoryType:CategoryType?) {
+    convenience init(name: String,sum:Double, limit: Double,limitBalance: Double,image:String,currencyISO: String,categoryType:CategoryType) {
         self.init()
         self.name = name
         self.sum = sum
@@ -33,18 +41,9 @@ class MonetaryCategory: Object {
         self.limitBalance = limitBalance
         self.isEnabledLimit = isEnabledLimit
         self.image = image
-        if let typeAC = categoryType?.rawValue{
-        self.accountType = typeAC
-        }else {print("Вернулся nil")}
-    }
-    func initType() -> String {
-        var text = ""
-        switch accountType{
-        case 1 : text = "Expence"
-        case 2 : text = "Income"
-        default:break
-        }
-        return text
+        self.currencyISO = currencyISO
+        self.categoryType = categoryType.rawValue
+      
     }
 }
 
@@ -57,7 +56,9 @@ class MonetaryAccount: Object {
     @objc dynamic var date: Date?
     @objc dynamic var imageForCell = "card"
     @objc dynamic var imageForAccount = "account1"
+    @objc dynamic var currencyISO = "USD"
     @objc dynamic var isMainAccount = false
+    @objc dynamic var isUseForTudayBalance = true
     @objc dynamic var accountType: Int = AccountType.ordinary.rawValue
     @objc dynamic var accountID = NSUUID.init().uuidString
     var stringAccountType: AccountType {
@@ -67,7 +68,7 @@ class MonetaryAccount: Object {
     override static func primaryKey() -> String? {
         return "accountID"
     }
-    convenience init(name: String,balance:Double,targetSum: Double,date:Date?,imageForAccount:String,imageForCell: String,accountType:AccountType?,isMainAccount: Bool) {
+    convenience init(name: String,balance:Double,targetSum: Double,date:Date?,imageForAccount:String,imageForCell: String,accountType:AccountType?,currencyISO: String,isMainAccount: Bool,isUseForTudayBalance: Bool) {
         self.init()
         self.name = name
         self.imageForCell = imageForCell
@@ -76,6 +77,8 @@ class MonetaryAccount: Object {
         self.targetSum = targetSum
         self.date = date
         self.isMainAccount = isMainAccount
+        self.currencyISO = currencyISO
+        self.isUseForTudayBalance = isUseForTudayBalance
         if let typeAC = accountType?.rawValue{
         self.accountType = typeAC
         }else {print("Вернулся nil, Model viw controller")}
@@ -102,7 +105,9 @@ class MonetaryScheduler: Object {
     @objc dynamic var date: Date?
     @objc dynamic var dateRhythm: Int = DateRhythm.none.rawValue
     @objc dynamic var image: String = "card"
+    @objc dynamic var currencyISO = "USD"
     @objc dynamic var isUseForTudayBalance = true
+    @objc dynamic var vector = false
     @objc dynamic var scheduleType: Int = ScheduleType.oneTime.rawValue
     @objc dynamic var scheduleID = NSUUID.init().uuidString
     var stringScheduleType: ScheduleType {
@@ -116,17 +121,20 @@ class MonetaryScheduler: Object {
     override static func primaryKey() -> String? {
         return "scheduleID"
     }
-    convenience init(name: String,sum: Double,balance:Double,sumPerTime:Double,date:Date?,dateRhytm:Int?,image: String,isUseForTudayBalance: Bool,scheduleType:ScheduleType,dateRhythm: DateRhythm) {
+    convenience init(name: String,target: Double,available:Double,sumPerTime:Double,date:Date?,dateRhytm:Int?,image: String,currencyISO: String,isUseForTudayBalance: Bool,scheduleType:ScheduleType,dateRhythm: DateRhythm, vector: Bool) {
         self.init()
         self.name = name
-        self.image = image
-        self.target = sum
-        self.available = balance
+        self.target = target
+        self.available = available
         self.sumPerTime = sumPerTime
         self.date = date
+        self.dateRhythm = dateRhythm.rawValue
+        self.image = image
+        self.vector = vector
+        self.currencyISO = currencyISO
         self.isUseForTudayBalance = isUseForTudayBalance
         self.scheduleType = scheduleType.rawValue
-        self.dateRhythm = dateRhythm.rawValue
+        
     }
 }
 
@@ -161,7 +169,9 @@ enum AccountType: Int {
 }
 enum ScheduleType: Int {
     case oneTime = 1
-    case regular = 2
+    case multiply = 2
+    case regular = 3
+    case goal = 4
 }
 
 enum DateRhythm: Int {
@@ -174,20 +184,20 @@ enum DateRhythm: Int {
 class PayPerTime: Object {
     @objc dynamic var scheduleName = ""
     @objc dynamic var date: Date = Date()
-    @objc dynamic var available: Double = 0.0
-    @objc dynamic var sumPerTime: Double = 0.0
+    @objc dynamic var target: Double = 0.0
     @objc dynamic var scheduleID = ""
+    @objc dynamic var vector = false
     @objc dynamic var payPerTimeID = NSUUID.init().uuidString
     override static func primaryKey() -> String? {
         return "payPerTimeID"
     }
-    convenience init(scheduleName: String,date: Date, available: Double,sumPerTime: Double,scheduleID: String) {
+    convenience init(scheduleName: String,date: Date,target: Double,scheduleID: String, vector: Bool) {
         self.init()
         self.scheduleName = scheduleName
         self.date = date
-        self.available = available
-        self.sumPerTime = sumPerTime
+        self.target = target
         self.scheduleID = scheduleID
+        self.vector = vector
 }
 }
 

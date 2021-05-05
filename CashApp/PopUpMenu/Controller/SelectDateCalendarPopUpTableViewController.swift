@@ -8,7 +8,7 @@
 
 import UIKit
 protocol closeSelectDateProtocol {
-    func closeSelectDate(payPerTimeObject: PayPerTime)
+    func closeSelectDate(payObject: Any)
 }
 class SelectDateCalendarPopUpTableViewController: UITableViewController,PopUpProtocol{
     func closePopUpMenu() {
@@ -17,15 +17,14 @@ class SelectDateCalendarPopUpTableViewController: UITableViewController,PopUpPro
     
     var closeSelectDateDelegate: closeSelectDateProtocol!
     
-    var payPerTimeObject: [PayPerTime]!
-//
+    var payObject: [Any]!
 //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
 //        navigationController?.setNavigationBarHidden(true, animated: animated)
 //    }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-            let item = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+            let item = UIBarButtonItem(title: "YAYA", style: .plain, target: nil, action: nil)
             viewController.navigationItem.backBarButtonItem = item
         
         }
@@ -39,28 +38,36 @@ class SelectDateCalendarPopUpTableViewController: UITableViewController,PopUpPro
         tableView.delegate = self
         tableView.dataSource = self
         let xibCell = UINib(nibName: "SelectDateTableViewCell", bundle: nil)
-        
         tableView.register(xibCell, forCellReuseIdentifier: "SelectDateCell")
+        tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
         
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return payPerTimeObject.count
+        
+        return payObject.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectDateCell") as! SelectDateTableViewCell
-        let object = payPerTimeObject[indexPath.row]
-        if payPerTimeObject != nil {
         
-            cell.set(payPerTime: object)
+        let object = payObject[indexPath.row]
+        if payObject != nil {
+            cell.set(object: object)
         }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let object = payPerTimeObject[indexPath.row]
-        closeSelectDateDelegate.closeSelectDate(payPerTimeObject: object)
+        
+        let object = payObject[indexPath.row]
+        
+   
+        closeSelectDateDelegate.closeSelectDate(payObject: object)
         dismiss(animated: true, completion: nil)
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }
 

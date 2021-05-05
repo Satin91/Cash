@@ -37,7 +37,7 @@ class MainTableViewCell: UITableViewCell {
     func toHistory(history: AccountsHistory) {
         primaryLabel.text = history.name
         secondaryLabel.text = dateToString(date: history.date)
-        sumLabel.text = String(history.sum.currencyUS)
+        sumLabel.text = history.sum.currencyFormatter(ISO: "BYN")
         monetaryImage.image = UIImage(named: history.image!)
     }
     

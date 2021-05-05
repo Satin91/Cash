@@ -8,13 +8,14 @@
 
 import UIKit
 import FSCalendar
-class FSCalendarView: FSCalendar {
+class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
 
    
     override init(frame: CGRect) {
         super.init(frame: frame)
         calendarSettings()
         self.scrollDirection = .vertical
+        
     }
     
     func calendarSettings() {
@@ -27,10 +28,15 @@ class FSCalendarView: FSCalendar {
         self.appearance.headerTitleColor = whiteThemeRed
         self.appearance.weekdayTextColor = whiteThemeTranslucentText
         self.firstWeekday = 2
+        self.placeholderType = .none
+        self.appearance.titleFont = .monospacedSystemFont(ofSize: 17, weight: UIFont.Weight.regular)
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderRadiusFor date: Date) -> CGFloat {
+        return 0.5
     }
 }
