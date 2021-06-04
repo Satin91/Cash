@@ -9,30 +9,35 @@
 import UIKit
 import RealmSwift
 import AAInfographics
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
+class HomeViewController: UIViewController  {
     
     @IBOutlet var primaryLabel: UILabel!
     @IBOutlet var balanceLabel: UILabel!
     
     @IBOutlet var viewHistoryButton: UIButton!
     @IBOutlet var totalBalanceButtom: UIButton!
-    @IBOutlet var historyTableView: UITableView!
+    @IBOutlet var historyTableView: EnlargeTableView!
+    @IBOutlet var tableView: EnlargeTableView!
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-            historyTableView.reloadData()
+        tableView.enterHistoryData()
+        tableView.reloadData()
             //При переходе через таб бар обновления не происходят
     }
+   
     
+    
+    
+    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.clipsToBounds = true
+        
         totalBalanceButtom.mainButtonTheme()
-        let cellNib = UINib(nibName: "MainTableViewCell", bundle: nil)
-        historyTableView.register(cellNib, forCellReuseIdentifier: "MainIdentifier")
-        historyTableView.delegate = self
-        historyTableView.dataSource = self
-        historyTableView.separatorStyle = .none
-        historyTableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         navigationItem.setValue("March, 13", forKey: "title")
         navigationController!.navigationBar.tintColor = whiteThemeMainText // не работае почему то, потому что наверно стоит следом функция
         setupNavigationController(Navigation: navigationController!)
@@ -43,7 +48,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     
     func numberOfSections(in tableView: UITableView) -> Int{
-        
         return 1
     }
     

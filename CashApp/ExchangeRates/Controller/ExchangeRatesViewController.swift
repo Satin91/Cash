@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CurrencyViewController: UIViewController {
+class ExchangeRatesViewController: UIViewController {
 
 
     @IBOutlet var convertTextField: NumberTextField!
@@ -23,7 +23,6 @@ class CurrencyViewController: UIViewController {
     var selectedCurrency: CurrencyObject?
     var currencyModelController = CurrencyModelController()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -32,7 +31,6 @@ class CurrencyViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -45,7 +43,7 @@ class CurrencyViewController: UIViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "CurrencyTableViewCell", bundle: nil), forCellReuseIdentifier: "currencyCell")
+        tableView.register(UINib(nibName: "ExchangeRatesTableViewCell", bundle: nil), forCellReuseIdentifier: "exchangeRatesCell")
         
     }
     func numberFormatter(number: NSNumber, identifier: String) -> String {
@@ -69,13 +67,13 @@ class CurrencyViewController: UIViewController {
     }
 
 }
-extension CurrencyViewController: UITableViewDataSource,UITableViewDelegate {
+extension ExchangeRatesViewController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currencyObjecs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "exchangeRatesCell", for: indexPath) as! ExchangeRatesTableViewCell
         let object = currencyObjecs[indexPath.row]
         cell.set(object: object)
         return cell

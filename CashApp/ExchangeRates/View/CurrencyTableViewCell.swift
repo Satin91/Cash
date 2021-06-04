@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CurrencyTableViewCell: UITableViewCell {
+class ExchangeRatesTableViewCell: UITableViewCell {
 
     @IBOutlet var currencyFlag: UIImageView!
     @IBOutlet var currencyISO: UILabel!

@@ -58,7 +58,8 @@ var curIdentifiers: [String: CurrencyLocale] = ["USD": .englishUnitedStates
                                                 "MYR":.englishMalaysia,
                                                 "PLN":.polishPoland,
                                                 "RON":.romanianMoldova,
-                                                "THB":.thaiThailand,"KZT":.russianKazakhstan]
+                                                "THB":.thaiThailand,
+                                                "KZT":.russianKazakhstan]
 
     
 public enum CurrencyLocale: String {
