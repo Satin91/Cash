@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import AAInfographics
+
 class HomeViewController: UIViewController  {
     
     @IBOutlet var primaryLabel: UILabel!
@@ -18,29 +19,44 @@ class HomeViewController: UIViewController  {
     @IBOutlet var totalBalanceButtom: UIButton!
     @IBOutlet var historyTableView: EnlargeTableView!
     @IBOutlet var tableView: EnlargeTableView!
-    
+    var currencyModelController = CurrencyModelController()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        tableView.enterHistoryData()
+        getCurrenciesByPriorities()//Обновить данные об изменении главной валюты
+        setTotalBalance() //Назначить сумму
+        tableView.enterHistoryData() // Обновление данных истории
         tableView.reloadData()
             //При переходе через таб бар обновления не происходят
     }
    
     
+    func setTotalBalance() {
+        guard let validCurrency = currencyPrioritiesObjects.first else {return}
+        var totalBalanceSum: Double = 0
+        for i in accountsObjects {
+            if i.currencyISO != validCurrency.ISO {
+                totalBalanceSum += currencyModelController.convert(i.balance, inputCurrency: i.currencyISO, outputCurrency: validCurrency.ISO)!
+            }else{
+                totalBalanceSum += i.balance
+            }
+        }
+        balanceLabel.text = String(totalBalanceSum.currencyFormatter(ISO: validCurrency.ISO))
+    }
+  
     
-    
-    
- 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.clipsToBounds = true
+        currencyModelController.getCurrenciesFromJSON()
         
         totalBalanceButtom.mainButtonTheme()
+        setTotalBalance()
         tableView.separatorStyle = .none
         navigationItem.setValue("March, 13", forKey: "title")
         navigationController!.navigationBar.tintColor = whiteThemeMainText // не работае почему то, потому что наверно стоит следом функция
         setupNavigationController(Navigation: navigationController!)
+        navigationItem.rightBarButtonItem?.title = "Currencies"
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
         self.view.backgroundColor = .white
     }
@@ -63,23 +79,9 @@ class HomeViewController: UIViewController  {
  
        return 76
     }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        var visibleFirstIndex = historyTableView.indexPathsForVisibleRows?[0]
-//        guard let index = visibleFirstIndex else {return}
-//        historyTableView.beginUpdates()
-//        let cell = historyTableView.dequeueReusableCell(withIdentifier: TableViewCell.historyIdentifier, for: index) as! TableViewCell
-//        cell.contentView.layer.opacity = 0.4
-//        historyTableView.reloadData()
-//        print(historyTableView.indexPathsForVisibleRows![0])
-//        print(scrollView.contentOffset.y)
-//        historyTableView.endUpdates()
-    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
-        //tableView.beginUpdates()
-        
-        //tableView.endUpdates()
-        
+
     }
     //                        ROW ROW
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

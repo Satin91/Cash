@@ -11,7 +11,7 @@ import RealmSwift
 class AddScheduleViewController: UIViewController {
     
     
-    var reloadParentTableView: CloseController!
+    var reloadParentTableView: ReloadParentTableView!
     // @IBOutlet var nameTextField: NumberTextField!
     
     @IBOutlet var headingTextLabel: UILabel!

@@ -209,7 +209,7 @@ extension OperationViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension OperationViewController: CloseController {
+extension OperationViewController: ReloadParentTableView {
     func reloadData() {
         operationTableView.reloadData()
     }

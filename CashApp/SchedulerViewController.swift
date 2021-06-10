@@ -10,7 +10,7 @@ import UIKit
 import FSCalendar
 
 
-class SchedulerViewController: UIViewController,dismissVC,CloseController {
+class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView {
     func reloadData() {
         datesArray = updateDatesArray()
         tableView.reloadData()

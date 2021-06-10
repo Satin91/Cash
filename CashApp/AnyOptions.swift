@@ -147,14 +147,24 @@ func EnumeratedSchedulers(object: [Results<MonetaryScheduler>]) -> [MonetarySche
     }
     return monetaryArray
 }
-
+func enumeratedALL<T: Comparable>(object:Results<T>) -> [T] {
+    var array = [T]()
+    
+    for i in object {
+        array.append(i)
+    }
+    return array
+}
 
 //MARK: anyOptions
 
 
 
 
-
+//MARK: TableView reload delegate
+protocol ReloadParentTableView{
+    func reloadData()
+}
 
 
 ///MARK: Gradient view

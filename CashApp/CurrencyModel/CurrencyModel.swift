@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import RealmSwift
 
 
-class CurrencyObject {
+
+class CurrencyObject2 {
     var ISO: String = ""
     var exchangeRate: Double = 0
     //var currencyOperations = CurrencyOperations()
@@ -22,8 +24,7 @@ class CurrencyObject {
 struct Rates: Codable {
     let rates: [String:Double]
 }
-let validISOList = ["USD","EUR","JPY","GBP","AUD","CHF","CAD","CNY","SEK","NOK","NZD","SGD","HKD","KRW","TRY","RUB","INR","BRL","ZAR","BYN","UAH","ILS","BGN","CZK","DKK","HRK","HUF","IDR","ISK","MXN","MYR","PLN","RON","THB","KZT"]
-
+let validISOList = ["USD","EUR","JPY","GBP","AUD","CHF","CAD","CNY","SEK","NOK","NZD","SGD","HKD","KRW","TRY","RUB","INR","BRL","ZAR","BYN","UAH","ILS","BGN","CZK","DKK","HRK","HUF","IDR","ISK","MXN","MYR","PLN","RON","THB","KZT","AMD","ALL","BAM","RSD"]
 
 var curIdentifiers: [String: CurrencyLocale] = ["USD": .englishUnitedStates
                                                 ,"EUR":.englishGermany,
@@ -59,9 +60,143 @@ var curIdentifiers: [String: CurrencyLocale] = ["USD": .englishUnitedStates
                                                 "PLN":.polishPoland,
                                                 "RON":.romanianMoldova,
                                                 "THB":.thaiThailand,
-                                                "KZT":.russianKazakhstan]
+                                                "KZT":.russianKazakhstan,
+                                                "AMD":.armenianArmenia,
+                                                "ALL":.albanianAlbania,
+                                                "BAM":.bosnianBosniaHerzegovina,
+                                                "RSD":.serbianSerbia
+]
 
+
+
+//["USD","EUR","JPY","GBP","AUD","CHF","CAD","CNY","SEK","NOK","NZD","SGD","HKD","KRW","TRY","RUB","INR","BRL","ZAR","BYN","UAH","ILS","BGN","CZK","DKK","HRK","HUF","IDR","ISK","MXN","MYR","PLN","RON","THB","KZT"]
+public enum CurrencyName: String {
+    case USD
+    case EUR
+    case JPY
+    case GBP
+    case AUD
+    case CHF
+    case CAD
+    case CNY
+    case SEK
+    case NOK
+    case NZD
+    case SGD
+    case HKD
+    case KRW
+    case TRY
+    case RUB
+    case INR
+    case BRL
+    case ZAR
+    case BYN
+    case UAH
+    case ILS
+    case BGN
+    case CZK
+    case DKK
+    case HRK
+    case HUF
+    case IDR
+    case ISK
+    case MXN
+    case MYR
+    case PLN
+    case RON
+    case THB
+    case KZT
+    case AMD
+    case ALL
+    case BAM
+    case RSD
     
+    var getRaw: String {
+        switch self {
+        case .USD: return "United States Dollar"
+        case .EUR: return "European euro"
+        
+        case .JPY:
+            return "Japanese yen"
+        case .GBP:
+            return "Pound sterling"
+        case .AUD:
+            return "Australian dollar"
+        case .CHF:
+            return "Swiss franc"
+        case .CAD:
+            return "Canadian dollar"
+        case .CNY:
+            return "Chinese Yuan Renminbi"
+        case .SEK:
+            return "Swedish krona"
+        case .NOK:
+            return "Norwegian krone"
+        case .NZD:
+            return "New Zealand dollar"
+        case .SGD:
+            return "Singapore dollar"
+        case .HKD:
+            return "Hong Kong dollar"
+        case .KRW:
+            return "South Korean won"
+        case .TRY:
+            return "Turkish lira"
+        case .RUB:
+            return "Russian ruble"
+        case .INR:
+            return "Indian rupee"
+        case .BRL:
+            return "Brazilian real"
+        case .ZAR:
+            return "South African rand"
+        case .BYN:
+            return "Belarusian ruble"
+        case .UAH:
+            return "Ukrainian hryvnia"
+        case .ILS:
+            return "Israeli new shekel"
+        case .BGN:
+            return "Bulgarian lev"
+        case .CZK:
+            return "Czech koruna"
+        case .DKK:
+            return "Danish krone"
+        case .HRK:
+            return "Croatian kuna"
+        case .HUF:
+            return "Hungarian forint"
+        case .IDR:
+            return "Indonesian rupiah"
+        case .ISK:
+            return "Icelandic krona"
+        case .MXN:
+            return "Mexican peso"
+        case .MYR:
+            return "Malaysian ringgit"
+        case .PLN:
+            return "Polish zloty"
+        case .RON:
+            return "Romanian leu"
+        case .THB:
+            return "Thai baht"
+        case .KZT:
+            return "Kazakhstani tenge"
+        case .AMD:
+            return "Armenian dram"
+        case .ALL:
+            return "Albanian lek"
+        case .BAM:
+            return "Bosnia and Herzegovina convertible mark"
+        case .RSD:
+            return "Serbian dinar"
+        }
+        
+    }
+//    func getRaw(ISO: String)->String {
+//
+//    }
+}
 public enum CurrencyLocale: String {
     
     case current = "current"

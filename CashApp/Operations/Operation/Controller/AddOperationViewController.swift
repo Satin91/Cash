@@ -10,9 +10,7 @@ import UIKit
 import FSCalendar
 import RealmSwift
 
-protocol CloseController{
-    func reloadData()
-}
+
 class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIconToParentViewController{
    
     func sendIconName(name: String) {
@@ -21,7 +19,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     
     
   //Protocol for reload data to previous table view
-    var tableReloadDelegate: CloseController!
+    var tableReloadDelegate: ReloadParentTableView!
     var ImageCollectionView: IconsCollectionView!
     @IBOutlet var doneButton: UIBarButtonItem!
     

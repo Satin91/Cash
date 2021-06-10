@@ -18,7 +18,7 @@ class ExchangeRatesViewController: UIViewController {
     @IBAction func showResultButton(_ sender: Any) {
         resultLabel.text = selectedCurrency?.ISO
         //convertTextField.enteredSum
-        resultLabel.text = currencyModelController.convert(convertTextField.enteredSum, inputCurrency: selectedCurrency?.ISO, outputCurrency: "USD")?.currencyFormatter(ISO: selectedCurrency?.ISO)
+        //resultLabel.text = currencyModelController.convert(convertTextField.enteredSum, inputCurrency: selectedCurrency?.ISO, outputCurrency: "USD")?.currencyFormatter(ISO: selectedCurrency?.ISO)
     }
     var selectedCurrency: CurrencyObject?
     var currencyModelController = CurrencyModelController()
@@ -27,7 +27,7 @@ class ExchangeRatesViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         currencyModelController.getCurrenciesFromJSON()
-        print(currencyObjecs)
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -69,12 +69,12 @@ class ExchangeRatesViewController: UIViewController {
 }
 extension ExchangeRatesViewController: UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currencyObjecs.count
+        return currencyObjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "exchangeRatesCell", for: indexPath) as! ExchangeRatesTableViewCell
-        let object = currencyObjecs[indexPath.row]
+        let object = currencyObjects[indexPath.row]
         cell.set(object: object)
         return cell
     }
@@ -83,7 +83,7 @@ extension ExchangeRatesViewController: UITableViewDataSource,UITableViewDelegate
         return 60
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let object = currencyObjecs[indexPath.row]
+        let object = currencyObjects[indexPath.row]
         selectedCurrency = object
     }
 }

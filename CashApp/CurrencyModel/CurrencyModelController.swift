@@ -7,13 +7,8 @@
 
 import Foundation
 
-
-var currencyObjecs = [CurrencyObject]()
-
-
-
 class CurrencyModelController {
-    var currencyObject = CurrencyObject(ISO: "", exchangeRate: 0)
+    var currencyObject = CurrencyObject2(ISO: "", exchangeRate: 0)
     var fetchedCurrencyObject: Rates?
 
     public func getCurrenciesFromJSON(){
@@ -29,7 +24,33 @@ class CurrencyModelController {
                 for i in fetchedCurrencyObject!.rates {
                     let a = makeCurrency(ISO: i.key, rate: i.value)
                     guard let object = a else {continue}
-                    currencyObjecs.append(object)
+                    let newRealmObject = CurrencyObject(ISO: object.ISO, exchangeRate: object.exchangeRate)
+                    guard currencyObjects.count == validISOList.count else{
+                        if currencyObjects.contains(where: { thisObject in
+                            thisObject.ISO == object.ISO
+                        }){
+                            for i in currencyObjects {
+                                if i.ISO == newRealmObject.ISO {
+                                    try! realm.write {
+                                        i.exchangeRate = newRealmObject.exchangeRate
+                                        realm.add(i,update: .all)
+                                    }
+                                }
+                            }
+                        }else{
+                            try! realm.write{
+                                realm.add(newRealmObject)
+                            }
+                        }
+                        continue}
+                    for i in currencyObjects {
+                        if i.ISO == newRealmObject.ISO {
+                            try! realm.write {
+                                i.exchangeRate = newRealmObject.exchangeRate
+                                realm.add(i,update: .all)
+                            }
+                        }
+                    }
                 }
             }else {
                 print("failed to parse")
@@ -82,7 +103,7 @@ class CurrencyModelController {
 
     func getCurrencyFromValidISOList(currency: String) -> CurrencyObject? {
         var object: CurrencyObject?
-        for i in  currencyObjecs{
+        for i in  currencyObjects{
             //guard let identifier = i.identifier else {continue}
             if validISOList.contains(i.ISO){
                 object = i
@@ -90,11 +111,24 @@ class CurrencyModelController {
         }
         return object
     }
+    
+    func getCurrencyFromRealm(ISO: String) -> Double? {
+        guard currencyObjects.contains(where: { CurrencyObject in CurrencyObject.ISO == ISO })else{ return nil }
+        var exchangeRate: Double?
+        for i in currencyObjects {
+            if i.ISO == ISO{
+                exchangeRate = i.exchangeRate
+            }
+        }
+        return exchangeRate
+    }
 
-    public func convertString(_ value : Double?, inputCurrency : String?, outputCurrency : String?) -> Double? {
+    public func convert(_ value : Double?, inputCurrency : String?, outputCurrency : String?) -> Double? {
         guard inputCurrency != nil, outputCurrency != nil else {return nil}
-        guard let inputRate = fetchedCurrencyObject?.rates[inputCurrency!] else { return nil }
-        guard let outputRate =  fetchedCurrencyObject?.rates[outputCurrency!] else { return nil }
+       
+        guard currencyObjects.contains(where: { ISO in ISO.ISO == inputCurrency!})else {return nil}
+        let inputRate = getCurrencyFromRealm(ISO: inputCurrency!) ?? 0
+        let outputRate = getCurrencyFromRealm(ISO: outputCurrency!) ?? 0
         let multiplier = outputRate/inputRate
         return value! * multiplier
     }
@@ -110,19 +144,20 @@ class CurrencyModelController {
         }
         return 0
     }
-    public func convert(_ value : Any?, inputCurrency : String?, outputCurrency : String?) -> Double? {
+    public func convert2(_ value : Any?, inputCurrency : String?, outputCurrency : String?) -> Double? {
         guard inputCurrency != nil, outputCurrency != nil, value != nil else {return nil}
+        
         let value = returnDoubleValue(value)
         guard let inputRate = fetchedCurrencyObject?.rates[inputCurrency!] else { return nil }
         guard let outputRate =  fetchedCurrencyObject?.rates[outputCurrency!] else { return nil }
         let multiplier = outputRate/inputRate
         return value! * multiplier
     }
-    public func makeCurrency(ISO : String?, rate : Double?) -> CurrencyObject? {
+    public func makeCurrency(ISO : String?, rate : Double?) -> CurrencyObject2? {
         guard let ISO = ISO else { return nil }
         guard let rate = rate else {return nil}
         guard validISOList.contains(ISO) else { return nil}
-        let object = CurrencyObject(ISO: ISO, exchangeRate: rate)
+        let object = CurrencyObject2(ISO: ISO, exchangeRate: rate)
         return object
     }
 }

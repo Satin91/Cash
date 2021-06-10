@@ -8,8 +8,35 @@
 
 import RealmSwift
 
+//MARK: CurrencyObject
+class CurrencyObject: Object, Comparable{
+    static func < (lhs: CurrencyObject, rhs: CurrencyObject) -> Bool {
+        return lhs.ISO > rhs.ISO
+    }
+    
+
+    @objc dynamic var ISO: String = ""
+    @objc dynamic var exchangeRate: Double = 0
+    @objc dynamic var ISOID = NSUUID.init().uuidString
+    @objc dynamic var ISOPriority: Int = 15888
+    override static func primaryKey() -> String? {
+        return "ISOID"
+    }
+   convenience init(ISO: String,exchangeRate: Double) {
+    self.init()
+        self.ISO = ISO
+        self.exchangeRate = exchangeRate
+    }
+}
+
+
 //MARK: Monetary Entity
-class MonetaryCategory: Object {
+class MonetaryCategory: Object, Comparable{
+    
+    static func < (lhs: MonetaryCategory, rhs: MonetaryCategory) -> Bool {
+        return lhs.name > rhs.name
+    }
+    
     @objc dynamic var name: String = "My category"
     @objc dynamic var sum: Double = 0
     @objc dynamic var limit: Double = 0
@@ -47,9 +74,17 @@ class MonetaryCategory: Object {
     }
 }
 
-//MARK: Monetary Account
 
-class MonetaryAccount: Object {
+
+
+//MARK: Monetary Account
+class MonetaryAccount: Object, Comparable {
+    static func < (lhs: MonetaryAccount, rhs: MonetaryAccount) -> Bool {
+        return lhs.name > rhs.name
+    }
+    
+    
+    
     @objc dynamic var name: String = "My account"
     @objc dynamic var balance: Double = 0
     @objc dynamic var targetSum: Double = 0 // не используется в данной версии
@@ -97,7 +132,13 @@ class MonetaryAccount: Object {
 }
 
 //MARK: Monetary scheduler
-class MonetaryScheduler: Object {
+class MonetaryScheduler: Object, Comparable {
+    static func < (lhs: MonetaryScheduler, rhs: MonetaryScheduler) -> Bool {
+        return lhs.name > rhs.name
+    }
+    
+    
+    
     @objc dynamic var name: String = "My schedule"
     @objc dynamic var target: Double = 0
     @objc dynamic var available: Double = 0

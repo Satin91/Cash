@@ -27,8 +27,10 @@ class QuickTableVIewCell: UITableViewCell {
     }
     
     func set(object: MonetaryAccount){
+        sumLabel.text = CurrencyName(rawValue: "USD")?.getRaw
         headerLabel.text = object.name
-        sumLabel.text = String(object.balance)
+        
+        //sumLabel.text = String(object.currencyISO)
     }
 
 }

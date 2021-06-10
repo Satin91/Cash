@@ -580,7 +580,7 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
-        var appendAccount = EnumeratedAccounts(array: accountsGroup)
+        var appendAccount = enumeratedALL(object: accountsObjects) //EnumeratedAccounts(array: accountsGroup)
         for i in appendAccount {
             if i.isMainAccount {
                 selectedAccountObject = i

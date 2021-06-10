@@ -23,7 +23,7 @@ import RealmSwift
 
 
 
-let accountObjects =               fetchAccounts(accountType: 1).sorted(byKeyPath: "isMainAccount", ascending: false)//Card = 1
+let accountsObjects =               fetchAccounts(accountType: 1).sorted(byKeyPath: "isMainAccount", ascending: false)//Card = 1
 //let savingsObjects =              fetchAccounts(accountType: 2).sorted(byKeyPath: "date", ascending: false)//Cash = 2
 
  
@@ -41,6 +41,10 @@ let expenceObjects =            fetchCategories(categoryType: 1).sorted(byKeyPat
 let incomeObjects =             fetchCategories(categoryType: 2).sorted(byKeyPath: "name", ascending: false)//OperIncome
 let historyObjects =            realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
 let payPerTimeObjects =         realm.objects(PayPerTime.self).sorted(byKeyPath: "date", ascending: true)
+let currencyObjects =           realm.objects(CurrencyObject.self).sorted(byKeyPath: "ISO", ascending: false)
+var currencyPrioritiesObjects: [CurrencyObject] = []
+var currencyNonPrioritiesObjects: [CurrencyObject] = []
+
 ///Меню в OperationViewController сегмент 1
 ///Operation Payment
 var categoryGroup = [expenceObjects,incomeObjects]
@@ -48,12 +52,30 @@ var categoryGroup = [expenceObjects,incomeObjects]
 
 var schedulerGroup = [oneTimeObjects,multiplyObjects,regularObjects,goalObjects]
 ///Меню в AccountsViewController
-var accountsGroup = [accountObjects]
+var accountsGroup = [accountsObjects]
 
 func fetchPayPerTime() {
     
 }
 
+func getCurrenciesByPriorities(){
+    var currencySortedArray: [CurrencyObject] = []
+    var currencyNonPriority: [CurrencyObject] = []
+    for i in currencyObjects {
+        if i.ISOPriority != 15888 { // 15888 это дефолтное значение
+            currencySortedArray.append(i)
+        }else{
+            if i.ISO == "USD"{
+                currencyNonPriority.insert(i, at: 0)
+            }else if i.ISO == "EUR"{
+                currencyNonPriority.insert(i, at: 0)
+            }else{
+            currencyNonPriority.append(i)}
+        }
+    }
+    currencyNonPrioritiesObjects = currencyNonPriority //.sorted(by: { $0.ISO < $1.ISO })
+    currencyPrioritiesObjects    = currencySortedArray.sorted(by: { $0.ISOPriority < $1.ISOPriority })
+}
 
 func fetchAccounts(accountType: Int) ->Results<MonetaryAccount>{
     let IntToString: String = String(accountType)

@@ -19,6 +19,8 @@ class NumberTextField: UITextField,UITextFieldDelegate {
 
     func commonInit() {
         self.backgroundColor = .clear
+        self.minimumFontSize = 17
+        self.font = .systemFont(ofSize: 26)
         self.textAlignment = .center
         self.borderStyle = .roundedRect
         self.delegate = self

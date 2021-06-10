@@ -28,8 +28,6 @@ class AddAccountViewController: UIViewController {
         
     }
     @IBAction func cancelAction(_ sender: Any) {
-        
-        
         dismiss(animated: true, completion: nil)
     }
  

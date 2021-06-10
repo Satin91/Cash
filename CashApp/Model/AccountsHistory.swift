@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 
+
 class AccountsHistory: Object {
     @objc dynamic var name = "My transaction"
     @objc dynamic var accountID = ""

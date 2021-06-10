@@ -95,7 +95,6 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource, S
             }
             self.enlargeArray = enlargeArray
             self.reloadData()
-       
         }
         
         
