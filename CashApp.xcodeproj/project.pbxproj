@@ -9,17 +9,20 @@
 /* Begin PBXBuildFile section */
 		4A03F1724520B9252C8110FC /* Pods_CashApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0B5D0B512592E1234414A8 /* Pods_CashApp.framework */; };
 		7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7507A619253BAA2D0029EF44 /* ModelController.swift */; };
+		750888A7268764260037C804 /* CalendarSchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750888A6268764260037C804 /* CalendarSchedulerViewController.swift */; };
+		750888AA26877E710037C804 /* SchedulerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750888A826877E700037C804 /* SchedulerTableViewCell.swift */; };
+		750888AB26877E710037C804 /* SchedulerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 750888A926877E710037C804 /* SchedulerTableViewCell.xib */; };
 		7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509C5942603675D00BD34D4 /* CustomProgressBar.swift */; };
 		7510F83E2509A87600030A52 /* OperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7510F83D2509A87600030A52 /* OperationViewController.swift */; };
 		751AAAED25D4B4140042AC06 /* PieChartCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751AAAEC25D4B4140042AC06 /* PieChartCollectionViewController.swift */; };
 		751AAAF025D4B4570042AC06 /* PieChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751AAAEF25D4B4570042AC06 /* PieChartCollectionViewCell.swift */; };
 		7522652E24D1D55700D30CD6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7522652D24D1D55700D30CD6 /* Model.swift */; };
 		7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */; };
+		7529F98E267493EE00087F46 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7529F98D267493EE00087F46 /* ThemeManager.swift */; };
 		753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */; };
 		7537E58025DEF0730019768C /* QuickTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E57F25DEF0730019768C /* QuickTableView.swift */; };
 		7539D3CB2637962A00A966BB /* SelectDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7539D3C92637962A00A966BB /* SelectDateTableViewCell.swift */; };
 		7539D3CC2637962A00A966BB /* SelectDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7539D3CA2637962A00A966BB /* SelectDateTableViewCell.xib */; };
-		753CDA0326026D0500487715 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753CDA0226026D0500487715 /* ProgressBar.swift */; };
 		7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545C91B25AFD06000042332 /* AccountsHistory.swift */; };
 		7545E1B1255C45F600454803 /* LineChartContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */; };
 		754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */; };
@@ -36,6 +39,7 @@
 		7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */; };
 		7575718425FFA02F00C2F663 /* LineChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7575718225FFA02F00C2F663 /* LineChartCell.swift */; };
 		7575718525FFA02F00C2F663 /* LineChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7575718325FFA02F00C2F663 /* LineChartCell.xib */; };
+		757B99542689549D005FB908 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B99532689549D005FB908 /* HeaderView.swift */; };
 		757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D64AA25250679008CDEE1 /* DateSettings.swift */; };
 		757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */; };
 		757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F2F25402BBB00F0B1D0 /* DBManager.swift */; };
@@ -65,9 +69,10 @@
 		75CB7AA8255D50DA00451F1D /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7AA4255D50DA00451F1D /* SF-Pro-Text-Bold.otf */; };
 		75CB7AA9255D50DA00451F1D /* SF-Pro-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7AA5255D50DA00451F1D /* SF-Pro-Text-Regular.otf */; };
 		75CEC755261F10F3001184CD /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CEC754261F10F3001184CD /* NumberTextField.swift */; };
-		75D340672642F162002881EB /* ExchangeRatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D340662642F161002881EB /* ExchangeRatesViewController.swift */; };
-		75D3406E2642F261002881EB /* ExchangeRatesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D3406C2642F261002881EB /* ExchangeRatesTableViewCell.swift */; };
-		75D3406F2642F261002881EB /* ExchangeRatesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D3406D2642F261002881EB /* ExchangeRatesTableViewCell.xib */; };
+		75D28016268AE1E6000BA1EE /* layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28015268AE1E6000BA1EE /* layout.swift */; };
+		75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */; };
+		75D3A1172688BE1200E3BEAE /* CreateScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D3A1152688BE1200E3BEAE /* CreateScheduleCell.swift */; };
+		75D3A1182688BE1200E3BEAE /* CreateScheduleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D3A1162688BE1200E3BEAE /* CreateScheduleCell.xib */; };
 		75D8D72B25DD38DA00B5FAC9 /* FSCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */; };
 		75D9DE7E253B6294007677BA /* AddOperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9DE7D253B6294007677BA /* AddOperationViewController.swift */; };
 		75EA2AF024CDDB8200D03E95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EA2AEF24CDDB8200D03E95 /* AppDelegate.swift */; };
@@ -85,17 +90,20 @@
 /* Begin PBXFileReference section */
 		605404CDC3E38FEE7EA83F7F /* Pods-CashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.release.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.release.xcconfig"; sourceTree = "<group>"; };
 		7507A619253BAA2D0029EF44 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
+		750888A6268764260037C804 /* CalendarSchedulerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSchedulerViewController.swift; sourceTree = "<group>"; };
+		750888A826877E700037C804 /* SchedulerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerTableViewCell.swift; sourceTree = "<group>"; };
+		750888A926877E710037C804 /* SchedulerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SchedulerTableViewCell.xib; sourceTree = "<group>"; };
 		7509C5942603675D00BD34D4 /* CustomProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		7510F83D2509A87600030A52 /* OperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewController.swift; sourceTree = "<group>"; };
 		751AAAEC25D4B4140042AC06 /* PieChartCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewController.swift; sourceTree = "<group>"; };
 		751AAAEF25D4B4570042AC06 /* PieChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		7522652D24D1D55700D30CD6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
+		7529F98D267493EE00087F46 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickTypePopUpTableViewController.swift; sourceTree = "<group>"; };
 		7537E57F25DEF0730019768C /* QuickTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableView.swift; sourceTree = "<group>"; };
 		7539D3C92637962A00A966BB /* SelectDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateTableViewCell.swift; sourceTree = "<group>"; };
 		7539D3CA2637962A00A966BB /* SelectDateTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectDateTableViewCell.xib; sourceTree = "<group>"; };
-		753CDA0226026D0500487715 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		7545C91B25AFD06000042332 /* AccountsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsHistory.swift; sourceTree = "<group>"; };
 		7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartContainerViewController.swift; sourceTree = "<group>"; };
 		754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateCalendarPopUpTableViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +118,7 @@
 		7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
 		7575718225FFA02F00C2F663 /* LineChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCell.swift; sourceTree = "<group>"; };
 		7575718325FFA02F00C2F663 /* LineChartCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChartCell.xib; sourceTree = "<group>"; };
+		757B99532689549D005FB908 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		757D64AA25250679008CDEE1 /* DateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSettings.swift; sourceTree = "<group>"; };
 		757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableVIewCell.swift; sourceTree = "<group>"; };
 		757F8F2F25402BBB00F0B1D0 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
@@ -139,11 +148,12 @@
 		75CB7AA4255D50DA00451F1D /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Text-Bold.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
 		75CB7AA5255D50DA00451F1D /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Text-Regular.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
 		75CEC754261F10F3001184CD /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
+		75D28015268AE1E6000BA1EE /* layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layout.swift; sourceTree = "<group>"; };
+		75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceViewController.swift; sourceTree = "<group>"; };
 		75D340622642F077002881EB /* CurrencyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModel.swift; sourceTree = "<group>"; };
 		75D340632642F077002881EB /* CurrencyModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModelController.swift; sourceTree = "<group>"; };
-		75D340662642F161002881EB /* ExchangeRatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesViewController.swift; sourceTree = "<group>"; };
-		75D3406C2642F261002881EB /* ExchangeRatesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesTableViewCell.swift; sourceTree = "<group>"; };
-		75D3406D2642F261002881EB /* ExchangeRatesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeRatesTableViewCell.xib; sourceTree = "<group>"; };
+		75D3A1152688BE1200E3BEAE /* CreateScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleCell.swift; sourceTree = "<group>"; };
+		75D3A1162688BE1200E3BEAE /* CreateScheduleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateScheduleCell.xib; sourceTree = "<group>"; };
 		75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarView.swift; sourceTree = "<group>"; };
 		75D9DE7D253B6294007677BA /* AddOperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOperationViewController.swift; sourceTree = "<group>"; };
 		75EA2AEC24CDDB8200D03E95 /* CashApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CashApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +201,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		750888AC26877E850037C804 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				750888A826877E700037C804 /* SchedulerTableViewCell.swift */,
+				750888A926877E710037C804 /* SchedulerTableViewCell.xib */,
+				75D3A1152688BE1200E3BEAE /* CreateScheduleCell.swift */,
+				75D3A1162688BE1200E3BEAE /* CreateScheduleCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		750888AD26877ED00037C804 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				75F585322619B7A700355CBF /* SchedulerViewController.swift */,
+				7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */,
+				750888A6268764260037C804 /* CalendarSchedulerViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		751573C7255C12130075C3B8 /* Accounts */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +240,15 @@
 				757F8F2F25402BBB00F0B1D0 /* DBManager.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7529F98C26748D5E00087F46 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				757D64AA25250679008CDEE1 /* DateSettings.swift */,
+				75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */,
+			);
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		7539D3CE2637962F00A966BB /* View */ = {
@@ -260,6 +300,7 @@
 		754F15EF2667AA13002250BB /* EnlargeTableView */ = {
 			isa = PBXGroup;
 			children = (
+				757B99532689549D005FB908 /* HeaderView.swift */,
 				754F15ED2667A9F8002250BB /* EnlargeTableView.swift */,
 				754F15F02667AA3C002250BB /* EnlargeTableViewCell.swift */,
 				754F15F226681A44002250BB /* EnlargeSecondTableViewCell.swift */,
@@ -403,30 +444,12 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		75D3406A2642F17A002881EB /* ExchangeRates */ = {
+		75D28019268AF741000BA1EE /* TodayBalance */ = {
 			isa = PBXGroup;
 			children = (
-				75D340732642F271002881EB /* Controller */,
-				75D340712642F267002881EB /* View */,
+				75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */,
 			);
-			path = ExchangeRates;
-			sourceTree = "<group>";
-		};
-		75D340712642F267002881EB /* View */ = {
-			isa = PBXGroup;
-			children = (
-				75D3406C2642F261002881EB /* ExchangeRatesTableViewCell.swift */,
-				75D3406D2642F261002881EB /* ExchangeRatesTableViewCell.xib */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		75D340732642F271002881EB /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				75D340662642F161002881EB /* ExchangeRatesViewController.swift */,
-			);
-			path = Controller;
+			path = TodayBalance;
 			sourceTree = "<group>";
 		};
 		75E8FBE1255D0F55007CB6E5 /* ContainerView */ = {
@@ -434,7 +457,6 @@
 			children = (
 				755E675C25FE024B0049E113 /* ContainerViewController.swift */,
 				7548192A25D4CA7700C20A01 /* LineChart */,
-				753CDA0226026D0500487715 /* ProgressBar.swift */,
 			);
 			path = ContainerView;
 			sourceTree = "<group>";
@@ -463,20 +485,21 @@
 				75EE502D2571844C007A7E97 /* DropDownTableView.swift */,
 				75EA2AEF24CDDB8200D03E95 /* AppDelegate.swift */,
 				75EA2AF124CDDB8200D03E95 /* SceneDelegate.swift */,
+				7529F98D267493EE00087F46 /* ThemeManager.swift */,
 				757D64AE25250688008CDEE1 /* Extensions */,
-				75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */,
-				757D64AA25250679008CDEE1 /* DateSettings.swift */,
 				75EDDC35250AD352000C0E27 /* AnyOptions.swift */,
 				757F8F3925402E5600F0B1D0 /* Animations.swift */,
+				75D28015268AE1E6000BA1EE /* layout.swift */,
+				7529F98C26748D5E00087F46 /* Calendar */,
 				756FC72E2643055600327BAC /* CurrencyModel */,
 				7528F6C0253B08A4004B210B /* Model */,
 				757E4B5D25E003F200D8A7F7 /* QuickPayViewController */,
-				751573C7255C12130075C3B8 /* Accounts */,
-				75F585352619D06200355CBF /* Scheduler */,
 				755DE795262DD72C00CA835D /* Operations */,
 				754D66EA2631C53600B2383C /* PopUpMenu */,
+				75F585352619D06200355CBF /* Scheduler */,
+				75D28019268AF741000BA1EE /* TodayBalance */,
+				751573C7255C12130075C3B8 /* Accounts */,
 				75AD2A092669EA5A00F6880B /* Currency */,
-				75D3406A2642F17A002881EB /* ExchangeRates */,
 				758F857524D2E9E9007CD161 /* HomeView */,
 				75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */,
 				75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */,
@@ -499,8 +522,8 @@
 		75F585352619D06200355CBF /* Scheduler */ = {
 			isa = PBXGroup;
 			children = (
-				75F585322619B7A700355CBF /* SchedulerViewController.swift */,
-				7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */,
+				750888AD26877ED00037C804 /* Controller */,
+				750888AC26877E850037C804 /* Cell */,
 			);
 			name = Scheduler;
 			sourceTree = "<group>";
@@ -579,9 +602,10 @@
 				75EA2AF724CDDB8200D03E95 /* Main.storyboard in Resources */,
 				7575718525FFA02F00C2F663 /* LineChartCell.xib in Resources */,
 				75CB7A9F255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf in Resources */,
-				75D3406F2642F261002881EB /* ExchangeRatesTableViewCell.xib in Resources */,
+				75D3A1182688BE1200E3BEAE /* CreateScheduleCell.xib in Resources */,
 				75AD2A0B266A006C00F6880B /* CurrencyTableViewCell.xib in Resources */,
 				7539D3CC2637962A00A966BB /* SelectDateTableViewCell.xib in Resources */,
+				750888AB26877E710037C804 /* SchedulerTableViewCell.xib in Resources */,
 				75C328F72571A12100E9CAD4 /* DropDownTableViewCell.xib in Resources */,
 				75CB7AA7255D50DA00451F1D /* SF-Pro-Text-Medium.otf in Resources */,
 			);
@@ -641,12 +665,12 @@
 				75AE325125239E30004422F4 /* AccountsViewController.swift in Sources */,
 				7552BFE626169CBC00BACB65 /* MainTabBarController.swift in Sources */,
 				754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift in Sources */,
+				75D28016268AE1E6000BA1EE /* layout.swift in Sources */,
 				75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */,
 				754F15F326681A44002250BB /* EnlargeSecondTableViewCell.swift in Sources */,
 				7575718425FFA02F00C2F663 /* LineChartCell.swift in Sources */,
 				759130CA25F10EF9009F2C93 /* AccountCollectionViewCell.swift in Sources */,
 				7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */,
-				75D340672642F162002881EB /* ExchangeRatesViewController.swift in Sources */,
 				7539D3CB2637962A00A966BB /* SelectDateTableViewCell.swift in Sources */,
 				75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */,
 				751AAAF025D4B4570042AC06 /* PieChartCollectionViewCell.swift in Sources */,
@@ -654,7 +678,6 @@
 				75CEC755261F10F3001184CD /* NumberTextField.swift in Sources */,
 				751AAAED25D4B4140042AC06 /* PieChartCollectionViewController.swift in Sources */,
 				754F15F12667AA3C002250BB /* EnlargeTableViewCell.swift in Sources */,
-				753CDA0326026D0500487715 /* ProgressBar.swift in Sources */,
 				759FA92B26189BA600502172 /* MainTableViewCell.swift in Sources */,
 				75F585332619B7A700355CBF /* SchedulerViewController.swift in Sources */,
 				757F8F3A25402E5600F0B1D0 /* Animations.swift in Sources */,
@@ -676,18 +699,23 @@
 				754F15EE2667A9F8002250BB /* EnlargeTableView.swift in Sources */,
 				75FA2BB2253B066800E8CCD8 /* Colors.swift in Sources */,
 				757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */,
+				750888A7268764260037C804 /* CalendarSchedulerViewController.swift in Sources */,
 				753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */,
+				757B99542689549D005FB908 /* HeaderView.swift in Sources */,
+				7529F98E267493EE00087F46 /* ThemeManager.swift in Sources */,
 				756FC72A264304B300327BAC /* CurrencyModel.swift in Sources */,
 				75A2AA50266ED79700B86DAC /* AddCurrencyTableViewCell.swift in Sources */,
 				7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */,
 				75D8D72B25DD38DA00B5FAC9 /* FSCalendarView.swift in Sources */,
 				757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */,
 				758F854B24D2CF0A007CD161 /* TableViewCell.swift in Sources */,
+				75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */,
+				750888AA26877E710037C804 /* SchedulerTableViewCell.swift in Sources */,
 				75AD2A082669E72600F6880B /* CurrencyViewController.swift in Sources */,
+				75D3A1172688BE1200E3BEAE /* CreateScheduleCell.swift in Sources */,
 				75EA2AF024CDDB8200D03E95 /* AppDelegate.swift in Sources */,
 				7545E1B1255C45F600454803 /* LineChartContainerViewController.swift in Sources */,
 				75EA2AF224CDDB8200D03E95 /* SceneDelegate.swift in Sources */,
-				75D3406E2642F261002881EB /* ExchangeRatesTableViewCell.swift in Sources */,
 				75EDDC36250AD352000C0E27 /* AnyOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,31 +10,16 @@ import UIKit
 protocol closeSelectDateProtocol {
     func closeSelectDate(payObject: Any)
 }
-class SelectDateCalendarPopUpTableViewController: UITableViewController,PopUpProtocol{
-    func closePopUpMenu() {
-        print("close")
-    }
-    
+class SelectDateCalendarPopUpTableViewController: UITableViewController{
+
+    //Протокол который отправляет назад выбранные данные
     var closeSelectDateDelegate: closeSelectDateProtocol!
-    
     var payObject: [Any]!
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
-//    }
     
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-            let item = UIBarButtonItem(title: "YAYA", style: .plain, target: nil, action: nil)
-            viewController.navigationItem.backBarButtonItem = item
-        
-        }
     override func viewDidLoad() {
         super.viewDidLoad()
         print("SelectDate Did load")
         navigationItem.setValue("Планы в этот день", forKey: "title")
-        //tableView = UITableView(frame: .zero, style: .grouped)
-//        self.view.addSubview(tableView)
-//       // initConstraints(view: tableView, to: self.view)
         tableView.delegate = self
         tableView.dataSource = self
         let xibCell = UINib(nibName: "SelectDateTableViewCell", bundle: nil)

@@ -15,7 +15,8 @@ class EnlargeTableViewCell: UITableViewCell{
     var dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.font = .systemFont(ofSize: 17, weight: .medium)
         label.frame = .zero
         return label
     }()
@@ -33,37 +34,42 @@ class EnlargeTableViewCell: UITableViewCell{
        
     }
   
+    func clearedBackGround() {
+        self.contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
+    }
+    
     func commonInit() {
         tableView = UITableView(frame: .zero)
-        self.backgroundColor = .clear
         self.contentView.addSubview(tableViewContainer)
-        self.contentView.backgroundColor = .clear
+     
+        clearedBackGround()
         self.contentView.addSubview(tableView)
         self.contentView.addSubview(dateLabel)
         self.dateLabel.text = "DateLabel"
-        self.contentView.layer.cornerRadius = 15
-        tableViewSettings()
+        self.contentView.layer.cornerRadius = 20
+        miniTableViewSettings()
         self.clipsToBounds = false
         self.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
         self.contentView.layer.masksToBounds = false
         self.tableView.layer.masksToBounds = false
         self.tableView.clipsToBounds = false
+       
         createConstraints()
     }
     
-    func tableViewSettings() {
+    func miniTableViewSettings() {
         
         tableView.tableFooterView = UIView()
-        tableViewContainer.backgroundColor = .darkGray
-        tableViewContainer.layer.shadowColor = UIColor.black.cgColor
-        tableViewContainer.layer.shadowOffset = CGSize(width: 2, height: 2)
-        tableViewContainer.layer.shadowRadius = 14
-        tableViewContainer.layer.shadowOpacity = 0.4
-        tableViewContainer.layer.cornerRadius = 15
-        tableView.backgroundColor = .white
+        tableViewContainer.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        tableViewContainer.layer.cornerRadius = 20
+        tableViewContainer.layer.masksToBounds = false
+        tableViewContainer.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        //mini table view
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
-        tableView.layer.cornerRadius = 15
+        tableView.layer.cornerRadius = 20
         tableView.clipsToBounds = true
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false
@@ -79,17 +85,17 @@ class EnlargeTableViewCell: UITableViewCell{
             self.contentView.trailingAnchor.constraint(equalTo: trailingAnchor,constant: 0),
             self.contentView.topAnchor.constraint(equalTo: topAnchor),
             self.contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            tableViewContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 26),
-            tableViewContainer.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -26),
-            tableViewContainer.topAnchor.constraint(equalTo: topAnchor, constant: 30),
-            tableViewContainer.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -20),
+            tableViewContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.side),
+            tableViewContainer.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -Layout.side),
+            tableViewContainer.topAnchor.constraint(equalTo: topAnchor, constant: 35),
+            tableViewContainer.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -15),
             tableView.leadingAnchor.constraint(equalTo: tableViewContainer.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: tableViewContainer.trailingAnchor,constant: 0),
             tableView.topAnchor.constraint(equalTo: tableViewContainer.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: tableViewContainer.bottomAnchor,constant: 0),
             tableView.heightAnchor.constraint(equalToConstant: 800),
             dateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 0),
-            dateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 20),
+            dateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: Layout.side),
         ]
         NSLayoutConstraint.activate(constraints)
     }

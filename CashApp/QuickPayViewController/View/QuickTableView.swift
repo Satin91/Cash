@@ -19,15 +19,12 @@ class QuickTableView: UIView {
         
         
         tableView = UITableView(frame: frame, style: .plain)
-        tableView.backgroundColor = .gray
-        tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         self.backgroundColor = .clear
         self.addSubview(tableView)
         initConstraints(view: tableView, to: self)
-        
-        
-
+    
         let nibName = UINib(nibName: "DropDownTableViewCell", bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: "QuickTableViewCell")
 

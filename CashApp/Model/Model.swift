@@ -19,17 +19,32 @@ class CurrencyObject: Object, Comparable{
     @objc dynamic var exchangeRate: Double = 0
     @objc dynamic var ISOID = NSUUID.init().uuidString
     @objc dynamic var ISOPriority: Int = 15888
+    
     override static func primaryKey() -> String? {
         return "ISOID"
     }
-   convenience init(ISO: String,exchangeRate: Double) {
+    convenience init(ISO: String,exchangeRate: Double) {
     self.init()
+        
         self.ISO = ISO
         self.exchangeRate = exchangeRate
     }
 }
 
-
+class MainCurrency: Object, Comparable {
+    static func < (lhs: MainCurrency, rhs: MainCurrency) -> Bool {
+        lhs.ISO < lhs.ISO
+    }
+    @objc dynamic var ISO: String = ""
+    @objc dynamic var ISOID = NSUUID.init().uuidString
+    override static func primaryKey() -> String? {
+        return "ISOID"
+    }
+    convenience init(ISO: String) {
+    self.init()
+        self.ISO = ISO
+    }
+}
 //MARK: Monetary Entity
 class MonetaryCategory: Object, Comparable{
     
@@ -136,9 +151,6 @@ class MonetaryScheduler: Object, Comparable {
     static func < (lhs: MonetaryScheduler, rhs: MonetaryScheduler) -> Bool {
         return lhs.name > rhs.name
     }
-    
-    
-    
     @objc dynamic var name: String = "My schedule"
     @objc dynamic var target: Double = 0
     @objc dynamic var available: Double = 0
@@ -227,19 +239,22 @@ class PayPerTime: Object {
     @objc dynamic var date: Date = Date()
     @objc dynamic var target: Double = 0.0
     @objc dynamic var scheduleID = ""
+    @objc dynamic var currencyISO = "USD"
     @objc dynamic var vector = false
     @objc dynamic var payPerTimeID = NSUUID.init().uuidString
     override static func primaryKey() -> String? {
         return "payPerTimeID"
     }
-    convenience init(scheduleName: String,date: Date,target: Double,scheduleID: String, vector: Bool) {
+    convenience init(scheduleName: String,date: Date,target: Double,currencyISO: String ,scheduleID: String, vector: Bool) {
         self.init()
         self.scheduleName = scheduleName
         self.date = date
         self.target = target
+        self.currencyISO = currencyISO
         self.scheduleID = scheduleID
         self.vector = vector
 }
+    
 }
 
 

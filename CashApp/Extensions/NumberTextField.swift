@@ -10,13 +10,13 @@ import UIKit
 
 class NumberTextField: UITextField,UITextFieldDelegate {
 
-     var enteredSum = "0"
-
+    var enteredSum = "0"
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-
+    
+    
     func commonInit() {
         self.backgroundColor = .clear
         self.minimumFontSize = 17
@@ -29,46 +29,156 @@ class NumberTextField: UITextField,UITextFieldDelegate {
     
 
     var commaIsPressed = false
-    @objc func textFieldChanged() {
-        //print(self.text?.count)
-        guard self.text?.isEmpty == false else {
-            enteredSum = "0"; return}
-        self.enteredSum = self.text!
-        //Цикл для того, чтобы сделать одну запятую в тексте
-        for i in enteredSum {
-            if i == "." {
-                commaIsPressed = true
-                return
-            }else {
-                commaIsPressed = false
+    var availableDirection = false
+    var minusIsPressed = false
+  
+    
+    func removeUnnecessary(inputString: String) ->String {
+       // var strOne = inputString
+        var strTwo = inputString.replacingOccurrences(of: " ", with: "")
+        strTwo = strTwo.replacingOccurrences(of: ",", with: ".")
+        if strTwo.last == "."{
+            
+            strTwo.removeLast()
+        }
+        if strTwo.count == 1 && strTwo == "-" {
+            return "0"
+        }
+       return strTwo
+    }
+    
+    func checkMinus(string: String) -> Bool {
+        var minus = false
+        for i in string {
+            if i == "-" {
+                minus = true
+
             }
         }
-        //оператор для установки запятой автоматически после нуля
-        if self.text?.count == 2, self.text?.first == "0" {
-            
-            self.text?.insert(".", at:   self.text!.index(  self.text!.startIndex, offsetBy: 1))
-            commaIsPressed = true
-            //self.enteredSum = popUpTextField.text!
-            self.enteredSum = self.text! // дублируется присвоение для того чтобы установилась автоматическая плавающая точка
+        return minus
+    }
+    
+    func checkComma(string: String) -> Bool {
+        var comma = false
+        for i in string {
+            if i == "," {
+                comma = true
+
+            }
+        }
+        return comma
+    }
+    
+    
+    @objc func textFieldChanged() {
+        guard self.text?.isEmpty == false else {
+            enteredSum = "0"; return}
+        
+        
+        if self.text!.last == "," {
+            let newtext = self.text?.replacingOccurrences(of: ",", with: ".")
+            self.text = newtext
         }
         
-    }
+        
+        //Автоматическая вставка запятой между двумя первыми знаками (если первым не стоит минус)
+        if self.text!.count == 2, self.text!.first == "0" && minusIsPressed == false && commaIsPressed == false {
+            self.text!.insert(".", at:   self.text!.index(  self.text!.startIndex, offsetBy: 1))
+            self.text = self.text!.replacingOccurrences(of: ".", with: ",")
+            
+            
+            commaIsPressed = true
+            
+        }else if self.text!.count == 3, self.text![1] == "0" && minusIsPressed == true && commaIsPressed == false {
+            self.text!.insert(".", at:   self.text!.index(  self.text!.startIndex, offsetBy: 2))
+            self.text = self.text!.replacingOccurrences(of: ".", with: ",")
+            commaIsPressed = true
+        }
+        var decimalNumber  = removeUnnecessary(inputString: self.text!)
+        
+        //замена точки на запятую, если точка в ручную введена
+        if self.text!.last == "," || self.text!.last == "."{
+            
+            self.text = self.text?.replacingOccurrences(of: ".", with: ",")
+            
+            decimalNumber = removeUnnecessary(inputString: self.text!)
+        } else if self.text!.last == "-"{
+            self.text = text
+            decimalNumber = removeUnnecessary(inputString: self.text!)
+        }
+        
+        if commaIsPressed == false && decimalNumber != "0" {
+            
+            
+            //Почему то другими сппособами не получается
+            self.text = Metric(value: Double(decimalNumber)!).formattedValue
+        }else{
+            self.text = self.text
+        }
+       
+        //установка значения запятой
+        commaIsPressed = checkComma(string: self.text!)
+        minusIsPressed = checkMinus(string: self.text!)
+        enteredSum = decimalNumber
+        }
+        
+   
+    
+    
+    
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var allowedCharacters = CharacterSet(charactersIn: "0123456789")
         let length = !string.isEmpty ? textField.text!.count + 1 : textField.text!.count - 1
-     
-        switch commaIsPressed {
-        case true: // Запятая нажата
-            allowedCharacters = CharacterSet(charactersIn: "0123456789")
-        case false where length > 1: // запятая не нажата
-            allowedCharacters = CharacterSet(charactersIn: ".0123456789")
-        default:
-            allowedCharacters = CharacterSet(charactersIn: "0123456789")
+        
+        
+        if availableDirection == true {
+            
+             allowedCharacters = CharacterSet(charactersIn: "0123456789")
+            if commaIsPressed == false && (string == "." || string == ",") && length > 1 {
+                allowedCharacters = CharacterSet(charactersIn: ".,0123456789")
+                commaIsPressed = true
+            }
+        }else{
+            if length == 1 {
+                allowedCharacters = CharacterSet(charactersIn: "-0123456789")
+                if string == "-" {
+                    minusIsPressed = true
+                }
+            }else if commaIsPressed == false && minusIsPressed == false && length > 1{
+                allowedCharacters = CharacterSet(charactersIn: ".,0123456789")
+                if string == "." || string == "," {
+                    
+                    commaIsPressed = true
+                }
+            }else if minusIsPressed == true && commaIsPressed == false && length > 2 {
+                allowedCharacters = CharacterSet(charactersIn: ".,0123456789")
+                if string == "." || string == ","{
+                    commaIsPressed = true
+                }
+            }
+//
+//
+//            if commaIsPressed == true {
+//                allowedCharacters = CharacterSet(charactersIn: "0123456789")
+//
+//            }else if commaIsPressed == false && length > 2{
+//                allowedCharacters = CharacterSet(charactersIn: ".0123456789")
+//            }
         }
-        let characterSet = CharacterSet(charactersIn: string)
+        
+        
+        
+
+        
+        
+        var str = string
+        if string == "," {
+            str = "."
+        }
+        let characterSet = CharacterSet(charactersIn: str)
         //Ограничение по количеству символов
-        if length > 9 {
+        if length > 15 {
             return false
         }
         return allowedCharacters.isSuperset(of: characterSet)
@@ -78,3 +188,4 @@ class NumberTextField: UITextField,UITextFieldDelegate {
         commonInit()
     }
 }
+

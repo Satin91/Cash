@@ -10,6 +10,8 @@ import UIKit
 import RealmSwift
 
 
+
+
 ///View the numeric
 extension Locale {
     static let englishUS: Locale = .init(identifier: "en_US")
@@ -17,24 +19,110 @@ extension Locale {
     static let portugueseBR: Locale = .init(identifier: "pt_BR")
     static let belarusBY: Locale = .init(identifier: "be_BY")
     
+    
     // ... and so on
 }
+struct Metric: Codable {
+    var value: Double
+}
+
+extension Metric: CustomStringConvertible {
+    private static var valueFormatter: NumberFormatter = {
+           let formatter = NumberFormatter()
+           formatter.numberStyle = .decimal
+           formatter.maximumFractionDigits = 3
+           formatter.groupingSeparator = " "
+           formatter.decimalSeparator = ","
+           return formatter
+       }()
+
+       var formattedValue: String {
+           let number = NSNumber(value: value)
+           return Self.valueFormatter.string(from: number)!
+       }
+
+       var description: String {
+           "\(formattedValue)"
+       }
+}
+
 extension Formatter {
     static let number = NumberFormatter()
+    static let num: NumberFormatter = {
+        
+        let formatter = NumberFormatter()
+        formatter.decimalSeparator = "."
+        //formatter.numberStyle = .decimal
+        
+        
+        return formatter
+    }()
     static let withSeparator: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = " "
+        formatter.maximumFractionDigits = 2
+        formatter.decimalSeparator = ","
+        
         return formatter
     }()
+    
+    static let withoutSpaces: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ""
+        formatter.maximumFractionDigits = 3
+        formatter.decimalSeparator = "."
+        return formatter
+    }()
+    
 }
 //extension Numeric {
 //    var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
 //}
 extension String {
-  
+
+    var formattedWithoutSpaces: String { Formatter.withoutSpaces.string(for: self) ?? "" }
+    var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
+    var withoutSpaces: String {
+        let str = self.replacingOccurrences(of: " ", with: "")
+        
+        return str
+    }
+    
+    var length: Int {
+        return count
+    }
+
+    subscript (i: Int) -> String {
+        return self[i ..< i + 1]
+    }
+
+    func substring(fromIndex: Int) -> String {
+        return self[min(fromIndex, length) ..< length]
+    }
+
+    func substring(toIndex: Int) -> String {
+        return self[0 ..< max(0, toIndex)]
+    }
+
+    subscript (r: Range<Int>) -> String {
+        let range = Range(uncheckedBounds: (lower: max(0, min(length, r.lowerBound)),
+                                            upper: min(length, max(0, r.upperBound))))
+        let start = index(startIndex, offsetBy: range.lowerBound)
+        let end = index(start, offsetBy: range.upperBound - range.lowerBound)
+        return String(self[start ..< end])
+    }
+    
+    
+    
 }
 extension Numeric {
+
+    var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
+    var formattedWithoutSpaces: String { Formatter.withoutSpaces.string(for: self) ?? "" }
+    
+    
     
     func currencyFormatter( ISO: String?) -> String {
         let formatter = NumberFormatter()
@@ -42,17 +130,14 @@ extension Numeric {
         // formatter.locale = NSLocale.currentLocale() // This is the default
         // In Swift 4, this ^ was renamed to simply NSLocale.current
         var id = String()
-       
         //let decimalsISO = ["SEK","NOK","CZK","JPY","HUF","IDR","ISK"]
         for i in curIdentifiers {
             if i.key == ISO {
                 id = i.value.rawValue
-                
             }
         }
         formatter.usesGroupingSeparator = true
         formatter.locale = Locale(identifier: id)
-        
         return formatter.string(for: self) ?? "ISO value is empty"
     }
     
@@ -69,45 +154,28 @@ extension Numeric {
     // Localized
     var currency:   String { formatted(style: .currency) }
    // var format: String {}
-    var currencyBY: String { formatted(style: .currency, locale: .belarusBY) }
-    var currencyUS: String { formatted(style: .currency, locale: .englishUS) }
-    var currencyFR: String { formatted(style: .currency, locale: .frenchFR) }
-    var currencyBR: String { formatted(style: .currency, locale: .portugueseBR) }
+//    var currencyBY: String { formatted(style: .currency, locale: .belarusBY) }
+//    var currencyUS: String { formatted(style: .currency, locale: .englishUS) }
+//    var currencyFR: String { formatted(style: .currency, locale: .frenchFR) }
+//    var currencyBR: String { formatted(style: .currency, locale: .portugueseBR) }
     // ... and so on
     //  var calculator: String { formatted(groupingSeparator: " ", style: .decimal) }
     ///func for tableviews change animations
 }
 
-
-
-extension UILabel {
+extension CALayer {
     
-    
-    func setLabelMiddleShadow(label: UILabel){
-        label.layer.shadowColor = whiteThemeShadowText.cgColor
-        label.layer.shadowRadius = 3
-        label.layer.shadowOpacity = 0.6
-        label.layer.shadowOffset = CGSize(width: 2, height: 2)
-        label.layer.masksToBounds = false
-    }
-    
-    func setLabelSmallShadow(label: UILabel){
-        label.layer.shadowColor = whiteThemeShadowText.cgColor
-        label.layer.shadowRadius = 1
-        label.layer.shadowOpacity = 0.3
-        label.layer.shadowOffset = CGSize(width: 1, height: 1)
-        label.layer.masksToBounds = false
-    }
-    var smallShadow: UILabel {
-        let label = UILabel()
-        label.layer.shadowColor = whiteThemeShadowText.cgColor
-        label.layer.shadowRadius = 1
-        label.layer.shadowOpacity = 0.3
-        label.layer.shadowOffset = CGSize(width: 1, height: 1)
-        label.layer.masksToBounds = false
-        return label
-    }
+    public func setMiddleShadow(color: UIColor) {
+           shadowColor = color.cgColor
+           shadowOffset = CGSize(width: 4, height: 4)
+           shadowRadius = 30
+           shadowOpacity = 0.2
+           //shouldRasterize = true
+           //rasterizationScale = UIScreen.main.scale
+       }
 }
+
+
 
 
 ///SomeFunc
@@ -156,7 +224,16 @@ func enumeratedALL<T: Comparable>(object:Results<T>) -> [T] {
     return array
 }
 
-//MARK: anyOptions
+//MARK: Extension Double
+extension Double {
+    func removeHundredthsFromEnd() -> Double {
+        let formatter = NumberFormatter()
+        let number = NSNumber(value: self)
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2 //maximum digits in Double after dot (maximum precision)
+        return Double(String(formatter.string(from: number) ?? "0")) ?? 0
+    }
+}
 
 
 
@@ -257,7 +334,7 @@ protocol DropDownProtocol {
 }
 
 ///MARK: PopUpProtocol
-protocol PopUpProtocol {
+protocol QuickPayCloseProtocol {
     func closePopUpMenu()
 }
 
@@ -406,17 +483,6 @@ extension UIButton{
         self.tintColor = color
     }
     
-    
-    func mainButtonTheme() {
-        self.layer.cornerRadius = 25
-        self.layer.cornerCurve = .continuous
-        self.backgroundColor = .systemGray5
-        self.clipsToBounds = true
-        self.layer.borderWidth = 2
-        self.layer.borderColor = UIColor.systemGray2.cgColor
-        
-    }
-    
 }
 
 
@@ -517,7 +583,7 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
     let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
     
     QuiclPayVC.payObject = PayObject
-    QuiclPayVC.closePopUpMenuDelegate = delegateController as! PopUpProtocol //Почему то работает делегат только если кастить до popupviiewController'a
+    QuiclPayVC.closePopUpMenuDelegate = delegateController as! QuickPayCloseProtocol //Почему то работает делегат только если кастить до popupviiewController'a
     // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
  
     if classViewController == nil {
@@ -533,7 +599,7 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
 func goToSelectDateVC(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
     let selectDateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "selectDateVC") as! SelectDateCalendarPopUpTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
-    selectDateVC.closeSelectDateDelegate = delegateController as! closeSelectDateProtocol
+    selectDateVC.closeSelectDateDelegate = delegateController as? closeSelectDateProtocol
     selectDateVC.payObject = payObject
     let navVC = UINavigationController(rootViewController: selectDateVC)
     navVC.modalPresentationStyle = .popover
@@ -555,4 +621,16 @@ extension UIViewController {
         alertController.addAction(OKAction)
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    var topBarHeight: CGFloat {
+        var top = self.navigationController?.navigationBar.frame.height ?? 0.0
+        if #available(iOS 13.0, *) {
+            top += UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        } else {
+            top += UIApplication.shared.statusBarFrame.height
+        }
+        return top
+    }
 }
+
+

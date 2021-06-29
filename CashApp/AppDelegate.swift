@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        IQKeyboardManager.shared.enableAutoToolbar = true // Бар для доп кнопок
 //        
         
+        ThemeManager.applyTheme(theme: .white)
+        
         let schemaVersion: UInt64 = 3 // Realm schemaVersion
     
         let config = Realm.Configuration(

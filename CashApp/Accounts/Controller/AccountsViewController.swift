@@ -13,42 +13,34 @@ import FSCalendar
 
 class AccountsViewController: UIViewController, scrollToNewAccount{
     
-    
-  
-    
-  
+
     func scrollToNewAccount(account: MonetaryAccount) {
         var indexPathIndex = 0
         accountsCollectionView.reloadData()
-        
-        
         for i in EnumeratedAccounts(array: accountsGroup) {
             if i.accountID == account.accountID {
                 accountsCollectionView.scrollToItem(at: IndexPath(row: indexPathIndex, section: 0), at: .centeredHorizontally, animated: true)
             }
             indexPathIndex += 1
         }
-        
     }
-    @IBOutlet var containerView: UIView!
+    
     
     @IBAction func addButton(_ sender: Any) {
         gotoNextVC()
     }
-   
-    var newAccount = MonetaryAccount()
     
+    @IBOutlet var containerView: UIView!
     @IBOutlet var blurView: UIVisualEffectView!
     @IBOutlet var topConstreintOfCollectionView: NSLayoutConstraint!
     @IBOutlet var accountsCollectionView: UICollectionView!
     
     //Buttons outlets
-    @IBOutlet var upperButton: UIButton!
-    
     @IBOutlet var backButtonOutlet: UIBarButtonItem!
     ///Buttons images
     @IBAction func backButton(_ sender: Any) {
         _ = navigationController?.popViewController(animated: true)
+        
     }
 
     func gotoNextVC() { // Delegate только так работает
@@ -99,7 +91,8 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         setupNavigationController(Navigation: navigationController!)
         self.view.insertSubview(self.blurView, at: 5)
         blurView.layer.opacity = 0
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = ThemeManager.currentTheme().viewBackgroundColor
+        
     }
     
     func hiddenNavigationItems() {
@@ -260,7 +253,7 @@ extension AccountsViewController: collectionCellProtocol {
         case "BalanceIsEditing":
             try! realm.write {
                 guard let sum = Double(didEndEditingWithText!) else {selectedObject?.balance = 0; return} // Убирает nil если текст филд не дает никакого числа
-                selectedObject!.balance = sum
+                selectedObject!.balance = Double(sum)
                 }
         default:
             break

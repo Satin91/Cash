@@ -44,7 +44,7 @@ class MainTableViewCell: UITableViewCell {
     func toCategory(category: MonetaryCategory) {
         primaryLabel.text = category.name
         secondaryLabel.text = "Balance"
-        sumLabel.text = String(category.sum.currencyUS)
+        sumLabel.text = String(category.sum.currencyFormatter(ISO: category.currencyISO))
         monetaryImage.image = UIImage(named: category.image)
     }
     

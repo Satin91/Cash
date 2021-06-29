@@ -11,7 +11,8 @@ import UIKit
 class AddCurrencyTableViewController: UITableViewController{
     
   
-    
+    var actionWithCurrency: ActionsWithCurrency?
+    var mainCurrency: CurrencyObject?
     private var filteredCurrencies: [CurrencyObject]?
     private var searchController = UISearchController()
     
@@ -88,22 +89,35 @@ class AddCurrencyTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
         let object: CurrencyObject
+        
+        if actionWithCurrency == .edit {
+            try! realm.write {
+                
+                mainCurrency?.ISO = currencyNonPrioritiesObjects[indexPath.row].ISO
+                realm.add(mainCurrency!,update: .all)
+            }
+        }
+        
         if isFiltered {
             object = filteredCurrencies![indexPath.row]
         }else{
             object = currencyNonPrioritiesObjects[indexPath.row]
         }
-        
         try! realm.write{
             if currencyPrioritiesObjects.isEmpty == false {
                 object.ISOPriority = currencyPrioritiesObjects.last!.ISOPriority + 1
             }else{
+                //Если каким то образом (или вначале запуска приложения) отсутствует главная валюта
+                
                 object.ISOPriority = 0
+                mainCurrency?.ISO = object.ISO
+                realm.add(mainCurrency!, update: .all)
             }
+            
             realm.add(object,update: .all)
         }
         tableViewReloadDelegate?.reloadData()

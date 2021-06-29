@@ -59,7 +59,8 @@ class LineChartCell: UICollectionViewCell {
     }
    
     func cellVisualSettings() {
-        monthLabel.textColor = whiteThemeMainText
+        monthLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        monthLabel.font = .systemFont(ofSize: 26)
         self.backgroundColor = .clear
         chartSize.backgroundColor = .clear
         lineChartView.backgroundColor = .clear
@@ -67,7 +68,7 @@ class LineChartCell: UICollectionViewCell {
         lineChartView.scrollEnabled = false
         
         textView.backgroundColor = .clear
-        textView.textColor = whiteThemeMainText
+        textView.textColor = ThemeManager.currentTheme().titleTextColor
         textView.font = .systemFont(ofSize: 17)
     }
     

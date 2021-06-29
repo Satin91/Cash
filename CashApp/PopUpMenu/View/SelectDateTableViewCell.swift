@@ -36,13 +36,19 @@ class SelectDateTableViewCell: UITableViewCell {
     func setSchedule(scheduleObject: MonetaryScheduler){
         nameLabel.text = scheduleObject.name
         let totalSum = scheduleObject.target - scheduleObject.available
-        sumLabel.text = String(totalSum.currencyFR)
+        sumLabel.text = String(totalSum.currencyFormatter(ISO: scheduleObject.currencyISO))
         
     }
     func setPayPerTime(payPerTime: PayPerTime) {
         nameLabel.text = payPerTime.scheduleName
+        var currency = mainCurrency?.ISO
+        for i in EnumeratedSchedulers(object: schedulerGroup) {
+            if i.scheduleID == payPerTime.scheduleID{
+                currency = i.currencyISO
+            }
+        }
         let totalSum = payPerTime.target
-        sumLabel.text = String(totalSum.currencyFR)
+        sumLabel.text = String(totalSum.currencyFormatter(ISO: currency))
     }
     
 }

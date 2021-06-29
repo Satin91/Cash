@@ -24,7 +24,8 @@ class CurrencyObject2 {
 struct Rates: Codable {
     let rates: [String:Double]
 }
-let validISOList = ["USD","EUR","JPY","GBP","AUD","CHF","CAD","CNY","SEK","NOK","NZD","SGD","HKD","KRW","TRY","RUB","INR","BRL","ZAR","BYN","UAH","ILS","BGN","CZK","DKK","HRK","HUF","IDR","ISK","MXN","MYR","PLN","RON","THB","KZT","AMD","ALL","BAM","RSD"]
+let validISOList = ["USD","EUR","JPY","GBP","AUD","CHF","CAD","CNY","SEK","NOK","NZD","SGD","HKD","KRW","TRY","RUB","INR","BRL","ZAR","BYN","UAH","ILS","BGN","CZK","DKK","HRK","HUF","IDR","ISK","MXN","MYR","PLN","RON","THB","KZT","AMD","ALL","BAM","RSD","AZN"]
+
 
 var curIdentifiers: [String: CurrencyLocale] = ["USD": .englishUnitedStates
                                                 ,"EUR":.englishGermany,
@@ -64,7 +65,8 @@ var curIdentifiers: [String: CurrencyLocale] = ["USD": .englishUnitedStates
                                                 "AMD":.armenianArmenia,
                                                 "ALL":.albanianAlbania,
                                                 "BAM":.bosnianBosniaHerzegovina,
-                                                "RSD":.serbianSerbia
+                                                "RSD":.serbianSerbia,
+                                                "AZN": .azerbaijaniAzerbaijan
 ]
 
 
@@ -110,6 +112,7 @@ public enum CurrencyName: String {
     case ALL
     case BAM
     case RSD
+    case AZN
     
     var getRaw: String {
         switch self {
@@ -190,6 +193,8 @@ public enum CurrencyName: String {
             return "Bosnia and Herzegovina convertible mark"
         case .RSD:
             return "Serbian dinar"
+        case .AZN:
+            return "Azerbaijan manat"
         }
         
     }

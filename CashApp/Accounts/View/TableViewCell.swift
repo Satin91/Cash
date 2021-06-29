@@ -57,7 +57,7 @@ class TableViewCell: UITableViewCell {
         }else{
             descriptionLabel.text = "Balance"
         }
-        self.sumLabel?.text = String(object.sum.currencyFR)
+        self.sumLabel?.text = String(object.sum.currencyFormatter(ISO: object.currencyISO))
         if let image = object.image {
             userImage.image = UIImage(named: image)
         }else{ userImage.image = UIImage(named: "card")}
@@ -89,7 +89,7 @@ class TableViewCell: UITableViewCell {
         }
         
         
-        self.sumLabel?.text = String(object.balance.currencyFR)
+        self.sumLabel?.text = String(object.balance.currencyFormatter(ISO: object.currencyISO))
         
         switch object.accountType {
         case 1 : userImage.image = UIImage(named: "card")

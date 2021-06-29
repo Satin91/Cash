@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum ActionsWithCurrency: String {
+    case add = "Add"
+    case edit = "Edit"
+}
 class CurrencyViewController: UIViewController {
     
     
@@ -17,11 +21,7 @@ class CurrencyViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBAction func addButton(_ sender: Any) {
         guard currencyObjects.isEmpty == false else{return}
-        let addCurrencyVC = AddCurrencyTableViewController()
-        let navController = UINavigationController(rootViewController: addCurrencyVC)
-        addCurrencyVC.modalTransitionStyle = .coverVertical
-        addCurrencyVC.tableViewReloadDelegate = self
-        self.navigationController?.present(navController, animated: true, completion: nil)
+        openTableViewController(action: .add)
         //self.navigationController?.pushViewController(navController, animated: true)
         //self.navigationController?.present(addCurrencyVC, animated: true, completion: nil)
         // self.navigationController?.pushViewController(addCurrencyVC, animated: true)
@@ -29,7 +29,22 @@ class CurrencyViewController: UIViewController {
         //self.present(addCurrencyVC, animated: true, completion: nil)
         
     }
-    
+    func openTableViewController(action: ActionsWithCurrency) {
+        let addCurrencyVC = AddCurrencyTableViewController()
+        let navController = UINavigationController(rootViewController: addCurrencyVC)
+        addCurrencyVC.modalTransitionStyle = .coverVertical
+        addCurrencyVC.tableViewReloadDelegate = self
+        addCurrencyVC.actionWithCurrency = action
+        if action == .edit {
+            for i in currencyPrioritiesObjects {
+                if i.ISO == mainCurrency!.ISO {
+                    addCurrencyVC.mainCurrency = i
+                }
+            }
+        }
+        
+        self.navigationController?.present(navController, animated: true, completion: nil)
+    }
     
     var dragInitialIndexPath: IndexPath?
     var dragCellSnapshot: UIView?
@@ -45,7 +60,7 @@ class CurrencyViewController: UIViewController {
         longPress.minimumPressDuration = 0.2 // optional
         tableView.addGestureRecognizer(longPress)
         tabBarController?.tabBar.hideTabBar()
-        self.view.backgroundColor = .systemGray5
+        
         tableView.register(UINib(nibName: "CurrencyTableViewCell", bundle: nil), forCellReuseIdentifier: "currencyCell")
         tableViewSettings()
         currencyConverterTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -183,7 +198,6 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource {
     //Delete row by swipe
     func updateDataAfterRemove(indexPath: IndexPath) {
         
-        
         for (index,value) in currencyPrioritiesObjects.enumerated() {
             if index == indexPath.row {
                 currencyPrioritiesObjects.remove(at: indexPath.row)
@@ -206,18 +220,47 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource {
         return true
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCell.EditingStyle.delete) {
-            // delete data and row
-            updateDataAfterRemove(indexPath: indexPath)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if (editingStyle == UITableViewCell.EditingStyle.insert) {
+//        }
+//
+//        if (editingStyle == UITableViewCell.EditingStyle.delete) {
+//            // delete data and row
+//
+//            updateDataAfterRemove(indexPath: indexPath)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+//    }
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         currencyPrioritiesObjects.count
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let object = currencyPrioritiesObjects[indexPath.row]
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            self.updateDataAfterRemove(indexPath: indexPath)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, _ in
+            
+            self.openTableViewController(action: .edit)
+        }
+        guard object.ISO != mainCurrency!.ISO else {
+            let actions = UISwipeActionsConfiguration(actions: [editAction])
+            return actions
+        }
+        let actions = UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+        
+        return actions
+    }
+    
+
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyTableViewCell
@@ -268,14 +311,12 @@ class CurrencyTableViewCell: UITableViewCell {
         ISOLabel.text = currencyObject.ISO
         currencyDescriptionLabel.text = CurrencyName(rawValue: currencyObject.ISO)?.getRaw
     }
-    func printPrivet(){
-        
-    }
     
     func converterSet(currencyObject: CurrencyObject, enteredSum: Double){
         ISOLabel.text = currencyObject.ISO
         
-        let convertedSum = currencyModelController.convert(enteredSum, inputCurrency: mainCurrency?.ISO, outputCurrency: currencyObject.ISO)?.currencyFormatter(ISO: currencyObject.ISO)
+        let convertedSum = currencyModelController.convert(enteredSum, inputCurrency: mainCurrency?.ISO, outputCurrency: currencyObject.ISO)?.formattedWithSeparator
+
         
         currencyDescriptionLabel.text = convertedSum
         

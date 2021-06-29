@@ -43,7 +43,8 @@ class ContainerViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemGray6
+        self.view.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.view.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
         self.view.layer.cornerRadius = 20
         self.view.layer.cornerCurve = .continuous
         savingsContainer.alpha = 0
@@ -52,7 +53,7 @@ class ContainerViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        print("container did disappear")
+        
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
     }

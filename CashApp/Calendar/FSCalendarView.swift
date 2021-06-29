@@ -34,7 +34,8 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+      //  fatalError("init(coder:) has not been implemented")
     }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderRadiusFor date: Date) -> CGFloat {
         return 0.5

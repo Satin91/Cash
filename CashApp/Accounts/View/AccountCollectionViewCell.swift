@@ -82,21 +82,32 @@ class AccountCollectionViewCell: UICollectionViewCell {
         guard delegate != nil else {return}
         var whoIsEditing = "NoTextFieldEditing"
         if nameTextField.isEditing {
+            
             whoIsEditing = "HeaderIsEditing"
+            var text = sender as! UITextField
+            delegate!.cellTextFieldChanged(self, didEndEditingWithText: text.text, textFieldName: whoIsEditing)
+            
         }else if balanceTextField.isEditing {
+            
             whoIsEditing = "BalanceIsEditing"
+            var text = sender as! NumberTextField
+            delegate!.cellTextFieldChanged(self, didEndEditingWithText: text.enteredSum, textFieldName: whoIsEditing)
             
         }else{
         }
-        delegate!.cellTextFieldChanged(self, didEndEditingWithText: sender.text, textFieldName: whoIsEditing)
+        
+        
     }
     
     func setForSelect(image: UIImage, name: String, balance: String, account: MonetaryAccount) {
         
         nameTextField.text = name
-        balanceTextField.text = balance
+        
+        
+        balanceTextField.text = String(Double(balance)!.formattedWithSeparator.replacingOccurrences(of: ".", with: ","))
+        
         accountsImageView.image = image
-
+        
         enableUnderLine(textField: nameTextField)
         
     }
@@ -104,7 +115,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     func setAccount(account: MonetaryAccount) {
         isMainAccountOutlet.isOn = account.isMainAccount
         nameTextField.text = account.name
-        balanceTextField.text =  String(account.balance.currencyFR)
+        balanceTextField.text =  String(account.balance.currencyFormatter(ISO: account.currencyISO))
         accountsImageView.image = UIImage(named: account.imageForAccount)
         ///эта функция нужна здесь, потому что только тут происходит инициализация значений
         disableUnderLine(textField: nameTextField)

@@ -72,9 +72,7 @@ extension LineChartContainerViewController: UICollectionViewDelegate, UICollecti
         
         return chartElement.count
     }
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LineChartIdentifier", for: indexPath) as! LineChartCell
         cell.contentView.backgroundColor = .clear
@@ -86,7 +84,6 @@ extension LineChartContainerViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
     }
-    
     
     func datesRange(from: Date, to: Date) -> [Date] {
         // in case of the "from" date is more than "to" date,

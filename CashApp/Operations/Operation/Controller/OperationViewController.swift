@@ -110,6 +110,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
         QuiclPayVC.payObject = PayObject
+        
         QuiclPayVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
         // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
      
@@ -217,7 +218,7 @@ extension OperationViewController: ReloadParentTableView {
 
 
 
-extension OperationViewController: PopUpProtocol {
+extension OperationViewController: QuickPayCloseProtocol {
     
     func closePopUpMenu() {
         closeChildViewController()

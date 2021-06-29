@@ -64,7 +64,7 @@ class AddAccountViewController: UIViewController {
             newAccountObject.name = nameTextField.text!
         }
         if !balanceTextField.text!.isEmpty {
-            newAccountObject.balance = Double(balanceTextField.text!)!
+            newAccountObject.balance = Double(balanceTextField.text!.withoutSpaces)!
         }
         DBManager.addAccountObject(object: [newAccountObject])
         
@@ -99,9 +99,7 @@ class AddAccountViewController: UIViewController {
     func visualSettings(){
         nameTextField.borderStyle = .none
         balanceTextField.borderStyle = .none
-        
         selectDateButtonOutlet.setTitleColor(whiteThemeMainText, for: .normal)
-        selectDateButtonOutlet.titleLabel?.setLabelSmallShadow(label: selectDateButtonOutlet.titleLabel!)
         for i in [nameTextField,balanceTextField]{
             i!.textColor = .systemGray
         }

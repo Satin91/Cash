@@ -122,7 +122,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         stackViewSettings()
         selectImageButton.setImage(UIImage(named: "card"), for: .normal)
         selectImageButton.imageView?.contentMode = .scaleAspectFill
-        selectImageButton.mainButtonTheme()
+        
         
     
         

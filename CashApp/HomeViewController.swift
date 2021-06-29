@@ -10,26 +10,62 @@ import UIKit
 import RealmSwift
 import AAInfographics
 
+func unique<S : Sequence, T : CurrencyObject>(source: S) -> [T] where S.Iterator.Element == T {
+    var buffer = [T]()
+    var added = Set<T>()
+    
+    
+    for elem in source {
+        if !added.contains(where: { object in
+            object.ISO == elem.ISO
+        }) {
+            buffer.append(elem)
+            added.insert(elem)
+        }
+    }
+    return buffer
+}
+
 class HomeViewController: UIViewController  {
     
+    //label который сверху (бывш. Total balance)
     @IBOutlet var primaryLabel: UILabel!
+    //собсна баланс
     @IBOutlet var balanceLabel: UILabel!
-    
-    @IBOutlet var viewHistoryButton: UIButton!
+    //собсна кнопка для показывания счетов
     @IBOutlet var totalBalanceButtom: UIButton!
-    @IBOutlet var historyTableView: EnlargeTableView!
     @IBOutlet var tableView: EnlargeTableView!
     var currencyModelController = CurrencyModelController()
+    var theme = ThemeManager.currentTheme()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         getCurrenciesByPriorities()//Обновить данные об изменении главной валюты
-        setTotalBalance() //Назначить сумму
+       // setTotalBalance() //Назначить сумму
         tableView.enterHistoryData() // Обновление данных истории
         tableView.reloadData()
-            //При переходе через таб бар обновления не происходят
+         
+    }   
+    //MARK: SCROLL EFFECT
+
+    
+    
+    @objc func changeSizeForHeightBgConstraint(notification: Notification) {
+        let object = notification.object as! CGPoint
+        
+        let heightRange = 120...300
+        let sideDistanceRange = 0...26
+        let newobj = -object.y
+        let sideDistance: CGFloat = 0.26
+        let persent =  CGFloat(Int(newobj * 100) / heightRange.max()! )
+        let sidePosition = sideDistance * persent
+        if sideDistanceRange.contains(Int(sidePosition)) {
+           
+        }
+        //backgroundView.bounds.size.height = newobj
+        //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
     }
-   
+    
     
     func setTotalBalance() {
         guard let validCurrency = currencyPrioritiesObjects.first else {return}
@@ -43,25 +79,51 @@ class HomeViewController: UIViewController  {
         }
         balanceLabel.text = String(totalBalanceSum.currencyFormatter(ISO: validCurrency.ISO))
     }
-  
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.clipsToBounds = true
-        currencyModelController.getCurrenciesFromJSON()
-        
-        totalBalanceButtom.mainButtonTheme()
-        setTotalBalance()
-        tableView.separatorStyle = .none
-        navigationItem.setValue("March, 13", forKey: "title")
-        navigationController!.navigationBar.tintColor = whiteThemeMainText // не работае почему то, потому что наверно стоит следом функция
+   
+    func visualSettings() {
+        navigationItem.setValue("Home", forKey: "title")
         setupNavigationController(Navigation: navigationController!)
         navigationItem.rightBarButtonItem?.title = "Currencies"
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
-        self.view.backgroundColor = .white
+        
+        
+    }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+    
+    }
+    var header: HeaderView!
+    func installBackgroundView() {
+        header = HeaderView(frame:.zero)
+        header.backgroundColor = .systemBackground
+        header.delegate = self
+        self.view.addSubview(header)
+        
+        tableView.header = header
+        //top bar extension described in anyOption
+        tableView.topBarHeight = topBarHeight
+        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        installBackgroundView()
+        self.view.backgroundColor = theme.viewBackgroundColor
+       
+        
+        //totalBalanceButtom.mainButtonTheme()
+        tableView.clipsToBounds = true
+        currencyModelController.getCurrenciesFromJSON()
+       // setTotalBalance()
+        tableView.separatorStyle = .none
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
+        
     }
    
-
+    
+    
+    
     
     func numberOfSections(in tableView: UITableView) -> Int{
         return 1
@@ -79,9 +141,9 @@ class HomeViewController: UIViewController  {
  
        return 76
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+    
     }
     //                        ROW ROW
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,9 +166,7 @@ class HomeViewController: UIViewController  {
         let rotationAngle = CGFloat(degree * Double.pi / 180)
         let rotationTransform = CATransform3DMakeRotation(rotationAngle, 1, 0, 0)
         cell.layer.transform = rotationTransform
-        
-         
-        
+
         UIView.animate(withDuration: 0.2, delay: 0.01, options: .curveEaseInOut, animations: {
             cell.layer.transform = CATransform3DIdentity
           
@@ -168,8 +228,6 @@ class HomeViewController: UIViewController  {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
 
             DBManager.removeHistoryObject(object: object) // Метод удаляет файлы из базы данных
-            self.historyTableView.deleteRows(at: [indexPath], with: .middle) // метод удаляет ячейку
-            
         }
         deleteAction.backgroundColor = whiteThemeRed
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
@@ -178,16 +236,11 @@ class HomeViewController: UIViewController  {
         return configuration
         
     }
-    
-    
-    //                    ANIMATE ROW
-    
 
-    @IBAction func unwindSegueToMainVC(_ segue: UIStoryboardSegue){
-        historyTableView.reloadData()
-        
-    }
-  
-    
 }
 
+extension HomeViewController: prepareForMainViewControllers {
+    func prepareFor(viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}

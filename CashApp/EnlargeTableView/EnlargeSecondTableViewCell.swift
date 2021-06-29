@@ -12,17 +12,30 @@ class SecondTableViewCell: UITableViewCell {
     
     var delegate: SendEnlargeIndex!
     var object = Int()
+    let themeManager = ThemeManager.currentTheme()
     
-    var nameLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.font = .systemFont(ofSize: 19, weight: .regular)
+        label.textColor = ThemeManager.currentTheme().titleTextColor
         return label
     }()
-    var sumLabel: UILabel = {
+    
+    var subTitleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .darkGray
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = ThemeManager.currentTheme().subtitleTextColor
+        return label
+    }()
+    
+    
+    var sumLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = ThemeManager.currentTheme().titleTextColor
         return label
     }()
     
@@ -41,7 +54,6 @@ class SecondTableViewCell: UITableViewCell {
     }()
     var lineView: UIView = {
        let view = UIView()
-        view.backgroundColor = .systemGray3
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -51,48 +63,79 @@ class SecondTableViewCell: UITableViewCell {
         lineView.isHidden = false
     }
     
+    func checkTheAccount(accountID: String) -> String {
+        var accountIdentifier: String?
+        for i in accountsObjects {
+            if accountID == i.accountID {
+                accountIdentifier = i.name
+            }
+        }
+        return accountIdentifier ?? "Без счета"
+    }
     
     func set(object: AccountsHistory, isLast: Bool) {
-        nameLabel.text = object.name
-        sumLabel.text = String(object.sum.currencyFR)
+        titleLabel.text = object.name
+        subTitleLabel.text = checkTheAccount(accountID: object.accountID)
+        sumLabel.text = String(object.sum.currencyFormatter(ISO: object.currencyISO))
         self.image.image = UIImage(named: object.image!)
         if isLast == true {
             lineView.isHidden = true
         }
+    }
+    func setColors(){
+        lineView.backgroundColor = themeManager.separatorColor
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         super.awakeFromNib()
         self.backgroundColor = .clear
-        
-        
-        
         contentView.backgroundColor = .clear
         sendButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
+        setColors()
         createConstraints()
     }
     
     @objc func pressed() {
         print("pressed \(object2)")
     }
-    
     func createConstraints() {
         
-        self.contentView.addSubview(nameLabel)
+        self.contentView.addSubview(titleLabel)
+        self.addSubview(subTitleLabel)
         self.contentView.addSubview(lineView)
         self.contentView.addSubview(sendButton)
         self.contentView.addSubview(sumLabel)
         self.contentView.addSubview(image)
         
+        let rawPriority = UILayoutPriority.defaultLow.rawValue
+        let labelPriority = UILayoutPriority(rawPriority + 1)
+        
+        sumLabel.setContentHuggingPriority(labelPriority, for: .horizontal)
+        
         image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
         image.heightAnchor.constraint(equalToConstant: 38).isActive = true
         image.widthAnchor.constraint(equalToConstant: 38).isActive = true
+
+        titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 20).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         
-        nameLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 20).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
+        sumLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -26).isActive = true
+        sumLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16).isActive = true
+        sumLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
+
+        subTitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 20).isActive = true
+        subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3).isActive = true
+        subTitleLabel.trailingAnchor.constraint(equalTo: sumLabel.leadingAnchor).isActive = true
         
+        
+        
+      //  subTitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16).isActive = true
+//        var priorityObject = subTitleLabel.trailingAnchor.constraint(equalTo: sumLabel.leadingAnchor)
+        
+        
+
         lineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
@@ -100,9 +143,8 @@ class SecondTableViewCell: UITableViewCell {
         sendButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -50).isActive = true
         sendButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        sumLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16).isActive = true
-        sumLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        sumLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
+        
+        
         
         
         sendButton.isHidden = true

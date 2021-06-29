@@ -118,7 +118,7 @@ class AddScheduleViewController: UIViewController {
     }
     
     func visualSetup() {
-        selectImageButtonOutlet.mainButtonTheme()
+        
         selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
         
         selectImageButtonOutlet.imageView?.contentMode = .scaleToFill
@@ -171,6 +171,7 @@ class AddScheduleViewController: UIViewController {
     }
     
     func saveScheduleElement()-> Bool {
+        newScheduleObject.image = selectedImageName
         switch newScheduleObject.stringScheduleType {
         case .oneTime:
             return saveOneTime()
@@ -204,12 +205,12 @@ class AddScheduleViewController: UIViewController {
             counter += 1
             if counter == numberOfMonth { // Если итерация послелняя т.е. соответствует количеству месяцев
                 if remainingSum != nil {
-                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: remainingSum!, scheduleID: object.scheduleID, vector: vector))
+                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: remainingSum!, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 }else{
-                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: object.sumPerTime, scheduleID: object.scheduleID, vector: vector))
+                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 }
             }else{
-                payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: object.sumPerTime, scheduleID: object.scheduleID, vector: vector))
+                payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate!)
             iterationDate = nextMonth
             }
@@ -233,7 +234,7 @@ class AddScheduleViewController: UIViewController {
         var iterationDate = newScheduleObject.date!
         for _ in 0..<1 {//На 2 года вперед
            // payPerTimeObject.date = iterationDate
-            payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate, target: object.sumPerTime, scheduleID: object.scheduleID, vector: vector))
+            payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
             let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate)
             iterationDate = nextMonth!
             
@@ -250,10 +251,11 @@ class AddScheduleViewController: UIViewController {
     
     
     func saveOneTime()-> Bool {
+
         if nameTextField.text != "", totalSumTextField.text != "", self.date != nil{
             newScheduleObject.name = nameTextField.text!
             newScheduleObject.date = date
-            newScheduleObject.target = Double(totalSumTextField.text!)!
+            newScheduleObject.target = Double(totalSumTextField.text!.withoutSpaces)!
             newScheduleObject.vector = self.vector
             DBManager.addObject(object: newScheduleObject)
             return true
@@ -265,8 +267,8 @@ class AddScheduleViewController: UIViewController {
     func saveMultiply()-> Bool {
         if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", date != nil{
             newScheduleObject.name = nameTextField.text!
-            newScheduleObject.target = Double(totalSumTextField.text!)!
-            newScheduleObject.sumPerTime = Double(sumPerTimeTextField.text!)!
+            newScheduleObject.target = Double(totalSumTextField.text!.withoutSpaces)!
+            newScheduleObject.sumPerTime = Double(sumPerTimeTextField.text!.withoutSpaces)!
             newScheduleObject.date = date
             newScheduleObject.dateRhythm = dateRhythm.rawValue
             saveMultiplyPayPerTime()
@@ -286,7 +288,7 @@ class AddScheduleViewController: UIViewController {
         if nameTextField.text != "", sumPerTimeTextField.text != "", self.date != nil{
             newScheduleObject.name = self.nameTextField.text!
             newScheduleObject.date = self.date
-            newScheduleObject.sumPerTime = Double(sumPerTimeTextField.text!)!
+            newScheduleObject.sumPerTime = Double(sumPerTimeTextField.text!.withoutSpaces)!
             newScheduleObject.dateRhythm = self.dateRhythm.rawValue
             newScheduleObject.vector = self.vector
             saveRegularPayPerTime()
@@ -302,7 +304,7 @@ class AddScheduleViewController: UIViewController {
         if nameTextField.text != "", totalSumTextField.text != "", self.date != nil{
             newScheduleObject.name = nameTextField.text!
             newScheduleObject.date = date
-            newScheduleObject.target = Double(totalSumTextField.text!)!
+            newScheduleObject.target = Double(totalSumTextField.text!.withoutSpaces)!
             DBManager.addObject(object: newScheduleObject)
             return true
         }else{

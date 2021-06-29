@@ -10,7 +10,23 @@ import Foundation
 class CurrencyModelController {
     var currencyObject = CurrencyObject2(ISO: "", exchangeRate: 0)
     var fetchedCurrencyObject: Rates?
-
+    
+    
+    func deleteDublicates() {
+        let unique = unique(source: currencyObjects)
+        if currencyObjects.count != unique.count {
+            var curObj = enumeratedALL(object: currencyObjects)
+            curObj = unique
+            curObj.removeAll()
+            for (index,value) in currencyObjects.enumerated(){
+            try! realm.write {
+                realm.delete(value)
+            }
+        }
+        }
+    }
+    
+    
     public func getCurrenciesFromJSON(){
         let urlString = "https://pastebin.com/raw/7XZ5v19y"
         guard let url = URL(string: urlString) else {return}
@@ -20,15 +36,29 @@ class CurrencyModelController {
             results = try JSONDecoder().decode(Rates.self, from: jsonData)
             if let results = results {
                 fetchedCurrencyObject = results
-               // var someAr = [bb]()
+               
+                //Удаляет если есть какие то странные названия
+                for x in currencyObjects {
+                    if !validISOList.contains(x.ISO) {
+                        try! realm.write {
+                            realm.delete(x)
+                        }
+                        
+                    }
+                }
                 for i in fetchedCurrencyObject!.rates {
                     let a = makeCurrency(ISO: i.key, rate: i.value)
                     guard let object = a else {continue}
+                    deleteDublicates()
+                    
                     let newRealmObject = CurrencyObject(ISO: object.ISO, exchangeRate: object.exchangeRate)
+                    
+                    
                     guard currencyObjects.count == validISOList.count else{
                         if currencyObjects.contains(where: { thisObject in
                             thisObject.ISO == object.ISO
                         }){
+                            
                             for i in currencyObjects {
                                 if i.ISO == newRealmObject.ISO {
                                     try! realm.write {
@@ -36,8 +66,10 @@ class CurrencyModelController {
                                         realm.add(i,update: .all)
                                     }
                                 }
+                                
                             }
                         }else{
+                            
                             try! realm.write{
                                 realm.add(newRealmObject)
                             }
@@ -144,15 +176,7 @@ class CurrencyModelController {
         }
         return 0
     }
-    public func convert2(_ value : Any?, inputCurrency : String?, outputCurrency : String?) -> Double? {
-        guard inputCurrency != nil, outputCurrency != nil, value != nil else {return nil}
-        
-        let value = returnDoubleValue(value)
-        guard let inputRate = fetchedCurrencyObject?.rates[inputCurrency!] else { return nil }
-        guard let outputRate =  fetchedCurrencyObject?.rates[outputCurrency!] else { return nil }
-        let multiplier = outputRate/inputRate
-        return value! * multiplier
-    }
+  
     public func makeCurrency(ISO : String?, rate : Double?) -> CurrencyObject2? {
         guard let ISO = ISO else { return nil }
         guard let rate = rate else {return nil}
@@ -161,3 +185,5 @@ class CurrencyModelController {
         return object
     }
 }
+
+
