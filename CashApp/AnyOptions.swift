@@ -36,6 +36,12 @@ extension Metric: CustomStringConvertible {
            return formatter
        }()
 
+    
+    var currencyFormattedValue: String {
+        
+        return "asd"
+    }
+    
        var formattedValue: String {
            let number = NSNumber(value: value)
            return Self.valueFormatter.string(from: number)!
@@ -113,9 +119,34 @@ extension String {
         let end = index(start, offsetBy: range.upperBound - range.lowerBound)
         return String(self[start ..< end])
     }
+}
+extension UILabel {
     
-    
-    
+    func changeTextAttributeForFirstLiteralsISO(ISO: String, Balance: Double) {
+        guard self.text != nil else {return}
+        let characterSet = NSCharacterSet(charactersIn: "1234567890, ")
+        var counter: Int = 0
+        
+        let currencyModelController = CurrencyModelController()
+        let symbol = currencyModelController.getSymbolForCurrencyCode(code: ISO)
+        
+        let text = symbol + " " + Metric.init(value: Balance).formattedValue
+        self.text = text
+        for i in self.text! {
+            let str = String(i)
+          //  print(counter)
+            if str.rangeOfCharacter(from: characterSet as CharacterSet) == nil {
+                counter += 1
+            }else {
+                break
+            }
+        }
+        let splittedFontSize = self.font.pointSize / 2
+        let attrString = NSMutableAttributedString(string: self.text!)
+        attrString.addAttribute(.font, value: UIFont.systemFont(ofSize: splittedFontSize,weight: .medium), range: NSRange(location: 0, length: counter))
+        self.attributedText = attrString
+        
+    }
 }
 extension Numeric {
 
@@ -169,10 +200,26 @@ extension CALayer {
            shadowColor = color.cgColor
            shadowOffset = CGSize(width: 4, height: 4)
            shadowRadius = 30
-           shadowOpacity = 0.2
+           shadowOpacity = 0.3
            //shouldRasterize = true
            //rasterizationScale = UIScreen.main.scale
        }
+    public func setSmallShadow(color: UIColor) {
+        shadowColor = color.cgColor
+        shadowOffset = CGSize(width: 2, height: 2)
+        shadowRadius = 18
+        shadowOpacity = 0.25
+        shouldRasterize = true
+        rasterizationScale = UIScreen.main.scale
+    }
+    public func setCircleShadow(color: UIColor) {
+        shadowColor = color.cgColor
+        shadowOffset = CGSize(width: 0, height: 0)
+        shadowRadius = 5
+        shadowOpacity = 0.4
+        shouldRasterize = true
+        rasterizationScale = UIScreen.main.scale
+    }
 }
 
 
@@ -217,7 +264,6 @@ func EnumeratedSchedulers(object: [Results<MonetaryScheduler>]) -> [MonetarySche
 }
 func enumeratedALL<T: Comparable>(object:Results<T>) -> [T] {
     var array = [T]()
-    
     for i in object {
         array.append(i)
     }
@@ -484,7 +530,22 @@ extension UIButton{
     }
     
 }
-
+//MARK: Uniq
+//sorted uniq array of dates
+ func uniq<S: Sequence, T: Hashable> (source: S) -> [T] where S.Iterator.Element == T {
+    var buffer = [T]() // возвращаемый массив
+    var added = Set<T>() // набор - уникальные значения
+    var repeating = [T]()
+    for elem in source {
+        if !added.contains(elem) {
+            buffer.append(elem)
+            added.insert(elem)
+        }else{
+            repeating.append(elem)
+        }
+    }
+    return repeating
+}
 
 //MARK: Date ext
 extension Date {

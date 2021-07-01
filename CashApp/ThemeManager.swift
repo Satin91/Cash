@@ -153,7 +153,7 @@ enum Theme: Int {
     var contrastColor2: UIColor {
         switch self {
         case .white:
-            return UIColor().colorFromHexString(colors().contrastColor1)
+            return UIColor().colorFromHexString(colors().contrastColor2)
         case .dark :
             return UIColor().colorFromHexString(colors().contrastColor2)
         }

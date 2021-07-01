@@ -64,7 +64,6 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         guard accountsGroup.count != 0 else {return}
         visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
         sendNotification(objectAt: visibleIndexPath)
-        self.tabBarController?.tabBar.hideTabBar()
      //   accountsCollectionView.reloadData() // Обновляем после добавления нового аккаунта
         print("Accounts view did appear")
         

@@ -23,13 +23,13 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
         
 //        calendarView.appearance.headerDateFormat = DateFormatter.dateFormat(fromTemplate: "D", options: 0, locale: .current)
         self.appearance.titleTodayColor = whiteThemeBackground
-        self.appearance.titleDefaultColor = whiteThemeMainText
-        self.appearance.titleWeekendColor = whiteThemeRed
-        self.appearance.headerTitleColor = whiteThemeRed
-        self.appearance.weekdayTextColor = whiteThemeTranslucentText
+        self.appearance.titleDefaultColor = ThemeManager.currentTheme().titleTextColor
+        self.appearance.titleWeekendColor = ThemeManager.currentTheme().contrastColor1
+        self.appearance.headerTitleColor = ThemeManager.currentTheme().contrastColor1
+        self.appearance.weekdayTextColor = ThemeManager.currentTheme().subtitleTextColor
         self.firstWeekday = 2
-        self.placeholderType = .none
-        self.appearance.titleFont = .monospacedSystemFont(ofSize: 17, weight: UIFont.Weight.regular)
+        self.placeholderType = .fillSixRows
+        self.appearance.titleFont = .systemFont(ofSize: 17, weight: .medium)
         
     }
     

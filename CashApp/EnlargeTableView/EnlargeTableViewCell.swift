@@ -65,7 +65,7 @@ class EnlargeTableViewCell: UITableViewCell{
         tableViewContainer.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         tableViewContainer.layer.cornerRadius = 20
         tableViewContainer.layer.masksToBounds = false
-        tableViewContainer.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        tableViewContainer.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
         //mini table view
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none

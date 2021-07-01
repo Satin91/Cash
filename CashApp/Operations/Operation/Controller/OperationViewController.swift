@@ -44,7 +44,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
     
     ///            Actions:
     @IBAction func actionSegmentedControl(_ sender: HBSegmentedControl) {
-        changeSegmentAnimation(TableView: operationTableView, ChangeValue: &changeValue)
+        sender.changeSegmentWithAnimation(TableView: operationTableView, ChangeValue: &changeValue)
     }
     ///             POPUP VIEW
     @IBOutlet var blurView: UIVisualEffectView!

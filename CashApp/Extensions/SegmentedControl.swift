@@ -57,11 +57,13 @@ class HBSegmentedControl: UIControl {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)!
         setupView()
+        
     }
     
     private func setupView() {
@@ -69,7 +71,7 @@ class HBSegmentedControl: UIControl {
         layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
         layer.borderWidth = 2.5
         
-        backgroundColor = UIColor.clear
+        backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         setupLabels()
         insertSubview(thumbView, at: 0)
     }
@@ -185,13 +187,32 @@ class HBSegmentedControl: UIControl {
             item.font = font
         }
     }
+    
+    func changeSegmentWithAnimation(TableView: UITableView, ChangeValue: inout Bool) {
+        let duration = 0.095
+        let milliseconds = 95
+        UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions.curveLinear, animations: {
+            TableView.alpha = 0
+        }, completion: nil)
+        ChangeValue.toggle()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(milliseconds), execute: {
+            UIView.animate(withDuration: duration, delay: duration, options: UIView.AnimationOptions.curveLinear, animations: {
+                
+                TableView.alpha = 1
+                TableView.reloadData()
+            }, completion: nil)
+        })
+    }
+    
     func changeValuesForCashApp (segmentOne: String, segmentTwo: String) {
         self.items = [segmentOne,segmentTwo]
-        self.backgroundColor = whiteThemeMainText
-        self.selectedLabelColor = whiteThemeMainText
-        self.unselectedLabelColor = whiteThemeBackground
-        self.thumbColor = whiteThemeBackground
+        self.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.selectedLabelColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.unselectedLabelColor = ThemeManager.currentTheme().subtitleTextColor
+        self.thumbColor = ThemeManager.currentTheme().titleTextColor
+        self.borderColor = .clear
+        self.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
        //self.borderColor = .black
-        self.layer.borderColor = UIColor.systemGray.cgColor
+        //self.layer.borderColor = UIColor.systemGray.cgColor
     }
 }

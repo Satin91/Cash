@@ -30,13 +30,17 @@ let stringOnDataComponents = someDateFormatterEx.string(from: someDateOfComponen
 
 ///Дата в текст
 func dateToString(date: Date) -> String {
-    someDateFormatterEx.dateFormat = "MMM, d, Y"
-   //let dateComponents = dateCalendar.dateComponents([.year,.month,.day], from: todayDate)
     
-
+    let format = Calendar.current.component(.year, from: date)
+    let currentFormat = Calendar.current.component(.year, from: Date())
+    if currentFormat != format {
+        someDateFormatterEx.dateFormat = "MMM, d, Y"
+        
+    }else {
+        someDateFormatterEx.dateFormat = "MMM, d"
+    }
     let returnString = someDateFormatterEx.string(from: date)
     return returnString
-    
 }
 
 ///Компоненты в текст

@@ -19,21 +19,7 @@ class CalendarSchedulerViewController: UIViewController {
     var datesArray = [Date]()
     var quickPayVC: UIViewController!
     
-    //sorted uniq array of dates
-    private func uniq<S: Sequence, T: Hashable> (source: S) -> [T] where S.Iterator.Element == T {
-        var buffer = [T]() // возвращаемый массив
-        var added = Set<T>() // набор - уникальные значения
-        var repeating = [T]()
-        for elem in source {
-            if !added.contains(elem) {
-                buffer.append(elem)
-                added.insert(elem)
-            }else{
-                repeating.append(elem)
-            }
-        }
-        return repeating
-    }
+   
     
     func updateDatesArray() ->[Date]  {
         let datesArray: [Date] = {
@@ -55,7 +41,7 @@ class CalendarSchedulerViewController: UIViewController {
     
     func createCalendar(){
 
-
+        
         calendarView.register(FSCalendarCell.self, forCellReuseIdentifier: "Cell")
     }
 
@@ -82,7 +68,9 @@ class CalendarSchedulerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         calendarView.reloadData()
+        
         calendarView.delegate = self
         calendarView.dataSource = self
         datesArray = updateDatesArray()

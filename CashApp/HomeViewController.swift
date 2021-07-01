@@ -67,18 +67,7 @@ class HomeViewController: UIViewController  {
     }
     
     
-    func setTotalBalance() {
-        guard let validCurrency = currencyPrioritiesObjects.first else {return}
-        var totalBalanceSum: Double = 0
-        for i in accountsObjects {
-            if i.currencyISO != validCurrency.ISO {
-                totalBalanceSum += currencyModelController.convert(i.balance, inputCurrency: i.currencyISO, outputCurrency: validCurrency.ISO)!
-            }else{
-                totalBalanceSum += i.balance
-            }
-        }
-        balanceLabel.text = String(totalBalanceSum.currencyFormatter(ISO: validCurrency.ISO))
-    }
+   
    
     func visualSettings() {
         navigationItem.setValue("Home", forKey: "title")
@@ -105,12 +94,14 @@ class HomeViewController: UIViewController  {
         tableView.topBarHeight = topBarHeight
         
     }
+    func getCurrencyCode() {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         installBackgroundView()
         self.view.backgroundColor = theme.viewBackgroundColor
-       
-        
         //totalBalanceButtom.mainButtonTheme()
         tableView.clipsToBounds = true
         currencyModelController.getCurrenciesFromJSON()

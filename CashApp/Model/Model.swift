@@ -257,4 +257,20 @@ class PayPerTime: Object {
     
 }
 
+class TodayBalance: Object {
+    @objc dynamic var commonBalance: Double = 0
+    @objc dynamic var currentBalance: Double = 0
+    @objc dynamic var endDate = Date()
+    @objc dynamic var todayBalanceID = NSUUID.init().uuidString
+    override static func primaryKey() -> String? {
+        return "todayBalanceID"
+    }
+    convenience init(commonBalance: Double, currentBalance: Double, endDate: Date) {
+        self.init()
+        self.commonBalance = commonBalance
+        self.currentBalance = currentBalance
+        self.endDate = endDate
+    }
+}
+
 

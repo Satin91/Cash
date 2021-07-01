@@ -9,9 +9,6 @@
 import UIKit
 import AAInfographics
 
-
-
-
 class ChartsView: UIView {
     
     var aaChartView: AAChartView = {
