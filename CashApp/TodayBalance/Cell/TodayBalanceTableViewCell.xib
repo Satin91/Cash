@@ -36,18 +36,24 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZhX-Ef-wpd">
+                        <rect key="frame" x="245" y="24.5" width="51" height="31"/>
+                    </switch>
                 </subviews>
                 <constraints>
                     <constraint firstItem="W7t-y3-9Pf" firstAttribute="top" secondItem="gV6-wb-Vlt" secondAttribute="bottom" constant="2" id="1Na-Ln-hCE"/>
                     <constraint firstItem="W7t-y3-9Pf" firstAttribute="leading" secondItem="rBT-k9-9Jq" secondAttribute="trailing" constant="15" id="CGT-fS-unc"/>
+                    <constraint firstAttribute="trailing" secondItem="ZhX-Ef-wpd" secondAttribute="trailing" constant="26" id="LRc-0p-R8x"/>
                     <constraint firstItem="rBT-k9-9Jq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="R4Q-WV-Hdh"/>
                     <constraint firstItem="rBT-k9-9Jq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="ViW-Ih-0ZS"/>
                     <constraint firstItem="gV6-wb-Vlt" firstAttribute="leading" secondItem="rBT-k9-9Jq" secondAttribute="trailing" constant="15" id="VnE-pG-0db"/>
                     <constraint firstItem="gV6-wb-Vlt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="dCT-et-mvi"/>
+                    <constraint firstItem="ZhX-Ef-wpd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="lrO-7L-kVX"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="isUseForTodayBalanceSwitch" destination="ZhX-Ef-wpd" id="Q05-dC-43t"/>
                 <outlet property="monetaryImage" destination="rBT-k9-9Jq" id="Shd-xb-B8l"/>
                 <outlet property="subTitleLabel" destination="W7t-y3-9Pf" id="rr7-pB-zRa"/>
                 <outlet property="titleLabel" destination="gV6-wb-Vlt" id="v64-j6-ACj"/>

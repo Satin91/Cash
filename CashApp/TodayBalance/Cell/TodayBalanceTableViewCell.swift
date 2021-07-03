@@ -10,6 +10,8 @@ import UIKit
 
 class TodayBalanceTableViewCell: UITableViewCell {
     let theme = ThemeManager.currentTheme()
+    
+    @IBOutlet var isUseForTodayBalanceSwitch: UISwitch!
     @IBOutlet var monetaryImage: UIImageView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var subTitleLabel: UILabel!
@@ -35,6 +37,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
         monetaryImage.layer.cornerRadius = 10
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
+        isUseForTodayBalanceSwitch.onTintColor = theme.contrastColor2
     }
     func setUnderline(isLast: Bool){
         
@@ -53,6 +56,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
             titleLabel.text = object.name
             subTitleLabel.text = object.currencyISO
             monetaryImage.image = UIImage(named: object.image)
+            isUseForTodayBalanceSwitch.isOn = object.isUseForTudayBalance
         }else if object is PayPerTime{
             let object = object as! PayPerTime
             titleLabel.text = object.scheduleName
@@ -60,6 +64,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
             for i in EnumeratedSchedulers(object: schedulerGroup) {
                 if i.scheduleID == object.scheduleID {
                     monetaryImage.image = UIImage(named: i.image)
+                    isUseForTodayBalanceSwitch.isOn = i.isUseForTudayBalance
                 }
             }
         }else if object is MonetaryAccount {
@@ -67,6 +72,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
             titleLabel.text = object.name
             subTitleLabel.text = object.balance.currencyFormatter(ISO: object.currencyISO)
             monetaryImage.image = UIImage(named: object.imageForAccount)
+            isUseForTodayBalanceSwitch.isOn = object.isUseForTudayBalance
         }
         
     }
