@@ -92,7 +92,6 @@ extension String {
     var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
     var withoutSpaces: String {
         let str = self.replacingOccurrences(of: " ", with: "")
-        
         return str
     }
     
@@ -145,7 +144,36 @@ extension UILabel {
         let attrString = NSMutableAttributedString(string: self.text!)
         attrString.addAttribute(.font, value: UIFont.systemFont(ofSize: splittedFontSize,weight: .medium), range: NSRange(location: 0, length: counter))
         self.attributedText = attrString
-        
+    }
+    func countPersentAnimation(upto: Double) {
+        let from: Double = text?.replacingOccurrences(of: ",", with: ".").components(separatedBy: CharacterSet.init(charactersIn: "-0123456789.").inverted).first.flatMap { Double($0) } ?? 0.0
+        let steps: Int = 20
+        let duration = 0.25
+        let rate = duration / Double(steps)
+        let diff = upto - from
+        for i in 0...steps {
+            DispatchQueue.main.asyncAfter(deadline: .now() + rate * Double(i)) {
+                let doubl = (from + diff * (Double(i) / Double(steps)))
+                self.text = String(Int(doubl)) + "%"
+            }
+        }
+    }
+    
+    func countISOAnimation(upto: Double, iso: String) {
+        let characterSet = CharacterSet(charactersIn: "-0123456789.,")
+        let form = self.text?.trimmingCharacters(in: characterSet.inverted)
+        guard let form = form else {return}
+        let from: Double = Double(form.replacingOccurrences(of: ",", with: "."))!
+        let steps: Int = 15
+        let duration = 0.25
+        let rate = duration / Double(steps)
+        let diff = upto - from
+        for i in 0...steps {
+            DispatchQueue.main.asyncAfter(deadline: .now() + rate * Double(i)) {
+                let doubl = (from + diff * (Double(i) / Double(steps)))
+                self.changeTextAttributeForFirstLiteralsISO(ISO: iso, Balance: doubl)
+            }
+        }
     }
 }
 extension Numeric {

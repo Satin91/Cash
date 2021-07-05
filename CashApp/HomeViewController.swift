@@ -94,13 +94,14 @@ class HomeViewController: UIViewController  {
         tableView.topBarHeight = topBarHeight
         
     }
-    func getCurrencyCode() {
-        
-    }
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         installBackgroundView()
+//        try! realm.write {
+//            realm.deleteAll()
+//        }
         self.view.backgroundColor = theme.viewBackgroundColor
         //totalBalanceButtom.mainButtonTheme()
         tableView.clipsToBounds = true

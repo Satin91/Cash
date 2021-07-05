@@ -73,7 +73,12 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
             self.closeChildViewController()
         })
     }
-
+    func visualSettings() {
+        let theme = ThemeManager.currentTheme()
+        self.view.backgroundColor = theme.backgroundColor
+        operationTableView.separatorStyle = .none
+        operationTableView.backgroundColor = .clear
+    }
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -94,8 +99,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         operationTableView.register(cellNib, forCellReuseIdentifier: "MainIdentifier")
         operationTableView.delegate = self
         operationTableView.dataSource = self
-        operationTableView.separatorStyle = .none
-        operationTableView.backgroundColor = .clear
+        visualSettings()
     }
     
     //wait for Figma 

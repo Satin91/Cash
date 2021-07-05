@@ -76,7 +76,9 @@ class TodayBalanceTableViewCell: UITableViewCell {
         }
         
     }
-    
+    func togleSwitch() {
+        isUseForTodayBalanceSwitch.setOn(!isUseForTodayBalanceSwitch.isOn, animated: true)
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         visualSettings()

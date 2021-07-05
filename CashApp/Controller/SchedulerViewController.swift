@@ -73,11 +73,17 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         }
         return repeating
     }
-
+    
+    func visualSettings() {
+        let theme = ThemeManager.currentTheme()
+        self.view.backgroundColor = theme.backgroundColor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addBlur()
         installTableView()
+        visualSettings()
 
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -127,6 +133,7 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleIdentifier", for: indexPath) as! SchedulerTableViewCell
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         cell.set(object: object)
+        cell.selectionStyle = .none
         return cell
         }
     }

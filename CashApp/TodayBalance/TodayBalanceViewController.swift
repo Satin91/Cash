@@ -17,11 +17,11 @@ class TodayBalanceViewController: UIViewController {
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     var schedulerArray: [MonetaryScheduler] = []
     var payperTimeArray: [PayPerTime] = []
-    
+    var todayBalance: TodayBalance? 
     var endDate: Date? {
         willSet {
-            calculatedUntilDateLabel.text = "Calculated until " + dateToString(date: newValue!)
-            setTodayBalance()
+            
+            updateTotalBalanceSum()
             getSchedulersToTableView()
             
         }
@@ -129,35 +129,38 @@ class TodayBalanceViewController: UIViewController {
         self.schedulerArray = schedulerArray
         tableView.reloadData()
     }
-    func getDailyBalance() {
-        guard let balance = todayBalanceObject else {
-            dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency!.ISO, Balance: 0)
-            dailyBudgetLabel.text = "Date not selected"
-            return}
-        setTodayBalance()
-        endDate = todayBalanceObject?.endDate
-        calculatedUntilDateLabel.text = dateToString(date: endDate!)
-        dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency!.ISO, Balance: balance.currentBalance)
+
+    func setEmptyBalanceData() {
+        guard let mainCurrency = mainCurrency else {return}
+        dailyBudgetBalanceLabel.countISOAnimation(upto: 0, iso: mainCurrency.ISO)
+        dailyBudgetLabel.text = "Отсутствуют счета"
+        circleBar.progressAnimation(currentlyBalance: 0, commonBalance: 0)
+        
     }
     
-    func setTodayBalance() {
+    func setTodayBalanceData() {
         guard let mainCurrency = mainCurrency?.ISO else {return}
+        guard let balance = todayBalanceObject else {
+            dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: 0)
+            calculatedUntilDateLabel.text = "Date not selected"
+            return}
+        //endDate = todayBalanceObject?.endDate
+        calculatedUntilDateLabel.text = "Calculated until " + dateToString(date: balance.endDate)
+        dailyBudgetLabel.text = "Daily budget"
         var currentBalance: Double = 0
         var divider: Int = 0
-        if todayBalanceObject!.endDate > Date() {
-            divider = Calendar.current.dateComponents([.day], from: Date(),to: todayBalanceObject!.endDate).day!
+        if balance.endDate > Date() {
+            divider = Calendar.current.dateComponents([.day], from: Date(),to: balance.endDate).day!
         }else{
             divider = 0
         }
-        guard let object = todayBalanceObject else {return}
-        updateTotalBalanceSum()
-        currentBalance = divider != 0 ? object.currentBalance / Double(divider) : object.currentBalance
-        dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: currentBalance)
-        //balanceLabel.text = String(totalBalanceSum.currencyFormatter(ISO: validCurrency.ISO))
+        currentBalance = divider != 0 ? balance.currentBalance / Double(divider) : balance.currentBalance
+        dailyBudgetBalanceLabel.countISOAnimation(upto: currentBalance, iso: mainCurrency)
     }
     func updateTotalBalanceSum() {
         //minuend, subtrahend, difference
         //уменьшаемое, вычитаемое, разность
+        todayBalanceObject = fetchTodayBalance()
         var subtrahend: Double = 0
         var commonSum: Double = 0
         
@@ -182,26 +185,24 @@ class TodayBalanceViewController: UIViewController {
                 }
             }
         //Get CommonSum
+        var usedAccauntArray: [MonetaryAccount] = []
         for a in accountsObjects {
             if a.isUseForTudayBalance == true {
                 commonSum += currencyModelController.convert(a.balance, inputCurrency: a.currencyISO, outputCurrency: mainCurrency?.ISO)!
+                usedAccauntArray.append(a)
             }
         }
-        
         
         try! realm.write {
             todayBalanceObject?.commonBalance = commonSum.removeHundredthsFromEnd()
             todayBalanceObject?.currentBalance = (commonSum + subtrahend).removeHundredthsFromEnd()
             realm.add(todayBalanceObject!,update: .all)
         }
-    }
-    func installCircleBar() {
-        circleBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
-    }
-    @objc func handleTap() {
-        
-        circleBar.progressAnimation(duration: 0.6)
-        
+        guard usedAccauntArray.isEmpty == false else {
+            setEmptyBalanceData()
+            return}
+        setTodayBalanceData()
+        circleBar.progressAnimation(currentlyBalance: todayBalanceObject!.currentBalance, commonBalance: todayBalanceObject!.commonBalance)
     }
     
     @objc func calendarButtonPressed(_ button: UIButton) {
@@ -214,7 +215,7 @@ class TodayBalanceViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.hideTabBar()
-        //circleBar.progressAnimation(duration: 0.6)
+        updateTotalBalanceSum()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
@@ -224,14 +225,13 @@ class TodayBalanceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarButton.addTarget(self, action: #selector(calendarButtonPressed(_:)), for: .touchUpInside)
+     
         visualSettings()
         createConstraints()
-        getDailyBalance()
         installCalendar()
-        setTodayBalance()
+        
         installTableView()
         getSchedulersToTableView()
-        installCircleBar()
     }
     
     
@@ -283,19 +283,24 @@ extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDel
 //        
 //        return cell
 //    }
+    
+    
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
-        try! realm.write{
-            let todayBalance = TodayBalance()
-            if todayBalanceObject == nil {
-                todayBalance.endDate = date
-                realm.add(todayBalance)
-            }else{
-                todayBalanceObject?.endDate = date
-                realm.add(todayBalanceObject!,update: .all)
+              
+        //Так как создается баланс только при выборе даты, эту конструкцию нужно указывать только здесь
+        do {
+            try todayBalanceObject = DBManager.fetchTB(date: date)
+        } catch let error {
+            try! realm.write {
+                realm.add(TodayBalance(commonBalance: 0, currentBalance: 0, endDate: date))
             }
+            print (error.localizedDescription)
         }
+        
+
         endDate = date
+        updateTotalBalanceSum()
+        
         self.view.reservedAnimateView2(animatedView: blur)
         self.view.reservedAnimateView2(animatedView: calendarContainerView)
         self.view.reservedAnimateView2(animatedView: self.calendar)
@@ -332,7 +337,6 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        
-        
         if changeValue {
             let object = schedulerArray[indexPath.row]
             try! realm.write {
@@ -347,8 +351,7 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
             }
         }
         updateTotalBalanceSum()
-        setTodayBalance()
-        circleBar.progressAnimation(duration: 0.6)
+        
     }
     
     

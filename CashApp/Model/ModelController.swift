@@ -45,7 +45,7 @@ let currencyObjects =           realm.objects(CurrencyObject.self).sorted(byKeyP
 var currencyPrioritiesObjects: [CurrencyObject] = []
 var currencyNonPrioritiesObjects: [CurrencyObject] = []
 var mainCurrency =              fetchMainCurrency()
-let todayBalanceObject =        fetchTodayBalance()
+var todayBalanceObject =        fetchTodayBalance()
 ///Меню в OperationViewController сегмент 1
 ///Operation Payment
 var categoryGroup = [expenceObjects,incomeObjects]
@@ -119,9 +119,11 @@ func addMainCurrencyForPriorityIfNeeded(mainISO: String){
     }
 }
 func fetchTodayBalance()-> TodayBalance? {
-    let object = Array(realm.objects(TodayBalance.self))
-    return object.first
+    //let object = Array(realm.objects(TodayBalance.self))
+
+    return Array(realm.objects(TodayBalance.self)).first ?? nil
 }
+
 
 //Функция в любом случае достает основную валюту если та отсутствует, делает ее той которая в локализации и добавляет в список валют
 func fetchMainCurrency() -> MainCurrency? {

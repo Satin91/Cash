@@ -83,7 +83,14 @@ class DBManager {
         return Array(results)
     }
     
-
+    static func fetchTB(date: Date) throws -> TodayBalance {
+        guard let object = realm.objects(TodayBalance.self).first else {throw NSError(domain: "Returned nil", code: 1) }
+        try! realm.write {
+        object.endDate = date
+            realm.add(object,update: .all)
+        }
+        return object
+    }
   
     static func clearAll () {
        try! realm.write{

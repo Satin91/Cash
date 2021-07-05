@@ -215,11 +215,10 @@ class AddScheduleViewController: UIViewController {
             iterationDate = nextMonth
             }
             ///Занести payArray в базу
-            for i in payArray {
-                try! realm.write {
-                    realm.add(i)
-                }
+            try! realm.write {
+                realm.add(payArray)
             }
+     
         }
     }
     func saveMultiplyPayPerTime() {

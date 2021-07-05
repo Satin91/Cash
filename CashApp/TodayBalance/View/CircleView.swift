@@ -34,12 +34,20 @@ class CircleView: UIView {
         
         createCircularPath()
     }
+    var startValue = 0
+  
+    
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        persent.text = String(Int(getPersent() * 100)) + "%"
+        
         initConstraintsForLabel()
         createCircularPath()
+        
+        //persent.text = String(Int(getPersent() * 100)) + "%"
+        
     }
+
     func createCircularPath() {
         let circularPath = UIBezierPath(arcCenter: CGPoint(x: frame.size.width / 2.0, y: frame.size.height / 2.0), radius: self.frame.height / 2, startAngle: -.pi / 2, endAngle: 3 * .pi / 2, clockwise: true)
         circleLayer.path = circularPath.cgPath
@@ -52,35 +60,57 @@ class CircleView: UIView {
         progressLayer.fillColor = UIColor.clear.cgColor
         progressLayer.lineCap = .round
         progressLayer.lineWidth = 5
-        progressLayer.strokeEnd = getPersent()
-        progressLayer.strokeColor = UIColor.red.cgColor
+        progressLayer.strokeEnd = 0
+        //progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
         progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
         //layer.addSublayer(circleLayer)
         layer.addSublayer(progressLayer)
     }
     
-    func getPersent() -> CGFloat {
-        let difference = (CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance))
+    func persentGreaterThanZero() -> CGFloat{
+        let difference = (CGFloat(todayBalanceObject!.commonBalance) / CGFloat(todayBalanceObject!.currentBalance))
         let value = CGFloat(1) - difference
+        progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor1.cgColor
+        progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor1)
         return value
     }
-    func progressAnimation(duration: TimeInterval) {
-        let value = Int(getPersent() * 100)
-        print(value)
-        persent.text = String(value) + "%"
+    func persentLessThanZero() -> CGFloat {
+        let difference = (CGFloat(todayBalanceObject!.currentBalance) / CGFloat(todayBalanceObject!.commonBalance))
+        let value = CGFloat(1) - difference
+        progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
+        progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
+        return value
+    }
+    
+    func getPersent(currentlyBalance: Double, commonBalance: Double) -> CGFloat {
+        guard currentlyBalance + commonBalance != 0 else {
+            return 0
+        }
+        if currentlyBalance > commonBalance {
+            guard currentlyBalance != 0 else{return 0}
+            return persentGreaterThanZero()
+        }else{
+            guard commonBalance != 0 else{return 0}
+            return persentLessThanZero()
+        }
         
+        
+    }
+    
+    func progressAnimation(currentlyBalance: Double, commonBalance: Double) {
+        var value = 0
+    
+        if getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) != 0 {
+         value = Int(getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) * 100)
+        }
+        persent.countPersentAnimation(upto: Double(value))
         let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        circularProgressAnimation.duration = duration
-        circularProgressAnimation.toValue = getPersent()
+        circularProgressAnimation.duration = 0.6
+        circularProgressAnimation.toValue = getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance)
         circularProgressAnimation.fillMode = .forwards
         circularProgressAnimation.isRemovedOnCompletion = false
         circularProgressAnimation.autoreverses = false
-        progressLayer.strokeEnd = getPersent()
-        
+        progressLayer.strokeEnd = getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance)
         progressLayer.add(circularProgressAnimation, forKey: "progressAnim")
-        
     }
-    
-    
 }
-
