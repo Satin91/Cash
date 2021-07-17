@@ -49,6 +49,8 @@ class colors {
     var mainShadowColor = "90A0AA"
     var buttonShadowColor = ""
     var separatorColor = "F3F3F6"
+    var buttonBackgroundColorWhite = "353B40"
+    var borderColor = "D0D8DE"
     //Dark colors
     
 }
@@ -74,6 +76,8 @@ enum Theme: Int {
             return UIColor().colorFromHexString("000000")
         }
     }
+    
+    
     //Customizing the Navigation Bar
     var barStyle: UIBarStyle {
         switch self {
@@ -100,6 +104,23 @@ enum Theme: Int {
             return UIColor().colorFromHexString("353B40")
         }
     }
+    var borderColor: UIColor {
+        switch self {
+        case .white:
+            return UIColor().colorFromHexString(colors().borderColor)
+        case .dark:
+            return UIColor().colorFromHexString("353B40")
+        }
+    }
+    var mainButtonBackgroundColor: UIColor {
+        switch self {
+        case .white:
+            return UIColor().colorFromHexString(colors().buttonBackgroundColorWhite)
+        case .dark:
+            return UIColor().colorFromHexString("353B40")
+        }
+    }
+    
     var viewBackgroundColor: UIColor {
         switch self {
         case .white:

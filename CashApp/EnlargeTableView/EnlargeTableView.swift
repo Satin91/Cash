@@ -37,6 +37,7 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         if pairedCells.contains(where: { (Cell2) -> Bool in
             Cell2.largeCell == cell.largeCell
         }) {
+            
             //Цикл для поиска нужного индекса в большой ячейке
             for (index,value) in pairedCells.enumerated() {
                 //условия на соответствие
@@ -217,6 +218,7 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if tableView.tag == tableView.tag {
             var cell = EnlargedCell(tag: tableView.tag)
             cell.smallCell.append(indexPath)

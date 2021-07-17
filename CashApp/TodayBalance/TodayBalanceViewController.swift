@@ -121,9 +121,31 @@ class TodayBalanceViewController: UIViewController {
     func getSchedulersToTableView(){
         var schedulerArray: [MonetaryScheduler] = []
         guard let todayBalance = todayBalanceObject else{return}
-        for i in EnumeratedSchedulers(object: schedulerGroup) {
+        
+        
+        
+        for i in oneTimeObjects {
             if i.date! <= todayBalance.endDate {
                 schedulerArray.append(i)
+            }
+        }
+        for i in goalObjects {
+            if i.date! <= todayBalance.endDate {
+                schedulerArray.append(i)
+            }
+        }
+        var scheduleID = String()// Местная переменная для исключения повторов
+        for i in payPerTimeObjects {
+            if i.date <= todayBalance.endDate {
+                for scheduler in EnumeratedSchedulers(object: schedulerGroup) {
+                    if i.scheduleID == scheduler.scheduleID && i.scheduleID != scheduleID {
+                    schedulerArray.append(scheduler)
+                        scheduleID = scheduler.scheduleID
+                        print(scheduleID)
+                    }else{
+                        continue
+                    }
+                }
             }
         }
         self.schedulerArray = schedulerArray
@@ -229,7 +251,6 @@ class TodayBalanceViewController: UIViewController {
         visualSettings()
         createConstraints()
         installCalendar()
-        
         installTableView()
         getSchedulersToTableView()
     }

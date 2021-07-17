@@ -17,7 +17,7 @@ class CircleView: UIView {
     private var persent: UILabel = {
         let label = UILabel()
         label.textColor = ThemeManager.currentTheme().titleTextColor
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 17, weight: .medium)
         label.frame = .zero
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

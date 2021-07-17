@@ -77,10 +77,12 @@ class SecondTableViewCell: UITableViewCell {
         titleLabel.text = object.name
         subTitleLabel.text = checkTheAccount(accountID: object.accountID)
         sumLabel.text = String(object.sum.currencyFormatter(ISO: object.currencyISO))
-        self.image.image = UIImage(named: object.image!)
         if isLast == true {
             lineView.isHidden = true
         }
+        guard let image = object.image else {return}
+        self.image.image = UIImage(named: object.image!)
+        
     }
     func setColors(){
         lineView.backgroundColor = themeManager.separatorColor
@@ -139,7 +141,7 @@ class SecondTableViewCell: UITableViewCell {
         lineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
+        lineView.heightAnchor.constraint(equalToConstant: 3).isActive = true
         sendButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -50).isActive = true
         sendButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: 60).isActive = true

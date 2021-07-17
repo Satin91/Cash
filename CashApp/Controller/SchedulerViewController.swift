@@ -35,7 +35,6 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
             }
         }
         //Назначение делегата на себя
-        addScheduleVC.reloadParentTableView = self
         //создание попап вьюшки
         let navVC = UINavigationController(rootViewController: addScheduleVC)
         navVC.modalPresentationStyle = .automatic
@@ -77,6 +76,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     func visualSettings() {
         let theme = ThemeManager.currentTheme()
         self.view.backgroundColor = theme.backgroundColor
+        title = "Мои планы"
     }
     
     override func viewDidLoad() {
@@ -121,30 +121,42 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
         if indexPath.row != EnumeratedSchedulers(object: schedulerGroup).count {
             return 155
         }else{
-            return 80
+            return 97 + 12
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if  indexPath.row == EnumeratedSchedulers(object: schedulerGroup).count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CreateIdentifier", for: indexPath) as! CreateScheduleCell
+            cell.selectionStyle = .none
             return cell
         }else{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleIdentifier", for: indexPath) as! SchedulerTableViewCell
+        cell.sendSchedulerDelegate = self
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         cell.set(object: object)
-        cell.selectionStyle = .none
+        cell.selectionStyle = .blue
         return cell
         }
     }
+    
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != EnumeratedSchedulers(object: schedulerGroup).count {
             showQuickPayDashboard(indexPath: indexPath)
         }else{
-            goToPickTypeVC(delegateController: self, buttonsNames: ["One time","Multiple","Regular","Goal"], goingTo: "addScheduleVC")
+            goToSelectScheduleType()
         }
     }
+    func goToSelectScheduleType() {
+        let selectScheduleType = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "selectSchedulerType") as! SelectSchedulerTypeViewController
+        selectScheduleType.reloadDelegate = self
+        let navVC = UINavigationController(rootViewController: selectScheduleType)
+        navVC.modalPresentationStyle = .popover
+        self.present(navVC, animated: true, completion: nil)
+    }
+    
     
     func showQuickPayDashboard(indexPath: IndexPath) {
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
@@ -174,13 +186,16 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
     }
 }
 
-extension SchedulerViewController : UIPopoverPresentationControllerDelegate{
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
-    }
-}
 
-extension SchedulerViewController: closeSelectDateProtocol, QuickPayCloseProtocol {
+extension SchedulerViewController: CloseSelectDateProtocol, QuickPayCloseProtocol,SendScheduleObjectToEdit {
+    func sendObject(object: MonetaryScheduler) {
+        let editVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
+        editVC.isEditingScheduler = true
+        editVC.newScheduleObject = object
+        editVC.reloadParentTableViewDelegate = self
+        self.present(editVC, animated: true, completion: nil)
+    }
+    
     func closeSelectDate(payObject: Any) {
         guard blur.alpha != 1 else {return}
         self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
@@ -197,8 +212,8 @@ extension SchedulerViewController: closeSelectDateProtocol, QuickPayCloseProtoco
         
         
     }
-    
-
-    
-    
 }
+
+
+
+

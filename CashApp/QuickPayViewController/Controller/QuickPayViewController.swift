@@ -578,7 +578,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //При скроле происходит рассчет (смещение контента по Х деленное на частное из ширины скрол вью)
+        //При скроле происходит рассчет (смещение контента по Х разделенное на частное из ширины скрол вью)
         let halfWidth: CGFloat = scrollView.bounds.width / 2
         switch scrollView.contentOffset.x {
         case 0...halfWidth:

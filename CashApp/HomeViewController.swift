@@ -28,6 +28,31 @@ func unique<S : Sequence, T : CurrencyObject>(source: S) -> [T] where S.Iterator
 
 class HomeViewController: UIViewController  {
     
+    var miniAlert: MiniAlertView!
+    @IBAction func settingsButtonAction(_ sender: UIBarButtonItem) {
+//        miniAlert = MiniAlertView.loadFromNib()
+//        self.view.addSubview(miniAlert)
+//        miniAlert.frame = self.view.bounds
+//        miniAlert.backgroundColor = .systemRed
+//        miniAlert.center = self.view.center
+        self.showMiniAlert(message: "Укажите дату и имя", alertStyle: .warning)
+        
+        //self.addAlert(alertView: alertView, title: "Какой то тайтл", message: "А тут происходит какое то сообщение с подсказками", alertStyle: .close)
+//        alertView.alertAction = {  (success) -> Void in
+//
+//            if success {
+//                print("Succes")
+//            }else{
+//                print("Nil")
+//                self.closeAlert(alertView: self.alertView)
+//                //self.alertView.dismiss(animated: true, completion: nil)
+//            }
+//        }
+    }
+    
+    var alertView = AlertViewController()
+   
+    
     //label который сверху (бывш. Total balance)
     @IBOutlet var primaryLabel: UILabel!
     //собсна баланс
@@ -79,8 +104,9 @@ class HomeViewController: UIViewController  {
     }
     
     
-    override func viewDidDisappear(_ animated: Bool) {
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+       // showAlertController(title: "Title", message: "Message", alertStyle: .delete)
     }
     var header: HeaderView!
     func installBackgroundView() {
@@ -88,11 +114,9 @@ class HomeViewController: UIViewController  {
         header.backgroundColor = .systemBackground
         header.delegate = self
         self.view.addSubview(header)
-        
         tableView.header = header
         //top bar extension described in anyOption
         tableView.topBarHeight = topBarHeight
-        
     }
  
     
@@ -135,7 +159,7 @@ class HomeViewController: UIViewController  {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+        
     }
     //                        ROW ROW
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

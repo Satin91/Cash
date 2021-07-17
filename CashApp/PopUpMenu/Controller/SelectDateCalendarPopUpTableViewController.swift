@@ -7,13 +7,13 @@
 //
 
 import UIKit
-protocol closeSelectDateProtocol {
+protocol CloseSelectDateProtocol {
     func closeSelectDate(payObject: Any)
 }
 class SelectDateCalendarPopUpTableViewController: UITableViewController{
 
     //Протокол который отправляет назад выбранные данные
-    var closeSelectDateDelegate: closeSelectDateProtocol!
+    var closeSelectDateDelegate: CloseSelectDateProtocol!
     var payObject: [Any]!
     
     override func viewDidLoad() {

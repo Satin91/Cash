@@ -121,6 +121,7 @@ extension String {
 }
 extension UILabel {
     
+    
     func changeTextAttributeForFirstLiteralsISO(ISO: String, Balance: Double) {
         guard self.text != nil else {return}
         let characterSet = NSCharacterSet(charactersIn: "1234567890, ")
@@ -163,7 +164,7 @@ extension UILabel {
         let characterSet = CharacterSet(charactersIn: "-0123456789.,")
         let form = self.text?.trimmingCharacters(in: characterSet.inverted)
         guard let form = form else {return}
-        let from: Double = Double(form.replacingOccurrences(of: ",", with: "."))!
+        let from: Double = Double(form.replacingOccurrences(of: ",", with: ".").replacingOccurrences(of: " ", with: ""))!
         let steps: Int = 15
         let duration = 0.25
         let rate = duration / Double(steps)
@@ -235,8 +236,8 @@ extension CALayer {
     public func setSmallShadow(color: UIColor) {
         shadowColor = color.cgColor
         shadowOffset = CGSize(width: 2, height: 2)
-        shadowRadius = 18
-        shadowOpacity = 0.25
+        shadowRadius = 14
+        shadowOpacity = 0.17
         shouldRasterize = true
         rasterizationScale = UIScreen.main.scale
     }
@@ -688,7 +689,7 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
 func goToSelectDateVC(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
     let selectDateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "selectDateVC") as! SelectDateCalendarPopUpTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
-    selectDateVC.closeSelectDateDelegate = delegateController as? closeSelectDateProtocol
+    selectDateVC.closeSelectDateDelegate = delegateController as? CloseSelectDateProtocol
     selectDateVC.payObject = payObject
     let navVC = UINavigationController(rootViewController: selectDateVC)
     navVC.modalPresentationStyle = .popover
@@ -711,6 +712,84 @@ extension UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    
+   
+    func showMiniAlert(message: String, alertStyle: MiniAlertStyle) {
+        var miniAlert: MiniAlertView!
+        miniAlert = MiniAlertView.loadFromNib()
+        miniAlert.frame = CGRect(x: self.view.bounds.width, y: 97, width: self.view.bounds.width - (Layout.side * 2), height: 98)
+        self.view.addSubview(miniAlert)
+        miniAlert.messageLabel.text = message
+        UIView.animate(withDuration: 0.45, delay: 0,usingSpringWithDamping: 0.7,initialSpringVelocity: 0.9,options: .curveEaseInOut) {
+            miniAlert.frame.origin.x = Layout.side
+        }completion: { (true) in
+            UIView.animate(withDuration: 0.25,delay: 2.0) {
+                    miniAlert.frame.origin.x = self.view.bounds.width
+                }completion: { _ in
+                    miniAlert.removeFromSuperview()
+            }
+        
+        }
+        
+    }
+    func closeAlert(alertView: AlertViewController) {
+        
+      //  self.view.reservedAnimateView(animatedView: alertView.view, viewController: self)
+        
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
+            alertView.view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            alertView.view.alpha = 0}completion: { _ in
+                
+                alertView.dismiss(animated: false) {
+                    alertView.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                }
+            }
+    }
+    
+    func addAlert( alertView: AlertViewController, title: String, message: String, alertStyle: AlertStyle) {
+        alertView.modalPresentationStyle = .overFullScreen
+        alertView.view.alpha = 0
+        alertView.titleLabel.text = title
+        alertView.messageLabel.text = message
+        alertView.setAlertStyle(alertStyle: alertStyle)
+        self.present(alertView, animated: false) {
+            alertView.view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: .curveEaseInOut )  {
+                alertView.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                alertView.view.alpha = 1
+            }completion: { (true) in
+                
+            }
+        }
+        
+    }
+    
+    func showAlertController(title: String, message: String, alertStyle: AlertStyle, blurView: UIView) -> AlertViewController? {
+        print(title,message)
+        let alertView = AlertViewController()
+        
+        //guard !self.children.contains(AlertViewController()) else {return nil}
+        
+        if self.children.contains(AlertViewController()) {
+            print("Есть такое")
+        }
+        self.addChild(alertView)
+        alertView.didMove(toParent: self)
+        
+      //  alertView.titleLabel.text = title
+        //alertView.messageLabel.text = message
+        alertView.alertStyle = alertStyle
+        alertView.view.frame = CGRect(x:Layout.side + (Layout.side / 2), y: 0, width: view.frame.width - (Layout.side + (Layout.side / 2)) * 2 , height: self.view.bounds.height * 0.55)
+        alertView.view.center = self.view.center
+        blurView.frame = self.view.frame
+        
+        self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
+        self.view.animateViewWithBlur(animatedView: alertView.view, parentView: self.view)
+        
+        return alertView
+        //self.present(xib, animated: true, completion: nil)
+    }
+    
     var topBarHeight: CGFloat {
         var top = self.navigationController?.navigationBar.frame.height ?? 0.0
         if #available(iOS 13.0, *) {
@@ -720,6 +799,51 @@ extension UIViewController {
         }
         return top
     }
+    
+
 }
 
-
+//MARK: Extension textField
+extension UITextField {
+    func removeAllExceptNumbers()->Double {
+        guard self.text != nil else {return 0}
+        let characterSet = CharacterSet(charactersIn: "-0123456789., ")
+        let form = self.text?.trimmingCharacters(in: characterSet.inverted)
+        guard let form = form else {return 0}
+        print(self.text, form)
+        
+        let from: Double = (Double(form.replacingOccurrences(of: ",", with: ".").replacingOccurrences(of: " ", with: "")))!
+        return from
+    }
+    
+    func changeVisualDesigh() {
+       
+        self.borderStyle = .none
+        
+        self.layer.cornerRadius = 16
+        self.layer.cornerCurve = .continuous
+        self.layer.borderWidth = 1
+        self.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
+        self.textColor = ThemeManager.currentTheme().titleTextColor
+        self.font = .systemFont(ofSize: 17, weight: .regular)
+        let shadowLayer = CAShapeLayer()
+        shadowLayer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
+        shadowLayer.fillColor = ThemeManager.currentTheme().secondaryBackgroundColor.cgColor
+        shadowLayer.cornerCurve = .continuous
+//        shadowLayer.shadowColor = UIColor.darkGray.cgColor
+//        shadowLayer.shadowPath = shadowLayer.path
+//        shadowLayer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+//        shadowLayer.shadowOpacity = 0.8
+//        shadowLayer.shadowRadius = 2
+        
+        
+        self.clipsToBounds = true
+        self.layer.masksToBounds = false
+      //  self.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        self.layer.insertSublayer(shadowLayer, at: 0)
+        
+    }
+ 
+}

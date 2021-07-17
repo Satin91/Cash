@@ -35,7 +35,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         present(navVC, animated: true, completion: nil)
     }
     
-
+    
     var popViewController: UIViewController! // Child View Controller
     var changeValue = true
     ///             Outlets:
@@ -90,6 +90,9 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let stSwitch = STSwitch(frame: CGRect(x: 150, y: 300, width: 50, height: 30))
+        
+        self.view.addSubview(stSwitch)
         
         segmentedControl.changeValuesForCashApp(segmentOne: "Expence", segmentTwo: "Income")
         setupNavigationController(Navigation: navigationController!)

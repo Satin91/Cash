@@ -8,20 +8,65 @@
 import FSCalendar
 import UIKit
 import RealmSwift
+protocol closeScheduler {
+    func close()
+}
 class AddScheduleViewController: UIViewController {
     
-    
-    var reloadParentTableView: ReloadParentTableView!
+    var closeDelegate: closeScheduler!
+    var reloadParentTableViewDelegate: ReloadParentTableView!
+    @IBOutlet var topAnchorConstraint: NSLayoutConstraint!
     // @IBOutlet var nameTextField: NumberTextField!
     
+    @IBOutlet var expenceVectorButtonOutlet: UIButton!
+    @IBOutlet var incomeVectorButtonOutlet: UIButton!
+    
+    func scaleBittonAnimation(button: UIButton) {
+        let duration: TimeInterval = 0.15
+        UIView.animate(withDuration: duration,
+            animations: {
+                button.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: duration) {
+                    button.transform = CGAffineTransform.identity
+                }
+            })
+    }
+    
+    @IBAction func expenceVectorAction(_ sender: UIButton) {
+        self.vector = false
+        scaleBittonAnimation(button: sender)
+        UIView.animate(withDuration: 0.15) {
+            self.incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
+            self.expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+        }
+        
+    }
+    
+    @IBAction func incomeVectorAction(_ sender: UIButton) {
+        self.vector = true
+        scaleBittonAnimation(button: sender)
+        UIView.animate(withDuration: 0.15) {
+            self.expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
+            self.incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+        }
+        
+        
+    }
     @IBOutlet var headingTextLabel: UILabel!
+    @IBOutlet var descriptionTextLabel: UILabel!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var totalSumTextField: NumberTextField!
     @IBOutlet var sumPerTimeTextField: NumberTextField!
+    let currencyModelController = CurrencyModelController()
+    var alertView = AlertViewController()
     var dateRhythm: DateRhythm = .week
+    var isEditingScheduler: Bool = false
     var vector: Bool = false
     var payArray = [PayPerTime]() // Используется в записи платежных данных
     @IBOutlet var scrollView: UIScrollView! // Нужен только для отмены скролинга в случае выбора одноразовой операции
+    
     
     
     @IBAction func dateRhythmSegmentedController(_ sender: HBSegmentedControl) {
@@ -36,17 +81,7 @@ class AddScheduleViewController: UIViewController {
             break
         }
     }
-    
-    @IBAction func vectorSegmentedController(_ sender: HBSegmentedControl) {
-        switch sender.selectedIndex {
-        case 0:
-            self.vector = false
-        case 1:
-            self.vector = true
-        default:
-            break
-        }
-    }
+
     
     @IBAction func selectImageButtonAction(_ sender: Any) {
         iconsCollectionView = IconsCollectionView(frame: self.view.bounds)
@@ -54,21 +89,20 @@ class AddScheduleViewController: UIViewController {
         self.view.addSubview(iconsCollectionView)
         view.animateViewWithBlur(animatedView: iconsCollectionView, parentView: self.view)
     }
-    @IBOutlet var vectorSegmentedControl: HBSegmentedControl!
-    @IBOutlet var rhythmSegmentedControl: HBSegmentedControl!
+    //@IBOutlet var vectorSegmentedControl: HBSegmentedControl!
+    // @IBOutlet var rhythmSegmentedControl: HBSegmentedControl!
     @IBOutlet var selectDateButtonOutlet: UIButton!
     @IBOutlet var selectImageButtonOutlet: UIButton!
     @IBAction func selectDateButtonAction(_ sender: Any) {
         self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
         self.view.animateViewWithBlur(animatedView: calendar, parentView: self.view)
+        calendar.select(date, scrollToDate: true)
     }
     @IBOutlet var stackView: UIStackView! //для редактирования расстояния для четчайшести
     @IBOutlet var doneButtonOutlet: UIBarButtonItem!
     @IBAction func doneButtonAction(_ sender: Any) {
-        
         guard saveScheduleElement() else {return}
-        reloadParentTableView.reloadData()
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil )
     }
     
     @IBAction func cancelButtonAction(_ sender: Any) {
@@ -80,7 +114,26 @@ class AddScheduleViewController: UIViewController {
             selectImageButtonOutlet.imageView?.contentMode = .scaleToFill
         }
     }
+    enum headerText: String {
+        
+        case oneTime = "Добавить разовый платеж в планы"
+        case multiply = "Добавить многоразовый"
+        case regular = "Добавить регулярную оплату"
+        case goal = "Добавить новую цель в планы"
+    }
+    enum editingHeaderText: String {
+        case oneTime = "Изменить разовый платеж в планы"
+        case multiply = "Изменить многоразовый"
+        case regular = "Изменить регулярную оплату"
+        case goal = "Изменить новую цель в планы"
+    }
     
+    enum descriptionText: String {
+        case oneTime = "Заполните данные и выберете направление разового платежа"
+        case multiply = "Заполните данные и выберете направление многоразового платежа"
+        case regular = "Заполните данныые для регулярной оплаты"
+        case goal = "Укажите данные для вашей цели"
+    }
     
     ///ПЕРЕМЕННЫЕ
     var calendarComponent: Calendar.Component = .weekOfMonth
@@ -90,20 +143,103 @@ class AddScheduleViewController: UIViewController {
     var newScheduleObject = MonetaryScheduler()
     var iconsCollectionView: IconsCollectionView!
     
+    func visualSettings() {
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        self.headingTextLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        self.descriptionTextLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
+        self.headingTextLabel.font = .systemFont(ofSize: 34, weight: .medium)
+        self.descriptionTextLabel.font = .systemFont(ofSize: 17, weight: .light)
+        headingTextLabel.numberOfLines = 0
+        descriptionTextLabel.numberOfLines = 0
+        
+        incomeVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
+        expenceVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
+        incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
+        expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+        incomeVectorButtonOutlet.layer.cornerRadius = 10
+        expenceVectorButtonOutlet.layer.cornerRadius = 10
+        
+        
+        
+        selectDateButtonOutlet.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)   //setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        selectDateButtonOutlet.layer.cornerRadius = 16
+        selectDateButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        selectDateButtonOutlet.layer.cornerCurve = .continuous
+        newScheduleObject.date == nil ? selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .normal) :  selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
+       
+        selectDateButtonOutlet.titleLabel?.textColor = UIColor.black
+        selectDateButtonOutlet.layer.borderWidth = 1
+        selectDateButtonOutlet.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
+        
+        
+        selectImageButtonOutlet.layer.cornerRadius = 25
+        selectImageButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        selectImageButtonOutlet.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)   //setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
+        selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
+        
+        scrollView.backgroundColor = .clear
+        
+        
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        UIView.animate(withDuration: 0.2) {
+            self.view.alpha = 1
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.alpha = isEditingScheduler ? 1 : 0
+        //navigationController?.setNavigationBarHidden(true, animated: false)
+        createNavBar()
         calendar.delegate = self
-        headingTextLabel.numberOfLines = 0
-        rhythmSegmentedControl.changeValuesForCashApp(segmentOne: "Week", segmentTwo: "Month")
-        vectorSegmentedControl.changeValuesForCashApp(segmentOne: "From me", segmentTwo: "To me")
+        visualSettings()
         checkScheduleType()
         setupCalendarAndBlur()
-        visualSetup()
-        setupNavigationController(Navigation: navigationController!)
         stackViewSettings()
         setupButtonsAndFields()
         isModalInPresentation = true
+        guard isEditingScheduler else {return}
+        setDataFromEditableObject()
+    }
+    
+    @objc func createSchedule(_ sender: UIBarButtonItem) {
+        guard saveScheduleElement() else {return}
+        if isEditingScheduler == false {
+            closeDelegate.close()
+            self.removeFromParent()
+        }else{
+        reloadParentTableViewDelegate.reloadData()
+        dismiss(animated: true) {
+        }
+        }
+        
+    }
+    @objc func cancelAction(_ sender: UIBarButtonItem) {
+        guard isEditingScheduler == false else {
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        closeDelegate.close()
+        dismiss(animated: true) {
+            self.removeFromParent()
+        }
+    }
+    func createNavBar(){
+        let navigationBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: topBarHeight))
+        topAnchorConstraint.constant = topBarHeight + 12
+        let navigationItem = UINavigationItem()
+        //let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createSchedule(_:)))
+        let leftButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelAction(_:)))
+        let rightButton =  UIBarButtonItem(title: "Save", style:   UIBarButtonItem.Style.plain, target: self, action: #selector(self.createSchedule(_:)))
+        navigationItem.leftBarButtonItem = leftButton
+        navigationItem.rightBarButtonItem = rightButton
+        navigationBar.items = [navigationItem]
+        self.view.addSubview(navigationBar)
     }
     
     func setupCalendarAndBlur() {
@@ -117,12 +253,6 @@ class AddScheduleViewController: UIViewController {
         blurView.alpha = 0
     }
     
-    func visualSetup() {
-        
-        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
-        
-        selectImageButtonOutlet.imageView?.contentMode = .scaleToFill
-    }
     func stackViewSettings() {
         if self.view.bounds.height < 600 {
             stackView.spacing = 15
@@ -131,64 +261,93 @@ class AddScheduleViewController: UIViewController {
         }
     }
     
+    
     func setupButtonsAndFields() {
         //nameTextField.placeholder = "Name"
-        nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-        totalSumTextField.attributedPlaceholder = NSAttributedString(string: "Total sum", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-        sumPerTimeTextField.attributedPlaceholder = NSAttributedString(string: "Sum per time", attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-        selectDateButtonOutlet.setTitle("Select date", for: .normal)
+        
+        nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
+        
+        let sumPerTimeText = newScheduleObject.stringScheduleType == .goal ? "Available" : "Sum per time"
+        totalSumTextField.attributedPlaceholder = NSAttributedString(string: "Total sum", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
+        sumPerTimeTextField.attributedPlaceholder = NSAttributedString(string: sumPerTimeText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular), NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor])
+        
+        
+        nameTextField.changeVisualDesigh()
+        totalSumTextField.changeVisualDesigh()
+        sumPerTimeTextField.changeVisualDesigh()
+        
     }
     
     func checkScheduleType() {
         switch newScheduleObject.stringScheduleType{
         case .oneTime :
-            headingTextLabel.text = "Add\none time\nschedule"
+            headingTextLabel.text = headerText.oneTime.rawValue
+            descriptionTextLabel.text = descriptionText.oneTime.rawValue
             sumPerTimeTextField.isHidden = true
-            rhythmSegmentedControl.isHidden = true
-            
+            //rhythmSegmentedControl.isHidden = true
             scrollView.isScrollEnabled = false
         case .multiply :
-            headingTextLabel.text = "Add\nmultiply\nschedule"
-            vectorSegmentedControl.isHidden = true
+            headingTextLabel.text = headerText.multiply.rawValue
+            descriptionTextLabel.text = descriptionText.multiply.rawValue
+        // vectorSegmentedControl.isHidden = true
         case .regular :
-            headingTextLabel.text = "Add\nregular\nschedule"
+            headingTextLabel.text = headerText.regular.rawValue
+            descriptionTextLabel.text = descriptionText.regular.rawValue
             totalSumTextField.isHidden = true
             
         case .goal :
-            headingTextLabel.text = "Add\ngoal\nschedule"
-            sumPerTimeTextField.isHidden = true
-            rhythmSegmentedControl.isHidden = true
-            vectorSegmentedControl.isHidden = true
-            
+            headingTextLabel.text = headerText.goal.rawValue
+            descriptionTextLabel.text = descriptionText.goal.rawValue
+            sumPerTimeTextField.isHidden = false
+        // rhythmSegmentedControl.isHidden = true
+        //  vectorSegmentedControl.isHidden = true
+        
         }
     }
-
+    
     deinit {
         nameTextField.isHidden = false
         sumPerTimeTextField.isHidden = false
         totalSumTextField.isHidden = false
         scrollView.isScrollEnabled = true
+        
     }
     
     func saveScheduleElement()-> Bool {
-        newScheduleObject.image = selectedImageName
+        print("newScheduleElement")
+        if isEditingScheduler == false {
+            newScheduleObject.image = selectedImageName
+        }
+        
         switch newScheduleObject.stringScheduleType {
         case .oneTime:
             return saveOneTime()
         case .multiply:
             return saveMultiply()
         case .regular:
+            print("newScheduleElement")
             return saveRegular()
         case .goal :
+            //print(saveGoal())
             return saveGoal()
         }
     }
-    
+    func checkEnteredData() -> Bool {
+        var message = ""
+        guard nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", date != nil else {
+            message = "Заполните все поля"
+            self.showMiniAlert(message: message, alertStyle: .warning)
+            return false
+        }
+
+        return false
+    }
     
     func getNumberOfMontsForMultyplyPayPerTime(targetSum: Double, sumPerTime: Double) -> (Int,Double?) {
         let remainderDivision = targetSum.truncatingRemainder(dividingBy: sumPerTime) //Деление с остатком
         let divisionWithoutRemainder = targetSum / sumPerTime //Деление без остатка
         var numberOfMonth: Int = 0
+        print(divisionWithoutRemainder.rounded(.up))
         if remainderDivision != sumPerTime && remainderDivision != 0 { //Важно установить дополнительное условие, ведь при делении без остатка возвращается 0. а 0 всегда не sum per time
             numberOfMonth = Int(divisionWithoutRemainder.rounded(.up)) // round to up integer(Double)
             return (numberOfMonth,remainderDivision)
@@ -212,103 +371,247 @@ class AddScheduleViewController: UIViewController {
             }else{
                 payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate!)
-            iterationDate = nextMonth
+                iterationDate = nextMonth
             }
             ///Занести payArray в базу
             try! realm.write {
                 realm.add(payArray)
             }
-     
+            
         }
     }
+    var name = ""
+    var target: Double = 0
+    var sumPerTime: Double = 0
+    
     func saveMultiplyPayPerTime() {
-        let targetSum = newScheduleObject.target
-        let sumPerTime = newScheduleObject.sumPerTime
+
+        if isEditingScheduler == true {
+            removeAllPayPerTimeFromScheduler()
+        }
+        
+        let targetSum = target
+        let sumPerTime = sumPerTime
+        print(targetSum,sumPerTime)
         let resultNumbersAndRemainder: (Int, Double?) = getNumberOfMontsForMultyplyPayPerTime(targetSum: targetSum, sumPerTime: sumPerTime)
         getArrayForMultyplyPayPerTime(numberOfMonth: resultNumbersAndRemainder.0, remainingSum: resultNumbersAndRemainder.1)
     }
-
+    
     func saveRegularPayPerTime() {
+        
+        if isEditingScheduler == true {
+            removeAllPayPerTimeFromScheduler()
+        }
+        
         let object = newScheduleObject
         var iterationDate = newScheduleObject.date!
-        for _ in 0..<1 {//На 2 года вперед
-           // payPerTimeObject.date = iterationDate
+        for _ in 0..<1 {//создается один объект, который пересоздается
+            // payPerTimeObject.date = iterationDate
             payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
             let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate)
             iterationDate = nextMonth!
             
         }
-        for i in payArray {
+        
             try! realm.write{
-                realm.add(i)
-            }
+                realm.add(payArray)
+            
         }
     }
     
-   
-   
+    
+    
     
     
     func saveOneTime()-> Bool {
-
+        
         if nameTextField.text != "", totalSumTextField.text != "", self.date != nil{
-            newScheduleObject.name = nameTextField.text!
-            newScheduleObject.date = date
-            newScheduleObject.target = Double(totalSumTextField.text!.withoutSpaces)!
-            newScheduleObject.vector = self.vector
-            DBManager.addObject(object: newScheduleObject)
+            
+            name = nameTextField.text!
+            target = totalSumTextField.removeAllExceptNumbers() //
+    
+            if isEditingScheduler {
+                
+                
+                try! realm.write{
+                    newScheduleObject.name = name
+                    newScheduleObject.date = date
+                    newScheduleObject.target = target
+                    newScheduleObject.vector = self.vector
+                    realm.add(newScheduleObject,update: .all)
+                }
+            }else{
+                
+                newScheduleObject.name = name
+                newScheduleObject.date = date
+                newScheduleObject.target = target
+                newScheduleObject.vector = self.vector
+                DBManager.addObject(object: newScheduleObject)
+            }
+
             return true
         }else{
-            self.showAlert(message: "Заполните все поля")
-            return false
+            
+            return checkEnteredData()
         }
     }
+    
+   
+    
     func saveMultiply()-> Bool {
+
         if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", date != nil{
-            newScheduleObject.name = nameTextField.text!
-            newScheduleObject.target = Double(totalSumTextField.text!.withoutSpaces)!
-            newScheduleObject.sumPerTime = Double(sumPerTimeTextField.text!.withoutSpaces)!
+            
+            name = nameTextField.text!
+            target = totalSumTextField.removeAllExceptNumbers() //
+            sumPerTime = sumPerTimeTextField.removeAllExceptNumbers()
+            
+            guard target >= sumPerTime else {
+                
+                
+                self.showMiniAlert(message: "Разовый платежь больше общей суммы", alertStyle: .warning)
+                return false
+            }
+            if isEditingScheduler == true {
+                  
+                    try! realm.write {
+                        newScheduleObject.image = selectedImageName
+                        newScheduleObject.name = name
+                        newScheduleObject.target = target
+                        newScheduleObject.sumPerTime = sumPerTime
+                        newScheduleObject.date = date
+                        newScheduleObject.dateRhythm = dateRhythm.rawValue
+                        newScheduleObject.vector = vector
+                        realm.add(newScheduleObject, update: .all)
+                    }
+
+                    saveMultiplyPayPerTime()
+                
+            }else{
+            newScheduleObject.name = name
+            newScheduleObject.target = target
+            newScheduleObject.sumPerTime = sumPerTime
             newScheduleObject.date = date
             newScheduleObject.dateRhythm = dateRhythm.rawValue
             saveMultiplyPayPerTime()
-            guard newScheduleObject.target >= newScheduleObject.sumPerTime else {
-                self.showAlert(message: "Ошибка", title: "Разовый платежь больше общей суммы :)")
-                return false
-            }
+            
+           
             DBManager.addObject(object: newScheduleObject)
+            }
             return true
         }else{
-            self.showAlert(message: "Заполните все поля")
-            return false
+            
+            return  checkEnteredData()
+            
         }
     }
+    
+    
+    
     func saveRegular() -> Bool {
-        
         if nameTextField.text != "", sumPerTimeTextField.text != "", self.date != nil{
-            newScheduleObject.name = self.nameTextField.text!
+            
+            name = nameTextField.text!
+            sumPerTime = sumPerTimeTextField.removeAllExceptNumbers()
+            
+            
+            if isEditingScheduler == true {
+                  
+                    try! realm.write {
+                        newScheduleObject.image = selectedImageName
+                        newScheduleObject.name = name
+                        newScheduleObject.sumPerTime = sumPerTime
+                        newScheduleObject.date = date
+                        newScheduleObject.dateRhythm = dateRhythm.rawValue
+                        newScheduleObject.vector = vector
+                        realm.add(newScheduleObject, update: .all)
+                    }
+
+                saveRegularPayPerTime()
+                
+            }else{
+            print("CreateRegular")
+            newScheduleObject.name = name
             newScheduleObject.date = self.date
-            newScheduleObject.sumPerTime = Double(sumPerTimeTextField.text!.withoutSpaces)!
+            newScheduleObject.sumPerTime = sumPerTime
             newScheduleObject.dateRhythm = self.dateRhythm.rawValue
             newScheduleObject.vector = self.vector
             saveRegularPayPerTime()
             DBManager.addObject(object: newScheduleObject)
+            }
             return true
         }else{
-            self.showAlert(message: "Заполните все поля")
-            return false
+            
+            return checkEnteredData()
         }
     }
     func saveGoal() -> Bool{
         
-        if nameTextField.text != "", totalSumTextField.text != "", self.date != nil{
-            newScheduleObject.name = nameTextField.text!
-            newScheduleObject.date = date
-            newScheduleObject.target = Double(totalSumTextField.text!.withoutSpaces)!
-            DBManager.addObject(object: newScheduleObject)
+        var isOkay = false
+        if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", self.date != nil{
+            name = nameTextField.text!
+            target = totalSumTextField.removeAllExceptNumbers()
+            sumPerTime = sumPerTimeTextField.removeAllExceptNumbers()
+            
+            guard target > sumPerTime else {
+                print("else in save goal")
+                
+                if isEditingScheduler == true {
+                    
+                self.addAlert(alertView: alertView, title: "Закрыть план?", message: "Имеющаяся сумма равна либо превышает цель", alertStyle: .close)
+                    print("До этапа")
+                    alertView.alertAction = { (success) in
+                    print("return первый этап")
+                    if success {
+                        isOkay = true
+
+                        self.saveAndCloseScheduler()
+                        self.closeAlert(alertView: self.alertView)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            self.reloadParentTableViewDelegate.reloadData()
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                        print("return второй этап")
+                    }else{
+                        self.closeAlert(alertView: self.alertView)
+                        isOkay = false
+                        print("return else второй этап")
+                    }
+                }
+                }else{
+                     self.showMiniAlert(message: "Имеющаяся сумма равна либо превышает цель", alertStyle: .warning)
+                }
+                
+                print("return последний этап")
+                
+                return isOkay
+            }
+
+            if isEditingScheduler {
+                try! realm.write {
+                    newScheduleObject.name = name
+                    newScheduleObject.date = date
+                    newScheduleObject.available = (sumPerTimeTextField.text!.isEmpty ? 0: sumPerTimeTextField.removeAllExceptNumbers())
+                    newScheduleObject.vector = vector
+                    newScheduleObject.target = totalSumTextField.removeAllExceptNumbers()
+                    realm.add(newScheduleObject,update: .all)
+                }
+                
+            }else{
+                newScheduleObject.name = name
+                newScheduleObject.date = date
+                newScheduleObject.available = (sumPerTimeTextField.text!.isEmpty ? 0: sumPerTimeTextField.removeAllExceptNumbers())
+                newScheduleObject.vector = vector
+                newScheduleObject.target = totalSumTextField.removeAllExceptNumbers()
+                DBManager.addObject(object: newScheduleObject)
+            }
+            
+            
             return true
         }else{
-            self.showAlert(message: "Заполните все поля")
-            return false
+          
+            
+            return checkEnteredData()
         }
     }
 }
@@ -319,6 +622,8 @@ extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.date = date
+        selectDateButtonOutlet.setTitle(dateToString(date: date), for: .normal)
+        selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
         self.view.reservedAnimateView2(animatedView: self.calendar)
         self.view.reservedAnimateView2(animatedView: self.blurView)
     }
@@ -330,4 +635,5 @@ extension AddScheduleViewController: SendIconToParentViewController {
     
     
 }
+
 
