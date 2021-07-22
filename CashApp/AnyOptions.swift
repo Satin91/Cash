@@ -494,8 +494,22 @@ extension UIView {
         view.layer.addSublayer(gradientLayer)
         
     }
+    
+    func drawDash(radius: CGFloat) {
+        //Нужно чтобы слой не повторялся
+        self.layer.sublayers?.removeAll()
+        let border = CAShapeLayer()
+        border.removeFromSuperlayer()
+        border.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
+        //border.path = UIBezierPath(roundedRect:dashView.bounds, cornerRadius:10.0).cgPath
+        border.frame = self.bounds
+        border.fillColor = nil
+        border.strokeColor = ThemeManager.currentTheme().subtitleTextColor.cgColor
+        border.lineWidth = 2 // doubled since half will be clipped
+        border.lineDashPattern = [15.0,4]
+        self.layer.addSublayer(border)
+    }
 }
-
 
 //MARK:     Extension for hide keyboard
 
@@ -556,6 +570,19 @@ extension UIButton{
         let tintedImage = self.imageView?.image?.withRenderingMode(.alwaysTemplate)
         self.setImage(tintedImage, for: .disabled)
         self.tintColor = color
+    }
+    
+    func scaleButtonAnimation() {
+        let duration: TimeInterval = 0.15
+        UIView.animate(withDuration: duration,
+            animations: {
+                self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+            },
+            completion: { _ in
+                UIView.animate(withDuration: duration) {
+                    self.transform = CGAffineTransform.identity
+                }
+            })
     }
     
 }
@@ -636,7 +663,7 @@ func reportIndex(notificationName: String, collectionView: UICollectionView) {
     
     let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY) // установили точку в центре квадрата
     guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return } //проверка на присутствие ячейки в этой точке
-    var notification = NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationName), object: nil, userInfo: ["index":indexPath])
+    NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationName), object: nil, userInfo: ["index":indexPath])
 }
 
 //MARK: Init constraints
@@ -673,7 +700,7 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
     let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
     
     QuiclPayVC.payObject = PayObject
-    QuiclPayVC.closePopUpMenuDelegate = delegateController as! QuickPayCloseProtocol //Почему то работает делегат только если кастить до popupviiewController'a
+    QuiclPayVC.closePopUpMenuDelegate = (delegateController as! QuickPayCloseProtocol) //Почему то работает делегат только если кастить до popupviiewController'a
     // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
  
     if classViewController == nil {
@@ -686,19 +713,19 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
     }
 }
 
-func goToSelectDateVC(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
-    let selectDateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "selectDateVC") as! SelectDateCalendarPopUpTableViewController
+func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
+    let popTableView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PopUpTableView") as! PopTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
-    selectDateVC.closeSelectDateDelegate = delegateController as? CloseSelectDateProtocol
-    selectDateVC.payObject = payObject
-    let navVC = UINavigationController(rootViewController: selectDateVC)
+    popTableView.closeSelectDateDelegate = delegateController as? ClosePopUpTableViewProtocol
+    popTableView.payObject = payObject
+    let navVC = UINavigationController(rootViewController: popTableView)
     navVC.modalPresentationStyle = .popover
     let popVC = navVC.popoverPresentationController
     popVC?.delegate = delegateController as? UIPopoverPresentationControllerDelegate
     //let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
     popVC?.sourceView = sourseView
     popVC?.sourceRect = sourseView.bounds
-    selectDateVC.preferredContentSize = CGSize(width: 200, height: selectDateVC.payObject.count * 120)
+    popTableView.preferredContentSize = CGSize(width: 200, height: popTableView.payObject.count * 80)
     delegateController.present(navVC, animated: true, completion: nil)
 }
 
@@ -810,8 +837,6 @@ extension UITextField {
         let characterSet = CharacterSet(charactersIn: "-0123456789., ")
         let form = self.text?.trimmingCharacters(in: characterSet.inverted)
         guard let form = form else {return 0}
-        print(self.text, form)
-        
         let from: Double = (Double(form.replacingOccurrences(of: ",", with: ".").replacingOccurrences(of: " ", with: "")))!
         return from
     }
@@ -827,23 +852,23 @@ extension UITextField {
         self.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
         self.textColor = ThemeManager.currentTheme().titleTextColor
         self.font = .systemFont(ofSize: 17, weight: .regular)
+        self.textAlignment = .left
         let shadowLayer = CAShapeLayer()
         shadowLayer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
         shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
         shadowLayer.fillColor = ThemeManager.currentTheme().secondaryBackgroundColor.cgColor
         shadowLayer.cornerCurve = .continuous
-//        shadowLayer.shadowColor = UIColor.darkGray.cgColor
-//        shadowLayer.shadowPath = shadowLayer.path
-//        shadowLayer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-//        shadowLayer.shadowOpacity = 0.8
-//        shadowLayer.shadowRadius = 2
-        
-        
         self.clipsToBounds = true
         self.layer.masksToBounds = false
       //  self.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
         self.layer.insertSublayer(shadowLayer, at: 0)
+        indent(size: 17)
         
     }
+    
+    func indent(size:CGFloat) {
+            self.leftView = UIView(frame: CGRect(x: self.frame.minX, y: self.frame.minY, width: size, height: self.frame.height))
+            self.leftViewMode = .always
+        }
  
 }

@@ -65,7 +65,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     }
     
     func changeMineAccountProperties(sender: Bool) {
-        var secondaryAccounts = [MonetaryAccount]()
+        
         for i in EnumeratedAccounts(array: accountsGroup) {
             try! realm.write {
             i.isMainAccount = false
@@ -84,13 +84,13 @@ class AccountCollectionViewCell: UICollectionViewCell {
         if nameTextField.isEditing {
             
             whoIsEditing = "HeaderIsEditing"
-            var text = sender as! UITextField
+            let text = sender 
             delegate!.cellTextFieldChanged(self, didEndEditingWithText: text.text, textFieldName: whoIsEditing)
             
         }else if balanceTextField.isEditing {
             
             whoIsEditing = "BalanceIsEditing"
-            var text = sender as! NumberTextField
+            let text = sender as! NumberTextField
             delegate!.cellTextFieldChanged(self, didEndEditingWithText: text.enteredSum, textFieldName: whoIsEditing)
             
         }else{

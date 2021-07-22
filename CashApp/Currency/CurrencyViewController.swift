@@ -36,7 +36,7 @@ class CurrencyViewController: UIViewController {
         addCurrencyVC.tableViewReloadDelegate = self
         addCurrencyVC.actionWithCurrency = action
         if action == .edit {
-            for i in currencyPrioritiesObjects {
+            for i in userCurrencyObjects {
                 if i.ISO == mainCurrency!.ISO {
                     addCurrencyVC.mainCurrency = i
                 }
@@ -134,10 +134,10 @@ class CurrencyViewController: UIViewController {
             if indexPath != nil && indexPath != dragInitialIndexPath {
                 // update your data model
                 //  currencyPrioritiesObjects
-                let dataToMove = currencyPrioritiesObjects[dragInitialIndexPath!.row]
+                let dataToMove = userCurrencyObjects[dragInitialIndexPath!.row]
                 //ресортировка массива помогает в дальнейшем определить приоритет после перемещения
-                currencyPrioritiesObjects.remove(at: dragInitialIndexPath!.row)
-                currencyPrioritiesObjects.insert(dataToMove, at: indexPath!.row)
+                userCurrencyObjects.remove(at: dragInitialIndexPath!.row)
+                userCurrencyObjects.insert(dataToMove, at: indexPath!.row)
                 tableView.moveRow(at: dragInitialIndexPath!, to: indexPath!)
                 
                 dragInitialIndexPath = indexPath
@@ -181,7 +181,7 @@ class CurrencyViewController: UIViewController {
     
     
     func changePriorityValue() {
-        for (index,value) in currencyPrioritiesObjects.enumerated() {
+        for (index,value) in userCurrencyObjects.enumerated() {
             try! realm.write{
                 value.ISOPriority = index
                 realm.add(value,update: .all)
@@ -198,16 +198,16 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource {
     //Delete row by swipe
     func updateDataAfterRemove(indexPath: IndexPath) {
         
-        for (index,value) in currencyPrioritiesObjects.enumerated() {
+        for (index,value) in userCurrencyObjects.enumerated() {
             if index == indexPath.row {
-                currencyPrioritiesObjects.remove(at: indexPath.row)
+                userCurrencyObjects.remove(at: indexPath.row)
                 try! realm.write {
                     value.ISOPriority = 15888
                     realm.add(value,update: .all)
             }
                 continue
         }
-            for (index,value) in currencyPrioritiesObjects.enumerated() {
+            for (index,value) in userCurrencyObjects.enumerated() {
                 try! realm.write {
                 value.ISOPriority = index
                     realm.add(value,update: .all)
@@ -234,12 +234,12 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource {
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        currencyPrioritiesObjects.count
+        userCurrencyObjects.count
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let object = currencyPrioritiesObjects[indexPath.row]
+        let object = userCurrencyObjects[indexPath.row]
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             self.updateDataAfterRemove(indexPath: indexPath)
@@ -264,7 +264,7 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyTableViewCell
-        let object = currencyPrioritiesObjects[indexPath.row]
+        let object = userCurrencyObjects[indexPath.row]
         
         if self.currencyConverterTextField.text?.isEmpty == false {
             cell.converterSet(currencyObject: object, enteredSum: Double(currencyConverterTextField.enteredSum)!)
@@ -291,14 +291,14 @@ class CurrencyTableViewCell: UITableViewCell {
     @IBOutlet var ISOLabel: UILabel!
     @IBOutlet var currencyDescriptionLabel: UILabel!
     var mainCurrency: CurrencyObject? = {
-        guard let object = currencyPrioritiesObjects.first else {return nil}
+        guard let object = userCurrencyObjects.first else {return nil}
         return object
     }()
     let currencyModelController = CurrencyModelController()
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        guard let object = currencyPrioritiesObjects.first else {return}
+        guard let object = userCurrencyObjects.first else {return}
         mainCurrency = object
         
     }

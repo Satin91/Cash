@@ -30,7 +30,23 @@ class SelectDateTableViewCell: UITableViewCell {
         }else if object is PayPerTime {
             let obj = object as! PayPerTime
             setPayPerTime(payPerTime: obj)
+        }else if object is CurrencyObject {
+            let obj = object as! CurrencyObject
+            setCurrency(object: obj)
+        }else if object is String {
+            let obj = object as! String
+            setAction(object: obj)
+            
         }
+    }
+    func setAction(object: String) {
+        nameLabel.text = object
+        sumLabel.isHidden = true
+    }
+    
+    func setCurrency(object: CurrencyObject) {
+        nameLabel.text = object.ISO
+        sumLabel.isHidden = true
     }
     
     func setSchedule(scheduleObject: MonetaryScheduler){

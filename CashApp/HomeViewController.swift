@@ -110,10 +110,11 @@ class HomeViewController: UIViewController  {
     }
     var header: HeaderView!
     func installBackgroundView() {
-        header = HeaderView(frame:.zero)
-        header.backgroundColor = .systemBackground
+        header = HeaderView()
+        header.view.backgroundColor = .systemBackground
         header.delegate = self
-        self.view.addSubview(header)
+        self.addChild(header)
+        self.view.addSubview(header.view)
         tableView.header = header
         //top bar extension described in anyOption
         tableView.topBarHeight = topBarHeight

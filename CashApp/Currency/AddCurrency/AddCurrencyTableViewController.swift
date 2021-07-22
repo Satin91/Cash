@@ -108,8 +108,8 @@ class AddCurrencyTableViewController: UITableViewController{
             object = currencyNonPrioritiesObjects[indexPath.row]
         }
         try! realm.write{
-            if currencyPrioritiesObjects.isEmpty == false {
-                object.ISOPriority = currencyPrioritiesObjects.last!.ISOPriority + 1
+            if userCurrencyObjects.isEmpty == false {
+                object.ISOPriority = userCurrencyObjects.last!.ISOPriority + 1
             }else{
                 //Если каким то образом (или вначале запуска приложения) отсутствует главная валюта
                 
@@ -174,11 +174,10 @@ extension AddCurrencyTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else {return}
-        filterContentForSearchText(searchController.searchBar.text!)
+        filterContentForSearchText(text)
     }
     
     private func filterContentForSearchText(_  searchText: String){
-        var objectt = CurrencyObject(ISO: "EUR", exchangeRate: 1.2)
         filteredCurrencies = currencyNonPrioritiesObjects.filter({ (object: CurrencyObject) in
             return object.ISO.lowercased().contains(searchText.lowercased())
         })

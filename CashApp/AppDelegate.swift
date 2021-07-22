@@ -24,9 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        
         
         ThemeManager.applyTheme(theme: .white)
-        
-        let schemaVersion: UInt64 = 3 // Realm schemaVersion
-    
         let config = Realm.Configuration(shouldCompactOnLaunch: { totalBytes, usedBytes in
             // totalBytes refers to the size of the file on disk in bytes (data + free space)
             // usedBytes refers to the number of bytes used by data in the file
@@ -35,12 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let oneHundredMB = 100 * 1024 * 1024
             return (totalBytes > oneHundredMB) && (Double(usedBytes) / Double(totalBytes)) < 0.5
         })
-        do {
-            // Realm is compacted on the first open if the configuration block conditions were met.
-            let realm = try Realm(configuration: config)
-        } catch {
-            // handle error compacting or opening Realm
-        }
+    
         
 //        let config = Realm.Configuration(
 //            // Set the new schema version. This must be greater than the previously used

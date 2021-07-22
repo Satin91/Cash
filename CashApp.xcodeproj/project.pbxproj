@@ -13,6 +13,8 @@
 		750888AA26877E710037C804 /* SchedulerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750888A826877E700037C804 /* SchedulerTableViewCell.swift */; };
 		750888AB26877E710037C804 /* SchedulerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 750888A926877E710037C804 /* SchedulerTableViewCell.xib */; };
 		7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509C5942603675D00BD34D4 /* CustomProgressBar.swift */; };
+		750EF5D926A7FBBF000FF9D2 /* CreateOperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750EF5D726A7FBBF000FF9D2 /* CreateOperationCell.swift */; };
+		750EF5DA26A7FBBF000FF9D2 /* CreateOperationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 750EF5D826A7FBBF000FF9D2 /* CreateOperationCell.xib */; };
 		7510F83E2509A87600030A52 /* OperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7510F83D2509A87600030A52 /* OperationViewController.swift */; };
 		751AAAED25D4B4140042AC06 /* PieChartCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751AAAEC25D4B4140042AC06 /* PieChartCollectionViewController.swift */; };
 		751AAAF025D4B4570042AC06 /* PieChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751AAAEF25D4B4570042AC06 /* PieChartCollectionViewCell.swift */; };
@@ -32,7 +34,7 @@
 		753EACB2268E619500860745 /* DIYCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753EACB1268E619500860745 /* DIYCalendarCell.swift */; };
 		7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545C91B25AFD06000042332 /* AccountsHistory.swift */; };
 		7545E1B1255C45F600454803 /* LineChartContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */; };
-		754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */; };
+		754D66ED2631C90C00B2383C /* PopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D66EC2631C90C00B2383C /* PopUpTableViewController.swift */; };
 		754F15EE2667A9F8002250BB /* EnlargeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754F15ED2667A9F8002250BB /* EnlargeTableView.swift */; };
 		754F15F12667AA3C002250BB /* EnlargeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754F15F02667AA3C002250BB /* EnlargeTableViewCell.swift */; };
 		754F15F326681A44002250BB /* EnlargeSecondTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754F15F226681A44002250BB /* EnlargeSecondTableViewCell.swift */; };
@@ -57,6 +59,8 @@
 		758F854B24D2CF0A007CD161 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 758F854A24D2CF0A007CD161 /* TableViewCell.swift */; };
 		759130CA25F10EF9009F2C93 /* AccountCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759130C825F10EF9009F2C93 /* AccountCollectionViewCell.swift */; };
 		759130CB25F10EF9009F2C93 /* AccountCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 759130C925F10EF9009F2C93 /* AccountCollectionViewCell.xib */; };
+		7591F19926A480600073A1F8 /* OperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7591F19726A480600073A1F8 /* OperationCell.swift */; };
+		7591F19A26A480600073A1F8 /* OperationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7591F19826A480600073A1F8 /* OperationCell.xib */; };
 		759FA92B26189BA600502172 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759FA92926189BA600502172 /* MainTableViewCell.swift */; };
 		759FA92C26189BA600502172 /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 759FA92A26189BA600502172 /* MainTableViewCell.xib */; };
 		75A2AA4C266ED4D800B86DAC /* AddCurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A2AA4B266ED4D800B86DAC /* AddCurrencyTableViewController.swift */; };
@@ -105,6 +109,8 @@
 		750888A826877E700037C804 /* SchedulerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerTableViewCell.swift; sourceTree = "<group>"; };
 		750888A926877E710037C804 /* SchedulerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SchedulerTableViewCell.xib; sourceTree = "<group>"; };
 		7509C5942603675D00BD34D4 /* CustomProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
+		750EF5D726A7FBBF000FF9D2 /* CreateOperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOperationCell.swift; sourceTree = "<group>"; };
+		750EF5D826A7FBBF000FF9D2 /* CreateOperationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateOperationCell.xib; sourceTree = "<group>"; };
 		7510F83D2509A87600030A52 /* OperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewController.swift; sourceTree = "<group>"; };
 		751AAAEC25D4B4140042AC06 /* PieChartCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewController.swift; sourceTree = "<group>"; };
 		751AAAEF25D4B4570042AC06 /* PieChartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -124,7 +130,7 @@
 		753EACB1268E619500860745 /* DIYCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DIYCalendarCell.swift; path = /Users/artur/Xcode/CashApp/CashUP/CashApp/TodayBalance/DIYCalendarCell.swift; sourceTree = "<absolute>"; };
 		7545C91B25AFD06000042332 /* AccountsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsHistory.swift; sourceTree = "<group>"; };
 		7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartContainerViewController.swift; sourceTree = "<group>"; };
-		754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDateCalendarPopUpTableViewController.swift; sourceTree = "<group>"; };
+		754D66EC2631C90C00B2383C /* PopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpTableViewController.swift; sourceTree = "<group>"; };
 		754F15ED2667A9F8002250BB /* EnlargeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeTableView.swift; sourceTree = "<group>"; };
 		754F15F02667AA3C002250BB /* EnlargeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeTableViewCell.swift; sourceTree = "<group>"; };
 		754F15F226681A44002250BB /* EnlargeSecondTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeSecondTableViewCell.swift; sourceTree = "<group>"; };
@@ -147,6 +153,8 @@
 		758F854A24D2CF0A007CD161 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		759130C825F10EF9009F2C93 /* AccountCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewCell.swift; sourceTree = "<group>"; };
 		759130C925F10EF9009F2C93 /* AccountCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountCollectionViewCell.xib; sourceTree = "<group>"; };
+		7591F19726A480600073A1F8 /* OperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationCell.swift; sourceTree = "<group>"; };
+		7591F19826A480600073A1F8 /* OperationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OperationCell.xib; sourceTree = "<group>"; };
 		759FA92926189BA600502172 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		759FA92A26189BA600502172 /* MainTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainTableViewCell.xib; sourceTree = "<group>"; };
 		75A2AA4B266ED4D800B86DAC /* AddCurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencyTableViewController.swift; sourceTree = "<group>"; };
@@ -296,7 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */,
-				754D66EC2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift */,
+				754D66EC2631C90C00B2383C /* PopUpTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -354,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				755A1D782570561300CE034F /* Controller */,
+				7591F19B26A4806A0073A1F8 /* Cell */,
 			);
 			path = Operation;
 			sourceTree = "<group>";
@@ -467,6 +476,17 @@
 				759FA92026189A8B00502172 /* MainTableView */,
 			);
 			name = HomeView;
+			sourceTree = "<group>";
+		};
+		7591F19B26A4806A0073A1F8 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7591F19726A480600073A1F8 /* OperationCell.swift */,
+				7591F19826A480600073A1F8 /* OperationCell.xib */,
+				750EF5D726A7FBBF000FF9D2 /* CreateOperationCell.swift */,
+				750EF5D826A7FBBF000FF9D2 /* CreateOperationCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		759FA92026189A8B00502172 /* MainTableView */ = {
@@ -656,6 +676,8 @@
 				75CB7AA0255D4E6000451F1D /* SF-Pro-Rounded-Light.otf in Resources */,
 				75CB7AA8255D50DA00451F1D /* SF-Pro-Text-Bold.otf in Resources */,
 				7578BE39269666CA0063D087 /* AlertViewController.xib in Resources */,
+				750EF5DA26A7FBBF000FF9D2 /* CreateOperationCell.xib in Resources */,
+				7591F19A26A480600073A1F8 /* OperationCell.xib in Resources */,
 				753EACAF268E388100860745 /* TodayBalanceTableViewCell.xib in Resources */,
 				759FA92C26189BA600502172 /* MainTableViewCell.xib in Resources */,
 				75B59B71262DE57600DFCCCD /* AddCollectionViewCell.xib in Resources */,
@@ -724,7 +746,7 @@
 				755397E725D0CE3400F95DE2 /* ChartsModel.swift in Sources */,
 				75AE325125239E30004422F4 /* AccountsViewController.swift in Sources */,
 				7552BFE626169CBC00BACB65 /* MainTabBarController.swift in Sources */,
-				754D66ED2631C90C00B2383C /* SelectDateCalendarPopUpTableViewController.swift in Sources */,
+				754D66ED2631C90C00B2383C /* PopUpTableViewController.swift in Sources */,
 				75D28016268AE1E6000BA1EE /* layout.swift in Sources */,
 				75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */,
 				754F15F326681A44002250BB /* EnlargeSecondTableViewCell.swift in Sources */,
@@ -750,6 +772,7 @@
 				75D9DE7E253B6294007677BA /* AddOperationViewController.swift in Sources */,
 				75727D372694F67F000BC7DE /* SelectSchedulerTypeViewController.swift in Sources */,
 				755E675D25FE024B0049E113 /* ContainerViewController.swift in Sources */,
+				750EF5D926A7FBBF000FF9D2 /* CreateOperationCell.swift in Sources */,
 				75EE502E2571844C007A7E97 /* DropDownTableView.swift in Sources */,
 				7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */,
 				75AE5A9325CCAC25006AC7E0 /* ChartsView.swift in Sources */,
@@ -765,6 +788,7 @@
 				753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */,
 				7578BE38269666CA0063D087 /* AlertViewController.swift in Sources */,
 				757B99542689549D005FB908 /* HeaderView.swift in Sources */,
+				7591F19926A480600073A1F8 /* OperationCell.swift in Sources */,
 				7529F98E267493EE00087F46 /* ThemeManager.swift in Sources */,
 				756FC72A264304B300327BAC /* CurrencyModel.swift in Sources */,
 				75A2AA50266ED79700B86DAC /* AddCurrencyTableViewCell.swift in Sources */,

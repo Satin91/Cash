@@ -21,22 +21,11 @@ class AddScheduleViewController: UIViewController {
     @IBOutlet var expenceVectorButtonOutlet: UIButton!
     @IBOutlet var incomeVectorButtonOutlet: UIButton!
     
-    func scaleBittonAnimation(button: UIButton) {
-        let duration: TimeInterval = 0.15
-        UIView.animate(withDuration: duration,
-            animations: {
-                button.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-            },
-            completion: { _ in
-                UIView.animate(withDuration: duration) {
-                    button.transform = CGAffineTransform.identity
-                }
-            })
-    }
+    
     
     @IBAction func expenceVectorAction(_ sender: UIButton) {
         self.vector = false
-        scaleBittonAnimation(button: sender)
+        expenceVectorButtonOutlet.scaleButtonAnimation()
         UIView.animate(withDuration: 0.15) {
             self.incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
             self.expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
@@ -46,13 +35,11 @@ class AddScheduleViewController: UIViewController {
     
     @IBAction func incomeVectorAction(_ sender: UIButton) {
         self.vector = true
-        scaleBittonAnimation(button: sender)
+        incomeVectorButtonOutlet.scaleButtonAnimation()
         UIView.animate(withDuration: 0.15) {
             self.expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
             self.incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
         }
-        
-        
     }
     @IBOutlet var headingTextLabel: UILabel!
     @IBOutlet var descriptionTextLabel: UILabel!
@@ -65,10 +52,17 @@ class AddScheduleViewController: UIViewController {
     var isEditingScheduler: Bool = false
     var vector: Bool = false
     var payArray = [PayPerTime]() // Используется в записи платежных данных
+    var textFieldButton = UIButton(type: .custom)
+    var currency: String = {
+        let currency: String
+        if mainCurrency != nil {
+            currency = mainCurrency!.ISO
+        }else{
+            currency = "USD"
+        }
+        return currency
+    }()
     @IBOutlet var scrollView: UIScrollView! // Нужен только для отмены скролинга в случае выбора одноразовой операции
-    
-    
-    
     @IBAction func dateRhythmSegmentedController(_ sender: HBSegmentedControl) {
         switch sender.selectedIndex {
         case 0:
@@ -99,6 +93,7 @@ class AddScheduleViewController: UIViewController {
         calendar.select(date, scrollToDate: true)
     }
     @IBOutlet var stackView: UIStackView! //для редактирования расстояния для четчайшести
+    
     @IBOutlet var doneButtonOutlet: UIBarButtonItem!
     @IBAction func doneButtonAction(_ sender: Any) {
         guard saveScheduleElement() else {return}
@@ -108,81 +103,23 @@ class AddScheduleViewController: UIViewController {
     @IBAction func cancelButtonAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    var selectedImageName = "card" {
+    var selectedImageName = "AppIcon" {
         willSet{
             selectImageButtonOutlet.setImage(UIImage(named: newValue), for: .normal)
             selectImageButtonOutlet.imageView?.contentMode = .scaleToFill
         }
     }
-    enum headerText: String {
-        
-        case oneTime = "Добавить разовый платеж в планы"
-        case multiply = "Добавить многоразовый"
-        case regular = "Добавить регулярную оплату"
-        case goal = "Добавить новую цель в планы"
-    }
-    enum editingHeaderText: String {
-        case oneTime = "Изменить разовый платеж в планы"
-        case multiply = "Изменить многоразовый"
-        case regular = "Изменить регулярную оплату"
-        case goal = "Изменить новую цель в планы"
-    }
-    
-    enum descriptionText: String {
-        case oneTime = "Заполните данные и выберете направление разового платежа"
-        case multiply = "Заполните данные и выберете направление многоразового платежа"
-        case regular = "Заполните данныые для регулярной оплаты"
-        case goal = "Укажите данные для вашей цели"
-    }
+
     
     ///ПЕРЕМЕННЫЕ
     var calendarComponent: Calendar.Component = .weekOfMonth
     var date: Date!
     var calendar = FSCalendarView()
-    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThickMaterial))
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     var newScheduleObject = MonetaryScheduler()
     var iconsCollectionView: IconsCollectionView!
     
-    func visualSettings() {
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        self.headingTextLabel.textColor = ThemeManager.currentTheme().titleTextColor
-        self.descriptionTextLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
-        self.headingTextLabel.font = .systemFont(ofSize: 34, weight: .medium)
-        self.descriptionTextLabel.font = .systemFont(ofSize: 17, weight: .light)
-        headingTextLabel.numberOfLines = 0
-        descriptionTextLabel.numberOfLines = 0
-        
-        incomeVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
-        expenceVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
-        incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
-        expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
-        incomeVectorButtonOutlet.layer.cornerRadius = 10
-        expenceVectorButtonOutlet.layer.cornerRadius = 10
-        
-        
-        
-        selectDateButtonOutlet.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)   //setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-        selectDateButtonOutlet.layer.cornerRadius = 16
-        selectDateButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        selectDateButtonOutlet.layer.cornerCurve = .continuous
-        newScheduleObject.date == nil ? selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .normal) :  selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
-       
-        selectDateButtonOutlet.titleLabel?.textColor = UIColor.black
-        selectDateButtonOutlet.layer.borderWidth = 1
-        selectDateButtonOutlet.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
-        
-        
-        selectImageButtonOutlet.layer.cornerRadius = 25
-        selectImageButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        selectImageButtonOutlet.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)   //setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
-        selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
-        
-        scrollView.backgroundColor = .clear
-        
-        
-        
-    }
+ 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         UIView.animate(withDuration: 0.2) {
@@ -194,7 +131,6 @@ class AddScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.alpha = isEditingScheduler ? 1 : 0
-        //navigationController?.setNavigationBarHidden(true, animated: false)
         createNavBar()
         calendar.delegate = self
         visualSettings()
@@ -207,51 +143,8 @@ class AddScheduleViewController: UIViewController {
         setDataFromEditableObject()
     }
     
-    @objc func createSchedule(_ sender: UIBarButtonItem) {
-        guard saveScheduleElement() else {return}
-        if isEditingScheduler == false {
-            closeDelegate.close()
-            self.removeFromParent()
-        }else{
-        reloadParentTableViewDelegate.reloadData()
-        dismiss(animated: true) {
-        }
-        }
-        
-    }
-    @objc func cancelAction(_ sender: UIBarButtonItem) {
-        guard isEditingScheduler == false else {
-            dismiss(animated: true, completion: nil)
-            return
-        }
-        closeDelegate.close()
-        dismiss(animated: true) {
-            self.removeFromParent()
-        }
-    }
-    func createNavBar(){
-        let navigationBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: topBarHeight))
-        topAnchorConstraint.constant = topBarHeight + 12
-        let navigationItem = UINavigationItem()
-        //let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createSchedule(_:)))
-        let leftButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelAction(_:)))
-        let rightButton =  UIBarButtonItem(title: "Save", style:   UIBarButtonItem.Style.plain, target: self, action: #selector(self.createSchedule(_:)))
-        navigationItem.leftBarButtonItem = leftButton
-        navigationItem.rightBarButtonItem = rightButton
-        navigationBar.items = [navigationItem]
-        self.view.addSubview(navigationBar)
-    }
+ 
     
-    func setupCalendarAndBlur() {
-        self.view.addSubview(calendar)
-        calendar.frame = CGRect(x: 50, y: 50, width: 250, height: 320)
-        calendar.backgroundColor = .white
-        calendar.layer.cornerRadius = 18
-        calendar.clipsToBounds = true
-        calendar.alpha = 0
-        blurView.frame = self.view.bounds
-        blurView.alpha = 0
-    }
     
     func stackViewSettings() {
         if self.view.bounds.height < 600 {
@@ -262,48 +155,9 @@ class AddScheduleViewController: UIViewController {
     }
     
     
-    func setupButtonsAndFields() {
-        //nameTextField.placeholder = "Name"
-        
-        nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
-        
-        let sumPerTimeText = newScheduleObject.stringScheduleType == .goal ? "Available" : "Sum per time"
-        totalSumTextField.attributedPlaceholder = NSAttributedString(string: "Total sum", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
-        sumPerTimeTextField.attributedPlaceholder = NSAttributedString(string: sumPerTimeText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular), NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor])
-        
-        
-        nameTextField.changeVisualDesigh()
-        totalSumTextField.changeVisualDesigh()
-        sumPerTimeTextField.changeVisualDesigh()
-        
-    }
+   
     
-    func checkScheduleType() {
-        switch newScheduleObject.stringScheduleType{
-        case .oneTime :
-            headingTextLabel.text = headerText.oneTime.rawValue
-            descriptionTextLabel.text = descriptionText.oneTime.rawValue
-            sumPerTimeTextField.isHidden = true
-            //rhythmSegmentedControl.isHidden = true
-            scrollView.isScrollEnabled = false
-        case .multiply :
-            headingTextLabel.text = headerText.multiply.rawValue
-            descriptionTextLabel.text = descriptionText.multiply.rawValue
-        // vectorSegmentedControl.isHidden = true
-        case .regular :
-            headingTextLabel.text = headerText.regular.rawValue
-            descriptionTextLabel.text = descriptionText.regular.rawValue
-            totalSumTextField.isHidden = true
-            
-        case .goal :
-            headingTextLabel.text = headerText.goal.rawValue
-            descriptionTextLabel.text = descriptionText.goal.rawValue
-            sumPerTimeTextField.isHidden = false
-        // rhythmSegmentedControl.isHidden = true
-        //  vectorSegmentedControl.isHidden = true
-        
-        }
-    }
+   
     
     deinit {
         nameTextField.isHidden = false
@@ -314,10 +168,12 @@ class AddScheduleViewController: UIViewController {
     }
     
     func saveScheduleElement()-> Bool {
-        print("newScheduleElement")
+        
         if isEditingScheduler == false {
             newScheduleObject.image = selectedImageName
+            newScheduleObject.currencyISO = currency
         }
+        
         
         switch newScheduleObject.stringScheduleType {
         case .oneTime:
@@ -434,6 +290,8 @@ class AddScheduleViewController: UIViewController {
                 
                 
                 try! realm.write{
+                    newScheduleObject.currencyISO = currency
+                    newScheduleObject.image = selectedImageName
                     newScheduleObject.name = name
                     newScheduleObject.date = date
                     newScheduleObject.target = target
@@ -475,6 +333,7 @@ class AddScheduleViewController: UIViewController {
             if isEditingScheduler == true {
                   
                     try! realm.write {
+                        newScheduleObject.currencyISO = currency
                         newScheduleObject.image = selectedImageName
                         newScheduleObject.name = name
                         newScheduleObject.target = target
@@ -493,6 +352,7 @@ class AddScheduleViewController: UIViewController {
             newScheduleObject.sumPerTime = sumPerTime
             newScheduleObject.date = date
             newScheduleObject.dateRhythm = dateRhythm.rawValue
+            
             saveMultiplyPayPerTime()
             
            
@@ -518,6 +378,7 @@ class AddScheduleViewController: UIViewController {
             if isEditingScheduler == true {
                   
                     try! realm.write {
+                        newScheduleObject.currencyISO = currency
                         newScheduleObject.image = selectedImageName
                         newScheduleObject.name = name
                         newScheduleObject.sumPerTime = sumPerTime
@@ -589,6 +450,8 @@ class AddScheduleViewController: UIViewController {
 
             if isEditingScheduler {
                 try! realm.write {
+                    newScheduleObject.currencyISO = currency
+                    newScheduleObject.image = selectedImageName
                     newScheduleObject.name = name
                     newScheduleObject.date = date
                     newScheduleObject.available = (sumPerTimeTextField.text!.isEmpty ? 0: sumPerTimeTextField.removeAllExceptNumbers())
@@ -616,13 +479,221 @@ class AddScheduleViewController: UIViewController {
     }
 }
 
+//MARK: - visual settings
+extension AddScheduleViewController {
+    func visualSettings() {
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        self.headingTextLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        self.descriptionTextLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
+        self.headingTextLabel.font = .systemFont(ofSize: 34, weight: .medium)
+        self.descriptionTextLabel.font = .systemFont(ofSize: 17, weight: .light)
+        headingTextLabel.numberOfLines = 0
+        descriptionTextLabel.numberOfLines = 0
+        
+        incomeVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
+        expenceVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
+        incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
+        expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+        incomeVectorButtonOutlet.layer.cornerRadius = 10
+        expenceVectorButtonOutlet.layer.cornerRadius = 10
+        
+        
+        
+        selectDateButtonOutlet.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)   //setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        selectDateButtonOutlet.layer.cornerRadius = 16
+        selectDateButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        selectDateButtonOutlet.layer.cornerCurve = .continuous
+        selectDateButtonOutlet.titleEdgeInsets = UIEdgeInsets(top: 0, left: 17, bottom: 0, right: 0)
+        selectDateButtonOutlet.contentHorizontalAlignment = .left
+        selectDateButtonOutlet.setTitle("Date", for: .normal)
+        newScheduleObject.date == nil ? selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .normal) :  selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
+       
+        selectDateButtonOutlet.titleLabel?.textColor = UIColor.black
+        selectDateButtonOutlet.layer.borderWidth = 1
+        selectDateButtonOutlet.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
+        
+        
+        selectImageButtonOutlet.layer.cornerRadius = 25
+        selectImageButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        selectImageButtonOutlet.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)   //setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
+        selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
+        
+        scrollView.backgroundColor = .clear
+    }
+    func setupButtonsAndFields() {
+        nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
+        
+        let sumPerTimeText = newScheduleObject.stringScheduleType == .goal ? "Available" : "Sum per time"
+        totalSumTextField.attributedPlaceholder = NSAttributedString(string: "Total sum", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
+        sumPerTimeTextField.attributedPlaceholder = NSAttributedString(string: sumPerTimeText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular), NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor])
+        
+        nameTextField.changeVisualDesigh()
+        totalSumTextField.changeVisualDesigh()
+        rightViewTextFieldButtonFor(textField: totalSumTextField)
+        sumPerTimeTextField.changeVisualDesigh()
+    }
+    func setupCalendarAndBlur() {
+        self.view.addSubview(calendar)
+        calendar.frame = CGRect(x: 50, y: 50, width: 250, height: 320)
+        calendar.backgroundColor = .white
+        calendar.layer.cornerRadius = 18
+        calendar.clipsToBounds = true
+        calendar.alpha = 0
+        blurView.frame = self.view.bounds
+        blurView.alpha = 0
+    }
+}
 
+//MARK: - create Controls
+extension AddScheduleViewController: ClosePopUpTableViewProtocol{
+    func closeTableView(object: Any) {
+        let ISO = object as! CurrencyObject
+        currency = ISO.ISO
+        textFieldButton.setTitle(ISO.ISO, for: .normal)
+    }
+    
+    
+    func rightViewTextFieldButtonFor(textField: UITextField) {
+        
+        
+        textFieldButton.setImage(UIImage(named: "send.png"), for: .normal)
+        if isEditingScheduler {
+            textFieldButton.setTitle(newScheduleObject.currencyISO, for: .normal)
+        }else{
+            textFieldButton.setTitle(currency, for: .normal)
+        }
+        textFieldButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+        textFieldButton.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
+        textFieldButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -17, bottom: 0, right: 0)
+        textFieldButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
+        textFieldButton.frame = CGRect(x: CGFloat(textField.frame.size.width - 40), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
+        textFieldButton.addTarget(self, action: #selector(changeISO(_:)), for: .touchUpInside)
+        textField.rightView = textFieldButton
+        textField.rightViewMode = .always
+    }
+    
+    @objc func changeISO(_ sender: UIButton) {
+        
+        goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender)
+    }
+    
+    
+    
+    @objc func createSchedule(_ sender: UIBarButtonItem) {
+        guard saveScheduleElement() else {return}
+        if isEditingScheduler == false {
+            closeDelegate.close()
+            self.removeFromParent()
+        }else{
+        reloadParentTableViewDelegate.reloadData()
+        dismiss(animated: true) {
+        }
+        }
+    }
+    @objc func cancelAction(_ sender: UIBarButtonItem) {
+        guard isEditingScheduler == false else {
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        closeDelegate.close()
+        dismiss(animated: true) {
+            self.removeFromParent()
+        }
+    }
+    func createNavBar(){
+        let navigationBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: topBarHeight + 30))
+        topAnchorConstraint.constant = topBarHeight + 12
+        let navigationItem = UINavigationItem()
+        //let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createSchedule(_:)))
+        let leftButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelAction(_:)))
+        let rightButton =  UIBarButtonItem(title: "Save", style:   UIBarButtonItem.Style.plain, target: self, action: #selector(self.createSchedule(_:)))
+        navigationItem.leftBarButtonItem = leftButton
+        navigationItem.rightBarButtonItem = rightButton
+        navigationBar.items = [navigationItem]
+        self.view.addSubview(navigationBar)
+    }
+    
+    
+}
+
+//MARK: - set data for header labels
+extension AddScheduleViewController {
+    enum headerText: String {
+        
+        case oneTime = "Добавить разовый платеж в планы"
+        case multiply = "Добавить многоразовый"
+        case regular = "Добавить регулярную оплату"
+        case goal = "Добавить новую цель в планы"
+    }
+    enum editingHeaderText: String {
+        case oneTime = "Изменить разовый платеж"
+        case multiply = "Изменить многоразовый"
+        case regular = "Изменить регулярную оплату"
+        case goal = "Изменить существующую цель "
+    }
+    
+    enum descriptionText: String {
+        case oneTime = "Заполните данные и выберете направление разового платежа"
+        case multiply = "Заполните данные и выберете направление многоразового платежа"
+        case regular = "Заполните данныые для регулярной оплаты"
+        case goal = "Укажите данные для вашей цели"
+    }
+    func checkScheduleType() {
+        if isEditingScheduler {
+            switch newScheduleObject.stringScheduleType{
+            case .oneTime :
+                headingTextLabel.text = editingHeaderText.oneTime.rawValue
+                descriptionTextLabel.text = descriptionText.oneTime.rawValue
+                sumPerTimeTextField.isHidden = true
+                //rhythmSegmentedControl.isHidden = true
+                scrollView.isScrollEnabled = true
+            case .multiply :
+                headingTextLabel.text = editingHeaderText.multiply.rawValue
+                descriptionTextLabel.text = descriptionText.multiply.rawValue
+            // vectorSegmentedControl.isHidden = true
+            case .regular :
+                headingTextLabel.text = editingHeaderText.regular.rawValue
+                descriptionTextLabel.text = descriptionText.regular.rawValue
+                totalSumTextField.isHidden = true
+                
+            case .goal :
+                headingTextLabel.text = editingHeaderText.goal.rawValue
+                descriptionTextLabel.text = descriptionText.goal.rawValue
+                sumPerTimeTextField.isHidden = false
+            }
+        }else{
+        switch newScheduleObject.stringScheduleType{
+        case .oneTime :
+            headingTextLabel.text = headerText.oneTime.rawValue
+            descriptionTextLabel.text = descriptionText.oneTime.rawValue
+            sumPerTimeTextField.isHidden = true
+            //rhythmSegmentedControl.isHidden = true
+            scrollView.isScrollEnabled = true
+        case .multiply :
+            headingTextLabel.text = headerText.multiply.rawValue
+            descriptionTextLabel.text = descriptionText.multiply.rawValue
+        // vectorSegmentedControl.isHidden = true
+        case .regular :
+            headingTextLabel.text = headerText.regular.rawValue
+            descriptionTextLabel.text = descriptionText.regular.rawValue
+            totalSumTextField.isHidden = true
+            
+        case .goal :
+            headingTextLabel.text = headerText.goal.rawValue
+            descriptionTextLabel.text = descriptionText.goal.rawValue
+            sumPerTimeTextField.isHidden = false
+        }
+        }
+    }
+}
 
 extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.date = date
-        selectDateButtonOutlet.setTitle(dateToString(date: date), for: .normal)
+        
+        selectDateButtonOutlet.setTitle(fullDateToString(date: date), for: .normal)
         selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
         self.view.reservedAnimateView2(animatedView: self.calendar)
         self.view.reservedAnimateView2(animatedView: self.blurView)
@@ -634,6 +705,11 @@ extension AddScheduleViewController: SendIconToParentViewController {
     }
     
     
+}
+extension AddScheduleViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
 }
 
 

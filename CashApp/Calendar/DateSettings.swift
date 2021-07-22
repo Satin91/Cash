@@ -28,6 +28,19 @@ let stringOnDataComponents = someDateFormatterEx.string(from: someDateOfComponen
 
 ///Так как нельзя в класе инициилизировать объекты, я создам функцию
 
+func fullDateToString(date: Date) -> String {
+    let format = Calendar.current.component(.year, from: date)
+    let currentFormat = Calendar.current.component(.year, from: Date())
+    if currentFormat != format {
+        someDateFormatterEx.dateFormat = "MMMM, d, yyyy"
+        
+    }else {
+        someDateFormatterEx.dateFormat = "MMMM, d"
+    }
+    let returnString = someDateFormatterEx.string(from: date)
+    return returnString
+}
+
 ///Дата в текст
 func dateToString(date: Date) -> String {
     

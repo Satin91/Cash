@@ -187,7 +187,7 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
 }
 
 
-extension SchedulerViewController: CloseSelectDateProtocol, QuickPayCloseProtocol,SendScheduleObjectToEdit {
+extension SchedulerViewController: ClosePopUpTableViewProtocol, QuickPayCloseProtocol,SendScheduleObjectToEdit {
     func sendObject(object: MonetaryScheduler) {
         let editVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
         editVC.isEditingScheduler = true
@@ -196,10 +196,10 @@ extension SchedulerViewController: CloseSelectDateProtocol, QuickPayCloseProtoco
         self.present(editVC, animated: true, completion: nil)
     }
     
-    func closeSelectDate(payObject: Any) {
+    func closeTableView(object: Any) {
         guard blur.alpha != 1 else {return}
         self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: payObject)
+        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         
     }
     

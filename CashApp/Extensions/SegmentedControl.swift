@@ -188,18 +188,22 @@ class HBSegmentedControl: UIControl {
         }
     }
     
-    func changeSegmentWithAnimation(TableView: UITableView, ChangeValue: inout Bool) {
+    func changeSegmentWithAnimation(tableView: UITableView?,collectionView: UICollectionView?, ChangeValue: inout Bool) {
         let duration = 0.095
         let milliseconds = 95
         UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions.curveLinear, animations: {
-            TableView.alpha = 0
+            tableView?.alpha = 0
+            collectionView?.alpha = 0
         }, completion: nil)
         ChangeValue.toggle()
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(milliseconds), execute: {
             UIView.animate(withDuration: duration, delay: duration, options: UIView.AnimationOptions.curveLinear, animations: {
                 
-                TableView.alpha = 1
-                TableView.reloadData()
+                tableView?.alpha = 1
+                tableView?.reloadData()
+                collectionView?.alpha = 1
+                collectionView?.reloadData()
+                
             }, completion: nil)
         })
     }

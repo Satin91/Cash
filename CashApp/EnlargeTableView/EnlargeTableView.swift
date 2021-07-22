@@ -157,9 +157,9 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         }else{
             header?.showButtons()
         }
-        header?.layer.cornerRadius = radius
-        header?.frame = CGRect(x: sideDistance , y: topBarHeight + Layout.top, width: self.bounds.width - (sideDistance ) * 2, height: height - 15)
-        header?.center.x = self.center.x
+        header?.view.layer.cornerRadius = radius
+        header?.view.frame = CGRect(x: sideDistance , y: topBarHeight + Layout.top, width: self.bounds.width - (sideDistance ) * 2, height: height - 15)
+        header?.view.center.x = self.center.x
         
         //get and print date
         guard enlargeArray.count > 0 else {return}

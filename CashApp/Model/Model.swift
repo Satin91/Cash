@@ -61,6 +61,7 @@ class MonetaryCategory: Object, Comparable{
     @objc dynamic var currencyISO = "USD"
     @objc dynamic var categoryType: Int = CategoryType.expence.rawValue
     @objc dynamic var categoryID = NSUUID.init().uuidString
+    @objc dynamic var position : Int = 0
     var stringEntityType: CategoryType {
         get { return CategoryType(rawValue: categoryType)! }
         set { categoryType = newValue.rawValue }
@@ -75,7 +76,7 @@ class MonetaryCategory: Object, Comparable{
     override static func primaryKey() -> String? {
         return "categoryID"
     }
-    convenience init(name: String,sum:Double, limit: Double,limitBalance: Double,image:String,currencyISO: String,categoryType:CategoryType) {
+    convenience init(name: String,sum:Double, limit: Double,limitBalance: Double,image:String,currencyISO: String,categoryType:CategoryType,position: Int) {
         self.init()
         self.name = name
         self.sum = sum
@@ -85,6 +86,7 @@ class MonetaryCategory: Object, Comparable{
         self.image = image
         self.currencyISO = currencyISO
         self.categoryType = categoryType.rawValue
+        self.position = position
       
     }
 }

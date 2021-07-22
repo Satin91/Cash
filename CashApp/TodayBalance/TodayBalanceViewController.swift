@@ -30,7 +30,7 @@ class TodayBalanceViewController: UIViewController {
     var changeValue: Bool = true
     @IBOutlet var segmentedControlOutlet: HBSegmentedControl!
     @IBAction func segmentedControl(_ sender: HBSegmentedControl) {
-        sender.changeSegmentWithAnimation(TableView: tableView, ChangeValue: &changeValue)
+        sender.changeSegmentWithAnimation(tableView: tableView, collectionView: nil, ChangeValue: &changeValue)
     }
     var calendarContainerView: UIView = {
         let view = UIView()
@@ -69,7 +69,7 @@ class TodayBalanceViewController: UIViewController {
         image.frame = .zero
         return image
     }()
-    func installTableView() {
+    func setupTableView() {
         self.view.addSubview(containerForTableView)
         initConstraints(view: containerForTableView, to: tableView)
         self.view.bringSubviewToFront(tableView)
@@ -251,7 +251,7 @@ class TodayBalanceViewController: UIViewController {
         visualSettings()
         createConstraints()
         installCalendar()
-        installTableView()
+        setupTableView()
         getSchedulersToTableView()
     }
     

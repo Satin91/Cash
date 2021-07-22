@@ -38,22 +38,10 @@ class CreateScheduleCell: UITableViewCell {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        drawDash(view: self.dashView)
+        dashView.drawDash(radius: 25)
         visualSettings()
     }
-    func drawDash(view: UIView) {
-        //Нужно чтобы слой не повторялся
-        view.layer.sublayers?.removeAll()
-        let border = CAShapeLayer()
-        border.removeFromSuperlayer()
-        border.path = UIBezierPath(roundedRect: view.bounds, cornerRadius: 25).cgPath
-        //border.path = UIBezierPath(roundedRect:dashView.bounds, cornerRadius:10.0).cgPath
-        border.frame = dashView.bounds
-        border.fillColor = nil
-        border.strokeColor = ThemeManager.currentTheme().subtitleTextColor.cgColor
-        border.lineWidth = 2 // doubled since half will be clipped
-        border.lineDashPattern = [15.0,4]
-        view.layer.addSublayer(border)
-    }
+   
     
 }
+

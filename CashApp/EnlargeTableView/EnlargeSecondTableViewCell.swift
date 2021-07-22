@@ -81,7 +81,7 @@ class SecondTableViewCell: UITableViewCell {
             lineView.isHidden = true
         }
         guard let image = object.image else {return}
-        self.image.image = UIImage(named: object.image!)
+        self.image.image = UIImage(named: image)
         
     }
     func setColors(){

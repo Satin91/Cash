@@ -69,14 +69,27 @@ class CircleView: UIView {
     
     func persentGreaterThanZero() -> CGFloat{
         let difference = (CGFloat(todayBalanceObject!.commonBalance) / CGFloat(todayBalanceObject!.currentBalance))
-        let value = CGFloat(1) - difference
+        var value = CGFloat(1) - difference
+        
+        if value < 0 {
+            let positive: Int32 = abs(Int32(difference))
+            value += CGFloat(positive)
+        }
         progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor1.cgColor
         progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor1)
         return value
     }
     func persentLessThanZero() -> CGFloat {
         let difference = (CGFloat(todayBalanceObject!.currentBalance) / CGFloat(todayBalanceObject!.commonBalance))
-        let value = CGFloat(1) - difference
+      
+        
+        var value = CGFloat(1) - difference
+        
+        if value < 0 {
+            let positive: Int32 = abs(Int32(difference))
+            value += CGFloat(positive)
+        }
+        print(value)
         progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
         progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
         return value
@@ -91,6 +104,7 @@ class CircleView: UIView {
             return persentGreaterThanZero()
         }else{
             guard commonBalance != 0 else{return 0}
+            
             return persentLessThanZero()
         }
         
@@ -99,10 +113,11 @@ class CircleView: UIView {
     
     func progressAnimation(currentlyBalance: Double, commonBalance: Double) {
         var value = 0
-    
+        
         if getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) != 0 {
          value = Int(getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) * 100)
         }
+        
         persent.countPersentAnimation(upto: Double(value))
         let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
         circularProgressAnimation.duration = 0.6

@@ -90,7 +90,7 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
         guard !anyArray.isEmpty else {return}
         for i in datesArray {
             if date == i {
-                goToSelectDateVC(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!)
+                goToPopUpTableView(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!)
             }
             
         }
@@ -146,14 +146,14 @@ extension CalendarSchedulerViewController : UIPopoverPresentationControllerDeleg
 
 
 //Закрывает поп ап меню, обновляет данные, закрывает анимацию
-extension CalendarSchedulerViewController: CloseSelectDateProtocol, QuickPayCloseProtocol {
+extension CalendarSchedulerViewController: ClosePopUpTableViewProtocol, QuickPayCloseProtocol {
     
     //close mini table view in calendar and view the blur
-    func closeSelectDate(payObject: Any) {
+    func closeTableView(object: Any) {
         
 //        guard blur.alpha != 1 else {return}
 //        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: payObject)
+        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         
     }
     //close quicl pay and reload data in calendar and hide blur

@@ -7,19 +7,21 @@
 //
 
 import UIKit
-protocol CloseSelectDateProtocol {
-    func closeSelectDate(payObject: Any)
+protocol ClosePopUpTableViewProtocol {
+     func closeTableView(object: Any)
 }
-class SelectDateCalendarPopUpTableViewController: UITableViewController{
+
+
+class PopTableViewController: UITableViewController{
 
     //Протокол который отправляет назад выбранные данные
-    var closeSelectDateDelegate: CloseSelectDateProtocol!
+    var closeSelectDateDelegate: ClosePopUpTableViewProtocol!
     var payObject: [Any]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("SelectDate Did load")
-        navigationItem.setValue("Планы в этот день", forKey: "title")
+        navigationController?.setNavigationBarHidden(true, animated: false)
         tableView.delegate = self
         tableView.dataSource = self
         let xibCell = UINib(nibName: "SelectDateTableViewCell", bundle: nil)
@@ -29,13 +31,24 @@ class SelectDateCalendarPopUpTableViewController: UITableViewController{
         
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        if payObject.first is IndexPath {
+            return 2
+        }
         return payObject.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectDateCell") as! SelectDateTableViewCell
+        let whatAreDo = ["Edit","Delete"]
+        if payObject.first is IndexPath {
+            
+            let object = whatAreDo[indexPath.row]
+            cell.set(object: object)
+            
+            return cell
+        }
         
+       
         let object = payObject[indexPath.row]
         if payObject != nil {
             cell.set(object: object)
@@ -44,11 +57,22 @@ class SelectDateCalendarPopUpTableViewController: UITableViewController{
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if payObject.first is IndexPath {
+            if indexPath.row == 0 {
+                let dict = ["Edit":payObject.first as! IndexPath]
+                closeSelectDateDelegate.closeTableView(object: dict)
+                dismiss(animated: true, completion: nil)
+                return
+            }else{
+                let dict = ["Delete":payObject.first as! IndexPath]
+                closeSelectDateDelegate.closeTableView(object: dict)
+                
+                dismiss(animated: true, completion: nil)
+                return
+            }
+        }
         let object = payObject[indexPath.row]
-        
-   
-        closeSelectDateDelegate.closeSelectDate(payObject: object)
+        closeSelectDateDelegate.closeTableView(object: object)
         dismiss(animated: true, completion: nil)
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

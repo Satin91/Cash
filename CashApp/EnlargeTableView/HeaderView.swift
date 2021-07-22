@@ -12,15 +12,16 @@ protocol prepareForMainViewControllers {
     func prepareFor(viewController: UIViewController)
 }
 
-final class HeaderView: UIView {
+final class HeaderView: UIViewController {
 
     let themeManager = ThemeManager.currentTheme()
+    let currencyModelController = CurrencyModelController()
     
     var delegate: prepareForMainViewControllers!
     var dateLabel: UILabel = {
        let label = UILabel()
         label.backgroundColor = .clear
-        label.text = "TEXT"
+        label.text = "Date"
         label.font = .boldSystemFont(ofSize: 34)
         label.frame = .zero
         label.layer.opacity = 0
@@ -31,11 +32,28 @@ final class HeaderView: UIView {
        let button = UIButton()
         button.frame = .zero
         button.backgroundColor = .clear
-        button.setTitle("Accounts", for: .normal)
+        button.setTitle(" ", for: .normal)
         
         return button
     }()
-    
+    var accountsLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 23, weight: .medium)
+        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.text = "Accounts"
+        return label
+        
+    }()
+    var totalBalanceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 34, weight: .medium)
+        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.text = "0"
+        return label
+        
+    }()
     var todayBalanceButton: UIButton = {
         let button = UIButton()
         button.frame = .zero
@@ -44,55 +62,87 @@ final class HeaderView: UIView {
         
         return button
     }()
+    var todayBalanceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 19, weight: .medium)
+        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.text = "Budget today"
+        return label
+        
+    }()
+    var todayBalanceSumLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 26, weight: .medium)
+        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.text = "0"
+        return label
+        
+    }()
     let lineView: UIView = {
        let line = UIView()
         
        return line
         
     }()
-   
     
     func initControls() {
         accountsButton.addTarget(self, action: #selector(prepareForAccounts), for: .touchUpInside)
         todayBalanceButton.addTarget(self, action: #selector(prepareForTodayBalance), for: .touchUpInside)
         
-        addSubview(dateLabel)
-        addSubview(accountsButton)
-        addSubview(todayBalanceButton)
-        addSubview(lineView)
+        
+        self.view.addSubview(dateLabel)
+        self.view.addSubview(accountsButton)
+        self.view.addSubview(todayBalanceButton)
+        self.view.addSubview(lineView)
+        accountsButton.addSubview(accountsLabel)
+        accountsButton.addSubview(totalBalanceLabel)
+        todayBalanceButton.addSubview(todayBalanceLabel)
+        todayBalanceButton.addSubview(todayBalanceSumLabel)
+    }
+    
+    func setAccountsBalance(){
+        guard let mainCurrency = mainCurrency?.ISO else {return}
+        var totalBalance: Double = 0
+        for i in accountsObjects {
+            totalBalance += currencyModelController.convert(i.balance, inputCurrency: i.currencyISO, outputCurrency: mainCurrency)!
+        }
+        totalBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: totalBalance)
     }
     func setColorTheme() {
         lineView.backgroundColor = themeManager.separatorColor
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        self.layer.cornerRadius = 35
-        self.layer.shadowOpacity = 0.20
-        self.layer.shadowColor = themeManager.shadowColor.cgColor
-        self.layer.shadowOffset = CGSize(width: 4, height: 4)
-        self.layer.shadowRadius = 15
-        self.layer.masksToBounds = false
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setAccountsBalance()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.layer.cornerRadius = 35
+        self.view.layer.shadowOpacity = 0.20
+        self.view.layer.shadowColor = themeManager.shadowColor.cgColor
+        self.view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        self.view.layer.shadowRadius = 15
+        self.view.layer.masksToBounds = false
         
         
         
         initControls()
         setColorTheme()
         createConstraints()
-        dateLabel.center = self.center
+        setAccountsBalance()
+        dateLabel.center = self.view.center
     }
-    
-    
-    
+
     @objc func prepareForAccounts(){
         let accVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "AccountsViewController") as! AccountsViewController
         delegate.prepareFor(viewController: accVC)
     }
     
     @objc func prepareForTodayBalance(){
-        let accVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "TodayBalanceViewController") as! TodayBalanceViewController
-        delegate.prepareFor(viewController: accVC)
+        let tdbVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "TodayBalanceViewController") as! TodayBalanceViewController
+        delegate.prepareFor(viewController: tdbVC)
     }
     
     func showButtons() {
@@ -121,40 +171,63 @@ final class HeaderView: UIView {
     func createConstraints() {
         //label
         NSLayoutConstraint.activate([
-            dateLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            dateLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            dateLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            dateLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             dateLabel.heightAnchor.constraint(equalToConstant: 100)
         ])
         //Account button
         NSLayoutConstraint.activate([
-            accountsButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            accountsButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-            accountsButton.topAnchor.constraint(equalTo: topAnchor),
+            accountsButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            accountsButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            accountsButton.topAnchor.constraint(equalTo: self.view.topAnchor),
             accountsButton.heightAnchor.constraint(equalToConstant: 157)
+        ])
+        NSLayoutConstraint.activate([
+            accountsLabel.leadingAnchor.constraint(equalTo: accountsButton.leadingAnchor,constant: 20),
+            accountsLabel.topAnchor.constraint(equalTo: accountsButton.topAnchor,constant: 18)
+        ])
+        NSLayoutConstraint.activate([
+            totalBalanceLabel.leadingAnchor.constraint(equalTo: accountsButton.leadingAnchor,constant: 20),
+            totalBalanceLabel.trailingAnchor.constraint(equalTo: accountsButton.trailingAnchor,constant: -20),
+            totalBalanceLabel.topAnchor.constraint(equalTo: accountsLabel.bottomAnchor,constant: 8)
         ])
         //TodayBalance button
         NSLayoutConstraint.activate([
-            todayBalanceButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            todayBalanceButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-            todayBalanceButton.topAnchor.constraint(equalTo: accountsButton.bottomAnchor),
-            todayBalanceButton.bottomAnchor.constraint(equalTo: bottomAnchor)
+            todayBalanceButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            todayBalanceButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            todayBalanceButton.topAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -97),
+            todayBalanceButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            todayBalanceLabel.leadingAnchor.constraint(equalTo: todayBalanceButton.leadingAnchor,constant: 20),
+            todayBalanceLabel.topAnchor.constraint(equalTo: todayBalanceButton.topAnchor,constant: 14)
+        ])
+        
+        NSLayoutConstraint.activate([
+            todayBalanceSumLabel.leadingAnchor.constraint(equalTo: accountsButton.leadingAnchor,constant: 20),
+            todayBalanceSumLabel.trailingAnchor.constraint(equalTo: accountsButton.trailingAnchor,constant: -20),
+            todayBalanceSumLabel.topAnchor.constraint(equalTo: todayBalanceLabel.bottomAnchor,constant: 8)
+        ])
+        
+        
+        
         //LineView
         NSLayoutConstraint.activate([
-        lineView.bottomAnchor.constraint(equalTo: accountsButton.bottomAnchor,constant: 6),
-        lineView.leadingAnchor.constraint(equalTo: leadingAnchor),
-        lineView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        lineView.bottomAnchor.constraint(equalTo: todayBalanceButton.topAnchor,constant: 6),
+        lineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+        lineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         lineView.heightAnchor.constraint(equalToConstant: 4)
         ])
         
+        todayBalanceSumLabel.translatesAutoresizingMaskIntoConstraints = false
+        todayBalanceLabel.translatesAutoresizingMaskIntoConstraints = false
         lineView.translatesAutoresizingMaskIntoConstraints = false
         todayBalanceButton.translatesAutoresizingMaskIntoConstraints = false
+        totalBalanceLabel.translatesAutoresizingMaskIntoConstraints = false
         accountsButton.translatesAutoresizingMaskIntoConstraints = false
+        accountsLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
     
 }

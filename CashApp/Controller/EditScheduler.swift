@@ -23,7 +23,7 @@ extension AddScheduleViewController {
         vector = newScheduleObject.vector
         dateRhythm = newScheduleObject.stringDateRhythm
         selectedImageName = newScheduleObject.image
-        
+        currency = newScheduleObject.currencyISO
         if vector {
             incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
             expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
@@ -45,7 +45,7 @@ extension AddScheduleViewController {
             sumPerTimeTextField.text = newScheduleObject.available.formattedWithSeparator
             totalSumTextField.text = newScheduleObject.target.formattedWithSeparator
         }
-        selectDateButtonOutlet.setTitle(dateToString(date: date), for: .normal)
+        selectDateButtonOutlet.setTitle(fullDateToString(date: date), for: .normal)
         
     }
     

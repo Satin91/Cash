@@ -37,12 +37,12 @@ let goalObjects  =              fetchSchedulers(scheduleType: 4).sorted(byKeyPat
 //let debtObjects =              fetchEntity(accountType: 3).sorted(byKeyPath: "date", ascending: false)//Debt = 3
 
 //let historyObjects =           outstanding(accountType: 8).sorted(byKeyPath: "date", ascending: false)//History = 8
-let expenceObjects =            fetchCategories(categoryType: 1).sorted(byKeyPath: "name", ascending: false)//OperExpence
-let incomeObjects =             fetchCategories(categoryType: 2).sorted(byKeyPath: "name", ascending: false)//OperIncome
+var expenceObjects =            fetchCategories(categoryType: 1).sorted(byKeyPath: "position", ascending: false)//OperExpence
+var incomeObjects =             fetchCategories(categoryType: 2).sorted(byKeyPath: "position", ascending: false)//OperIncome
 let historyObjects =            realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
 let payPerTimeObjects =         realm.objects(PayPerTime.self).sorted(byKeyPath: "date", ascending: true)
 let currencyObjects =           realm.objects(CurrencyObject.self).sorted(byKeyPath: "ISO", ascending: false)
-var currencyPrioritiesObjects: [CurrencyObject] = []
+var userCurrencyObjects: [CurrencyObject] = []
 var currencyNonPrioritiesObjects: [CurrencyObject] = []
 var mainCurrency =              fetchMainCurrency()
 var todayBalanceObject =        fetchTodayBalance()
@@ -87,7 +87,7 @@ func getCurrenciesByPriorities(){
         }
     }
     currencyNonPrioritiesObjects = currencyNonPriority //.sorted(by: { $0.ISO < $1.ISO })
-    currencyPrioritiesObjects    = currencySortedArray.sorted(by: { $0.ISOPriority < $1.ISOPriority })
+    userCurrencyObjects    = currencySortedArray.sorted(by: { $0.ISOPriority < $1.ISOPriority })
     
 }
 func containsISO(Iso: String) ->Bool {
@@ -103,7 +103,7 @@ func containsISO(Iso: String) ->Bool {
 
 func addMainCurrencyForPriorityIfNeeded(mainISO: String){
 
-    if currencyPrioritiesObjects.contains(where: { Object in
+    if userCurrencyObjects.contains(where: { Object in
         Object.ISO == mainISO
     }) {
         print("Есть такой")
@@ -198,32 +198,4 @@ func fetchSchedulers(scheduleType: Int) ->Results<MonetaryScheduler> {
     let object = realm.objects(MonetaryScheduler.self).filter("scheduleType= \(intToString)")
     return object
 }
-
-
-//func addObject(text: String, image: String?,sum: Double?,secondSum: Double?, type: CategoryType){
-//    
-//    var summ: Double = 0
-//    var limit: Double = 0
-//    if sum != nil {
-//        summ = sum!
-//    }
-//    if secondSum != nil {
-//        limit = secondSum!
-//    }
-//    let object2 = MonetaryCategory(
-//   // let object2 = MonetaryCategory(name: text, sum: summ, secondSum: limit, date: Date(), image: image, accountType: type)
-//    
-//    DBManager.addEntityObject(object: [object2])
-//}
-
-
-
-
-
-
-
-
-//var accountObjectsToSave = [MonetaryAccount(name: "MyCard", balance: 2547, targetSum: 0, date: nil, imageForAccount: "account1", imageForCell: "card", accountType: .ordinary, isMainAccount: true),MonetaryAccount(name: "Savings on new phone!", balance: 25, targetSum: 3750, date: nil, imageForAccount: "cash", imageForCell: "cash", accountType: .savings, isMainAccount: false)]
-//var schedulerObjectsToSave = [MonetaryScheduler(name: "Schedyle", sum: 1450, balance: 0, sumPerTime: 0, date: Date(), dateRhytm: nil, image: "savings", isUseForTudayBalance: true, scheduleType: .oneTime)]
-//var categoryObjectToSave = [MonetaryCategory(name: "Expence", sum: 15, limit: 0, limitBalance: 0, image: "card", categoryType: .expence),MonetaryCategory(name: "Income", sum: 15, limit: 0, limitBalance: 0, image: "savings", categoryType: .income)]
 

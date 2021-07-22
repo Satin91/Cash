@@ -18,7 +18,7 @@ class CurrencyModelController {
             var curObj = enumeratedALL(object: currencyObjects)
             curObj = unique
             curObj.removeAll()
-            for (index,value) in currencyObjects.enumerated(){
+            for (_,value) in currencyObjects.enumerated(){
             try! realm.write {
                 realm.delete(value)
             }

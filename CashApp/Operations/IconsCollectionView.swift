@@ -28,7 +28,8 @@ class IconsCollectionView: UIView,UICollectionViewDelegate,UICollectionViewDataS
     func setupBoundsForCollection() {
         boundsForCollection = UIView(frame: CGRect(x: 0, y: self.bounds.height * 0.1, width: self.bounds.width * 0.8, height: self.bounds.height * 0.8))
         self.addSubview(boundsForCollection)
-        boundsForCollection.backgroundColor = .systemGray
+        boundsForCollection.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        boundsForCollection.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
         boundsForCollection.center.x = self.center.x
         boundsForCollection.layer.cornerRadius = 18
         boundsForCollection.clipsToBounds = true
