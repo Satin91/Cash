@@ -172,7 +172,7 @@ extension UILabel {
         for i in 0...steps {
             DispatchQueue.main.asyncAfter(deadline: .now() + rate * Double(i)) {
                 let doubl = (from + diff * (Double(i) / Double(steps)))
-                self.changeTextAttributeForFirstLiteralsISO(ISO: iso, Balance: doubl)
+                self.changeTextAttributeForFirstLiteralsISO(ISO: iso, Balance: doubl.removeHundredthsFromEnd())
             }
         }
     }
@@ -304,6 +304,7 @@ extension Double {
     func removeHundredthsFromEnd() -> Double {
         let formatter = NumberFormatter()
         let number = NSNumber(value: self)
+        formatter.decimalSeparator = "."
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2 //maximum digits in Double after dot (maximum precision)
         return Double(String(formatter.string(from: number) ?? "0")) ?? 0

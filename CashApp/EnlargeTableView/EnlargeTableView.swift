@@ -163,8 +163,8 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         
         //get and print date
         guard enlargeArray.count > 0 else {return}
-        let firstIndexPath = self.indexPathsForVisibleRows?.first
-        let object = enlargeArray[firstIndexPath!.row].date
+        guard let firstIndexPath = self.indexPathsForVisibleRows?.first else {return}
+        let object = enlargeArray[firstIndexPath.row].date
         header?.dateLabel.text = dateToString(date: object)
     }
     

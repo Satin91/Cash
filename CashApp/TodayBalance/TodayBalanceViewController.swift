@@ -8,6 +8,14 @@
 
 import UIKit
 import FSCalendar
+class SchedulersForTableView {
+    var scheduler: MonetaryScheduler
+    var todaySum: Double
+    init(scheduler: MonetaryScheduler, todaySum: Double) {
+        self.scheduler = scheduler
+        self.todaySum = todaySum
+    }
+}
 class TodayBalanceViewController: UIViewController {
     
     
@@ -15,19 +23,24 @@ class TodayBalanceViewController: UIViewController {
     let currencyModelController = CurrencyModelController()
     let calendar = FSCalendarView()
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    var schedulerArray: [MonetaryScheduler] = []
-    var payperTimeArray: [PayPerTime] = []
+    //var schedulerArray: [MonetaryScheduler] = []
+    var EXPSchedulerArray: [SchedulersForTableView] = []
+    //var payperTimeArray: [PayPerTime] = []
     var todayBalance: TodayBalance? 
     var endDate: Date? {
         willSet {
             
-            updateTotalBalanceSum()
+            updateTotalBalanceSum(animated: true)
             getSchedulersToTableView()
-            
         }
-        
     }
     var changeValue: Bool = true
+    var isEnableAccountsToTodayBalance = [Bool]()
+    var isEnableSchedulersToTodayBalance = [Bool]()
+    
+    var accSwitchs: [AIFlatSwitch] = []
+    var schedulerSwitchs: [AIFlatSwitch] = []
+  
     @IBOutlet var segmentedControlOutlet: HBSegmentedControl!
     @IBAction func segmentedControl(_ sender: HBSegmentedControl) {
         sender.changeSegmentWithAnimation(tableView: tableView, collectionView: nil, ChangeValue: &changeValue)
@@ -47,11 +60,11 @@ class TodayBalanceViewController: UIViewController {
     @IBOutlet var containerView: UIView!
     @IBOutlet var calendarButtonContainerView: UIView!
     @IBOutlet var dailyBudgetLabel: UILabel!
-    @IBOutlet var calculatedUntilDateLabel: UILabel!
     @IBOutlet var dailyBudgetBalanceLabel: UILabel!
+    @IBOutlet var calculatedUntilDateLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     var containerForTableView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         view.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
         view.frame = .zero
@@ -85,7 +98,7 @@ class TodayBalanceViewController: UIViewController {
         calendar.delegate = self
         calendar.dataSource = self
         calendar.register(DIYCalendarCell.self, forCellReuseIdentifier: DIYCalendarCell.identifier)
-        updateTotalBalanceSum()
+        updateTotalBalanceSum(animated: true)
     }
     func visualSettings() {
         //view
@@ -117,41 +130,94 @@ class TodayBalanceViewController: UIViewController {
         initConstraints(view: imageForCalendarButton, to: calendarButtonContainerView)
         initConstraints(view: calendarButton, to: calendarButtonContainerView)
     }
-   
+//MARK: - GETSCHEDULERS TO TABLE VIEW
     func getSchedulersToTableView(){
-        var schedulerArray: [MonetaryScheduler] = []
+       // var schedulerArray: [MonetaryScheduler] = []
+        var sschedulerArray: [SchedulersForTableView] = []
         guard let todayBalance = todayBalanceObject else{return}
         
-        
+        let divider = getDivider()
         
         for i in oneTimeObjects {
             if i.date! <= todayBalance.endDate {
-                schedulerArray.append(i)
+                    sschedulerArray.append(SchedulersForTableView(scheduler: i, todaySum: (i.target - i.available) / Double(divider)))
             }
         }
         for i in goalObjects {
             if i.date! <= todayBalance.endDate {
-                schedulerArray.append(i)
+                if  divider == 0 {
+                    sschedulerArray.append(SchedulersForTableView(scheduler: i, todaySum: (i.target - i.available)))
+                }else{
+                    sschedulerArray.append(SchedulersForTableView(scheduler: i, todaySum: (i.target - i.available) / Double(divider)))
+                }
+                
             }
         }
-        var scheduleID = String()// Местная переменная для исключения повторов
+        var scheduleID: String?// Местная переменная для исключения повторов
+        struct payPerSumAndID {
+            var schID: String
+            var schlPaySum: Double
+            var date: Date
+        }
+        
+        var totalPayPerSum: [payPerSumAndID] = [] // переменная для подсчета общей суммы разовых платежей
+        var counter = 0
+        //подсчет суммы для разовых платежей
+        for i in payPerTimeObjects {
+            if i.scheduleID != scheduleID{
+                counter += 1
+                
+                totalPayPerSum.append(payPerSumAndID(schID: i.scheduleID , schlPaySum: i.target, date: i.date))
+                scheduleID = i.scheduleID
+                
+            }else{
+                if i.date <= todayBalance.endDate {
+                totalPayPerSum[counter - 1].schlPaySum += i.target
+                totalPayPerSum[counter - 1].date = i.date
+            }
+            }
+        }
+        //Рассчет дневной суммы для корректировки бюджета
+        counter = 0
+        for i in totalPayPerSum {
+            totalPayPerSum[counter].schlPaySum = i.schlPaySum / Double(divider)
+            counter += 1
+        }
+        counter = 0
+        scheduleID = nil
         for i in payPerTimeObjects {
             if i.date <= todayBalance.endDate {
+                
                 for scheduler in EnumeratedSchedulers(object: schedulerGroup) {
                     if i.scheduleID == scheduler.scheduleID && i.scheduleID != scheduleID {
-                    schedulerArray.append(scheduler)
+                        sschedulerArray.append(SchedulersForTableView(scheduler: scheduler, todaySum: totalPayPerSum[counter].schlPaySum) )
+                        counter += 1
                         scheduleID = scheduler.scheduleID
-                        print(scheduleID)
                     }else{
                         continue
                     }
                 }
             }
         }
-        self.schedulerArray = schedulerArray
+        schedulerSwitchs = []
+        for i in sschedulerArray {
+            let switchs = AIFlatSwitch()
+            switchs.isSelected = i.scheduler.isUseForTudayBalance
+            schedulerSwitchs.append(switchs)
+        }
+        
+        accSwitchs = []
+        for i in accountsObjects {
+            let swt = AIFlatSwitch()
+            swt.isSelected = i.isUseForTudayBalance
+            self.accSwitchs.append(swt)
+        }
+        
+        
+        self.EXPSchedulerArray = sschedulerArray
         tableView.reloadData()
     }
-
+    
     func setEmptyBalanceData() {
         guard let mainCurrency = mainCurrency else {return}
         dailyBudgetBalanceLabel.countISOAnimation(upto: 0, iso: mainCurrency.ISO)
@@ -159,8 +225,18 @@ class TodayBalanceViewController: UIViewController {
         circleBar.progressAnimation(currentlyBalance: 0, commonBalance: 0)
         
     }
-    
-    func setTodayBalanceData() {
+    func getDivider()-> Int {
+        var divider: Int = 0
+        guard todayBalanceObject != nil else {return 0}
+        
+        if todayBalanceObject!.endDate > Date() {
+            divider = Calendar.current.dateComponents([.day], from: Date(),to: todayBalanceObject!.endDate).day! + 2 // Сегодня и последний день включительно
+        }else {
+            divider = 1
+        }
+        return divider
+    }
+    func setTodayBalanceData(animated: Bool) {
         guard let mainCurrency = mainCurrency?.ISO else {return}
         guard let balance = todayBalanceObject else {
             dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: 0)
@@ -170,16 +246,16 @@ class TodayBalanceViewController: UIViewController {
         calculatedUntilDateLabel.text = "Calculated until " + dateToString(date: balance.endDate)
         dailyBudgetLabel.text = "Daily budget"
         var currentBalance: Double = 0
-        var divider: Int = 0
-        if balance.endDate > Date() {
-            divider = Calendar.current.dateComponents([.day], from: Date(),to: balance.endDate).day!
-        }else{
-            divider = 0
-        }
+        let divider = getDivider()
         currentBalance = divider != 0 ? balance.currentBalance / Double(divider) : balance.currentBalance
-        dailyBudgetBalanceLabel.countISOAnimation(upto: currentBalance, iso: mainCurrency)
+        
+        if animated {
+            dailyBudgetBalanceLabel.countISOAnimation(upto: currentBalance, iso: mainCurrency)
+        }else{
+            dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: currentBalance)
+        }
     }
-    func updateTotalBalanceSum() {
+    func updateTotalBalanceSum(animated: Bool) {
         //minuend, subtrahend, difference
         //уменьшаемое, вычитаемое, разность
         todayBalanceObject = fetchTodayBalance()
@@ -188,24 +264,23 @@ class TodayBalanceViewController: UIViewController {
         
         //Get current balance
         guard let endDate = todayBalanceObject?.endDate else {return}
-            for i in payPerTimeObjects{
-                for schedulers in EnumeratedSchedulers(object: schedulerGroup) {
-                    if i.scheduleID == schedulers.scheduleID && schedulers.isUseForTudayBalance && i.date <= endDate {
-                        subtrahend += currencyModelController.convert(i.vector ? +i.target : -i.target, inputCurrency: i.currencyISO, outputCurrency: mainCurrency?.ISO)!
-                        
-                    }
+        for i in payPerTimeObjects{
+            for schedulers in EnumeratedSchedulers(object: schedulerGroup) {
+                if i.scheduleID == schedulers.scheduleID && schedulers.isUseForTudayBalance && i.date <= endDate {
+                    subtrahend += currencyModelController.convert(i.vector ? +i.target : -i.target, inputCurrency: i.currencyISO, outputCurrency: mainCurrency?.ISO)!
                 }
             }
-            for x in Array(oneTimeObjects) {
-                if x.isUseForTudayBalance && x.date! <= endDate {
-                    subtrahend += currencyModelController.convert(x.vector ? +x.target : -x.target, inputCurrency: x.currencyISO, outputCurrency: mainCurrency?.ISO)!
-                }
+        }
+        for x in Array(oneTimeObjects) {
+            if x.isUseForTudayBalance && x.date! <= endDate {
+                subtrahend += currencyModelController.convert(x.vector ? +x.target : -x.target, inputCurrency: x.currencyISO, outputCurrency: mainCurrency?.ISO)!
             }
-            for y in Array(goalObjects) {
-                if y.isUseForTudayBalance && y.date! <= endDate {
-                    subtrahend += currencyModelController.convert(y.vector ? +y.target : -y.target, inputCurrency: y.currencyISO, outputCurrency: mainCurrency?.ISO)!
-                }
+        }
+        for y in Array(goalObjects) {
+            if y.isUseForTudayBalance && y.date! <= endDate {
+                subtrahend += currencyModelController.convert(y.vector ? +y.target : -y.target, inputCurrency: y.currencyISO, outputCurrency: mainCurrency?.ISO)!
             }
+        }
         //Get CommonSum
         var usedAccauntArray: [MonetaryAccount] = []
         for a in accountsObjects {
@@ -214,16 +289,18 @@ class TodayBalanceViewController: UIViewController {
                 usedAccauntArray.append(a)
             }
         }
-        
         try! realm.write {
             todayBalanceObject?.commonBalance = commonSum.removeHundredthsFromEnd()
             todayBalanceObject?.currentBalance = (commonSum + subtrahend).removeHundredthsFromEnd()
             realm.add(todayBalanceObject!,update: .all)
         }
+        
+        
+        
         guard usedAccauntArray.isEmpty == false else {
             setEmptyBalanceData()
             return}
-        setTodayBalanceData()
+        setTodayBalanceData(animated: animated)
         circleBar.progressAnimation(currentlyBalance: todayBalanceObject!.currentBalance, commonBalance: todayBalanceObject!.commonBalance)
     }
     
@@ -237,17 +314,17 @@ class TodayBalanceViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.hideTabBar()
-        updateTotalBalanceSum()
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         self.tabBarController?.tabBar.showTabBar()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarButton.addTarget(self, action: #selector(calendarButtonPressed(_:)), for: .touchUpInside)
-     
+        updateTotalBalanceSum(animated: false)
         visualSettings()
         createConstraints()
         installCalendar()
@@ -256,7 +333,7 @@ class TodayBalanceViewController: UIViewController {
     }
     
     
-
+    
 }
 
 extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDelegate,FSCalendarDataSource {
@@ -266,7 +343,6 @@ extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDel
             var dates = [Date]()
             for i in payPerTimeObjects{
                 dates.append(i.date)
-                
             }
             for x in Array(oneTimeObjects) {
                 dates.append(x.date!)
@@ -282,7 +358,7 @@ extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDel
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         
-       // let a = uniq(source: datesArray)
+        // let a = uniq(source: datesArray)
         let datesArray: [Date] = updateDatesArray()
         if datesArray.contains(date) {
             return 1
@@ -290,24 +366,14 @@ extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDel
         }else{
             return 0
         }
-//
-//        if a.contains(date) {
-//            return a.count + 1
-//        }else{
-//            return 0
-//        }
+        
     }
     
-//    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-//        let cell = calendar.dequeueReusableCell(withIdentifier: DIYCalendarCell.identifier, for: date, at: position)
-//        
-//        
-//        return cell
-//    }
+    
     
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-              
+        
         //Так как создается баланс только при выборе даты, эту конструкцию нужно указывать только здесь
         do {
             try todayBalanceObject = DBManager.fetchTB(date: date)
@@ -318,9 +384,9 @@ extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDel
             print (error.localizedDescription)
         }
         
-
+        
         endDate = date
-        updateTotalBalanceSum()
+        updateTotalBalanceSum(animated: true)
         
         self.view.reservedAnimateView2(animatedView: blur)
         self.view.reservedAnimateView2(animatedView: calendarContainerView)
@@ -333,8 +399,7 @@ extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDel
 extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        changeValue ? schedulerArray.count : accountsObjects.count
+        changeValue ? EXPSchedulerArray.count : accountsObjects.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -343,12 +408,24 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
         cell.selectionStyle = .none
         switch changeValue {
         case true:
-            let object = schedulerArray[indexPath.row]
+            
+            let switchs = schedulerSwitchs[indexPath.row]
+            let object = EXPSchedulerArray[indexPath.row]
+            switchs.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+            cell.accessoryView = switchs
+            switchs.isSelected = object.scheduler.isUseForTudayBalance
             cell.set(object: object)
+            cell.accessoryView?.backgroundColor = .clear
             return cell
         case false:
             let object = accountsObjects[indexPath.row]
+            let switchs = accSwitchs[indexPath.row]
+            switchs.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+            cell.accessoryView = switchs
+            switchs.isSelected = object.isUseForTudayBalance
             cell.set(object: object)
+            cell.accessoryView?.backgroundColor = .clear
+            
             return cell
         }
     }
@@ -357,22 +434,27 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
-        if changeValue {
-            let object = schedulerArray[indexPath.row]
-            try! realm.write {
-                object.isUseForTudayBalance.toggle()
-                realm.add(object,update: .all)
-            }
-        }else{
-            let object = accountsObjects[indexPath.row]
-            try! realm.write {
-                object.isUseForTudayBalance.toggle()
-                realm.add(object,update: .all)
-            }
-        }
-        updateTotalBalanceSum()
         
+        if changeValue {
+            let SHObject = EXPSchedulerArray[indexPath.row].scheduler
+            
+            let swit = schedulerSwitchs[indexPath.row]
+            try! realm.write {
+                SHObject.isUseForTudayBalance.toggle()
+                realm.add(SHObject,update: .all)
+            }
+            swit.setSelected(!swit.isSelected , animated: true)
+        }else{
+            
+            let ACCObject = accountsObjects[indexPath.row]
+            let swit = accSwitchs[indexPath.row]
+            try! realm.write {
+                ACCObject.isUseForTudayBalance.toggle()
+                realm.add(ACCObject,update: .all)
+            }
+            swit.setSelected(!swit.isSelected , animated: true)
+        }
+        updateTotalBalanceSum(animated: true)
     }
     
     

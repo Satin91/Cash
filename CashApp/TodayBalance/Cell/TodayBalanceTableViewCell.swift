@@ -11,10 +11,7 @@ import UIKit
 class TodayBalanceTableViewCell: UITableViewCell {
     let theme = ThemeManager.currentTheme()
     
-    @IBAction func switchAction(_ sender: STSwitch) {
-        print(sender.isOn)
-    }
-    @IBOutlet var switchOutlet: STSwitch!
+
     
     @IBOutlet var monetaryImage: UIImageView!
     @IBOutlet var titleLabel: UILabel!
@@ -45,24 +42,28 @@ class TodayBalanceTableViewCell: UITableViewCell {
         
     }
     func setUnderline(isLast: Bool){
+    }
+    var switchTogle: Bool = false
+    override func prepareForReuse() {
+        super.prepareForReuse()
         
     }
     func setConstraintsForUnderLine(){
-        self.contentView.addSubview(lineView)
-        lineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        self.addSubview(lineView)
+        lineView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        lineView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
     }
     
     func set(object: Any) {
-        if object is MonetaryScheduler {
-            let object = object as! MonetaryScheduler
-            titleLabel.text = object.name
-            subTitleLabel.text = object.currencyISO
-            monetaryImage.image = UIImage(named: object.image)
-            
-            switchOutlet.isOn = object.isUseForTudayBalance
+        if object is SchedulersForTableView {
+            let object = object as! SchedulersForTableView
+            titleLabel.text = object.scheduler.name
+            let text = object.todaySum.currencyFormatter(ISO: object.scheduler.currencyISO)
+            subTitleLabel.text = object.scheduler.vector ? "+" + text : "-" + text
+            monetaryImage.image = UIImage(named: object.scheduler.image)
+            subTitleLabel.textColor = object.scheduler.vector ? ThemeManager.currentTheme().contrastColor1 : ThemeManager.currentTheme().contrastColor2
         }else if object is PayPerTime{
             let object = object as! PayPerTime
             titleLabel.text = object.scheduleName
@@ -70,7 +71,6 @@ class TodayBalanceTableViewCell: UITableViewCell {
             for i in EnumeratedSchedulers(object: schedulerGroup) {
                 if i.scheduleID == object.scheduleID {
                     monetaryImage.image = UIImage(named: i.image)
-                    switchOutlet.isOn = i.isUseForTudayBalance
                 }
             }
         }else if object is MonetaryAccount {
@@ -78,23 +78,25 @@ class TodayBalanceTableViewCell: UITableViewCell {
             titleLabel.text = object.name
             subTitleLabel.text = object.balance.currencyFormatter(ISO: object.currencyISO)
             monetaryImage.image = UIImage(named: object.imageForAccount)
-            switchOutlet.isOn = object.isUseForTudayBalance
+            subTitleLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
         }
-        
     }
+    
     func togleSwitch() {
-        
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setConstraintsForUnderLine()
     }
     override func awakeFromNib() {
         super.awakeFromNib()
         visualSettings()
-        setConstraintsForUnderLine()
+       
         // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     

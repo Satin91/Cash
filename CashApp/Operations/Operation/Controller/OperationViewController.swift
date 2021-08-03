@@ -175,7 +175,7 @@ extension OperationViewController: UICollectionViewDelegate, UICollectionViewDat
         case true:
             count = Array(expenceObjects).count > 0 ? Array(expenceObjects).count + 1: 1
         case false:
-            count = Array(incomeObjects).count > 0 ? Array(expenceObjects).count + 1: 1
+            count = Array(incomeObjects).count > 0 ? Array(incomeObjects).count + 1: 1
         }
         
         return count
@@ -240,6 +240,8 @@ extension OperationViewController: UICollectionViewDelegate, UICollectionViewDat
             if indexPath.row != incomeObjects.count {
                 let cell =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
                 addChildViewController(PayObject: cell)
+            }else{
+                goToAddVC()
             }
         }
 

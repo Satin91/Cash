@@ -241,6 +241,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         newCategoryObject.isEnabledLimit = limitSwitch.isOn
         
         newCategoryObject.position = vector ? incomeObjects.count : expenceObjects.count
+        newCategoryObject.stringEntityType = vector ? .expence : .income
         DBManager.addCategoryObject(object: newCategoryObject)
     }
     

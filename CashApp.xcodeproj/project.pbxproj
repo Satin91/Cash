@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A03F1724520B9252C8110FC /* Pods_CashApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0B5D0B512592E1234414A8 /* Pods_CashApp.framework */; };
+		75051EEA26AAEC7000B9CC5F /* Checkmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75051EE926AAEC7000B9CC5F /* Checkmark.swift */; };
 		7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7507A619253BAA2D0029EF44 /* ModelController.swift */; };
 		750888A7268764260037C804 /* CalendarSchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750888A6268764260037C804 /* CalendarSchedulerViewController.swift */; };
 		750888AA26877E710037C804 /* SchedulerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750888A826877E700037C804 /* SchedulerTableViewCell.swift */; };
@@ -100,10 +101,12 @@
 		75EE502E2571844C007A7E97 /* DropDownTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EE502D2571844C007A7E97 /* DropDownTableView.swift */; };
 		75F585332619B7A700355CBF /* SchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F585322619B7A700355CBF /* SchedulerViewController.swift */; };
 		75FA2BB2253B066800E8CCD8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FA2BB1253B066800E8CCD8 /* Colors.swift */; };
+		75FF12F826B98C7F002E1321 /* HeaderChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FF12F726B98C7F002E1321 /* HeaderChart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		605404CDC3E38FEE7EA83F7F /* Pods-CashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.release.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.release.xcconfig"; sourceTree = "<group>"; };
+		75051EE926AAEC7000B9CC5F /* Checkmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkmark.swift; sourceTree = "<group>"; };
 		7507A619253BAA2D0029EF44 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		750888A6268764260037C804 /* CalendarSchedulerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSchedulerViewController.swift; sourceTree = "<group>"; };
 		750888A826877E700037C804 /* SchedulerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerTableViewCell.swift; sourceTree = "<group>"; };
@@ -198,6 +201,7 @@
 		75EE502D2571844C007A7E97 /* DropDownTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTableView.swift; sourceTree = "<group>"; };
 		75F585322619B7A700355CBF /* SchedulerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerViewController.swift; sourceTree = "<group>"; };
 		75FA2BB1253B066800E8CCD8 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		75FF12F726B98C7F002E1321 /* HeaderChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderChart.swift; sourceTree = "<group>"; };
 		B7079BB9EFF631A89368A655 /* Pods-CashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.debug.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.debug.xcconfig"; sourceTree = "<group>"; };
 		BC0B5D0B512592E1234414A8 /* Pods_CashApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -351,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				757B99532689549D005FB908 /* HeaderView.swift */,
+				75FF12F726B98C7F002E1321 /* HeaderChart.swift */,
 				754F15ED2667A9F8002250BB /* EnlargeTableView.swift */,
 				754F15F02667AA3C002250BB /* EnlargeTableViewCell.swift */,
 				754F15F226681A44002250BB /* EnlargeSecondTableViewCell.swift */,
@@ -522,6 +527,7 @@
 			isa = PBXGroup;
 			children = (
 				75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */,
+				75051EE926AAEC7000B9CC5F /* Checkmark.swift */,
 				75262B28268E6B8700D7F38E /* View */,
 				753EACB0268E388C00860745 /* Cell */,
 			);
@@ -765,6 +771,8 @@
 				757F8F3A25402E5600F0B1D0 /* Animations.swift in Sources */,
 				755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */,
 				7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */,
+				75FF12F826B98C7F002E1321 /* HeaderChart.swift in Sources */,
+				75051EEA26AAEC7000B9CC5F /* Checkmark.swift in Sources */,
 				756FC729264304B300327BAC /* CurrencyModelController.swift in Sources */,
 				7522652E24D1D55700D30CD6 /* Model.swift in Sources */,
 				7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */,

@@ -10,6 +10,5 @@ target 'CashApp' do
   pod 'RealmSwift'
   pod 'IQKeyboardManagerSwift'
   pod 'AAInfographics'
-  pod 'Charts'
 
 end

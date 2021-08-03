@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -37,17 +36,6 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J1o-Rm-d24" customClass="STSwitch" customModule="CashApp" customModuleProvider="target">
-                        <rect key="frame" x="234" y="23" width="60" height="34"/>
-                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="60" id="owo-iU-Axh"/>
-                            <constraint firstAttribute="height" constant="34" id="s2o-ta-sqU"/>
-                        </constraints>
-                        <connections>
-                            <action selector="switchAction:" destination="KGk-i7-Jjw" eventType="valueChanged" id="bV7-GS-7op"/>
-                        </connections>
-                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="W7t-y3-9Pf" firstAttribute="top" secondItem="gV6-wb-Vlt" secondAttribute="bottom" constant="2" id="1Na-Ln-hCE"/>
@@ -56,23 +44,15 @@
                     <constraint firstItem="rBT-k9-9Jq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="ViW-Ih-0ZS"/>
                     <constraint firstItem="gV6-wb-Vlt" firstAttribute="leading" secondItem="rBT-k9-9Jq" secondAttribute="trailing" constant="15" id="VnE-pG-0db"/>
                     <constraint firstItem="gV6-wb-Vlt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="dCT-et-mvi"/>
-                    <constraint firstItem="J1o-Rm-d24" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eLb-d9-ePx"/>
-                    <constraint firstAttribute="trailing" secondItem="J1o-Rm-d24" secondAttribute="trailing" constant="26" id="tjp-Z9-o3s"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="monetaryImage" destination="rBT-k9-9Jq" id="Shd-xb-B8l"/>
                 <outlet property="subTitleLabel" destination="W7t-y3-9Pf" id="rr7-pB-zRa"/>
-                <outlet property="switchOutlet" destination="J1o-Rm-d24" id="Vcl-63-NJK"/>
                 <outlet property="titleLabel" destination="gV6-wb-Vlt" id="v64-j6-ACj"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="90.401785714285708"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>

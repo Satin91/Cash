@@ -89,7 +89,7 @@ class CircleView: UIView {
             let positive: Int32 = abs(Int32(difference))
             value += CGFloat(positive)
         }
-        print(value)
+        
         progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
         progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
         return value

@@ -76,16 +76,17 @@ class STSwitch: UIControl {
     
     public override func layoutSubviews() {
       super.layoutSubviews()
+        var side: CGFloat = 5
     if !self.isAnimating {
         self.layer.cornerRadius = self.bounds.size.height * self.cornerRadius
         self.backgroundColor = self.isOn ? self.onTintColor : self.offTintColor
         // thumb managment
         let thumbSize = self.thumbSize != CGSize.zero ? self.thumbSize : CGSize(width:
-     self.bounds.size.height - 2, height: self.bounds.height - 2)
+     self.bounds.size.height - side, height: self.bounds.height - side)
         let yPostition = (self.bounds.size.height - thumbSize.height) / 2
 
-    self.onPoint = CGPoint(x: self.bounds.size.width - thumbSize.width - self.padding, y: yPostition)
-    self.offPoint = CGPoint(x: self.padding, y: yPostition)
+    self.onPoint = CGPoint(x: self.bounds.size.width - thumbSize.width - self.padding - side, y: yPostition)
+    self.offPoint = CGPoint(x: self.padding + side, y: yPostition)
 
     self.thumbView.frame = CGRect(origin: self.isOn ? self.onPoint : self.offPoint, size: thumbSize)
 
