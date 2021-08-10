@@ -198,10 +198,12 @@ public enum CurrencyName: String {
         }
         
     }
-//    func getRaw(ISO: String)->String {
-//
+    
+//    func getRaw2(ISO: String)->String {
+//          return ISO
 //    }
 }
+
 public enum CurrencyLocale: String {
     
     case current = "current"

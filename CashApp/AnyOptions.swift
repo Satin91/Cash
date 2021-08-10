@@ -122,7 +122,7 @@ extension String {
 extension UILabel {
     
     
-    func changeTextAttributeForFirstLiteralsISO(ISO: String, Balance: Double) {
+    func changeTextAttributeForFirstLiteralsISO(ISO: String, Balance: Double,additionalText: (String,UIColor)? ) {
         guard self.text != nil else {return}
         let characterSet = NSCharacterSet(charactersIn: "1234567890, ")
         var counter: Int = 0
@@ -141,9 +141,16 @@ extension UILabel {
                 break
             }
         }
+        if additionalText != nil {
+            self.text! += additionalText!.0
+        }
         let splittedFontSize = self.font.pointSize / 2
         let attrString = NSMutableAttributedString(string: self.text!)
         attrString.addAttribute(.font, value: UIFont.systemFont(ofSize: splittedFontSize,weight: .medium), range: NSRange(location: 0, length: counter))
+        if additionalText != nil {
+            attrString.addAttribute(.font, value: UIFont.systemFont(ofSize: self.font.pointSize / 1.5,weight: .regular) , range: NSRange(location: self.text!.count - additionalText!.0.count, length: additionalText!.0.count))
+            attrString.addAttribute(.foregroundColor, value: additionalText?.1, range: NSRange(location: self.text!.count - additionalText!.0.count, length: additionalText!.0.count) )
+        }
         self.attributedText = attrString
     }
     func countPersentAnimation(upto: Double) {
@@ -172,7 +179,7 @@ extension UILabel {
         for i in 0...steps {
             DispatchQueue.main.asyncAfter(deadline: .now() + rate * Double(i)) {
                 let doubl = (from + diff * (Double(i) / Double(steps)))
-                self.changeTextAttributeForFirstLiteralsISO(ISO: iso, Balance: doubl.removeHundredthsFromEnd())
+                self.changeTextAttributeForFirstLiteralsISO(ISO: iso, Balance: doubl.removeHundredthsFromEnd(), additionalText: nil)
             }
         }
     }
@@ -308,6 +315,14 @@ extension Double {
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2 //maximum digits in Double after dot (maximum precision)
         return Double(String(formatter.string(from: number) ?? "0")) ?? 0
+    }
+    func fromNumberToString() -> String {
+        let formatter = NumberFormatter()
+        let number = NSNumber(value: self)
+        formatter.decimalSeparator = ","
+        formatter.groupingSeparator = " "
+        formatter.maximumFractionDigits = 2
+        return formatter.string(from: number) ?? " "
     }
 }
 
@@ -718,6 +733,7 @@ func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], s
     let popTableView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PopUpTableView") as! PopTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
     popTableView.closeSelectDateDelegate = delegateController as? ClosePopUpTableViewProtocol
+    print(payObject)
     popTableView.payObject = payObject
     let navVC = UINavigationController(rootViewController: popTableView)
     navVC.modalPresentationStyle = .popover
@@ -726,7 +742,11 @@ func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], s
     //let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
     popVC?.sourceView = sourseView
     popVC?.sourceRect = sourseView.bounds
-    popTableView.preferredContentSize = CGSize(width: 200, height: popTableView.payObject.count * 80)
+    navVC.view.alpha = 0
+    
+    let navBarHeight = 44
+    let height = payObject is [IndexPath] ? 2 *  Int(popTableView.cellHeight): payObject.count * Int(popTableView.cellHeight)
+    popTableView.preferredContentSize = CGSize(width: 150, height: (height) - navBarHeight )
     delegateController.present(navVC, animated: true, completion: nil)
 }
 

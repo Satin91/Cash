@@ -86,6 +86,7 @@ func getCurrenciesByPriorities(){
             currencyNonPriority.append(i)}
         }
     }
+    
     currencyNonPrioritiesObjects = currencyNonPriority //.sorted(by: { $0.ISO < $1.ISO })
     userCurrencyObjects    = currencySortedArray.sorted(by: { $0.ISOPriority < $1.ISOPriority })
     

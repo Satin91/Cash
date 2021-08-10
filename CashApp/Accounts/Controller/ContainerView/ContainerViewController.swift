@@ -19,19 +19,13 @@ class ContainerViewController: UIViewController {
     
     func animateContainer(object: MonetaryAccount) {
         UIView.animate(withDuration: 0.1) {
-            self.lineChartContainer.alpha = 0; self.savingsContainer.alpha = 0
+            self.lineChartContainer.alpha = 0
         } completion: { (true) in
             
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ContainerObject"), object: object)
             
             UIView.animate(withDuration: 0.1) {
-                
-                if object.accountType == AccountType.ordinary.rawValue{
                     self.lineChartContainer.alpha = 1
-                }else{
-                    
-                    self.savingsContainer.alpha = 1
-                }
             }
         }
     }
@@ -41,20 +35,19 @@ class ContainerViewController: UIViewController {
         let object = notification.object as! MonetaryAccount
         animateContainer(object: object)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        self.view.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-        self.view.layer.cornerRadius = 20
-        self.view.layer.cornerCurve = .continuous
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveObject), name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
+        self.view.backgroundColor = .clear
         savingsContainer.alpha = 0
         lineChartContainer.alpha = 0
-        NotificationCenter.default.addObserver(self, selector: #selector(receiveObject), name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        
-        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
     }
 }

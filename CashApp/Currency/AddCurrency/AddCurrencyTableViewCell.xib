@@ -23,17 +23,27 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ni0-cj-Y2T">
+                        <rect key="frame" x="26" y="10.5" width="35" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="35" id="4e5-xv-jde"/>
+                            <constraint firstAttribute="height" constant="23" id="jX1-BL-NzO"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="lwy-J1-Dg2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="7c6-Gi-KJY"/>
+                    <constraint firstItem="Ni0-cj-Y2T" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Fms-d1-OYm"/>
                     <constraint firstItem="lwy-J1-Dg2" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Kbw-u0-bBd"/>
+                    <constraint firstItem="Ni0-cj-Y2T" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="26" id="Yei-vo-4jt"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="isoLabel" destination="lwy-J1-Dg2" id="cnH-7A-tRV"/>
+                <outlet property="currencyImage" destination="Ni0-cj-Y2T" id="nGw-lI-OlO"/>
+                <outlet property="descriptionLabel" destination="lwy-J1-Dg2" id="cnH-7A-tRV"/>
             </connections>
-            <point key="canvasLocation" x="139" y="88"/>
+            <point key="canvasLocation" x="137.68115942028987" y="87.723214285714278"/>
         </tableViewCell>
     </objects>
 </document>

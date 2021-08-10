@@ -9,7 +9,7 @@ target 'CashApp' do
   pod 'FSCalendar'
   pod 'RealmSwift'
   pod 'IQKeyboardManagerSwift'
-  pod 'AAInfographics'
   pod 'Charts'
+  pod 'SwiftReorder', '~> 7.2'
 
 end

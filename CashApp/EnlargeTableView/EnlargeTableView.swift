@@ -9,7 +9,7 @@
 import UIKit
 
 
-struct EnlargeHistoryObject{
+struct EnlargeHistoryModel{
     var date: Date
     var historyArray: [AccountsHistory]    
 }
@@ -60,55 +60,84 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
             //если большая ячейка не была нажата
             pairedCells.append(cell)
         }
-        
         //Окончательная проверка на присутствие открытых ячеек в маленьком тейбл вью
         for (index,value) in pairedCells.enumerated() {
             if value.smallCell.count == 0 {
                 pairedCells.remove(at: index)
             }
         }
-        
-        
     }
     
-    var enlargeArray: [EnlargeHistoryObject] = []
+    var enlargeArray: [EnlargeHistoryModel] = []
+//        willSet {
+//            guard indexForDeletedRow != nil else {return}
+//            print("CHTOTO")
+//            if self.tag == 15888{
+//            self.performBatchUpdates {
+//                print(enlargeArray)
+//                if self.enlargeArray[self.indexForDeletedRow!].historyArray == []{
+//                    self.enlargeArray.remove(at: self.indexForDeletedRow!)
+//                    self.deleteRows(at: [IndexPath(row: 0, section: 0) ], with: .fade)
+//                    self.numberOfRows(inSection: enlargeArray.count)
+//                    self.rowHeight = 0
+//                }else{
+//                guard enlargeArray[indexForDeletedRow!].historyArray.count != 0 else {return}
+//                let object = enlargeArray[indexForDeletedRow!].historyArray.count * Int(smallCellHeight) + 50
+//                for i in pairedCells {
+//                    if i.largeCell == IndexPath(row: indexForDeletedRow!, section: 0) {
+//                            self.rowHeight = CGFloat(object + i.smallCell.count * Int(enlargedSmallHeight - smallCellHeight))
+//                    }
+//                }
+//                }
+//            }completion: { (isTrue) in
+//                print("reloadddada")
+//                self.reloadData()
+//            }
+//            }
+//        }
+//    }
     var header: HeaderView? = nil
     var topBarHeight: CGFloat!
     let contentViewHeight: CGFloat = 254
-    
+    func getDates() {
+        
+    }
     ///MARK: Set data for history
     func enterHistoryData() {
         var date: Date? = historyObjects.first?.date
         guard date != nil else {return}
         var historyArray: [AccountsHistory] = []
-        var enlargeObject = EnlargeHistoryObject(date: Date(), historyArray: historyArray)
+        var enlargeObject = EnlargeHistoryModel(date: Date(), historyArray: historyArray)
         var counter = Int(0)
-        var enlargeArray: [EnlargeHistoryObject] = []
-        for i in historyObjects {
+        var enlargeArray: [EnlargeHistoryModel] = []
+        for (index,value) in historyObjects.enumerated() {
+            //Начинает счет для того чтобы посчитать количество дат
             counter += 1
             let component = Calendar.current.dateComponents([.day,.month,.year], from: date!)
-            let comp = Calendar.current.dateComponents([.day,.month,.year], from: i.date)
-            if comp == component  {
-                //historyTemplate = i
-                historyArray.append(i)
-                if counter == historyObjects.count {
-                    enlargeObject = EnlargeHistoryObject(date: date!, historyArray: historyArray)
-                    enlargeArray.append(enlargeObject)
-                }
-            }else{
-                guard historyArray.isEmpty == false else {return}
-                enlargeObject = EnlargeHistoryObject(date: date!, historyArray: historyArray)
+            //фильтрация массива по дате итеративного объекта, чтобы в дальнейшем можно было отменять добовление по количеству одинаковых дат
+            let dateCount = historyObjects.filter({ (history) in
+                let components = Calendar.current.dateComponents([.day,.month,.year], from: history.date)
+               return components == component
+            }).count
+            //Добавляет дату в массив дат но пока не записывает его в большую ячейку
+                historyArray.append(value)
+            if counter == dateCount{
+                //Записывает в большой массив дат и в последующем обнуляет счетчик и массив для следующей большой ячейки
+                enlargeObject = EnlargeHistoryModel(date: value.date, historyArray: historyArray)
                 enlargeArray.append(enlargeObject)
-                historyArray = []
-                //Добавил в массив первый объект который не соответствует прошлой дате, в противном случае цикл просто его пропустит
-                historyArray.append(i)
-                date = i.date
-            }
-            self.enlargeArray = enlargeArray
-            self.reloadData()
+                //Я не понимаю почему, но рилм объекты нихера не могут вступать в контакт с обычными переменными если добовлять индекс, он как танк рубит и ошибку выдает
+                let obj = Array(historyObjects)
+                if obj.count == index + 1{
+                    break
+                }else {
+                    date = obj[index + 1 ].date
+                }
+                    counter = 0
+                    historyArray = []
+                }
         }
-        
-        
+        self.enlargeArray = enlargeArray
+        self.reloadData()
     }
     
     
@@ -165,13 +194,13 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         guard enlargeArray.count > 0 else {return}
         guard let firstIndexPath = self.indexPathsForVisibleRows?.first else {return}
         let object = enlargeArray[firstIndexPath.row].date
+        
         header?.dateLabel.text = dateToString(date: object)
     }
     
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if tableView.tag == 15888 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EnlargeTableViewCell", for: indexPath) as! EnlargeTableViewCell
             let object = enlargeArray[indexPath.row]
@@ -181,7 +210,6 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         }else{
             if tableView.tag == tableView.tag {
                 let cell2 = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! SecondTableViewCell
-                
                 let object = enlargeArray[tableView.tag]
                 cell2.selectionStyle = .none
                 if indexPath.row == object.historyArray.count - 1 {
@@ -220,6 +248,7 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView.tag == tableView.tag {
+            print(tableView.tag)
             var cell = EnlargedCell(tag: tableView.tag)
             cell.smallCell.append(indexPath)
             cell.largeCell = ipath
@@ -255,21 +284,107 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
                     return CGFloat(object + i.smallCell.count * Int(enlargedSmallHeight - smallCellHeight))
                 }
             }
-            
-            
             return CGFloat(object)
-            
         }
         return UITableView.automaticDimension
     }
+    
+    
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag != 15888 {
-            
             return enlargeArray[tableView.tag].historyArray.count
         }else{
             return enlargeArray.count
         }
     }
+    func findTheAccountIn(accountID: String, historyObject: AccountsHistory){
+        var account: MonetaryAccount?
+        
+        for i in accountsObjects {
+            if accountID == i.accountID{
+            account = i
+            }
+        }
+        
+        guard let acc = account else {
+            return
+        }
+        try! realm.write {
+            acc.balance -= historyObject.sum
+            realm.add(acc,update: .all)
+            realm.delete(historyObject)
+        }
+    }
+   
+    var indexForDeletedRow: Int? {
+        willSet {
+            guard let nV = newValue else {return}
+            if self.tag == 15888{
+                self.performBatchUpdates {
+                    if enlargeArray[nV].historyArray.isEmpty == true {
+                    self.enlargeArray.remove(at: nV )
+                    //self.numberOfRows(inSection: 0)
+                    self.deleteRows(at: [IndexPath(row: nV, section: 0)], with: .bottom)
+                    }
+                } completion: { _ in
+                    self.reloadData()
+                }
+                }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        //Запрещает использовать иной tableView
+        if tableView.tag != 15888 {
+        let deleteAction = UIContextualAction(style: .normal, title: "Delete") { _, _, complete in
+            
+            
+            
+                let object = self.enlargeArray[tableView.tag].historyArray[indexPath.row]
+                self.enlargeArray[tableView.tag].historyArray.remove(at: indexPath.row)
+                self.findTheAccountIn(accountID: object.accountID, historyObject: object)
+                tableView.deleteRows(at: [indexPath], with: .left)
+            
+            self.indexForDeletedRow = tableView.tag
+            
+            
+            complete(true)
+        }
+        deleteAction.backgroundColor = ThemeManager.currentTheme().contrastColor2
+        let image = UIImageView()
+        image.image = UIImage(systemName: "trash")
+        image.tintColor = ThemeManager.currentTheme().titleTextColor
+        deleteAction.image = image.image
+      
+        
+        
+
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = false
+
+        return configuration
+        }else {
+            return nil
+        }
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
+            //self.Items.remove(at: indexPath.row)
+            // self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        deleteAction.backgroundColor = .red
+        return [deleteAction]
+    }
+    
+    
 }
 
 

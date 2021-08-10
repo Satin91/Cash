@@ -10,6 +10,8 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Ubuntu-B.ttf</string>
+		<string>Ubuntu-M.ttf</string>
 		<string>SF-Pro-Text-Light.otf</string>
 		<string>SF-Pro-Text-Medium.otf</string>
 		<string>SF-Pro-Text-Regular.otf</string>

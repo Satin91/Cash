@@ -45,7 +45,6 @@ class CircleView: UIView {
         createCircularPath()
         
         //persent.text = String(Int(getPersent() * 100)) + "%"
-        
     }
 
     func createCircularPath() {
@@ -67,65 +66,56 @@ class CircleView: UIView {
         layer.addSublayer(progressLayer)
     }
     
-    func persentGreaterThanZero() -> CGFloat{
-        let difference = (CGFloat(todayBalanceObject!.commonBalance) / CGFloat(todayBalanceObject!.currentBalance))
-        var value = CGFloat(1) - difference
-        
-        if value < 0 {
-            let positive: Int32 = abs(Int32(difference))
-            value += CGFloat(positive)
-        }
-        progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor1.cgColor
-        progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor1)
-        return value
-    }
-    func persentLessThanZero() -> CGFloat {
-        let difference = (CGFloat(todayBalanceObject!.currentBalance) / CGFloat(todayBalanceObject!.commonBalance))
-      
-        
-        var value = CGFloat(1) - difference
-        
-        if value < 0 {
-            let positive: Int32 = abs(Int32(difference))
-            value += CGFloat(positive)
-        }
-        
-        progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
-        progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
-        return value
-    }
     
-    func getPersent(currentlyBalance: Double, commonBalance: Double) -> CGFloat {
-        guard currentlyBalance + commonBalance != 0 else {
-            return 0
-        }
-        if currentlyBalance > commonBalance {
-            guard currentlyBalance != 0 else{return 0}
-            return persentGreaterThanZero()
+    func quotient()->CGFloat {
+        guard todayBalanceObject?.commonBalance != 0 else { return 0}
+        let object = todayBalanceObject
+        var diff = CGFloat(0)
+        if CGFloat(object!.commonBalance) > CGFloat(object!.currentBalance) {
+        diff = CGFloat(object!.commonBalance) / CGFloat(object!.currentBalance) * 100 - 100
         }else{
-            guard commonBalance != 0 else{return 0}
-            
-            return persentLessThanZero()
+            diff = 100 - CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) * 100
         }
         
+        
+        return diff
+    }
+
+    func getPersent(currentlyBalance: Double, commonBalance: Double) -> (forLabel: Double,forCircle:CGFloat) {
+        guard currentlyBalance + commonBalance != 0 else {
+            return (0,0)
+        }
+      
+     let quotient = quotient()
+        if quotient > 0 {
+            progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor1.cgColor
+            progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor1)
+        }else{
+            progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
+            progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
+        }
+        let circleValue = quotient > 0 ? quotient / 100 : (quotient - (quotient * 2)) / 100
+        print(circleValue)
+        
+      return (Double(quotient),circleValue)
         
     }
     
     func progressAnimation(currentlyBalance: Double, commonBalance: Double) {
-        var value = 0
+        var value: (forLabel:Double,forCircle:CGFloat) = (0,0)
         
-        if getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) != 0 {
-         value = Int(getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) * 100)
+        if getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) != (0,0) {
+            value = getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance)
         }
-        
-        persent.countPersentAnimation(upto: Double(value))
+        persent.countPersentAnimation(upto: value.forLabel)
         let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
         circularProgressAnimation.duration = 0.6
-        circularProgressAnimation.toValue = getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance)
+        circularProgressAnimation.toValue = value.forCircle
         circularProgressAnimation.fillMode = .forwards
         circularProgressAnimation.isRemovedOnCompletion = false
         circularProgressAnimation.autoreverses = false
-        progressLayer.strokeEnd = getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance)
+        progressLayer.strokeEnd = value.forCircle
         progressLayer.add(circularProgressAnimation, forKey: "progressAnim")
     }
 }
+

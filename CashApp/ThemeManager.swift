@@ -229,7 +229,7 @@ class ThemeManager {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().tintColor = theme.contrastColor1
-       
+
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "backArrow")
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "backArrowMaskFixed")
         

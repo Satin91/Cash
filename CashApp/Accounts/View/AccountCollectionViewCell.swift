@@ -30,33 +30,38 @@ class AccountCollectionViewCell: UICollectionViewCell {
     @IBOutlet var cellBackground: UIView!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var balanceTextField: NumberTextField!
-    @IBOutlet var balanceLabel: UILabel!
     var accountsImageView: UIImageView!
     var accountObject = MonetaryAccount()
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
+    
+    func visualSettings() {
         changeTFPropherties(textField: nameTextField)
         changeTFPropherties(textField: balanceTextField)
-        editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
+        self.layer.cornerRadius = 30
         accountsImageView = UIImageView(frame: self.bounds)
+        self.clipsToBounds = true
+        balanceTextField.font = UIFont(name:"Ubuntu-Bold",size: 34)
+        editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
+        self.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        visualSettings()
         cellBackground.insertSubview(accountsImageView, at: 0)
         initConstraints(view: accountsImageView, to: cellBackground)
         nameTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
         balanceTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
-        
         nameTextField.delegate = self
+        
         
        // nameTextField.addTarget(self, action: #selector(touchOnTextField(_:)), for: .allTouchEvents)
         
-        self.layer.cornerRadius = 20
-        self.clipsToBounds = true
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(receive), name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil)
     }
     
     func changeTFPropherties(textField: UITextField) {
-        textField.font = UIFont.systemFont(ofSize: 34)
+        textField.font = .systemFont(ofSize: 34, weight: .regular)
         textField.backgroundColor = .clear
         textField.textColor = .white
         textField.borderStyle = .none
@@ -102,12 +107,8 @@ class AccountCollectionViewCell: UICollectionViewCell {
     func setForSelect(image: UIImage, name: String, balance: String, account: MonetaryAccount) {
         
         nameTextField.text = name
-        
-        
         balanceTextField.text = String(Double(balance)!.formattedWithSeparator.replacingOccurrences(of: ".", with: ","))
-        
         accountsImageView.image = image
-        
         enableUnderLine(textField: nameTextField)
         
     }

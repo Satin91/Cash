@@ -47,10 +47,10 @@ func dateToString(date: Date) -> String {
     let format = Calendar.current.component(.year, from: date)
     let currentFormat = Calendar.current.component(.year, from: Date())
     if currentFormat != format {
-        someDateFormatterEx.dateFormat = "MMM, d, Y"
+        someDateFormatterEx.dateFormat = "MMMM, d, Y"
         
     }else {
-        someDateFormatterEx.dateFormat = "MMM, d"
+        someDateFormatterEx.dateFormat = "MMMM, d"
     }
     let returnString = someDateFormatterEx.string(from: date)
     return returnString

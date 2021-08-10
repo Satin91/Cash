@@ -63,7 +63,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
             let text = object.todaySum.currencyFormatter(ISO: object.scheduler.currencyISO)
             subTitleLabel.text = object.scheduler.vector ? "+" + text : "-" + text
             monetaryImage.image = UIImage(named: object.scheduler.image)
-            subTitleLabel.textColor = object.scheduler.vector ? ThemeManager.currentTheme().contrastColor1 : ThemeManager.currentTheme().contrastColor2
+            subTitleLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
         }else if object is PayPerTime{
             let object = object as! PayPerTime
             titleLabel.text = object.scheduleName

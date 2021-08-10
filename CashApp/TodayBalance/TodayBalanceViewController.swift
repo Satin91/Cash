@@ -239,11 +239,13 @@ class TodayBalanceViewController: UIViewController {
     func setTodayBalanceData(animated: Bool) {
         guard let mainCurrency = mainCurrency?.ISO else {return}
         guard let balance = todayBalanceObject else {
-            dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: 0)
+            dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: 0, additionalText: nil)
             calculatedUntilDateLabel.text = "Date not selected"
             return}
         //endDate = todayBalanceObject?.endDate
-        calculatedUntilDateLabel.text = "Calculated until " + dateToString(date: balance.endDate)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM,dd"
+        calculatedUntilDateLabel.text = "Calculated until " + formatter.string(from: balance.endDate) 
         dailyBudgetLabel.text = "Daily budget"
         var currentBalance: Double = 0
         let divider = getDivider()
@@ -252,7 +254,7 @@ class TodayBalanceViewController: UIViewController {
         if animated {
             dailyBudgetBalanceLabel.countISOAnimation(upto: currentBalance, iso: mainCurrency)
         }else{
-            dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: currentBalance)
+            dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: currentBalance, additionalText: nil)
         }
     }
     func updateTotalBalanceSum(animated: Bool) {

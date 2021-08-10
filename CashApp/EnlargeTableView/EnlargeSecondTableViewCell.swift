@@ -99,7 +99,6 @@ class SecondTableViewCell: UITableViewCell {
     }
     
     @objc func pressed() {
-        print("pressed \(object2)")
     }
     func createConstraints() {
         

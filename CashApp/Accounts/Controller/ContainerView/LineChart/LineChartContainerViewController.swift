@@ -7,48 +7,57 @@
 //
 
 import UIKit
-import AAInfographics
+import Charts
+struct LineChartDataModel {
+    var chartDataSet = LineChartDataSet()
+    var date: Date = Date()
+    var account: MonetaryAccount = MonetaryAccount()
+}
 
 class LineChartContainerViewController: UIViewController {
-  
-    var destinationAccount: MonetaryAccount? 
-    var chartElement: [AASeriesElement] = []
+
+    
+    var lineChartDefinition: [LineChartDataModel] = []
+    
+    var destinationAccount: MonetaryAccount?
+    //var chartElement: [AASeriesElement] = []
     @IBOutlet var collectionView: UICollectionView!
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-    }
-    
-  
 
+    
     @objc func receiveObject(_ notification: NSNotification) {
         
         guard let object = notification.object as? MonetaryAccount else {return}
-        
         destinationAccount = object
-        //Надо подумать как сделать так, чтобы добавление в чарт елемент не происходили постоянно при смене карты
+        lineChartDefinition = [] // Обнуляет массив после смены карты
+        //Надо подумать как сделать так, чтобы добавление в чарт елемент не происходили постоянно при смене карты /// --- выполнено!
         monthTransactions(account: destinationAccount!)
         collectionView.reloadData()
-        
-        
     }
     
     func layout() {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
         //layout.itemSize = CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 26)
+        layout.minimumInteritemSpacing = 26
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        
+        layout.minimumLineSpacing = 26 * 2
+        layout.itemSize = CGSize(width: self.view.bounds.width - 26*2, height: self.collectionView.bounds.height)
+        print(self.view.bounds.height)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.collectionViewLayout = layout
     }
     
+    func setupCollectionView(){
+        
+        let xib = UINib(nibName: "LineChartCell", bundle: nil)
+        self.collectionView.register(xib, forCellWithReuseIdentifier: "LineChartIdentifier")
+        self.collectionView.layer.masksToBounds = false
+        self.collectionView.clipsToBounds = false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .clear
@@ -57,33 +66,40 @@ class LineChartContainerViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         layout()
-        print("line container did load ")
         NotificationCenter.default.addObserver(self, selector: #selector(receiveObject(_:)), name: NSNotification.Name(rawValue: "ContainerObject"), object: nil)
-        
-        let xib = UINib(nibName: "LineChartCell", bundle: nil)
-        self.collectionView.register(xib, forCellWithReuseIdentifier: "LineChartIdentifier")
+        setupCollectionView()
     }
 }
-extension LineChartContainerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-
+extension LineChartContainerViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let cell = collectionView.visibleCells.first as? LineChartCell else {return}
+        cell.prepareForReuse() // в функции prepareForReuse происходит удаление entryView
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? LineChartCell else {return}
+        cell.prepareForReuse()
+        print("DidEndDisplay")
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        
-        return chartElement.count
+        return lineChartDefinition.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LineChartIdentifier", for: indexPath) as! LineChartCell
         cell.contentView.backgroundColor = .clear
        // let object = chartElement[indexPath.row]
-
-        cell.set(element: [chartElement[indexPath.item]]) // В этой функции есть возможность вывести textField при отсутствии елементов
+        let object = lineChartDefinition[indexPath.row]
+        cell.set(element: object)
+       // cell.set(element: [chartElement[indexPath.item]]) // В этой функции есть возможность вывести textView при отсутствии елементов
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
     }
+    
     
     func datesRange(from: Date, to: Date) -> [Date] {
         // in case of the "from" date is more than "to" date,
@@ -108,20 +124,26 @@ extension LineChartContainerViewController: UICollectionViewDelegate, UICollecti
             }
         }
         accountHistory.sort {$0.date < $1.date}
-        guard accountHistory.first?.date != nil else {chartElement = [AASeriesElement().name("ArrayIsEmpty")]; return} // Обнулить chartElement чтобы в collection cell можно было вывести textView c отсутствием транзакций
+        guard accountHistory.first?.date != nil else {
+            
+            lineChartDefinition.append(LineChartDataModel(chartDataSet: LineChartDataSet(label: "ArrayIsEmpty") , date: Date(), account: destinationAccount!))
+        return} // Обнулить chartElement чтобы в collection cell можно было вывести textView c отсутствием транзакций
         let firstDate = accountHistory.first!.date
         let endDate = accountHistory.last!.date
         valuesFromInterval(firstDate: firstDate, endDate: endDate, accountHistory: accountHistory)
     }
     
     func valuesFromInterval(firstDate:Date, endDate: Date, accountHistory: [historyStructModel]) {
-        chartElement = [] // Как то так. Обнулил при запуске функции чтобы не было бесконечного добавления
-        var enumeratedNumbers: [Double] = []
+        lineChartDefinition = []
+       // chartElement = [] // Как то так. Обнулил при запуске функции чтобы не было бесконечного добавления
+        
+        var enumeratedNumbers: [ChartDataEntry] = []
+        
+        var x: Double = 0 // Сдвиг по горизонтали
         var startDate = firstDate
         let endDate = endDate // end date в последствии скорее всего придется переименовать в today, чтобы заполнить пропущенные дни
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM"
         var calendar = Calendar.current
+        var currentDate: Date = Date()
         var components = calendar.dateComponents([.month,.year], from: startDate)
         let timeZone = TimeZone.current
         calendar.timeZone = timeZone
@@ -130,26 +152,49 @@ extension LineChartContainerViewController: UICollectionViewDelegate, UICollecti
             let interval = DateInterval(start: startDate, end: startDate.endOfMonth)
             for i in accountHistory {
                 if interval.contains(i.date){
-                    enumeratedNumbers.append(i.sum)
+                    enumeratedNumbers.append(ChartDataEntry(x: x, y: i.sum) )
+                    x += 5
+                    //--------------
+                    currentDate = i.date
                 }
             }
+         
             //Если месяц не окончен
-            if enumeratedNumbers.count > 0 { // Запретить добавлять историю, если в месяце нет транзакций
-            chartElement.append(AASeriesElement().name(formatter.string(from: startDate)).data(enumeratedNumbers))
+            switch enumeratedNumbers.count {
+            case 0 :
+                self.lineChartDefinition.append(LineChartDataModel(chartDataSet: LineChartDataSet(entries: enumeratedNumbers ,label: "ArrayIsEmpty"), date: currentDate, account: destinationAccount!))
+                    //.append(LineChartDataSet(entries: enumeratedNumbers ,label: "ArrayIsEmpty"))
+            case 1 :
+                self.lineChartDefinition.append(LineChartDataModel.init(chartDataSet: LineChartDataSet(entries: enumeratedNumbers,label: "ArrayIsIncomplete"), date: currentDate, account: destinationAccount!))
+                    //.chartDataSet.append(LineChartDataSet(entries: enumeratedNumbers ,label: "ArrayIsIncomplete"))
+            default:
+                self.lineChartDefinition.append(LineChartDataModel.init(chartDataSet: LineChartDataSet(entries: enumeratedNumbers), date: currentDate, account: destinationAccount!))
+                
+                
             }
+            x = 0
             enumeratedNumbers.removeAll()
             components.month! += 1
             startDate = calendar.date(from: components)!
         }
         //создание последнего мемсца
         let interval = DateInterval(start: startDate, end: endDate)
-        for x in accountHistory {
-            if interval.contains(x.date) {
-                enumeratedNumbers.append(x.sum)
+        
+        for i in accountHistory {
+            if interval.contains(i.date) {
+                enumeratedNumbers.append(ChartDataEntry(x: x, y: i.sum))
+                x += 5
+                currentDate = i.date
             }
         }
-        guard enumeratedNumbers.count > 0 else {return} // Запретить добавлять историю, если в месяце нет транзакций
-        chartElement.append(AASeriesElement().name(formatter.string(from: startDate)).data(enumeratedNumbers))
+        switch enumeratedNumbers.count {
+        case 0 :
+            self.lineChartDefinition.append(LineChartDataModel(chartDataSet: LineChartDataSet(entries: enumeratedNumbers ,label: "ArrayIsEmpty"), date: currentDate, account: destinationAccount!))
+        case 1 :
+            self.lineChartDefinition.append(LineChartDataModel.init(chartDataSet: LineChartDataSet(entries: enumeratedNumbers,label: "ArrayIsIncomplete"), date: currentDate, account: destinationAccount!))
+        default:
+            self.lineChartDefinition.append(LineChartDataModel.init(chartDataSet: LineChartDataSet(entries: enumeratedNumbers), date: currentDate, account: destinationAccount!))
+        }
     }
 }
 

@@ -66,9 +66,9 @@
                                 <action selector="settingsButtonAction:" destination="BYZ-38-t0r" id="fJC-H3-4wb"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Converter" id="9SX-1K-wrY">
+                        <barButtonItem key="rightBarButtonItem" title="Currency" id="h9i-oN-zYA">
                             <connections>
-                                <segue destination="OfB-gs-aoQ" kind="show" id="Cfb-Zr-yoS"/>
+                                <segue destination="OfB-gs-aoQ" kind="show" id="KWg-3o-Rap"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -112,7 +112,7 @@
                                 </cells>
                             </collectionView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVu-wh-0n4">
-                                <rect key="frame" x="26" y="199" width="323" height="197"/>
+                                <rect key="frame" x="0.0" y="199" width="375" height="197"/>
                                 <connections>
                                     <segue destination="DXJ-ri-XWo" kind="embed" id="L9E-w9-Mxl"/>
                                 </connections>
@@ -135,9 +135,9 @@
                             <constraint firstItem="M4K-Pj-z9y" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" id="H5z-pE-apf"/>
                             <constraint firstItem="NVu-wh-0n4" firstAttribute="top" secondItem="M4K-Pj-z9y" secondAttribute="bottom" constant="22" id="Ibr-qc-r5y"/>
                             <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="0Ye-ru-wB4" secondAttribute="trailing" constant="26" id="ItN-Al-b3G"/>
-                            <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="NVu-wh-0n4" secondAttribute="trailing" constant="26" id="RDN-6D-50U"/>
+                            <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="NVu-wh-0n4" secondAttribute="trailing" id="RDN-6D-50U"/>
                             <constraint firstItem="M4K-Pj-z9y" firstAttribute="top" secondItem="TEg-Fc-Y8B" secondAttribute="top" constant="14" id="hRK-lh-UYK"/>
-                            <constraint firstItem="NVu-wh-0n4" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" constant="26" id="i2e-gm-Fat"/>
+                            <constraint firstItem="NVu-wh-0n4" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" id="i2e-gm-Fat"/>
                             <constraint firstItem="0Ye-ru-wB4" firstAttribute="leading" secondItem="TEg-Fc-Y8B" secondAttribute="leading" constant="26" id="qaH-Gt-dWN"/>
                             <constraint firstItem="0Ye-ru-wB4" firstAttribute="top" secondItem="NVu-wh-0n4" secondAttribute="bottom" constant="17" id="qwL-Lq-eZs"/>
                             <constraint firstItem="TEg-Fc-Y8B" firstAttribute="trailing" secondItem="M4K-Pj-z9y" secondAttribute="trailing" id="rNf-VU-rRc"/>
@@ -1052,7 +1052,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cash" translatesAutoresizingMaskIntoConstraints="NO" id="ndi-Ch-4Dn">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="delete" translatesAutoresizingMaskIntoConstraints="NO" id="ndi-Ch-4Dn">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
                                                 </imageView>
                                             </subviews>
@@ -1321,7 +1321,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="215-70-679" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-669.23076923076917" y="-488.38862559241704"/>
+            <point key="canvasLocation" x="-274" y="1000"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="a0k-5B-YIn">
@@ -1346,17 +1346,17 @@
             <objects>
                 <viewController id="DXJ-ri-XWo" customClass="ContainerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="28K-lX-Jdr">
-                        <rect key="frame" x="0.0" y="0.0" width="323" height="197"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2cQ-Fy-hbM">
-                                <rect key="frame" x="0.0" y="0.0" width="323" height="197"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
                                 <connections>
                                     <segue destination="7xa-kf-0dy" kind="embed" identifier="LineChart" id="K5G-eQ-xP7"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SjM-fs-xPG">
-                                <rect key="frame" x="0.0" y="0.0" width="323" height="197"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
                                 <connections>
                                     <segue destination="fNV-tV-W3u" kind="embed" id="41G-Dj-gHT"/>
                                 </connections>
@@ -1389,11 +1389,11 @@
             <objects>
                 <viewController storyboardIdentifier="LineChart" id="7xa-kf-0dy" customClass="LineChartContainerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dZ9-EA-NMK">
-                        <rect key="frame" x="0.0" y="0.0" width="323" height="197"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v28-fo-5Cr">
-                                <rect key="frame" x="0.0" y="0.0" width="323" height="197"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fXX-8g-Ecr">
                                     <size key="itemSize" width="128" height="128"/>
@@ -1445,7 +1445,7 @@
             <objects>
                 <viewController id="fNV-tV-W3u" customClass="SavingsContainerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="70E-Qj-ajr">
-                        <rect key="frame" x="0.0" y="0.0" width="323" height="197"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="197"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5x2-aK-n33">
@@ -1455,10 +1455,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPX-fx-2Gj" customClass="NeoView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="145" width="271" height="26"/>
+                                <rect key="frame" x="26" y="145" width="323" height="26"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2p1-U7-rn7" customClass="ProgressBar" customModule="CashApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="271" height="26"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="323" height="26"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -1587,7 +1587,7 @@
         <image name="arrow.down.to.line" catalog="system" width="128" height="128"/>
         <image name="arrow.up.to.line" catalog="system" width="128" height="128"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
-        <image name="cash" width="48" height="34"/>
+        <image name="delete" width="128" height="128"/>
         <image name="play.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

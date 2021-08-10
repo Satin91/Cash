@@ -65,7 +65,6 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
         sendNotification(objectAt: visibleIndexPath)
      //   accountsCollectionView.reloadData() // Обновляем после добавления нового аккаунта
-        print("Accounts view did appear")
         
         
         

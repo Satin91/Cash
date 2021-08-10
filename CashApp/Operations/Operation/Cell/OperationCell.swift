@@ -14,8 +14,8 @@ class OperationCell: UICollectionViewCell {
     let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Ремонт авто"
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.text = " "
+        label.textColor = ThemeManager.currentTheme().subtitleTextColor
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textAlignment = .center
         return label

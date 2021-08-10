@@ -8,7 +8,7 @@
 
 import UIKit
 import RealmSwift
-import AAInfographics
+
 
 func unique<S : Sequence, T : CurrencyObject>(source: S) -> [T] where S.Iterator.Element == T {
     var buffer = [T]()
@@ -67,9 +67,10 @@ class HomeViewController: UIViewController  {
         super.viewWillAppear(true)
         getCurrenciesByPriorities()//Обновить данные об изменении главной валюты
        // setTotalBalance() //Назначить сумму
+        setRightBarButton()
         tableView.enterHistoryData() // Обновление данных истории
         tableView.reloadData()
-         
+        self.reloadInputViews()
     }   
     //MARK: SCROLL EFFECT
 
@@ -91,23 +92,22 @@ class HomeViewController: UIViewController  {
         //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
     }
     
+ 
     
-   
-   
-    func visualSettings() {
+    func setRightBarButton() {
         navigationItem.setValue("Home", forKey: "title")
-        setupNavigationController(Navigation: navigationController!)
-        navigationItem.rightBarButtonItem?.title = "Currencies"
+    //    setupNavigationController(Navigation: navigationController!)
+        guard let mainImage = mainCurrency?.ISO else {
+            let imgView = UIImageView(image: UIImage(named: "USD"))
+            self.navigationItem.rightBarButtonItem?.image = imgView.image
+            return
+        }
+        let imgView = UIImageView(image: UIImage(named: mainImage))
+        imgView.image = imgView.image?.withRenderingMode(.alwaysOriginal)
+        self.navigationItem.rightBarButtonItem?.image = imgView.image
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
-        
-        
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-       // showAlertController(title: "Title", message: "Message", alertStyle: .delete)
-    }
     var header: HeaderView!
     func installBackgroundView() {
         header = HeaderView()
@@ -124,16 +124,13 @@ class HomeViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         installBackgroundView()
-//        try! realm.write {
-//            realm.deleteAll()
-//        }
+        setRightBarButton()
         self.view.backgroundColor = theme.viewBackgroundColor
         //totalBalanceButtom.mainButtonTheme()
         tableView.clipsToBounds = true
         currencyModelController.getCurrenciesFromJSON()
        // setTotalBalance()
         tableView.separatorStyle = .none
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
         
     }

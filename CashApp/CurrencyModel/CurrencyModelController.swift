@@ -156,7 +156,7 @@ class CurrencyModelController {
     }
 
     public func convert(_ value : Double?, inputCurrency : String?, outputCurrency : String?) -> Double? {
-        guard inputCurrency != nil, outputCurrency != nil else {return nil}
+        guard inputCurrency != nil, outputCurrency != nil, value != nil else {return nil}
        
         guard currencyObjects.contains(where: { ISO in ISO.ISO == inputCurrency!})else {return nil}
         let inputRate = getCurrencyFromRealm(ISO: inputCurrency!) ?? 0

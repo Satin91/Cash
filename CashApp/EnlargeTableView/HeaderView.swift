@@ -14,7 +14,7 @@ protocol prepareForMainViewControllers {
 
 final class HeaderView: UIViewController {
 
-    var chartView = LineChartView()
+    var chartView = ChartView()
     let themeManager = ThemeManager.currentTheme()
     let currencyModelController = CurrencyModelController()
     
@@ -24,19 +24,20 @@ final class HeaderView: UIViewController {
         label.backgroundColor = .clear
         label.text = "Date"
         label.font = .boldSystemFont(ofSize: 34)
+        label.textColor = ThemeManager.currentTheme().titleTextColor
         label.frame = .zero
         label.layer.opacity = 0
         return label
     }()
-    
+
     var accountsButton: UIButton = {
        let button = UIButton()
         button.frame = .zero
         button.backgroundColor = .clear
         button.setTitle(" ", for: .normal)
-        
         return button
     }()
+    
     var accountsLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 23, weight: .medium)
@@ -60,37 +61,36 @@ final class HeaderView: UIViewController {
         button.frame = .zero
         button.backgroundColor = .clear
         button.setTitle(" ", for: .normal)
-        
         return button
     }()
+    
     var todayBalanceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = "Budget today"
         return label
-        
     }()
+    
     var todayBalanceSumLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 26, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = "0"
         return label
-        
     }()
+    
     let lineView: UIView = {
        let line = UIView()
-        
        return line
-        
     }()
+    
     func getTodayBalance() -> Double {
         guard let balance = todayBalanceObject else {return 0}
         var dateCount: Int = 0
         
         if balance.endDate > Date() {
-            dateCount = Calendar.current.dateComponents([.day], from: Date(),to: balance.endDate).day!
+            dateCount = Calendar.current.dateComponents([.day], from: Date(),to: balance.endDate).day! + 2
         }else{
             dateCount = 1
         }
@@ -118,9 +118,10 @@ final class HeaderView: UIViewController {
         guard let mainCurrency = mainCurrency?.ISO else {return}
         var totalBalance: Double = 0
         for i in accountsObjects {
-            totalBalance += currencyModelController.convert(i.balance, inputCurrency: i.currencyISO, outputCurrency: mainCurrency)!
+            print(mainCurrency)
+            totalBalance += currencyModelController.convert(i.balance, inputCurrency: i.currencyISO, outputCurrency: mainCurrency) ?? 0
         }
-        totalBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: totalBalance)
+        totalBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: totalBalance , additionalText: nil)
     }
     func setTodayBalance() {
         var todayExpences: Double = 0
@@ -132,13 +133,15 @@ final class HeaderView: UIViewController {
         for i in historyObjects {
             let day = Calendar.current.dateComponents([.day,.year,.month], from: i.date)
             if day == today && i.accountID != "NO ACCOUNT"{
-                print(i.sum)
+                
                 todayExpences += currencyModelController.convert(i.sum, inputCurrency: i.currencyISO, outputCurrency: mainCurrency.ISO)!
                 
             }
         }
-        print(todayExpences)
-        todayBalanceSumLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency.ISO, Balance: getTodayBalance() + todayExpences)
+        let addNumber = todayExpences != 0 ? "(\(todayExpences.fromNumberToString()))" : ""
+            //
+        let additionalText = (addNumber ,todayExpences > 0 ? ThemeManager.currentTheme().contrastColor1: ThemeManager.currentTheme().contrastColor2)
+        todayBalanceSumLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency.ISO, Balance: getTodayBalance() + todayExpences, additionalText: additionalText)
     }
     func setColorTheme() {
         lineView.backgroundColor = themeManager.separatorColor
@@ -244,13 +247,14 @@ final class HeaderView: UIViewController {
             todayBalanceSumLabel.trailingAnchor.constraint(equalTo: accountsButton.trailingAnchor,constant: -20),
             todayBalanceSumLabel.topAnchor.constraint(equalTo: todayBalanceLabel.bottomAnchor,constant: 8)
         ])
+
         
         //ChartsView
         
         NSLayoutConstraint.activate([
         chartView.bottomAnchor.constraint(equalTo: lineView.topAnchor,constant: -6),
-        chartView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-        chartView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -self.view.bounds.width / 3),
+        chartView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+        chartView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -self.view.bounds.width / 2),
         chartView.topAnchor.constraint(equalTo: totalBalanceLabel.bottomAnchor)
         ])
         
@@ -262,6 +266,7 @@ final class HeaderView: UIViewController {
         lineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         lineView.heightAnchor.constraint(equalToConstant: 4)
         ])
+        
         chartView.translatesAutoresizingMaskIntoConstraints = false
         todayBalanceSumLabel.translatesAutoresizingMaskIntoConstraints = false
         todayBalanceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -290,13 +295,7 @@ extension UIView {
 extension HeaderView: ChartViewDelegate {
     
     func setChartData() {
-        chartView.rightAxis.enabled = false
-        chartView.leftAxis.enabled = false
-        chartView.gridBackgroundColor = .clear
         
-        chartView.xAxis.gridColor = .clear
-        chartView.xAxis.axisLineColor = .clear
-        chartView.xAxis.labelTextColor = .clear
         
         var historyValues: [ChartDataEntry] = []
         var historyData: [AccountsHistory] = []
@@ -311,26 +310,18 @@ extension HeaderView: ChartViewDelegate {
         historyData.sort { ($0.date < $1.date) }
         for (index,value) in historyData.enumerated() {
             
-            if index >= historyData.count - 10 {
+            if index >= historyData.count - 6 {
             historyValues.append(ChartDataEntry(x: x, y: value.sum))
             x += 5
             }
         }
-        print(historyValues.count)
-        
-        let values: [ChartDataEntry] = [
-            ChartDataEntry(x: 0, y: 540),
-            ChartDataEntry(x: 5, y: 140.2),
-            ChartDataEntry(x: 10, y: -79.5),
-            ChartDataEntry(x: 15, y: -14),
-            ChartDataEntry(x: 20, y: 14),
-            ChartDataEntry(x: 25, y: 280)
-        ]
-        
+
+      
+        chartView.delegate = self
         let set = LineChartDataSet(entries: historyValues)
         set.drawCirclesEnabled = false
         set.circleRadius = 40
-        set.lineWidth = 2.5
+        set.lineWidth = 2
         set.setColor(ThemeManager.currentTheme().contrastColor2)
         set.mode = .cubicBezier
         set.drawValuesEnabled = false
@@ -339,4 +330,5 @@ extension HeaderView: ChartViewDelegate {
         
       //  chartView.transform = CGAffineTransform(scaleX: -1, y: 1)
     }
+   
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wvV-5t-jCl">
-                        <rect key="frame" x="0.0" y="26" width="307" height="193"/>
+                        <rect key="frame" x="0.0" y="69" width="307" height="134"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Text" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFB-rg-1ed">
-                                <rect key="frame" x="26" y="16" width="255" height="161"/>
+                                <rect key="frame" x="26" y="16" width="255" height="118"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
@@ -31,10 +31,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="QFB-rg-1ed" secondAttribute="bottom" constant="16" id="7w0-cI-auQ"/>
-                            <constraint firstItem="QFB-rg-1ed" firstAttribute="top" secondItem="wvV-5t-jCl" secondAttribute="top" constant="16" id="Kng-48-0yT"/>
-                            <constraint firstAttribute="trailing" secondItem="QFB-rg-1ed" secondAttribute="trailing" constant="26" id="bdG-mH-fga"/>
-                            <constraint firstItem="QFB-rg-1ed" firstAttribute="leading" secondItem="wvV-5t-jCl" secondAttribute="leading" constant="26" id="zPw-Kp-6CF"/>
+                            <constraint firstAttribute="bottom" secondItem="QFB-rg-1ed" secondAttribute="bottom" id="Pv3-iD-jSz"/>
+                            <constraint firstItem="QFB-rg-1ed" firstAttribute="top" secondItem="wvV-5t-jCl" secondAttribute="top" constant="16" id="X5H-UL-zc0"/>
+                            <constraint firstItem="QFB-rg-1ed" firstAttribute="leading" secondItem="wvV-5t-jCl" secondAttribute="leading" constant="26" id="hYU-0C-Wbx"/>
+                            <constraint firstAttribute="trailing" secondItem="QFB-rg-1ed" secondAttribute="trailing" constant="26" id="tMj-Jx-gfh"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4YE-Bd-LhK">
@@ -48,20 +48,19 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="4YE-Bd-LhK" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="26" id="9FC-ED-eH0"/>
-                <constraint firstAttribute="trailing" secondItem="wvV-5t-jCl" secondAttribute="trailing" id="HWB-2E-Bec"/>
-                <constraint firstItem="wvV-5t-jCl" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="26" id="VJe-Wy-MTU"/>
+                <constraint firstAttribute="bottom" secondItem="wvV-5t-jCl" secondAttribute="bottom" constant="16" id="AHA-43-tdN"/>
+                <constraint firstItem="wvV-5t-jCl" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="YFP-EL-agK"/>
+                <constraint firstAttribute="trailing" secondItem="wvV-5t-jCl" secondAttribute="trailing" id="mo8-tR-CKc"/>
                 <constraint firstItem="4YE-Bd-LhK" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="v6B-au-q3n"/>
-                <constraint firstAttribute="bottom" secondItem="wvV-5t-jCl" secondAttribute="bottom" id="xqb-r2-ZZF"/>
-                <constraint firstItem="wvV-5t-jCl" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="zJj-SE-PTp"/>
+                <constraint firstItem="wvV-5t-jCl" firstAttribute="top" secondItem="4YE-Bd-LhK" secondAttribute="bottom" constant="22" id="yVc-tq-Rxg"/>
             </constraints>
             <size key="customSize" width="307" height="219"/>
             <connections>
                 <outlet property="chartSize" destination="wvV-5t-jCl" id="inz-bM-efn"/>
                 <outlet property="monthLabel" destination="4YE-Bd-LhK" id="VxM-5N-LDv"/>
                 <outlet property="textView" destination="QFB-rg-1ed" id="SWf-0w-LLa"/>
-                <outlet property="topConstraint" destination="VJe-Wy-MTU" id="Clu-K8-SB3"/>
             </connections>
-            <point key="canvasLocation" x="-152.89855072463769" y="179.12946428571428"/>
+            <point key="canvasLocation" x="-152.89855072463769" y="157.70089285714286"/>
         </collectionViewCell>
     </objects>
     <resources>

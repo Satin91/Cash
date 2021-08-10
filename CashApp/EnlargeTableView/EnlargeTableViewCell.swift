@@ -54,8 +54,8 @@ class EnlargeTableViewCell: UITableViewCell{
         self.contentView.clipsToBounds = false
         self.contentView.layer.masksToBounds = false
         self.tableView.layer.masksToBounds = false
-        self.tableView.clipsToBounds = false
-       
+        self.tableView.clipsToBounds = true
+        
         createConstraints()
     }
     
