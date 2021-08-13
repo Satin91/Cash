@@ -266,7 +266,7 @@ extension CALayer {
 func imageToData(imageName: String) -> Data{
     let imageName2 = imageName
     let image = UIImage(named: imageName2)
-    
+    print(imageName)
     let imageData = image?.pngData()
     return imageData!
 }

@@ -115,9 +115,9 @@ class SecondTableViewCell: UITableViewCell {
         sumLabel.setContentHuggingPriority(labelPriority, for: .horizontal)
         
         image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
-        image.heightAnchor.constraint(equalToConstant: 38).isActive = true
-        image.widthAnchor.constraint(equalToConstant: 38).isActive = true
+        image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true  //80 (Общая высота ячейки) - 48 (высота изображения) / 2 = 16
+        image.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        image.widthAnchor.constraint(equalToConstant: 48).isActive = true
 
         titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 20).isActive = true
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true

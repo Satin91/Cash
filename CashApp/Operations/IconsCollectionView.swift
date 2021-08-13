@@ -64,7 +64,7 @@ class IconsCollectionView: UIView,UICollectionViewDelegate,UICollectionViewDataS
         let nib = UINib(nibName: "AddCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "addCell")
     }
-    let imagesForCollection = ["alcohol", "appliances", "bank", "bankCard", "books", "bowling", "cancel", "car", "carRepair", "carwash", "casino", "cellphone", "charity", "cigarettes", "cinema", "cleaning", "clothes", "construction", "cosmetics", "delivery", "dentist", "drugs", "education", "electricity", "error", "fitness", "flights", "flowers", "food", "fuel", "furniture", "games", "gas", "gifts", "glasses", "goverment", "hello", "hotel", "housing", "identification", "insurancy", "internet", "kids", "laundry", "lock", "luxuries", "magazine", "media", "medicine", "musicalInstruments", "other", "parking", "pets", "pool", "publicTransport", "purchases", "refill", "request", "send", "shoeRepair", "sport", "stadium", "stationery", "taxes", "taxi", "telephone", "tollRoad", "tourism", "toys", "trafficFine", "train", "tv", "unlock", "waterRransport", "withdraw"]
+    let imagesForCollection = ["transport.0","transport.1","transport.2","transport.3","transport.4","transport.5","transport.6","food.0","food.1","food.2","food.3","food.4","food.5","food.6","gift.0","entertainment.0","entertainment.1","entertainment.2","casino.0","casino.1","insurance.0","animal.0","furniture.0","furniture.1","furniture.2","furniture.3","celebration.0","celebration.1","celebration.2","music.0","music.1","music.2","electronics.0","electronics.1","electronics.2","electronics.3","electronics.4","electronics.5","electronics.6","electronics.7","bills.0","bills.1","bills.2","bills.3","bills.4","housing.0","housing.1","child.0","repair.0","repair.1","work.0","encouragement.0","encouragement.1","clothes.0","clothes.1","clothes.2","clothes.3","clothes.4","beauty.0","beauty.1","beauty.2","sport.0","sport.1","services.0","knowledge.0"]
     
     
     //                  UICollectionViewDelegateFlowLayout
@@ -93,7 +93,6 @@ class IconsCollectionView: UIView,UICollectionViewDelegate,UICollectionViewDataS
     //                UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = imagesForCollection[indexPath.row]
-        let selectedImage = UIImage(named: image)
         selectedImageName = image
         sendImageDelegate.sendIconName(name: selectedImageName)
         

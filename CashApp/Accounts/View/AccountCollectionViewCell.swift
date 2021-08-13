@@ -36,7 +36,8 @@ class AccountCollectionViewCell: UICollectionViewCell {
     func visualSettings() {
         changeTFPropherties(textField: nameTextField)
         changeTFPropherties(textField: balanceTextField)
-        self.layer.cornerRadius = 30
+        self.layer.cornerRadius = 25
+        self.layer.cornerCurve = .continuous
         accountsImageView = UIImageView(frame: self.bounds)
         self.clipsToBounds = true
         balanceTextField.font = UIFont(name:"Ubuntu-Bold",size: 34)

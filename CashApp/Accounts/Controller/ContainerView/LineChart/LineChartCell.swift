@@ -115,7 +115,8 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
         monthLabel.font = .systemFont(ofSize: 26)
         self.backgroundColor = .clear
         self.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        self.layer.cornerRadius = 30
+        self.layer.cornerRadius = 25
+        self.layer.cornerCurve = .continuous
         self.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
         self.chartSize.backgroundColor = .clear
         textView.backgroundColor = .clear

@@ -292,7 +292,8 @@ class CurrencyTableViewCell: UITableViewCell {
         currencyDescriptionLabel.textColor = ThemeManager.currentTheme().titleTextColor
         currencyImage.layer.cornerRadius = 5
         currencyImage.layer.borderWidth = 1.5
-        currencyImage.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
+        
+        currencyImage.layer.borderColor = ThemeManager.currentTheme().backgroundColor.cgColor
         
     }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
