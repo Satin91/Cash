@@ -1,0 +1,111 @@
+
+/* Class = "UIButton"; normalTitle = "Upper"; ObjectID = "0Ye-ru-wB4"; */
+"0Ye-ru-wB4.normalTitle" = "Upper";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "5x2-aK-n33"; */
+"5x2-aK-n33.text" = "Label";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "72z-RL-uJC"; */
+"72z-RL-uJC.title" = "Cancel";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "7LK-hn-x8f"; */
+"7LK-hn-x8f.title" = "Back";
+
+/* Class = "UILabel"; text = "Header"; ObjectID = "9Uv-sg-Crk"; */
+"9Uv-sg-Crk.text" = "Header";
+
+/* Class = "UILabel"; text = "Конвертер валют"; ObjectID = "BDu-bf-Sod"; */
+"BDu-bf-Sod.text" = "Конвертер валют";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "BFz-2S-or1"; */
+"BFz-2S-or1.title" = "Cancel";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "D42-YF-cDP"; */
+"D42-YF-cDP.title" = "Item";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "EZU-Dq-woI"; */
+"EZU-Dq-woI.title" = "Item";
+
+/* Class = "UILabel"; text = "Header label"; ObjectID = "FQt-Cj-4yZ"; */
+"FQt-Cj-4yZ.text" = "Header label";
+
+/* Class = "UILabel"; text = "Daily budget"; ObjectID = "HPs-TA-xJz"; */
+"HPs-TA-xJz.text" = "Daily budget";
+
+/* Class = "UILabel"; text = "Header label"; ObjectID = "K9J-YD-YGU"; */
+"K9J-YD-YGU.text" = "Header label";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "N4r-OE-gKB"; */
+"N4r-OE-gKB.title" = "Item";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "PpG-gs-w8l"; */
+"PpG-gs-w8l.text" = "Description";
+
+/* Class = "UILabel"; text = "Add"; ObjectID = "RVg-qo-MZJ"; */
+"RVg-qo-MZJ.text" = "Add";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "SvX-FA-Z4Y"; */
+"SvX-FA-Z4Y.title" = "Item";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "TQr-0Y-Uga"; */
+"TQr-0Y-Uga.text" = "Description";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "TtR-rV-dTM"; */
+"TtR-rV-dTM.text" = "Description";
+
+/* Class = "UILabel"; text = "Limit"; ObjectID = "VMw-9x-ZQC"; */
+"VMw-9x-ZQC.text" = "Limit";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "Vur-N6-Ca4"; */
+"Vur-N6-Ca4.text" = "Description";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "ZCs-ln-7Vz"; */
+"ZCs-ln-7Vz.normalTitle" = "Ok";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Zb6-ZF-gP1"; */
+"Zb6-ZF-gP1.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Header label"; ObjectID = "a98-wy-r3z"; */
+"a98-wy-r3z.text" = "Header label";
+
+/* Class = "UILabel"; text = "546,23"; ObjectID = "aq0-tF-kia"; */
+"aq0-tF-kia.text" = "546,23";
+
+/* Class = "UIBarButtonItem"; title = "Currency"; ObjectID = "h9i-oN-zYA"; */
+"h9i-oN-zYA.title" = "Currency";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "jiE-24-Yl5"; */
+"jiE-24-Yl5.title" = "Cancel";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "kZz-op-L3b"; */
+"kZz-op-L3b.title" = "Item";
+
+/* Class = "UILabel"; text = "Header"; ObjectID = "lWM-jc-Nsg"; */
+"lWM-jc-Nsg.text" = "Header";
+
+/* Class = "UIBarButtonItem"; title = "Add"; ObjectID = "moo-Jk-pDv"; */
+"moo-Jk-pDv.title" = "Add";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "okI-gg-ZpY"; */
+"okI-gg-ZpY.text" = "Description";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "pgN-mV-s02"; */
+"pgN-mV-s02.title" = "Item";
+
+/* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "q3z-fE-KQo"; */
+"q3z-fE-KQo.title" = "Done";
+
+/* Class = "UILabel"; text = "Calculated until march"; ObjectID = "rL2-pn-htP"; */
+"rL2-pn-htP.text" = "Calculated until march";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "s70-IH-0QP"; */
+"s70-IH-0QP.normalTitle" = "Cancel";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "wxD-8b-K6D"; */
+"wxD-8b-K6D.text" = "Description";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "xxO-Nd-aVh"; */
+"xxO-Nd-aVh.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Header label"; ObjectID = "zko-tY-IEv"; */
+"zko-tY-IEv.text" = "Header label";

@@ -11,7 +11,7 @@ import RealmSwift
 
 
 
-class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC {
+class CategoriesViewController: UIViewController, UITextFieldDelegate, dismissVC {
     
     
     
@@ -104,15 +104,17 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
         collectionView.reloadData()
         
         self.tabBarController?.tabBar.showTabBar()
-        print("operationview did appear operationVC")
+        
+        
         //При переходе через таб бар обновления не происходят
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        segmentedControl.changeValuesForCashApp(segmentOne: "Expence", segmentTwo: "Income")
+        segmentedControl.changeValuesForCashApp(segmentOne:NSLocalizedString("segmented_control_0", comment: ""), segmentTwo: NSLocalizedString("segmented_control_1", comment: ""))
         setupNavigationController(Navigation: navigationController!)
+        self.navigationItem.title = NSLocalizedString("categories_navigation_title", comment: "") // Обязательно писать именно так, (вместо title) иначе таббар присвоит это значение
         blurView.bounds = self.view.frame
         self.view.backgroundColor = whiteThemeBackground
         setupCollectionView()
@@ -161,7 +163,7 @@ class OperationViewController: UIViewController, UITextFieldDelegate, dismissVC 
 
 
 //MARK: Collectiom view delegate dataSource
-extension OperationViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     
     
@@ -288,7 +290,7 @@ extension OperationViewController: UICollectionViewDelegate, UICollectionViewDat
 }
 
 
-extension OperationViewController: ReloadParentTableView {
+extension CategoriesViewController: ReloadParentTableView {
     func reloadData() {
         collectionView.reloadData()
     }
@@ -296,7 +298,7 @@ extension OperationViewController: ReloadParentTableView {
 
 
 
-extension OperationViewController: QuickPayCloseProtocol {
+extension CategoriesViewController: QuickPayCloseProtocol {
     
     func closePopUpMenu() {
         closeChildViewController()
@@ -305,7 +307,7 @@ extension OperationViewController: QuickPayCloseProtocol {
     
 }
 
-extension OperationViewController: ClosePopUpTableViewProtocol {
+extension CategoriesViewController: ClosePopUpTableViewProtocol {
     
     func goToAddVC(){
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addCategoryVC") as! AddOperationViewController
@@ -348,7 +350,7 @@ extension OperationViewController: ClosePopUpTableViewProtocol {
     
 }
 
-extension OperationViewController: UIPopoverPresentationControllerDelegate{
+extension CategoriesViewController: UIPopoverPresentationControllerDelegate{
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none

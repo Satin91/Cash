@@ -10,6 +10,7 @@ PODS:
   - RealmSwift (10.5.0):
     - Realm (= 10.5.0)
   - SwiftReorder (7.2.0)
+  - SwipeCellKit (2.7.1)
 
 DEPENDENCIES:
   - Charts
@@ -17,6 +18,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - RealmSwift
   - SwiftReorder (~> 7.2)
+  - SwipeCellKit
 
 SPEC REPOS:
   trunk:
@@ -26,6 +28,7 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - SwiftReorder
+    - SwipeCellKit
 
 SPEC CHECKSUMS:
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
@@ -34,7 +37,8 @@ SPEC CHECKSUMS:
   Realm: e1c22c3d83b229afb70ebc10e1771c91e9542d12
   RealmSwift: 6fc078d9d3fd7e58c71bfdbb694e252462f112a5
   SwiftReorder: d687883abf5f2327268e006b038025a6fc515e34
+  SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
 
-PODFILE CHECKSUM: 75c9cb9082cea4d1615c6ef37d8cd7d4b5bfba66
+PODFILE CHECKSUM: f4329d5058f00f6b70c438234d8ceb1b843686bc
 
 COCOAPODS: 1.10.0

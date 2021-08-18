@@ -233,12 +233,12 @@ class ThemeManager {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "backArrow")
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "backArrowMaskFixed")
         
-        UITabBar.appearance().barStyle = theme.barStyle
-        UITabBar.appearance().backgroundImage = theme.tabBarBackgroundImage
+       // UITabBar.appearance().barStyle = theme.barStyle
+        //UITabBar.appearance().backgroundImage = theme.tabBarBackgroundImage
 
-        let tabIndicator = UIImage(named: "tabBarSelectionIndicator")?.withRenderingMode(.alwaysTemplate)
-        let tabResizableIndicator = tabIndicator?.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 2.0, bottom: 0, right: 2.0))
-        UITabBar.appearance().selectionIndicatorImage = tabResizableIndicator
+//        let tabIndicator = UIImage(named: "tabBarSelectionIndicator")?.withRenderingMode(.alwaysTemplate)
+//        let tabResizableIndicator = tabIndicator?.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 2.0, bottom: 0, right: 2.0))
+//        UITabBar.appearance().selectionIndicatorImage = tabResizableIndicator
 
         let controlBackground = UIImage(named: "controlBackground")?.withRenderingMode(.alwaysTemplate)
             .resizableImage(withCapInsets: UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3))

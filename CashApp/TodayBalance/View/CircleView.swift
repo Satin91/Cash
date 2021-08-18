@@ -66,18 +66,39 @@ class CircleView: UIView {
         layer.addSublayer(progressLayer)
     }
     
+    func lessThanZero() -> CGFloat {
+        var diff = CGFloat(0)
+        diff = (CGFloat(object!.currentBalance) - CGFloat(object!.commonBalance)) / CGFloat(abs(Int32(CGFloat(object!.commonBalance)))) * 100
+        
+        return diff
+    }
+    
     
     func quotient()->CGFloat {
         guard todayBalanceObject?.commonBalance != 0 else { return 0}
         let object = todayBalanceObject
         var diff = CGFloat(0)
-        if CGFloat(object!.commonBalance) > CGFloat(object!.currentBalance) {
-        diff = CGFloat(object!.commonBalance) / CGFloat(object!.currentBalance) * 100 - 100
-        }else{
-            diff = 100 - CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) * 100
-        }
-        
-        
+        diff = lessThanZero()
+//        if object!.commonBalance < 0 || object!.currentBalance < 0 {
+//            diff = lessThanZero()
+//        }else{
+//            
+//        }
+        print(diff)
+//        diff = (CGFloat(object!.currentBalance) - CGFloat(object!.commonBalance)) / CGFloat(abs(Int32(CGFloat(object!.commonBalance))))
+//        print(diff)
+//
+//        if CGFloat(object!.commonBalance) > CGFloat(object!.currentBalance) {
+//        diff = CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) * 100
+//        }else{
+//            diff = CGFloat(object!.commonBalance) / CGFloat(object!.currentBalance) * 100
+//        }
+//        if CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) != 100 {
+//
+//            return CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) * 100
+//        }else {
+//            return 0
+//        }
         return diff
     }
 
@@ -87,7 +108,7 @@ class CircleView: UIView {
         }
       
      let quotient = quotient()
-        if quotient > 0 {
+        if currentlyBalance > commonBalance {
             progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor1.cgColor
             progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor1)
         }else{
@@ -95,7 +116,7 @@ class CircleView: UIView {
             progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
         }
         let circleValue = quotient > 0 ? quotient / 100 : (quotient - (quotient * 2)) / 100
-        print(circleValue)
+        
         
       return (Double(quotient),circleValue)
         
@@ -107,6 +128,7 @@ class CircleView: UIView {
         if getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance) != (0,0) {
             value = getPersent(currentlyBalance: currentlyBalance, commonBalance: commonBalance)
         }
+        
         persent.countPersentAnimation(upto: value.forLabel)
         let circularProgressAnimation = CABasicAnimation(keyPath: "strokeEnd")
         circularProgressAnimation.duration = 0.6

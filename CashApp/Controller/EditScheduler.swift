@@ -46,7 +46,6 @@ extension AddScheduleViewController {
             totalSumTextField.text = newScheduleObject.target.formattedWithSeparator
         }
         selectDateButtonOutlet.setTitle(fullDateToString(date: date), for: .normal)
-        
     }
     
     func removeAllPayPerTimeFromScheduler(){

@@ -42,7 +42,7 @@ final class HeaderView: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 23, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
-        label.text = "Accounts"
+        label.text = NSLocalizedString("header_accounts", comment: "")
         return label
         
     }()
@@ -68,7 +68,7 @@ final class HeaderView: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
-        label.text = "Budget today"
+        label.text = NSLocalizedString("header_budgetToday", comment: "")
         return label
     }()
     

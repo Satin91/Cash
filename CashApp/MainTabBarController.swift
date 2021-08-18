@@ -82,24 +82,22 @@ class MyTabBarController: UITabBarController {
     }
     func setTabBarItems(){
     
-        let imagesss = UIImageView(image: UIImage(named: "home") )
-        imagesss.contentMode = .scaleAspectFit
-        
         let myTabBarItem1 = (self.tabBar.items?[0])! as UITabBarItem
-        myTabBarItem1.image = imagesss.image
+        myTabBarItem1.image = UIImage(named: "home")
         myTabBarItem1.title = " "
-        myTabBarItem1.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: -6, right: 0)
+        myTabBarItem1.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        
+        
         let myTabBarItem2 = (self.tabBar.items?[1])! as UITabBarItem
         myTabBarItem2.image = UIImage(named: "categories")
-        
         myTabBarItem2.title = " "
         myTabBarItem2.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
         
         let myTabBarItem3 = (self.tabBar.items?[2])! as UITabBarItem
-        //myTabBarItem3.title = "Scheduler"
         myTabBarItem3.title = " "
         myTabBarItem3.image = UIImage(named: "scheduler")
         myTabBarItem3.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        
     }
 }
 
@@ -132,11 +130,12 @@ class MyTransition: NSObject, UIViewControllerAnimatedTransitioning {
             let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
             let toView = toVC.view,
             let toIndex = getIndex(forViewController: toVC)
+            
             else {
                 transitionContext.completeTransition(false)
                 return
         }
-
+        
         let frame = transitionContext.initialFrame(for: fromVC)
         var fromFrameEnd = frame
         var toFrameStart = frame

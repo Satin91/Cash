@@ -444,7 +444,7 @@ extension UIView {
     func animateViewWithBlur (animatedView: UIView, parentView: UIView) {
         let background = parentView
         background.addSubview(animatedView)
-        animatedView.center = parentView.center
+       // animatedView.center = parentView.center
         //scaling view to 120%
         animatedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         animatedView.alpha = 0
@@ -477,7 +477,7 @@ extension UIView {
             animatedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             animatedView.alpha = 0}completion: { _ in
                 
-                animatedView.removeFromSuperview()
+                
                 
             }
     }

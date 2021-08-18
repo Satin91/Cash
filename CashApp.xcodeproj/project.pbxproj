@@ -16,7 +16,7 @@
 		7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7509C5942603675D00BD34D4 /* CustomProgressBar.swift */; };
 		750EF5D926A7FBBF000FF9D2 /* CreateOperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750EF5D726A7FBBF000FF9D2 /* CreateOperationCell.swift */; };
 		750EF5DA26A7FBBF000FF9D2 /* CreateOperationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 750EF5D826A7FBBF000FF9D2 /* CreateOperationCell.xib */; };
-		7510F83E2509A87600030A52 /* OperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7510F83D2509A87600030A52 /* OperationViewController.swift */; };
+		7510F83E2509A87600030A52 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7510F83D2509A87600030A52 /* CategoriesViewController.swift */; };
 		7522652E24D1D55700D30CD6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7522652D24D1D55700D30CD6 /* Model.swift */; };
 		7523BD322697F67400F00762 /* MiniAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7523BD312697F67400F00762 /* MiniAlertView.xib */; };
 		7523BD342697F6B400F00762 /* MiniAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7523BD332697F6B400F00762 /* MiniAlertView.swift */; };
@@ -38,6 +38,7 @@
 		754F15F12667AA3C002250BB /* EnlargeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754F15F02667AA3C002250BB /* EnlargeTableViewCell.swift */; };
 		754F15F326681A44002250BB /* EnlargeSecondTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754F15F226681A44002250BB /* EnlargeSecondTableViewCell.swift */; };
 		7552BFE626169CBC00BACB65 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7552BFE526169CBC00BACB65 /* MainTabBarController.swift */; };
+		7559A48326C7D4E800EDF287 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7559A48526C7D4E800EDF287 /* Localizable.strings */; };
 		755C89A026C1ABC100C6581A /* currencyDropAndDrag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755C899F26C1ABC100C6581A /* currencyDropAndDrag.swift */; };
 		755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755DE792262DD70D00CA835D /* IconsCollectionView.swift */; };
 		755E675D25FE024B0049E113 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E675C25FE024B0049E113 /* ContainerViewController.swift */; };
@@ -114,7 +115,7 @@
 		7509C5942603675D00BD34D4 /* CustomProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		750EF5D726A7FBBF000FF9D2 /* CreateOperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOperationCell.swift; sourceTree = "<group>"; };
 		750EF5D826A7FBBF000FF9D2 /* CreateOperationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateOperationCell.xib; sourceTree = "<group>"; };
-		7510F83D2509A87600030A52 /* OperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationViewController.swift; sourceTree = "<group>"; };
+		7510F83D2509A87600030A52 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		7522652D24D1D55700D30CD6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7523BD312697F67400F00762 /* MiniAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MiniAlertView.xib; sourceTree = "<group>"; };
 		7523BD332697F6B400F00762 /* MiniAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MiniAlertView.swift; path = /Users/artur/Xcode/CashApp/CashUP/CashApp/AlertView/MiniAlertView.swift; sourceTree = "<absolute>"; };
@@ -136,6 +137,11 @@
 		754F15F02667AA3C002250BB /* EnlargeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeTableViewCell.swift; sourceTree = "<group>"; };
 		754F15F226681A44002250BB /* EnlargeSecondTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeSecondTableViewCell.swift; sourceTree = "<group>"; };
 		7552BFE526169CBC00BACB65 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		7559A47626C7C61A00EDF287 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		7559A47726C7C7D200EDF287 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		7559A48426C7D4E800EDF287 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7559A48626C7D4EA00EDF287 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7559A48726C7D4EF00EDF287 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		755C899F26C1ABC100C6581A /* currencyDropAndDrag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = currencyDropAndDrag.swift; sourceTree = "<group>"; };
 		755DE792262DD70D00CA835D /* IconsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionView.swift; sourceTree = "<group>"; };
 		755E675C25FE024B0049E113 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
@@ -354,13 +360,12 @@
 			path = EnlargeTableView;
 			sourceTree = "<group>";
 		};
-		755A1D6E2570530D00CE034F /* Operation */ = {
+		7559A47B26C7D00800EDF287 /* Localize */ = {
 			isa = PBXGroup;
 			children = (
-				755A1D782570561300CE034F /* Controller */,
-				7591F19B26A4806A0073A1F8 /* Cell */,
+				7559A48526C7D4E800EDF287 /* Localizable.strings */,
 			);
-			path = Operation;
+			path = Localize;
 			sourceTree = "<group>";
 		};
 		755A1D712570539700CE034F /* Controller */ = {
@@ -387,19 +392,20 @@
 		755A1D782570561300CE034F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				7510F83D2509A87600030A52 /* OperationViewController.swift */,
+				7510F83D2509A87600030A52 /* CategoriesViewController.swift */,
 				75D9DE7D253B6294007677BA /* AddOperationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		755DE795262DD72C00CA835D /* Operations */ = {
+		755DE795262DD72C00CA835D /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				755A1D782570561300CE034F /* Controller */,
+				7591F19B26A4806A0073A1F8 /* Cell */,
 				755DE792262DD70D00CA835D /* IconsCollectionView.swift */,
-				755A1D6E2570530D00CE034F /* Operation */,
 			);
-			path = Operations;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		756FC72E2643055600327BAC /* CurrencyModel */ = {
@@ -567,7 +573,7 @@
 				756FC72E2643055600327BAC /* CurrencyModel */,
 				7528F6C0253B08A4004B210B /* Model */,
 				757E4B5D25E003F200D8A7F7 /* QuickPayViewController */,
-				755DE795262DD72C00CA835D /* Operations */,
+				755DE795262DD72C00CA835D /* Categories */,
 				754D66EA2631C53600B2383C /* PopUpMenu */,
 				75F585352619D06200355CBF /* Scheduler */,
 				751573C7255C12130075C3B8 /* Accounts */,
@@ -581,6 +587,7 @@
 				75EA2AF824CDDB8B00D03E95 /* Assets.xcassets */,
 				75EA2AFA24CDDB8B00D03E95 /* LaunchScreen.storyboard */,
 				75EA2AFD24CDDB8B00D03E95 /* Info.plist */,
+				7559A47B26C7D00800EDF287 /* Localize */,
 				758BFC9426BF6FC700F150FF /* Ubuntu-M.ttf */,
 				759B42A426BFC9DA00149A49 /* Ubuntu-B.ttf */,
 				75CB7AA4255D50DA00451F1D /* SF-Pro-Text-Bold.otf */,
@@ -647,6 +654,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				de,
 			);
 			mainGroup = 75EA2AE324CDDB8200D03E95;
 			productRefGroup = 75EA2AED24CDDB8200D03E95 /* Products */;
@@ -680,6 +689,7 @@
 				753EACAF268E388100860745 /* TodayBalanceTableViewCell.xib in Resources */,
 				759FA92C26189BA600502172 /* MainTableViewCell.xib in Resources */,
 				75B59B71262DE57600DFCCCD /* AddCollectionViewCell.xib in Resources */,
+				7559A48326C7D4E800EDF287 /* Localizable.strings in Resources */,
 				75EA2AF724CDDB8200D03E95 /* Main.storyboard in Resources */,
 				7575718525FFA02F00C2F663 /* LineChartCell.xib in Resources */,
 				75CB7A9F255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf in Resources */,
@@ -754,7 +764,7 @@
 				7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */,
 				7539D3CB2637962A00A966BB /* PopTableViewCell.swift in Sources */,
 				75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */,
-				7510F83E2509A87600030A52 /* OperationViewController.swift in Sources */,
+				7510F83E2509A87600030A52 /* CategoriesViewController.swift in Sources */,
 				75CEC755261F10F3001184CD /* NumberTextField.swift in Sources */,
 				754F15F12667AA3C002250BB /* EnlargeTableViewCell.swift in Sources */,
 				759FA92B26189BA600502172 /* MainTableViewCell.swift in Sources */,
@@ -815,10 +825,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		7559A48526C7D4E800EDF287 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7559A48426C7D4E800EDF287 /* en */,
+				7559A48626C7D4EA00EDF287 /* de */,
+				7559A48726C7D4EF00EDF287 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		75EA2AF524CDDB8200D03E95 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				75EA2AF624CDDB8200D03E95 /* Base */,
+				7559A47626C7C61A00EDF287 /* ru */,
+				7559A47726C7C7D200EDF287 /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -838,6 +860,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -901,6 +924,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -959,7 +983,8 @@
 			baseConfigurationReference = B7079BB9EFF631A89368A655 /* Pods-CashApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				INFOPLIST_FILE = CashApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -967,10 +992,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = By.Arthur.CashApp;
+				PRODUCT_BUNDLE_IDENTIFIER = By.Artur.CashApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = CashApp;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -979,7 +1005,8 @@
 			baseConfigurationReference = 605404CDC3E38FEE7EA83F7F /* Pods-CashApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				INFOPLIST_FILE = CashApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -987,10 +1014,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = By.Arthur.CashApp;
+				PRODUCT_BUNDLE_IDENTIFIER = By.Artur.CashApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = CashApp;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

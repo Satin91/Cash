@@ -62,6 +62,7 @@ class TodayBalanceViewController: UIViewController {
     @IBOutlet var dailyBudgetLabel: UILabel!
     @IBOutlet var dailyBudgetBalanceLabel: UILabel!
     @IBOutlet var calculatedUntilDateLabel: UILabel!
+    @IBOutlet var impactOnBalanceLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     var containerForTableView: UIView = {
         let view = UIView()
@@ -123,6 +124,7 @@ class TodayBalanceViewController: UIViewController {
         dailyBudgetLabel.font = .systemFont(ofSize: 19, weight: .medium)
         calculatedUntilDateLabel.font = .systemFont(ofSize: 16, weight: .regular)
         dailyBudgetBalanceLabel.font = .systemFont(ofSize: 46, weight: .medium)
+        impactOnBalanceLabel.font = .systemFont(ofSize: 16, weight: .regular)
     }
     func createConstraints() {
         calendarButtonContainerView.addSubview(calendarButton)

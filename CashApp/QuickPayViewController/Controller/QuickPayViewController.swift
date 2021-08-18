@@ -239,12 +239,15 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     func getLastRegularObject(scheduleObject: MonetaryScheduler) -> (firstObject:PayPerTime?,lastObject:PayPerTime?) {
         var calendarComponent = Calendar.Component.month
         switch scheduleObject.stringDateRhythm {
-        case .week:
-            calendarComponent = .weekOfMonth
         case .month:
             calendarComponent = .month
+        case .week:
+            calendarComponent = .weekOfMonth
+        case .day:
+            calendarComponent = .day
         case .none:
             break
+        
         }
         var regularObject: PayPerTime?
         
@@ -481,7 +484,12 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             }
         }else{
             try! realm.write {
-                scheduleObject.available += Double(sumTextField.enteredSum)!
+                if scheduleObject.stringScheduleType != .oneTime { //запретил onetime чтобы не возникало ошибок в дневном бюджете
+                    scheduleObject.available += Double(sumTextField.enteredSum)!
+                    
+                }else{
+                    scheduleObject.target -= Double(sumTextField.enteredSum)!
+                }
                 realm.add(scheduleObject,update: .all)
             }
         }

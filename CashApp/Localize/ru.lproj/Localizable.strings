@@ -1,0 +1,50 @@
+/* 
+  Localizable.strings
+  CashApp
+
+  Created by Артур on 14.08.21.
+  Copyright © 2021 Артур. All rights reserved.
+*/
+//MARK: - Home View Controller
+"home_navigation_title" = "Home";
+//HeaderView
+"header_accounts" = "Мои счета";
+"header_budgetToday" = "Бюджет сегодня";
+
+//MARK: - Categories View Controller
+"categories_navigation_title" = "Категории";
+"segmented_control_0" = "Расходы";
+"segmented_control_1" = "Доходы";
+
+//MARK: - Scheduler View Controller
+"scheduler_navigation_title" = "Планировщик";
+//MARK: - Select new schedule type View Controller
+"select_one_time_title" = "Разовый платеж";
+"select_multiply_title" = "Многоразовый платеж";
+"select_regular_title" = "Регулярная оплата";
+"select_goal_title" = "Цель";
+
+"select_one_time_description" = "Планируйте любые платежи в рамках одной суммы.";
+"select_multiply_description" = "Cоздавайте кредиты, рассрочки, указывайте интервалы платежей.";
+"select_regular_description" = "Создавайте платежи или выплаты на постоянной основе.";
+"select_goal_description" = "На что-нибудь копите? - Отлично! Укажите дату и сумму, а планировщик рассчитает ваш дневной бюджет.";
+
+//MARK: - Add Scheduler View Controller
+
+"add_one_time_title" = "Добавить разовый платеж в планы";
+"add_multiply_title" = "Добавить многоразовый платеж";
+"add_regular_title" = "Добавить регулярную оплату";
+"add_goal_title" = "Добавить новую цель в планы";
+
+"add_one_time_description" = "Заполните данные и выберете направление разового платежа";
+"add_multiply_description" = "Заполните данные и выберете направление многоразового платежа";
+"add_regular_description" = "Заполните данныые для регулярной оплаты";
+"add_goal_description" = "Заполните данные для вашей цели";
+//Text fields
+"name_text_field" = "Имя";
+"total_sum_text_field" = "Общая сумма";
+"sum_per_time_text_field" = "Сумма платежа";
+"available_sum" = "Имеется в данный момент";
+"date_button" = "Дата";
+
+

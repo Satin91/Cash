@@ -231,8 +231,10 @@ enum ScheduleType: Int {
 
 enum DateRhythm: Int {
     case none = 0
-    case week = 1
-    case month = 2
+    case month = 1
+    case week = 2
+    case day = 3
+  
 }
 
 

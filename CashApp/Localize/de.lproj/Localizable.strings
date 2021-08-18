@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  CashApp
+
+  Created by Артур on 14.08.21.
+  Copyright © 2021 Артур. All rights reserved.
+*/
+//MARK: - Home View controller
+"home_navigation_title" = "Heim";
+//HeaderView
+"header_accounts" = "Konten";
+"header_budgetToday" = "Budget heute";
+
+//MARK: - Categories View Controller
+"categories_navigation_title" = "Kategorien";
+"segmented_control_0" = "Kosten";
+"segmented_control_1" = "Einkommen";
+
+//MARK: - Scheduler View Controller
+"scheduler_navigation_title" = "Planer";
+//MARK: - Select new schedule type View Controller
+"select_one_time_title" = "Einmalige Zahlung";
+"select_multiply_title" = "Mehrfachzahlung";
+"select_regular_title" = "Reguläre Zahlung";
+"select_goal_title" = "Ziel";
+
+"select_one_time_description" = "Planen Sie alle Zahlungen innerhalb des gleichen Betrags.";
+"select_multiply_description" = "Erstellen kredite, ratenkauf, Zahlungsintervalle festlegen.";
+"select_regular_description" = "Erstellen Sie Zahlungen oder Auszahlungen dauerhaft.";
+"select_goal_description" = "Sparst du an etwas? - Perfekt! Geben Sie Datum und Betrag ein und der Planer berechnet Ihr Tagesbudget.";
+
+//MARK: - Add Scheduler View Controller
+
+"add_one_time_title" = "Einmalige Zahlung zu Plänen hinzufügen";
+"add_multiply_title" = "Mehrere Zahlungen hinzufügen";
+"add_regular_title" = "Wiederkehrende Zahlung hinzufügen";
+"add_goal_title" = "Fügen Sie den Plänen ein neues Ziel hinzu";
+
+"add_one_time_description" = "Füllen Sie die Daten aus und wählen Sie die Richtung der Einmalzahlung";
+"add_multiply_description" = "Füllen Sie die Daten aus und wählen Sie die Richtung der Mehrfachzahlung";
+"add_regular_description" = "Füllen Sie die Daten für die regelmäßige Zahlung aus";
+"add_goal_description" = "Füllen Sie die Details für Ihren Zweck aus";
+//Text fields
+"name_text_field" = "Name";
+"total_sum_text_field" = "Gesamtsumme";
+"sum_per_time_text_field" = "Betrag der Zahlung";
+"available_sum" = "Verfügbar";
+"date_button" = "Datum";

@@ -11,5 +11,6 @@ target 'CashApp' do
   pod 'IQKeyboardManagerSwift'
   pod 'Charts'
   pod 'SwiftReorder', '~> 7.2'
+  pod 'SwipeCellKit'
 
 end

@@ -95,8 +95,9 @@ class HomeViewController: UIViewController  {
  
     
     func setRightBarButton() {
-        navigationItem.setValue("Home", forKey: "title")
-    //    setupNavigationController(Navigation: navigationController!)
+        
+         
+        navigationItem.title = NSLocalizedString("home_navigation_title", comment: "")
         guard let mainImage = mainCurrency?.ISO else {
             let imgView = UIImageView(image: UIImage(named: "USD"))
             self.navigationItem.rightBarButtonItem?.image = imgView.image
@@ -110,6 +111,7 @@ class HomeViewController: UIViewController  {
     
     var header: HeaderView!
     func installBackgroundView() {
+        print("asd")
         header = HeaderView()
         header.view.backgroundColor = .systemBackground
         header.delegate = self
@@ -132,6 +134,7 @@ class HomeViewController: UIViewController  {
        // setTotalBalance()
         tableView.separatorStyle = .none
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
+        
         
     }
    

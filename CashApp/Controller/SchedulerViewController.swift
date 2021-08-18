@@ -8,9 +8,11 @@
 
 import UIKit
 import FSCalendar
-
+import SwipeCellKit
 
 class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView {
+   
+    
     
     func reloadData() {
         tableView.reloadData()
@@ -76,19 +78,20 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     func visualSettings() {
         let theme = ThemeManager.currentTheme()
         self.view.backgroundColor = theme.backgroundColor
-        title = "Мои планы"
+        self.navigationItem.title = NSLocalizedString("scheduler_navigation_title", comment: "")
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addBlur()
         installTableView()
+        setupNavigationController(Navigation: self.navigationController!)
         visualSettings()
 
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-
     }
     
     func installTableView() {
@@ -97,6 +100,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         tableView.register(SchedulerTableViewCell.nib(), forCellReuseIdentifier: "ScheduleIdentifier")
         tableView.register(CreateScheduleCell.nib(), forCellReuseIdentifier: "CreateIdentifier")
         tableView.delegate = self
+        
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
@@ -111,7 +115,74 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
 
 }
 
-extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
+//MARK: - TableView
+extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,SwipeTableViewCellDelegate {
+    
+    func updateDataAfterRemove(indexPath: IndexPath) {
+        let ar = EnumeratedSchedulers(object: schedulerGroup)
+        if ar[indexPath.row].stringScheduleType == .multiply || ar[indexPath.row].stringScheduleType == .regular {
+            print("соответствует")
+            for i in payPerTimeObjects {
+                if i.scheduleID == ar[indexPath.row].scheduleID {
+                    print(i)
+                    try! realm.write({
+                        realm.delete(i)
+                    })
+                }
+            }
+        }
+        try! realm.write({
+            realm.delete(ar[indexPath.row])
+        })
+    }
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else {return nil}
+        var a = EnumeratedSchedulers(object: schedulerGroup)
+        let delete = SwipeAction(style: .destructive, title: "Remove") { action, indexPath in
+            tableView.performBatchUpdates {
+                
+                self.updateDataAfterRemove(indexPath: indexPath)
+                a.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
+            } completion: { tr in
+            }
+        }
+        let edit = SwipeAction(style: .default, title: "Edit") { action, indexPath in
+            
+            let editVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
+            editVC.isEditingScheduler = true
+            editVC.reloadParentTableViewDelegate = self
+            editVC.newScheduleObject = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
+            self.present(editVC, animated: true, completion: nil)
+        }
+        
+        delete.backgroundColor = ThemeManager.currentTheme().contrastColor2
+        edit.backgroundColor = ThemeManager.currentTheme().borderColor
+        
+        return [delete,edit]
+    }
+    
+//    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+//        var options = SwipeOptions()
+//        options.expansionStyle = .destructiveAfterFill
+//        options.transitionStyle = .drag
+//        options.buttonSpacing = 4
+//
+//
+//        return options
+//    }
+//
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) {
+        tableView.isEditing = false
+    }
+//
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?, for orientation: SwipeActionsOrientation) {
+        tableView.isEditing = false
+    }
+//
+//    func visibleRect(for tableView: UITableView) -> CGRect? {
+//        return CGRect(x: 0, y: 0, width: 50, height: 25)
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return EnumeratedSchedulers(object: schedulerGroup).count > 0 ? EnumeratedSchedulers(object: schedulerGroup).count + 1 : 1
@@ -126,12 +197,14 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if  indexPath.row == EnumeratedSchedulers(object: schedulerGroup).count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CreateIdentifier", for: indexPath) as! CreateScheduleCell
             cell.selectionStyle = .none
             return cell
         }else{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleIdentifier", for: indexPath) as! SchedulerTableViewCell
+        cell.delegate = self
         cell.sendSchedulerDelegate = self
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         cell.set(object: object)
@@ -139,10 +212,27 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
         return cell
         }
     }
+   
     
-    
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        //let object = scheduler
+//
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+//            self.updateDataAfterRemove(indexPath: indexPath)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+//        let editAction = UIContextualAction(style: .destructive, title: "Edit") { _, _, _ in
+//
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+//
+//        let actions = UISwipeActionsConfiguration(actions: [deleteAction])
+//        return actions
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
         if indexPath.row != EnumeratedSchedulers(object: schedulerGroup).count {
             showQuickPayDashboard(indexPath: indexPath)
         }else{
@@ -160,7 +250,8 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
     
     func showQuickPayDashboard(indexPath: IndexPath) {
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
-        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
+        //self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
+        
         let pptObject: PayPerTime? = {
            var pptObjects = [PayPerTime]()
             for i in payPerTimeObjects {
@@ -183,11 +274,15 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource {
             guard pptObject != nil else {return}
             goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         }
+        self.addChild(quickPayVC)
+        
+        self.present(quickPayVC, animated: true, completion: nil)
     }
 }
 
 
 extension SchedulerViewController: ClosePopUpTableViewProtocol, QuickPayCloseProtocol,SendScheduleObjectToEdit {
+   
     func sendObject(object: MonetaryScheduler) {
         let editVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
         editVC.isEditingScheduler = true
@@ -200,14 +295,12 @@ extension SchedulerViewController: ClosePopUpTableViewProtocol, QuickPayClosePro
         guard blur.alpha != 1 else {return}
         self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
         goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
-        
     }
     
     func closePopUpMenu() {
         self.view.reservedAnimateView2(animatedView: blur)
         self.view.reservedAnimateView(animatedView: quickPayVC.view, viewController: nil)
         self.quickPayVC = nil
-        
         tableView.reloadData()
         
         

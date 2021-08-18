@@ -7,11 +7,11 @@
 //
 
 import UIKit
-
+import SwipeCellKit
 protocol SendScheduleObjectToEdit {
     func sendObject(object: MonetaryScheduler)
 }
-class SchedulerTableViewCell: UITableViewCell {
+class SchedulerTableViewCell: SwipeTableViewCell {
     
     //Labels
     var sendSchedulerDelegate: SendScheduleObjectToEdit!

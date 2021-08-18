@@ -215,11 +215,7 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
              
                 }
         }
-       
         tableView.isEditing = false
-      
-        
-        
         guard object.ISO != mainCurrency!.ISO else {
             let actions = UISwipeActionsConfiguration(actions: [edit])
             return actions

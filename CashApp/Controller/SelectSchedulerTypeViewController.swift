@@ -44,20 +44,20 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
     @IBOutlet var backgroundView: UIView!
     @IBOutlet var descriptionLabels: [UILabel]!
     func visualSettings(){
-        oneTimeHeaderLabel.text = "Целая сумма"
-        oneTimeDescriptionLabel.text = "Создавайте долги, или любые другие платежи в рамках одной суммы."
+        oneTimeHeaderLabel.text = NSLocalizedString("select_one_time_title", comment: "")
+        oneTimeDescriptionLabel.text = NSLocalizedString("select_one_time_description", comment: "")
         oneTimeContainer.tag = 1
         
-        multiplyHeaderLabel.text = "Многоразовый платеж"
-        multiplyDescriptionLabel.text = "Планируйте кредиты, рассрочки, указывайте интервалы платежей."
+        multiplyHeaderLabel.text = NSLocalizedString("select_multiply_title", comment: "")
+        multiplyDescriptionLabel.text = NSLocalizedString("select_multiply_description", comment: "")
         multiplyContainer.tag = 2
         
-        regularHeaderLabel.text = "Регулярный платеж"
-        regularDescriptionLabel.text = "Создавайте платежи или выплаты на постоянной основе."
+        regularHeaderLabel.text = NSLocalizedString("select_regular_title", comment: "")
+        regularDescriptionLabel.text = NSLocalizedString("select_regular_description", comment: "")
         regularContainer.tag = 3
         
-        goalHeaderLabel.text = "Цель"
-        goalDescriptionLabel.text = "Копите на что-нибудь? - Отлично! Укажите дату и сумму, а мы поможем Вам накопить."
+        goalHeaderLabel.text = NSLocalizedString("select_goal_title", comment: "")
+        goalDescriptionLabel.text = NSLocalizedString("select_goal_description", comment: "")
         goalContainer.tag = 4
         
         for header in HeaderLabels {

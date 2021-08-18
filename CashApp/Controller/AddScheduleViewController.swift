@@ -46,9 +46,33 @@ class AddScheduleViewController: UIViewController {
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var totalSumTextField: NumberTextField!
     @IBOutlet var sumPerTimeTextField: NumberTextField!
+    ///ПЕРЕМЕННЫЕ
+    var calendarComponent: Calendar.Component = .weekOfMonth
+    var date: Date!
+    var calendar: FSCalendarView = {
+       let calendar = FSCalendarView()
+        calendar.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        calendar.translatesAutoresizingMaskIntoConstraints = false
+        calendar.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        calendar.layer.cornerRadius = 18
+        calendar.alpha = 0
+        return calendar
+    }()
+    var tableView: UITableView = {
+       let tableView = UITableView()
+        tableView.backgroundColor = .clear
+        tableView.alpha = 0
+        tableView.layer.cornerRadius = 18
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+    var newScheduleObject = MonetaryScheduler()
+    var iconsCollectionView: IconsCollectionView!
     let currencyModelController = CurrencyModelController()
     var alertView = AlertViewController()
-    var dateRhythm: DateRhythm = .week
+    var dateRhythm: DateRhythm = .month
+    var dateRhythmArray = ["Repeat every month","repeat every week","repeat every day"]
     var isEditingScheduler: Bool = false
     var vector: Bool = false
     var payArray = [PayPerTime]() // Используется в записи платежных данных
@@ -91,6 +115,9 @@ class AddScheduleViewController: UIViewController {
         self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
         self.view.animateViewWithBlur(animatedView: calendar, parentView: self.view)
         calendar.select(date, scrollToDate: true)
+        guard newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular else {return}
+        self.view.animateViewWithBlur(animatedView: tableView, parentView: self.view)
+        
     }
     @IBOutlet var stackView: UIStackView! //для редактирования расстояния для четчайшести
     
@@ -111,14 +138,7 @@ class AddScheduleViewController: UIViewController {
     }
 
     
-    ///ПЕРЕМЕННЫЕ
-    var calendarComponent: Calendar.Component = .weekOfMonth
-    var date: Date!
-    var calendar = FSCalendarView()
-    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    var newScheduleObject = MonetaryScheduler()
-    var iconsCollectionView: IconsCollectionView!
-    
+
  
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -132,10 +152,10 @@ class AddScheduleViewController: UIViewController {
         super.viewDidLoad()
         self.view.alpha = isEditingScheduler ? 1 : 0
         createNavBar()
-        calendar.delegate = self
+        
         visualSettings()
         checkScheduleType()
-        setupCalendarAndBlur()
+        setupCalendarAndTableView()
         stackViewSettings()
         setupButtonsAndFields()
         isModalInPresentation = true
@@ -153,12 +173,7 @@ class AddScheduleViewController: UIViewController {
             stackView.spacing = 22
         }
     }
-    
-    
-   
-    
-   
-    
+
     deinit {
         nameTextField.isHidden = false
         sumPerTimeTextField.isHidden = false
@@ -484,10 +499,13 @@ extension AddScheduleViewController {
     func visualSettings() {
         self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         self.headingTextLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        self.headingTextLabel.numberOfLines = 2
+        self.headingTextLabel.minimumScaleFactor = 0.5
+        
         self.descriptionTextLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
         self.headingTextLabel.font = .systemFont(ofSize: 34, weight: .medium)
         self.descriptionTextLabel.font = .systemFont(ofSize: 17, weight: .light)
-        headingTextLabel.numberOfLines = 0
+        
         descriptionTextLabel.numberOfLines = 0
         
         incomeVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
@@ -505,7 +523,7 @@ extension AddScheduleViewController {
         selectDateButtonOutlet.layer.cornerCurve = .continuous
         selectDateButtonOutlet.titleEdgeInsets = UIEdgeInsets(top: 0, left: 17, bottom: 0, right: 0)
         selectDateButtonOutlet.contentHorizontalAlignment = .left
-        selectDateButtonOutlet.setTitle("Date", for: .normal)
+        selectDateButtonOutlet.setTitle(NSLocalizedString("date_button", comment: ""), for: .normal)
         newScheduleObject.date == nil ? selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .normal) :  selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
        
         selectDateButtonOutlet.titleLabel?.textColor = UIColor.black
@@ -522,10 +540,10 @@ extension AddScheduleViewController {
         scrollView.backgroundColor = .clear
     }
     func setupButtonsAndFields() {
-        nameTextField.attributedPlaceholder = NSAttributedString(string: "Name", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
+        nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
         
-        let sumPerTimeText = newScheduleObject.stringScheduleType == .goal ? "Available" : "Sum per time"
-        totalSumTextField.attributedPlaceholder = NSAttributedString(string: "Total sum", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
+        let sumPerTimeText = newScheduleObject.stringScheduleType == .goal ? NSLocalizedString("available_sum", comment: "") : NSLocalizedString("sum_per_time_text_field", comment: "")
+        totalSumTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("total_sum_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
         sumPerTimeTextField.attributedPlaceholder = NSAttributedString(string: sumPerTimeText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular), NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor])
         
         nameTextField.changeVisualDesigh()
@@ -533,13 +551,39 @@ extension AddScheduleViewController {
         rightViewTextFieldButtonFor(textField: totalSumTextField)
         sumPerTimeTextField.changeVisualDesigh()
     }
-    func setupCalendarAndBlur() {
+    func constraintsForTableViewAndCalendar() {
         self.view.addSubview(calendar)
-        calendar.frame = CGRect(x: 50, y: 50, width: 250, height: 320)
-        calendar.backgroundColor = .white
-        calendar.layer.cornerRadius = 18
-        calendar.clipsToBounds = true
-        calendar.alpha = 0
+        self.view.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            calendar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
+            calendar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
+            calendar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 26),
+            //
+            tableView.heightAnchor.constraint(equalToConstant: 60 * 3),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26),
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
+        ])
+        if newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular {
+            
+            calendar.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: -26).isActive = true
+           
+        }else{
+            calendar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26).isActive = true
+        }
+        
+    }
+    
+    func setupCalendarAndTableView() {
+        constraintsForTableViewAndCalendar()
+        
+        calendar.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DateRhythmCell")
+        tableView.isScrollEnabled = false
+        tableView.separatorStyle = .none
         blurView.frame = self.view.bounds
         blurView.alpha = 0
     }
@@ -621,10 +665,10 @@ extension AddScheduleViewController: ClosePopUpTableViewProtocol{
 extension AddScheduleViewController {
     enum headerText: String {
         
-        case oneTime = "Добавить разовый платеж в планы"
-        case multiply = "Добавить многоразовый"
-        case regular = "Добавить регулярную оплату"
-        case goal = "Добавить новую цель в планы"
+        case oneTime = "add_one_time_title"
+        case multiply = "add_multiply_title"
+        case regular = "add_regular_title"
+        case goal = "add_goal_title"
     }
     enum editingHeaderText: String {
         case oneTime = "Изменить разовый платеж"
@@ -634,12 +678,13 @@ extension AddScheduleViewController {
     }
     
     enum descriptionText: String {
-        case oneTime = "Заполните данные и выберете направление разового платежа"
-        case multiply = "Заполните данные и выберете направление многоразового платежа"
-        case regular = "Заполните данныые для регулярной оплаты"
-        case goal = "Укажите данные для вашей цели"
+        case oneTime = "add_one_time_description"
+        case multiply = "add_multiply_description"
+        case regular = "add_regular_description"
+        case goal = "add_goal_description"
     }
     func checkScheduleType() {
+        
         if isEditingScheduler {
             switch newScheduleObject.stringScheduleType{
             case .oneTime :
@@ -665,23 +710,24 @@ extension AddScheduleViewController {
         }else{
         switch newScheduleObject.stringScheduleType{
         case .oneTime :
-            headingTextLabel.text = headerText.oneTime.rawValue
-            descriptionTextLabel.text = descriptionText.oneTime.rawValue
+            headingTextLabel.text = NSLocalizedString(headerText.oneTime.rawValue, comment: "")
+                
+            descriptionTextLabel.text = NSLocalizedString(descriptionText.oneTime.rawValue, comment: "")
             sumPerTimeTextField.isHidden = true
             //rhythmSegmentedControl.isHidden = true
             scrollView.isScrollEnabled = true
         case .multiply :
-            headingTextLabel.text = headerText.multiply.rawValue
-            descriptionTextLabel.text = descriptionText.multiply.rawValue
+            headingTextLabel.text = NSLocalizedString(headerText.multiply.rawValue, comment: "")
+            descriptionTextLabel.text =  NSLocalizedString(descriptionText.multiply.rawValue, comment: "")
         // vectorSegmentedControl.isHidden = true
         case .regular :
-            headingTextLabel.text = headerText.regular.rawValue
-            descriptionTextLabel.text = descriptionText.regular.rawValue
+            headingTextLabel.text = NSLocalizedString(headerText.regular.rawValue, comment: "")
+            descriptionTextLabel.text = NSLocalizedString(descriptionText.regular.rawValue, comment: "")
             totalSumTextField.isHidden = true
             
         case .goal :
-            headingTextLabel.text = headerText.goal.rawValue
-            descriptionTextLabel.text = descriptionText.goal.rawValue
+            headingTextLabel.text = NSLocalizedString(headerText.goal.rawValue, comment: "")
+            descriptionTextLabel.text = NSLocalizedString(descriptionText.goal.rawValue, comment: "")
             sumPerTimeTextField.isHidden = false
         }
         }
@@ -697,6 +743,7 @@ extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
         selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
         self.view.reservedAnimateView2(animatedView: self.calendar)
         self.view.reservedAnimateView2(animatedView: self.blurView)
+        self.view.reservedAnimateView2(animatedView: self.tableView)
     }
 }
 extension AddScheduleViewController: SendIconToParentViewController {
@@ -713,3 +760,44 @@ extension AddScheduleViewController: UIPopoverPresentationControllerDelegate {
 }
 
 
+extension AddScheduleViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dateRhythmArray.count
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    func createLineView(cell: UITableViewCell)->UIView {
+        let separatorView = UIView(frame: CGRect(x: 0, y: cell.bounds.height - 4, width: cell.bounds.width, height: 4))
+        
+        separatorView.backgroundColor = ThemeManager.currentTheme().separatorColor
+        
+        return separatorView
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let object = dateRhythmArray[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DateRhythmCell", for: indexPath)
+        let separatorView = createLineView(cell: cell)
+        if indexPath.row != dateRhythmArray.count - 1 {
+            cell.addSubview(separatorView)
+            print(indexPath.row)
+        }
+        if indexPath.row == dateRhythm.rawValue - 1 {
+            cell.textLabel?.font = .systemFont(ofSize: 17, weight: .bold)
+        }else{
+            cell.textLabel?.font = .systemFont(ofSize: 17,weight: .regular)
+        }
+        cell.textLabel?.textColor = ThemeManager.currentTheme().titleTextColor
+        cell.selectionStyle = .none
+        cell.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        cell.textLabel?.text = object
+        cell.textLabel?.textAlignment = .center
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dateRhythm = DateRhythm(rawValue: indexPath.row + 1)!
+        tableView.reloadData()
+    }
+}
