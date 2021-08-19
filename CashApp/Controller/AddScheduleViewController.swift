@@ -47,6 +47,12 @@ class AddScheduleViewController: UIViewController {
     @IBOutlet var totalSumTextField: NumberTextField!
     @IBOutlet var sumPerTimeTextField: NumberTextField!
     ///ПЕРЕМЕННЫЕ
+    var imageForSelectButtonImage: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "home")
+        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        return image
+    }()
     var calendarComponent: Calendar.Component = .weekOfMonth
     var date: Date!
     var calendar: FSCalendarView = {
@@ -132,8 +138,11 @@ class AddScheduleViewController: UIViewController {
     }
     var selectedImageName = "AppIcon" {
         willSet{
-            selectImageButtonOutlet.setImage(UIImage(named: newValue), for: .normal)
-            selectImageButtonOutlet.imageView?.contentMode = .scaleToFill
+           // selectImageButtonOutlet.setImage(UIImage(named: newValue), for: .normal)
+            imageForSelectButtonImage.image = UIImage(named: newValue)
+            imageForSelectButtonImage.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+            //selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
+          //  selectImageButtonOutlet.imageView?.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
         }
     }
 
@@ -534,8 +543,11 @@ extension AddScheduleViewController {
         selectImageButtonOutlet.layer.cornerRadius = 25
         selectImageButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         selectImageButtonOutlet.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)   //setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
-        selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
+        imageForSelectButtonImage.image = UIImage(named: selectedImageName)
+        imageForSelectButtonImage.frame = selectImageButtonOutlet.bounds
+        selectImageButtonOutlet.addSubview(imageForSelectButtonImage)
+        //selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
+        //selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
         
         scrollView.backgroundColor = .clear
     }

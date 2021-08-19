@@ -89,7 +89,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         setupNavigationController(Navigation: navigationController!)
         self.view.insertSubview(self.blurView, at: 5)
         blurView.layer.opacity = 0
-        self.view.backgroundColor = ThemeManager.currentTheme().viewBackgroundColor
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         
     }
     

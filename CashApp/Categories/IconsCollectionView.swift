@@ -111,11 +111,13 @@ class IconsCollectionView: UIView,UICollectionViewDelegate,UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! AddCollectionViewCell
         let images = imagesForCollection[indexPath.item]
-        let image = imageToData(imageName: images)// Перевод в Data нужен лишь для того чтобы потом можно было с легкостью сохранить изображение в базу данных, открыть в ячейке можно и не png файл
+        //let image = imageToData(imageName: images)// Перевод в Data нужен лишь для того чтобы потом можно было с легкостью сохранить изображение в базу данных, открыть в ячейке можно и не png файл
+        let image = UIImage(named: images)
         
-       
-        cell.imageView.image = UIImage(data: image)
-        cell.imageView.setImageColor(color: whiteThemeMainText)
+        
+        cell.imageView.image = image
+        cell.imageView.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        
         
         return cell
     }

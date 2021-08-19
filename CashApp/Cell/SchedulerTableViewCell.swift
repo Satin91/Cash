@@ -48,7 +48,9 @@ class SchedulerTableViewCell: SwipeTableViewCell {
     
     func fillTheDataForLabels(object: MonetaryScheduler, pptObject: PayPerTime?) {
         titleLabel.text = object.name
+        
         scheduleImage.image = UIImage(named: object.image)
+        scheduleImage.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
         self.object = object
         switch object.stringScheduleType {
         case .goal:
@@ -130,6 +132,7 @@ class SchedulerTableViewCell: SwipeTableViewCell {
         //background
         roundedBackground.layer.cornerRadius = 25
         roundedBackground.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        roundedBackground.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         self.backgroundColor = .clear
         
     }
@@ -139,6 +142,7 @@ class SchedulerTableViewCell: SwipeTableViewCell {
         self.layer.masksToBounds = false
         self.contentView.layer.masksToBounds = false
         self.roundedBackground.layer.masksToBounds = false
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

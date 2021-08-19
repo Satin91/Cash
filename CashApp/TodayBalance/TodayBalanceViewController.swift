@@ -103,6 +103,7 @@ class TodayBalanceViewController: UIViewController {
     }
     func visualSettings() {
         //view
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         containerView.backgroundColor = theme.secondaryBackgroundColor
         containerView.layer.setMiddleShadow(color: theme.shadowColor)
         containerView.layer.cornerRadius = 30

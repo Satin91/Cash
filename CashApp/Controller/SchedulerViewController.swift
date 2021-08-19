@@ -76,8 +76,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     }
     
     func visualSettings() {
-        let theme = ThemeManager.currentTheme()
-        self.view.backgroundColor = theme.backgroundColor
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         self.navigationItem.title = NSLocalizedString("scheduler_navigation_title", comment: "")
         
     }

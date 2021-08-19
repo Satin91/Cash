@@ -137,16 +137,17 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate, dismissVC
         
         QuiclPayVC.closePopUpMenuDelegate = self //Почему то работает делегат только если кастить до popupviiewController'a
         // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
-        
-        if popViewController == nil {
-            popViewController = QuiclPayVC
-            popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.55)
-            popViewController.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
-            self.addChild(popViewController) // Не знаю зачем это, надо удалить без него тоже работает
-            self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
-            view.animateViewWithBlur(animatedView: popViewController.view, parentView: self.view)
-            popViewController.didMove(toParent: self)
-        }
+        QuiclPayVC.modalPresentationStyle = .formSheet
+        present(QuiclPayVC, animated: true, completion: nil)
+//        if popViewController == nil {
+//            popViewController = QuiclPayVC
+//            popViewController.view.frame = CGRect(x: self.view.frame.width / 2, y: self.view.frame.height / 2, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.55)
+//            popViewController.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+//            self.addChild(popViewController) // Не знаю зачем это, надо удалить без него тоже работает
+//            self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
+//            view.animateViewWithBlur(animatedView: popViewController.view, parentView: self.view)
+//            popViewController.didMove(toParent: self)
+//        }
     }
     
     func closeChildViewController() {

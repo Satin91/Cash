@@ -29,30 +29,20 @@ func unique<S : Sequence, T : CurrencyObject>(source: S) -> [T] where S.Iterator
 class HomeViewController: UIViewController  {
     
     var miniAlert: MiniAlertView!
+    let transition = SideInTransition()
     @IBAction func settingsButtonAction(_ sender: UIBarButtonItem) {
-//        miniAlert = MiniAlertView.loadFromNib()
-//        self.view.addSubview(miniAlert)
-//        miniAlert.frame = self.view.bounds
-//        miniAlert.backgroundColor = .systemRed
-//        miniAlert.center = self.view.center
-        self.showMiniAlert(message: "Укажите дату и имя", alertStyle: .warning)
+
+        //self.showMiniAlert(message: "Укажите дату и имя", alertStyle: .warning)
+        guard let sideMenu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SideMenuVC") as? SideMenuViewController else { return}
         
-        //self.addAlert(alertView: alertView, title: "Какой то тайтл", message: "А тут происходит какое то сообщение с подсказками", alertStyle: .close)
-//        alertView.alertAction = {  (success) -> Void in
-//
-//            if success {
-//                print("Succes")
-//            }else{
-//                print("Nil")
-//                self.closeAlert(alertView: self.alertView)
-//                //self.alertView.dismiss(animated: true, completion: nil)
-//            }
-//        }
-    }
-    
-    var alertView = AlertViewController()
+        sideMenu.modalPresentationStyle = .overCurrentContext
+        sideMenu.transitioningDelegate = self
+        present(sideMenu, animated: true, completion: nil)
+        
+//        self.present(sideMenu, animated: true, completion: nil)
+    //var alertView = AlertViewController()
    
-    
+    }
     //label который сверху (бывш. Total balance)
     @IBOutlet var primaryLabel: UILabel!
     //собсна баланс
@@ -111,9 +101,8 @@ class HomeViewController: UIViewController  {
     
     var header: HeaderView!
     func installBackgroundView() {
-        print("asd")
         header = HeaderView()
-        header.view.backgroundColor = .systemBackground
+        
         header.delegate = self
         self.addChild(header)
         self.view.addSubview(header.view)
@@ -127,137 +116,146 @@ class HomeViewController: UIViewController  {
         super.viewDidLoad()
         installBackgroundView()
         setRightBarButton()
-        self.view.backgroundColor = theme.viewBackgroundColor
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         //totalBalanceButtom.mainButtonTheme()
         tableView.clipsToBounds = true
         currencyModelController.getCurrenciesFromJSON()
        // setTotalBalance()
         tableView.separatorStyle = .none
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
-        
-        
     }
    
     
     
     
-    
-    func numberOfSections(in tableView: UITableView) -> Int{
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return historyObjects.count
-    }
-
- 
-    
-    var selectedIndex = IndexPath()
-    //нужно придумать как передавать индекс без нажатия
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
- 
-       return 76
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    //                        ROW ROW
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MainIdentifier", for: indexPath) as! MainTableViewCell
-        //let object = historyObjects[indexPath.row]
-        let object = historyObjects[indexPath.row]
-        //cell.headerLabel.text = object2.name
-     //   cell.set(object: object2)
-//        cell.setCellColor(cell: cell)
-//        cell.sumLabel.text = String(object2.sum.currencyFR)
-        
-        cell.set(monetaryObject: object)
-        return cell
-    }
-    
-    
-    ///                        ANIMATE ROW
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let degree: Double = 90
-        let rotationAngle = CGFloat(degree * Double.pi / 180)
-        let rotationTransform = CATransform3DMakeRotation(rotationAngle, 1, 0, 0)
-        cell.layer.transform = rotationTransform
-
-        UIView.animate(withDuration: 0.2, delay: 0.01, options: .curveEaseInOut, animations: {
-            cell.layer.transform = CATransform3DIdentity
-          
-        })
-        
-        
-    }
- 
-    
-    
-    //                        DELETE ROW
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let object = historyObjects[indexPath.row] // создание экземпляра
-        
-        for i in EnumeratedAccounts(array: accountsGroup){
-            if object.accountID == i.accountID{
-            try! realm.write{
-                i.balance -= object.sum
-                realm.add(i, update: .all)
-            }
-            }
-        }
-        //Арифметическая функция для вычитания суммы удаляемого объекта
-
-
-        //Методы для изменения суммы в категориях
-        for i in EnumeratedSequence(array: categoryGroup){
-            if object.categoryID == i.categoryID {
-                //let localSum = object.sum > 0 ? 0 - object.sum :  object.sum // Небольшое условия для локального отражения числа
-                try! realm.write {
-                    i.sum -= object.sum
-                    realm.add(i, update: .all)
-                }
-            }
-        }
-        for i in payPerTimeObjects {
-            if object.payPerTimeID == i.payPerTimeID{
-            try! realm.write {
-                i.target -= object.sum
-                realm.add(i, update: .all)
-            }
-            }
-        }
-//        for i in EnumeratedSchedulers(object: schedulerGroup){
-//            if  object.categoryID == i.scheduleID {
-//                if i.stringScheduleType == .goal, i.stringScheduleType == .oneTime {
-//                try! realm.write {
-//                    i.available -= object.sum
-//                    realm.add(i, update: .all)
-//            }
-//                }
 //
+//    func numberOfSections(in tableView: UITableView) -> Int{
+//        return 1
+//    }
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return historyObjects.count
+//    }
+//
+//
+//
+//    var selectedIndex = IndexPath()
+//    //нужно придумать как передавать индекс без нажатия
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//
+//       return 76
+//    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//    }
+//    //                        ROW ROW
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "MainIdentifier", for: indexPath) as! MainTableViewCell
+//        //let object = historyObjects[indexPath.row]
+//        let object = historyObjects[indexPath.row]
+//        //cell.headerLabel.text = object2.name
+//     //   cell.set(object: object2)
+////        cell.setCellColor(cell: cell)
+////        cell.sumLabel.text = String(object2.sum.currencyFR)
+//
+//        cell.set(monetaryObject: object)
+//        return cell
+//    }
+//
+//
+//    ///                        ANIMATE ROW
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        let degree: Double = 90
+//        let rotationAngle = CGFloat(degree * Double.pi / 180)
+//        let rotationTransform = CATransform3DMakeRotation(rotationAngle, 1, 0, 0)
+//        cell.layer.transform = rotationTransform
+//
+//        UIView.animate(withDuration: 0.2, delay: 0.01, options: .curveEaseInOut, animations: {
+//            cell.layer.transform = CATransform3DIdentity
+//
+//        })
+//
+//
+//    }
+//
+//
+//
+//    //                        DELETE ROW
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//
+//        let object = historyObjects[indexPath.row] // создание экземпляра
+//
+//        for i in EnumeratedAccounts(array: accountsGroup){
+//            if object.accountID == i.accountID{
+//            try! realm.write{
+//                i.balance -= object.sum
+//                realm.add(i, update: .all)
+//            }
 //            }
 //        }
-        
-        
-        //                  DELETE ACTION
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
-
-            DBManager.removeHistoryObject(object: object) // Метод удаляет файлы из базы данных
-        }
-        deleteAction.backgroundColor = whiteThemeRed
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = false // Запрещает сразу удалить ячейку спомощью целого свайпа
-        
-        return configuration
-        
-    }
-
+//        //Арифметическая функция для вычитания суммы удаляемого объекта
+//
+//
+//        //Методы для изменения суммы в категориях
+//        for i in EnumeratedSequence(array: categoryGroup){
+//            if object.categoryID == i.categoryID {
+//                //let localSum = object.sum > 0 ? 0 - object.sum :  object.sum // Небольшое условия для локального отражения числа
+//                try! realm.write {
+//                    i.sum -= object.sum
+//                    realm.add(i, update: .all)
+//                }
+//            }
+//        }
+//        for i in payPerTimeObjects {
+//            if object.payPerTimeID == i.payPerTimeID{
+//            try! realm.write {
+//                i.target -= object.sum
+//                realm.add(i, update: .all)
+//            }
+//            }
+//        }
+////        for i in EnumeratedSchedulers(object: schedulerGroup){
+////            if  object.categoryID == i.scheduleID {
+////                if i.stringScheduleType == .goal, i.stringScheduleType == .oneTime {
+////                try! realm.write {
+////                    i.available -= object.sum
+////                    realm.add(i, update: .all)
+////            }
+////                }
+////
+////            }
+////        }
+//
+//
+//        //                  DELETE ACTION
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
+//
+//            DBManager.removeHistoryObject(object: object) // Метод удаляет файлы из базы данных
+//        }
+//        deleteAction.backgroundColor = whiteThemeRed
+//        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+//        configuration.performsFirstActionWithFullSwipe = false // Запрещает сразу удалить ячейку спомощью целого свайпа
+//
+//        return configuration
+//
+//    }
+//
 }
 
 extension HomeViewController: prepareForMainViewControllers {
     func prepareFor(viewController: UIViewController) {
         navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+extension HomeViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresent = true
+        return transition
+    }
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.isPresent = false
+        return transition
     }
 }

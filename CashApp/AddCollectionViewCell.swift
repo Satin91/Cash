@@ -16,6 +16,16 @@ class AddCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        //print(imageView.image)
     }
-
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+    }
+    
 }

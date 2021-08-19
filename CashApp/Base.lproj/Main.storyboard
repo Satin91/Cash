@@ -195,9 +195,6 @@
                                                     <constraint firstAttribute="height" constant="130" id="KMX-Ph-oTE"/>
                                                     <constraint firstAttribute="width" constant="130" id="V1g-6h-us9"/>
                                                 </constraints>
-                                                <state key="normal">
-                                                    <imageReference key="image" image="play.circle.fill" catalog="system" symbolScale="large" renderingMode="original"/>
-                                                </state>
                                                 <connections>
                                                     <action selector="selectImageButtonAction:" destination="ZWE-Us-Wua" eventType="touchUpInside" id="ZCV-xn-4EI"/>
                                                 </connections>
@@ -844,9 +841,6 @@
                                                     <constraint firstAttribute="height" constant="130" id="86n-uW-MDs"/>
                                                     <constraint firstAttribute="width" constant="130" id="vLR-bf-o3l"/>
                                                 </constraints>
-                                                <state key="normal">
-                                                    <imageReference key="image" image="esim.fill" catalog="system" symbolScale="large" renderingMode="original"/>
-                                                </state>
                                                 <connections>
                                                     <action selector="selectImageButtonAction:" destination="Lig-FW-hss" eventType="touchUpInside" id="9R4-RX-GNC"/>
                                                     <action selector="selectImageButtonAction:" destination="ZWE-Us-Wua" eventType="touchUpInside" id="RhG-ea-JBP"/>
@@ -952,68 +946,31 @@
             <objects>
                 <viewController storyboardIdentifier="QuickPayVC" id="qVp-rf-Vff" customClass="QuickPayViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sFM-84-q5r">
-                        <rect key="frame" x="0.0" y="0.0" width="338" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCs-ln-7Vz">
-                                <rect key="frame" x="216" y="314" width="100" height="50"/>
-                                <color key="backgroundColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="9Uv-1b-nUf"/>
-                                    <constraint firstAttribute="width" constant="100" id="BU1-uT-rVe"/>
-                                </constraints>
-                                <state key="normal" title="Ok"/>
-                                <connections>
-                                    <action selector="okAction:" destination="qVp-rf-Vff" eventType="touchUpInside" id="qV8-CJ-8ti"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s70-IH-0QP">
-                                <rect key="frame" x="22" y="314" width="100" height="50"/>
-                                <color key="backgroundColor" red="0.2666666667" green="0.32549019610000002" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="irR-eV-ACr"/>
-                                    <constraint firstAttribute="height" constant="50" id="qSm-Se-LqB"/>
-                                </constraints>
-                                <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <action selector="cancelAction:" destination="qVp-rf-Vff" eventType="touchUpInside" id="ets-fX-D1c"/>
-                                </connections>
-                            </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lVv-GB-gKj">
-                                <rect key="frame" x="0.0" y="0.0" width="338" height="279"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="ObW-tI-wbd"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="D2n-wU-mbx"/>
                             </scrollView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="zU4-VY-CzO">
-                                <rect key="frame" x="108.5" y="278.5" width="121.5" height="27.5"/>
-                            </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zAR-ap-T8e"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="zU4-VY-CzO" firstAttribute="centerX" secondItem="sFM-84-q5r" secondAttribute="centerX" id="DUL-b4-sgo"/>
-                            <constraint firstItem="ZCs-ln-7Vz" firstAttribute="top" secondItem="lVv-GB-gKj" secondAttribute="bottom" constant="26" id="Efl-PY-uUH"/>
-                            <constraint firstItem="lVv-GB-gKj" firstAttribute="top" secondItem="sFM-84-q5r" secondAttribute="top" id="V4l-lj-goR"/>
-                            <constraint firstItem="zAR-ap-T8e" firstAttribute="bottom" secondItem="ZCs-ln-7Vz" secondAttribute="bottom" constant="36" id="aDK-46-fIV"/>
-                            <constraint firstItem="s70-IH-0QP" firstAttribute="leading" secondItem="zAR-ap-T8e" secondAttribute="leading" constant="22" id="bc4-ET-Mov"/>
-                            <constraint firstItem="zAR-ap-T8e" firstAttribute="bottom" secondItem="s70-IH-0QP" secondAttribute="bottom" constant="36" id="dCM-L1-zEv"/>
-                            <constraint firstItem="zAR-ap-T8e" firstAttribute="trailing" secondItem="ZCs-ln-7Vz" secondAttribute="trailing" constant="22" id="mfd-0J-8f9"/>
-                            <constraint firstItem="lVv-GB-gKj" firstAttribute="trailing" secondItem="zAR-ap-T8e" secondAttribute="trailing" id="rBz-Py-zPk"/>
-                            <constraint firstItem="lVv-GB-gKj" firstAttribute="leading" secondItem="zAR-ap-T8e" secondAttribute="leading" id="wI9-D2-XJy"/>
-                            <constraint firstItem="s70-IH-0QP" firstAttribute="top" secondItem="zU4-VY-CzO" secondAttribute="bottom" constant="8" id="wYf-x3-64g"/>
+                            <constraint firstItem="lVv-GB-gKj" firstAttribute="bottom" secondItem="zAR-ap-T8e" secondAttribute="bottom" id="7M8-Y2-jey"/>
+                            <constraint firstItem="lVv-GB-gKj" firstAttribute="top" secondItem="zAR-ap-T8e" secondAttribute="top" id="EbY-YI-cam"/>
+                            <constraint firstItem="lVv-GB-gKj" firstAttribute="trailing" secondItem="zAR-ap-T8e" secondAttribute="trailing" id="f9y-Mk-fVB"/>
+                            <constraint firstItem="lVv-GB-gKj" firstAttribute="leading" secondItem="zAR-ap-T8e" secondAttribute="leading" id="ka5-lg-x4K"/>
                         </constraints>
                     </view>
-                    <size key="freeformSize" width="338" height="400"/>
                     <connections>
-                        <outlet property="cancelButtomOutlet" destination="s70-IH-0QP" id="qka-Zb-foG"/>
-                        <outlet property="okButtonOutlet" destination="ZCs-ln-7Vz" id="fXz-oE-bUz"/>
-                        <outlet property="pageControl" destination="zU4-VY-CzO" id="4Zy-Kk-zG4"/>
                         <outlet property="scrollView" destination="lVv-GB-gKj" id="pLf-4X-fbT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFL-cl-To4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2369" y="57"/>
+            <point key="canvasLocation" x="-2850" y="255"/>
         </scene>
         <!--Add Account View Controller-->
         <scene sceneID="F8T-Hw-4qz">
@@ -1498,6 +1455,47 @@
             </objects>
             <point key="canvasLocation" x="-2192" y="1898"/>
         </scene>
+        <!--Side Menu View Controller-->
+        <scene sceneID="32x-do-Nhb">
+            <objects>
+                <viewController storyboardIdentifier="SideMenuVC" id="FfH-6n-itt" customClass="SideMenuViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="N7t-xW-hIm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e4s-JE-ZmJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="9fH-bo-wJQ"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="srK-5b-nhB">
+                                <rect key="frame" x="0.0" y="60" width="375" height="607"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="YnJ-fG-QEY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="srK-5b-nhB" firstAttribute="top" secondItem="e4s-JE-ZmJ" secondAttribute="bottom" id="19s-GY-df2"/>
+                            <constraint firstItem="e4s-JE-ZmJ" firstAttribute="top" secondItem="YnJ-fG-QEY" secondAttribute="top" id="HDv-Qi-BiX"/>
+                            <constraint firstItem="e4s-JE-ZmJ" firstAttribute="leading" secondItem="YnJ-fG-QEY" secondAttribute="leading" id="L8J-rH-58P"/>
+                            <constraint firstItem="srK-5b-nhB" firstAttribute="trailing" secondItem="YnJ-fG-QEY" secondAttribute="trailing" id="WzC-fh-chw"/>
+                            <constraint firstItem="srK-5b-nhB" firstAttribute="bottom" secondItem="YnJ-fG-QEY" secondAttribute="bottom" id="bkQ-zZ-9qu"/>
+                            <constraint firstItem="srK-5b-nhB" firstAttribute="leading" secondItem="YnJ-fG-QEY" secondAttribute="leading" id="r93-7l-c76"/>
+                            <constraint firstItem="e4s-JE-ZmJ" firstAttribute="trailing" secondItem="YnJ-fG-QEY" secondAttribute="trailing" id="uAC-jE-pYA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="headerView" destination="e4s-JE-ZmJ" id="1Ba-Ok-jtS"/>
+                        <outlet property="tableView" destination="srK-5b-nhB" id="BEf-RT-8Ld"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CF0-Y4-WgO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2092" y="255.92203898050977"/>
+        </scene>
         <!--Item-->
         <scene sceneID="dn3-Zg-S0R">
             <objects>
@@ -1599,13 +1597,14 @@
         <image name="arrow.up.to.line" catalog="system" width="128" height="128"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="delete" width="128" height="128"/>
-        <image name="esim.fill" catalog="system" width="128" height="114"/>
-        <image name="play.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

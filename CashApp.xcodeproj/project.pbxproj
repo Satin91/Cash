@@ -68,6 +68,7 @@
 		75A2AA4C266ED4D800B86DAC /* AddCurrencyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A2AA4B266ED4D800B86DAC /* AddCurrencyTableViewController.swift */; };
 		75A2AA50266ED79700B86DAC /* AddCurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A2AA4E266ED79700B86DAC /* AddCurrencyTableViewCell.swift */; };
 		75A2AA51266ED79700B86DAC /* AddCurrencyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A2AA4F266ED79700B86DAC /* AddCurrencyTableViewCell.xib */; };
+		75A974BF26CE9D2A0053583B /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A974BE26CE9D2A0053583B /* SideMenuViewController.swift */; };
 		75AD2A082669E72600F6880B /* CurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AD2A072669E72600F6880B /* CurrencyViewController.swift */; };
 		75AD2A0B266A006C00F6880B /* CurrencyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */; };
 		75AE325125239E30004422F4 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE325025239E30004422F4 /* AccountsViewController.swift */; };
@@ -169,6 +170,7 @@
 		75A2AA4B266ED4D800B86DAC /* AddCurrencyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencyTableViewController.swift; sourceTree = "<group>"; };
 		75A2AA4E266ED79700B86DAC /* AddCurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		75A2AA4F266ED79700B86DAC /* AddCurrencyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCurrencyTableViewCell.xib; sourceTree = "<group>"; };
+		75A974BE26CE9D2A0053583B /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		75AD2A072669E72600F6880B /* CurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyViewController.swift; sourceTree = "<group>"; };
 		75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyTableViewCell.xib; sourceTree = "<group>"; };
 		75AE325025239E30004422F4 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				75EA2AF324CDDB8200D03E95 /* HomeViewController.swift */,
+				75A974BE26CE9D2A0053583B /* SideMenuViewController.swift */,
 				754F15EF2667AA13002250BB /* EnlargeTableView */,
 				759FA92026189A8B00502172 /* MainTableView */,
 			);
@@ -796,6 +799,7 @@
 				757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */,
 				750888A7268764260037C804 /* CalendarSchedulerViewController.swift in Sources */,
 				753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */,
+				75A974BF26CE9D2A0053583B /* SideMenuViewController.swift in Sources */,
 				7578BE38269666CA0063D087 /* AlertViewController.swift in Sources */,
 				757B99542689549D005FB908 /* HeaderView.swift in Sources */,
 				7591F19926A480600073A1F8 /* OperationCell.swift in Sources */,

@@ -57,7 +57,6 @@ class CurrencyViewController: UIViewController {
     }
     func visualSettings() {
         self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        tableView.backgroundColor = .clear
         currencyConverterTextField.changeVisualDesigh()
     }
     override func viewDidLoad() {

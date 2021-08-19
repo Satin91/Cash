@@ -145,6 +145,7 @@ final class HeaderView: UIViewController {
     }
     func setColorTheme() {
         lineView.backgroundColor = themeManager.separatorColor
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -159,6 +160,7 @@ final class HeaderView: UIViewController {
         self.view.layer.cornerRadius = 35
         self.view.layer.shadowOpacity = 0.20
         self.view.layer.shadowColor = themeManager.shadowColor.cgColor
+        self.view.backgroundColor = themeManager.secondaryBackgroundColor
         self.view.layer.shadowOffset = CGSize(width: 4, height: 4)
         self.view.layer.shadowRadius = 15
         self.view.layer.masksToBounds = false

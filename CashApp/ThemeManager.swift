@@ -52,7 +52,17 @@ class colors {
     var buttonBackgroundColorWhite = "353B40"
     var borderColor = "D0D8DE"
     //Dark colors
-    
+    var darkBackgroundColor = "232729"
+    var darkSecondaryBackgroundColor = "2F3437"
+    var darkTitleTextColor = "E9EBEC"
+    var darkSubtitleTextColor = "97A2B5"
+    var darkContrastColor1 = "0A94EB"
+    var darkContrastColor2 = "F03226"
+    var darkMainShadowColor = "18191B"
+    var darkButtonShadowColor = ""
+    var darkSeparatorColor = "34393D"
+    var darkButtonBackgroundColorWhite = "353B40"
+    var darkBorderColor = "34393D"
 }
 
 enum Theme: Int {
@@ -60,14 +70,7 @@ enum Theme: Int {
     case white, dark
     
     
-    var secondaryBackgroundColor: UIColor {
-        switch self {
-        case .white:
-            return UIColor().colorFromHexString(colors().secondaryBackgroundColor)
-        case .dark:
-            return UIColor().colorFromHexString("000000")
-        }
-    }
+   
     var secondaryColor: UIColor {
         switch self {
         case .white:
@@ -99,9 +102,17 @@ enum Theme: Int {
     var backgroundColor: UIColor {
         switch self {
         case .white:
-            return UIColor().colorFromHexString("F5F8FA")
+            return UIColor().colorFromHexString(colors().backgroundColor)
         case .dark:
-            return UIColor().colorFromHexString("353B40")
+            return UIColor().colorFromHexString(colors().darkBackgroundColor)
+        }
+    }
+    var secondaryBackgroundColor: UIColor {
+        switch self {
+        case .white:
+            return UIColor().colorFromHexString(colors().secondaryBackgroundColor)
+        case .dark:
+            return UIColor().colorFromHexString(colors().darkSecondaryBackgroundColor)
         }
     }
     var borderColor: UIColor {
@@ -109,7 +120,7 @@ enum Theme: Int {
         case .white:
             return UIColor().colorFromHexString(colors().borderColor)
         case .dark:
-            return UIColor().colorFromHexString("353B40")
+            return UIColor().colorFromHexString(colors().darkBorderColor)
         }
     }
     var mainButtonBackgroundColor: UIColor {
@@ -120,29 +131,20 @@ enum Theme: Int {
             return UIColor().colorFromHexString("353B40")
         }
     }
-    
-    var viewBackgroundColor: UIColor {
-        switch self {
-        case .white:
-            return UIColor().colorFromHexString("F5F8FA")
-        case .dark:
-            return UIColor().colorFromHexString("353B40")
-        }
-    }
     var separatorColor: UIColor {
         switch self {
         case .white:
-            return UIColor().colorFromHexString("F3F3F6")
+            return UIColor().colorFromHexString(colors().separatorColor)
         case .dark:
-            return UIColor().colorFromHexString("000000")
+            return UIColor().colorFromHexString(colors().darkSeparatorColor)
         }
     }
     var shadowColor: UIColor {
         switch self {
         case .white:
-            return UIColor().colorFromHexString("90A0AA")
+            return UIColor().colorFromHexString(colors().mainShadowColor)
         case .dark:
-            return UIColor().colorFromHexString("000000")
+            return UIColor().colorFromHexString(colors().darkMainShadowColor)
         }
         
     }
@@ -152,7 +154,7 @@ enum Theme: Int {
         case .white:
             return UIColor().colorFromHexString(colors().titleTextColor)
         case .dark:
-            return UIColor().colorFromHexString("000000")
+            return UIColor().colorFromHexString(colors().darkTitleTextColor)
         }
     }
     var subtitleTextColor: UIColor {
@@ -160,7 +162,7 @@ enum Theme: Int {
         case .white:
             return UIColor().colorFromHexString(colors().subtitleTextColor)
         case .dark:
-            return UIColor().colorFromHexString("000000")
+            return UIColor().colorFromHexString(colors().darkSubtitleTextColor)
         }
     }
     var contrastColor1: UIColor {
@@ -168,7 +170,7 @@ enum Theme: Int {
         case .white:
             return UIColor().colorFromHexString(colors().contrastColor1)
         case .dark :
-            return UIColor().colorFromHexString("F2F2F2")
+            return UIColor().colorFromHexString(colors().darkContrastColor1)
         }
     }
     var contrastColor2: UIColor {
@@ -176,7 +178,7 @@ enum Theme: Int {
         case .white:
             return UIColor().colorFromHexString(colors().contrastColor2)
         case .dark :
-            return UIColor().colorFromHexString(colors().contrastColor2)
+            return UIColor().colorFromHexString(colors().darkContrastColor2)
         }
     }
     
@@ -264,6 +266,10 @@ class ThemeManager {
 
         UISwitch.appearance().onTintColor = theme.secondaryBackgroundColor.withAlphaComponent(0.3)
         UISwitch.appearance().thumbTintColor = theme.secondaryBackgroundColor
+        
+    
+               // You get your current (selected) theme and apply the main color to the tintColor property of your application’s window.
+
     }
 }
 

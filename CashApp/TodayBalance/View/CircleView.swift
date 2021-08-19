@@ -43,7 +43,7 @@ class CircleView: UIView {
         
         initConstraintsForLabel()
         createCircularPath()
-        
+        self.backgroundColor = .clear
         //persent.text = String(Int(getPersent() * 100)) + "%"
     }
 

@@ -6,7 +6,7 @@
   Copyright © 2021 Артур. All rights reserved.
 */
 //MARK: - Home View Controller
-"home_navigation_title" = "Home";
+"home_navigation_title" = "Главная";
 //HeaderView
 "header_accounts" = "Мои счета";
 "header_budgetToday" = "Бюджет сегодня";
@@ -30,7 +30,6 @@
 "select_goal_description" = "На что-нибудь копите? - Отлично! Укажите дату и сумму, а планировщик рассчитает ваш дневной бюджет.";
 
 //MARK: - Add Scheduler View Controller
-
 "add_one_time_title" = "Добавить разовый платеж в планы";
 "add_multiply_title" = "Добавить многоразовый платеж";
 "add_regular_title" = "Добавить регулярную оплату";
