@@ -15,8 +15,7 @@ enum ActionsWithCurrency: String {
 }
 class CurrencyViewController: UIViewController {
     
-    
-    
+    let currencyList = CurrencyList()
     @IBOutlet var currencyConverterLabel: UILabel!
     @IBOutlet var currencyConverterTextField: NumberTextField!
     @IBOutlet var tableView: UITableView!
@@ -47,7 +46,7 @@ class CurrencyViewController: UIViewController {
         
         self.navigationController?.present(navController, animated: true, completion: nil)
     }
-    var fetch = fetchMainCurrency() // Просто чтобы вызвать функцию без возвращателя
+    var fetch = fetchMainCurrency() //Вызов для обновления валют
     var dragInitialIndexPath: IndexPath?
     var dragCellSnapshot: UIView?
     
@@ -58,21 +57,18 @@ class CurrencyViewController: UIViewController {
     func visualSettings() {
         self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         currencyConverterTextField.changeVisualDesigh()
+        currencyConverterLabel.text = NSLocalizedString("currency_converter_label", comment: "")
+        currencyConverterLabel.font = .systemFont(ofSize: 19, weight: .regular)
+        currencyConverterLabel.textColor = ThemeManager.currentTheme().titleTextColor
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         getCurrenciesByPriorities()
-        
-        //tableView.addGestureRecognizer(longPress)
         tabBarController?.tabBar.hideTabBar()
         visualSettings()
         tableView.register(UINib(nibName: "CurrencyTableViewCell", bundle: nil), forCellReuseIdentifier: "currencyCell")
         tableViewSettings()
         currencyConverterTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
-        
-        
-        //tableView.isEditing = true
     }
     @objc func textFieldDidChange() {
         tableView.reloadData()
@@ -82,22 +78,10 @@ class CurrencyViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.reorder.delegate = self
-        //tableView.dragInteractionEnabled = true
         tableView.backgroundColor = .clear
-        //tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
     }
-    
-    
-    
-   
-    
-//    func scrollTableView(indexPath: IndexPath) {
-//        var upperIndex = indexPath
-//        upperIndex.row -= 2
-//        tableView.scrollToRow(at: upperIndex, at: .middle, animated: true)
-//    }
-    
+
     func changePriorityValue() {
         for (index,value) in userCurrencyObjects.enumerated() {
             try! realm.write{
@@ -105,16 +89,12 @@ class CurrencyViewController: UIViewController {
                 realm.add(value,update: .all)
             }
         }
-        
-       // tableView.reloadData()
     }
 }
 
 //MARK: - TableView
 extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, TableViewReorderDelegate{
 
-    
-    
     func tableView(_ tableView: UITableView, reorderRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
 //        let object = userCurrencyObjects[sourceIndexPath.row]
@@ -238,8 +218,13 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
         let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyTableViewCell
         let object = userCurrencyObjects[indexPath.row]
         if self.currencyConverterTextField.text?.isEmpty == false {
-            
             cell.converterSet(currencyObject: object, enteredSum: Double(currencyConverterTextField.enteredSum)!)
+            cell.ISOLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
+            cell.currencyImage.image = UIImage(named: object.ISO)
+            cell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO ? .systemFont(ofSize: 17, weight: .medium) : .systemFont(ofSize: 17, weight: .regular)
+            cell.isMainCurrencyLabel.text = object.ISO == mainCurrency?.ISO ? "Main cyrrency" : "Additional currency"
+            cell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? ThemeManager.currentTheme().titleTextColor : ThemeManager.currentTheme().subtitleTextColor
+            
             return cell
         }else{
             cell.defaultSet(currencyObject: object)
@@ -304,12 +289,11 @@ class CurrencyTableViewCell: UITableViewCell {
         isMainCurrencyLabel.text = currencyObject.ISO == mainCurrency?.ISO ? "Main currency": "Additional currency"
         isMainCurrencyLabel.textColor = currencyObject.ISO == mainCurrency?.ISO ? ThemeManager.currentTheme().contrastColor1:ThemeManager.currentTheme().subtitleTextColor
         ISOLabel.text = currencyObject.ISO
-        currencyDescriptionLabel.text = CurrencyName(rawValue: currencyObject.ISO)?.getRaw
+        currencyDescriptionLabel.text = CurrencyList.CurrencyName(rawValue: currencyObject.ISO)?.getRaw
     }
     
     func converterSet(currencyObject: CurrencyObject, enteredSum: Double){
         ISOLabel.text = currencyObject.ISO
-        
         let convertedSum = currencyModelController.convert(enteredSum, inputCurrency: mainCurrency?.ISO, outputCurrency: currencyObject.ISO)?.formattedWithSeparator
         currencyDescriptionLabel.text = convertedSum
     }

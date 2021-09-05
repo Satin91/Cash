@@ -20,11 +20,9 @@ class PopTableViewController: UITableViewController{
     let cellHeight: CGFloat = 60
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("SelectDate Did load")
         navigationItem.title = ""
         navigationController?.setNavigationBarHidden(true, animated: false)
         tableViewSettings()
-        
     }
     func tableViewSettings() {
         tableView.delegate = self

@@ -22,11 +22,12 @@ class AddCurrencyTableViewCell: UITableViewCell {
         self.layer.masksToBounds = false
         self.contentView.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
-        self.contentView.layer.cornerRadius = 12
+        self.contentView.layer.cornerRadius = 20
         self.contentView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         self.backgroundColor = ThemeManager.currentTheme().backgroundColor
         self.contentView.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
-       
+        self.descriptionLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        self.descriptionLabel.font = .systemFont(ofSize: 19, weight: .regular)
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -35,7 +36,7 @@ class AddCurrencyTableViewCell: UITableViewCell {
     func set(currencyObject: CurrencyObject) {
         visualSettings()
         currencyImage.image = UIImage(named: currencyObject.ISO)
-        descriptionLabel.text = CurrencyName(rawValue: currencyObject.ISO)?.getRaw
+        descriptionLabel.text = CurrencyList.CurrencyName(rawValue: currencyObject.ISO)?.getRaw
         
     }
     override func setSelected(_ selected: Bool, animated: Bool) {

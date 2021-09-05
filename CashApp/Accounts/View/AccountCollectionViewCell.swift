@@ -19,11 +19,16 @@ class AccountCollectionViewCell: UICollectionViewCell {
     var delegate: collectionCellProtocol!
     
     @IBOutlet var isMainAccountOutlet: UISwitch!
+    
     @IBAction func isMineAccountAction(_ sender: UISwitch) {
         changeMineAccountProperties(sender: sender.isOn)
     }
- 
-    @IBAction func editButtonAction(_ sender: Any) {
+     
+
+    
+    
+    @IBAction func editButtonAction(_ sender: UIButton) {
+        print("tapped")
         delegate.tapped(tapped: true)
     }
     @IBOutlet var editButtonOutlet: UIButton!
@@ -54,7 +59,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
         nameTextField.delegate = self
         
         
-       // nameTextField.addTarget(self, action: #selector(touchOnTextField(_:)), for: .allTouchEvents)
+        //nameTextField.addTarget(self, action: #selector(touchOnTextField(_:)), for: .allTouchEvents)
         
         
         
@@ -69,7 +74,9 @@ class AccountCollectionViewCell: UICollectionViewCell {
         textField.isEnabled = false
         balanceTextField.textAlignment = .right
     }
-    
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil)
+    }
     func changeMineAccountProperties(sender: Bool) {
         
         for i in EnumeratedAccounts(array: accountsGroup) {

@@ -36,6 +36,7 @@ class AddCurrencyTableViewController: UITableViewController{
         searchController.searchBar.frame(forAlignmentRect: CGRect(x: 0, y: 0, width: 50, height: 50))
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
+        searchController.searchBar.frame.inset(by: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) )
         // searchController.searchBar.searchBarStyle = .prominent
         //searchController.searchBar.backgroundColor = .clear
     }
@@ -91,7 +92,7 @@ class AddCurrencyTableViewController: UITableViewController{
         return cell
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60 + 20 //20 это inset у контент вью
+        return 97 //10 это inset у контент вью
     }
     
     
@@ -188,9 +189,9 @@ extension AddCurrencyTableViewController: UISearchResultsUpdating {
     private func filterContentForSearchText(_  searchText: String){
         
         filteredCurrencies = currencyNonPrioritiesObjects.filter({ (object: CurrencyObject) in
-            let descr = CurrencyName(rawValue: searchText.lowercased())?.getRaw
+            let descr = CurrencyList.CurrencyName(rawValue: searchText.lowercased())?.getRaw
             
-            print(descr)
+            
 //            for i in CurrencyName(rawValue: searchText.lowercased()) {
 //
 //            }

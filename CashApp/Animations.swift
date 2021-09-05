@@ -36,11 +36,7 @@ extension UITabBar {
             } completion: { (true) in
                 self.isHidden = true
             }
-
-  
         }
-        
-    
         }
 }
 }

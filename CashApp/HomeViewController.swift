@@ -50,7 +50,7 @@ class HomeViewController: UIViewController  {
     //собсна кнопка для показывания счетов
     @IBOutlet var totalBalanceButtom: UIButton!
     @IBOutlet var tableView: EnlargeTableView!
-    var currencyModelController = CurrencyModelController()
+    let networking = Networking()
     var theme = ThemeManager.currentTheme()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,7 +64,23 @@ class HomeViewController: UIViewController  {
     }   
     //MARK: SCROLL EFFECT
 
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        installBackgroundView()
+        setRightBarButton()
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        //totalBalanceButtom.mainButtonTheme()
+        tableView.clipsToBounds = true
+        networking.getCurrenciesFromJSON(from: .URL)
+       // setTotalBalance()
+        tableView.separatorStyle = .none
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
+//        if NetworkMonitor.shared.isConnected {
+//            print("You'r on wifi")
+//        }else{
+//            print("You're nnot connected")
+//        }
+    }
     
     @objc func changeSizeForHeightBgConstraint(notification: Notification) {
         let object = notification.object as! CGPoint
@@ -85,8 +101,6 @@ class HomeViewController: UIViewController  {
  
     
     func setRightBarButton() {
-        
-         
         navigationItem.title = NSLocalizedString("home_navigation_title", comment: "")
         guard let mainImage = mainCurrency?.ISO else {
             let imgView = UIImageView(image: UIImage(named: "USD"))
@@ -112,18 +126,7 @@ class HomeViewController: UIViewController  {
     }
  
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        installBackgroundView()
-        setRightBarButton()
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        //totalBalanceButtom.mainButtonTheme()
-        tableView.clipsToBounds = true
-        currencyModelController.getCurrenciesFromJSON()
-       // setTotalBalance()
-        tableView.separatorStyle = .none
-        NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
-    }
+   
    
     
     

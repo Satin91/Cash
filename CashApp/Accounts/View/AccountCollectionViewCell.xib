@@ -45,10 +45,10 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lxZ-rG-Nv3">
-                                <rect key="frame" x="16" y="96" width="285" height="47"/>
+                                <rect key="frame" x="16" y="95" width="285" height="48"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1CE-we-QZq" customClass="NumberTextField" customModule="CashApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="285" height="47"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="285" height="48"/>
                                         <fontDescription key="fontDescription" name="Ubuntu-Bold" family="Ubuntu" pointSize="34"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>

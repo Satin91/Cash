@@ -66,10 +66,10 @@ class CircleView: UIView {
         layer.addSublayer(progressLayer)
     }
     
-    func lessThanZero() -> CGFloat {
+    func percentage() -> CGFloat {
         var diff = CGFloat(0)
-        diff = (CGFloat(object!.currentBalance) - CGFloat(object!.commonBalance)) / CGFloat(abs(Int32(CGFloat(object!.commonBalance)))) * 100
         
+        diff = (CGFloat(object!.currentBalance) - CGFloat(object!.commonBalance)) / CGFloat(abs(Int32(CGFloat(object!.commonBalance)))) * 100
         return diff
     }
     
@@ -78,30 +78,11 @@ class CircleView: UIView {
         guard todayBalanceObject?.commonBalance != 0 else { return 0}
         let object = todayBalanceObject
         var diff = CGFloat(0)
-        diff = lessThanZero()
-//        if object!.commonBalance < 0 || object!.currentBalance < 0 {
-//            diff = lessThanZero()
-//        }else{
-//            
-//        }
-        print(diff)
-//        diff = (CGFloat(object!.currentBalance) - CGFloat(object!.commonBalance)) / CGFloat(abs(Int32(CGFloat(object!.commonBalance))))
-//        print(diff)
-//
-//        if CGFloat(object!.commonBalance) > CGFloat(object!.currentBalance) {
-//        diff = CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) * 100
-//        }else{
-//            diff = CGFloat(object!.commonBalance) / CGFloat(object!.currentBalance) * 100
-//        }
-//        if CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) != 100 {
-//
-//            return CGFloat(object!.currentBalance) / CGFloat(object!.commonBalance) * 100
-//        }else {
-//            return 0
-//        }
+        diff = percentage()
         return diff
     }
 
+    
     func getPersent(currentlyBalance: Double, commonBalance: Double) -> (forLabel: Double,forCircle:CGFloat) {
         guard currentlyBalance + commonBalance != 0 else {
             return (0,0)
@@ -116,10 +97,7 @@ class CircleView: UIView {
             progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
         }
         let circleValue = quotient > 0 ? quotient / 100 : (quotient - (quotient * 2)) / 100
-        
-        
       return (Double(quotient),circleValue)
-        
     }
     
     func progressAnimation(currentlyBalance: Double, commonBalance: Double) {

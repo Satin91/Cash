@@ -20,7 +20,7 @@ class CreateScheduleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.contentView.backgroundColor = .clear
+        self.contentView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         self.dashView.backgroundColor = .clear
         createScheduleLabel.text = "Добавить"
     }
@@ -32,13 +32,16 @@ class CreateScheduleCell: UITableViewCell {
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         self.dashView.backgroundColor = .clear
-        
+        self.dashView.layer.cornerRadius = 25
+        self.dashView.layer.cornerCurve = .continuous
         self.createScheduleLabel.font = .systemFont(ofSize: 26, weight: .regular)
-        self.createScheduleLabel.textColor = ThemeManager.currentTheme().contrastColor1
+        self.createScheduleLabel.textColor = ThemeManager.currentTheme().titleTextColor
     }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         dashView.drawDash(radius: 25)
+        
         visualSettings()
     }
    

@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 
 class Layout {
-    
     static var side: CGFloat = 26
     static var top: CGFloat = 12
     static var bottom: CGFloat = 12
-    
 }

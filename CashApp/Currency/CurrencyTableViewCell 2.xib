@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="currencyCell" rowHeight="60" id="FLU-1i-QTm" customClass="CurrencyTableViewCell" customModule="CashApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FLU-1i-QTm" id="KyS-Xx-xXX">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Uv5-xH-qLH">
+                        <rect key="frame" x="16" y="14.5" width="50" height="48"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q40-fz-vVH">
+                                <rect key="frame" x="7.5" y="0.0" width="35" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="sRV-x4-EXo"/>
+                                    <constraint firstAttribute="height" constant="23" id="yYr-7f-LUB"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HnF-sj-Js5">
+                                <rect key="frame" x="0.0" y="31" width="50" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="XJR-Ie-O97"/>
+                                    <constraint firstAttribute="height" constant="17" id="cjo-mf-MX0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="dKJ-Xt-z0O">
+                        <rect key="frame" x="82" y="16.5" width="141.5" height="44"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nv0-gX-QHP">
+                                <rect key="frame" x="0.0" y="0.0" width="141.5" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Is main currency label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFX-kX-NOX">
+                                <rect key="frame" x="0.0" y="27" width="141" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dKJ-Xt-z0O" firstAttribute="leading" secondItem="Uv5-xH-qLH" secondAttribute="trailing" constant="16" id="1NX-cF-PLI"/>
+                    <constraint firstItem="dKJ-Xt-z0O" firstAttribute="centerY" secondItem="KyS-Xx-xXX" secondAttribute="centerY" id="ZPX-j0-Ocl"/>
+                    <constraint firstItem="Uv5-xH-qLH" firstAttribute="leading" secondItem="KyS-Xx-xXX" secondAttribute="leading" constant="16" id="ZUP-Oh-DJ5"/>
+                    <constraint firstItem="Uv5-xH-qLH" firstAttribute="centerY" secondItem="KyS-Xx-xXX" secondAttribute="centerY" id="uwm-Se-SdV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="ISOLabel" destination="HnF-sj-Js5" id="Y5u-wR-f2f"/>
+                <outlet property="currencyDescriptionLabel" destination="nv0-gX-QHP" id="Wda-RE-Ruh"/>
+                <outlet property="currencyImage" destination="Q40-fz-vVH" id="zvn-qP-rP7"/>
+                <outlet property="isMainCurrencyLabel" destination="gFX-kX-NOX" id="5D7-at-32v"/>
+            </connections>
+            <point key="canvasLocation" x="-2.8985507246376816" y="-3.0133928571428572"/>
+        </tableViewCell>
+    </objects>
+</document>

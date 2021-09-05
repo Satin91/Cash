@@ -12,9 +12,6 @@ import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    
-
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -24,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        
         
         ThemeManager.applyTheme(theme: .white)
+        
+            
+        
+        
+        
         let config = Realm.Configuration(shouldCompactOnLaunch: { totalBytes, usedBytes in
             // totalBytes refers to the size of the file on disk in bytes (data + free space)
             // usedBytes refers to the number of bytes used by data in the file
@@ -52,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Tell Realm to use this new configuration object for the default Realm
         Realm.Configuration.defaultConfiguration = config
-        
+        NetworkMonitor.shared.startMonitoring()
        
         return true
     }

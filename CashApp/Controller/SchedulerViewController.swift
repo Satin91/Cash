@@ -47,7 +47,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     
     @IBOutlet var tableView: UITableView!
     
-    var quickPayVC: UIViewController!
+    var quickPayVC = QuickPayViewController()
     //Тут в принципе вызывается календарь
     @IBAction func addButton(_ sender: Any) {
         goToPickTypeVC(delegateController: self, buttonsNames: ["One time","Multiple","Regular","Goal"], goingTo: "addScheduleVC")
@@ -248,8 +248,12 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
     
     
     func showQuickPayDashboard(indexPath: IndexPath) {
+        
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         //self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
+        QuiclPayVC.modalPresentationStyle = .formSheet
         
         let pptObject: PayPerTime? = {
            var pptObjects = [PayPerTime]()
@@ -259,28 +263,38 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
                 }
             }
             guard pptObjects.first != nil else {return nil}
+          //  object = pptObjects
             return pptObjects.first!
         }()
+        
         switch object.stringScheduleType {
         case .goal:
-            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
+            QuiclPayVC.payObject = object
+            self.addChildViewController(PayObject: object)
+         //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         case .oneTime:
-            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
+            
+            self.addChildViewController(PayObject: object)
+         //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         case .multiply:
             guard pptObject != nil else {return}
-            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
+            
+            self.addChildViewController(PayObject: pptObject)
+         //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         case .regular:
             guard pptObject != nil else {return}
-            goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
+            QuiclPayVC.payObject = pptObject
+            
+           // goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         }
-        self.addChild(quickPayVC)
         
-        self.present(quickPayVC, animated: true, completion: nil)
+        
+      
     }
 }
 
 
-extension SchedulerViewController: ClosePopUpTableViewProtocol, QuickPayCloseProtocol,SendScheduleObjectToEdit {
+extension SchedulerViewController: ClosePopUpTableViewProtocol,SendScheduleObjectToEdit {
    
     func sendObject(object: MonetaryScheduler) {
         let editVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
@@ -293,13 +307,13 @@ extension SchedulerViewController: ClosePopUpTableViewProtocol, QuickPayClosePro
     func closeTableView(object: Any) {
         guard blur.alpha != 1 else {return}
         self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
+       // goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
     }
     
     func closePopUpMenu() {
         self.view.reservedAnimateView2(animatedView: blur)
         self.view.reservedAnimateView(animatedView: quickPayVC.view, viewController: nil)
-        self.quickPayVC = nil
+     //   self.quickPayVC = nil
         tableView.reloadData()
         
         

@@ -8,100 +8,12 @@
 
 import RealmSwift
 
-//MARK: CurrencyObject
-class CurrencyObject: Object, Comparable{
-    static func < (lhs: CurrencyObject, rhs: CurrencyObject) -> Bool {
-        return lhs.ISO > rhs.ISO
-    }
-    
-
-    @objc dynamic var ISO: String = ""
-    @objc dynamic var exchangeRate: Double = 0
-    @objc dynamic var ISOID = NSUUID.init().uuidString
-    @objc dynamic var ISOPriority: Int = 15888
-    
-    override static func primaryKey() -> String? {
-        return "ISOID"
-    }
-    convenience init(ISO: String,exchangeRate: Double) {
-    self.init()
-        
-        self.ISO = ISO
-        self.exchangeRate = exchangeRate
-    }
-}
-
-class MainCurrency: Object, Comparable {
-    static func < (lhs: MainCurrency, rhs: MainCurrency) -> Bool {
-        lhs.ISO < lhs.ISO
-    }
-    @objc dynamic var ISO: String = ""
-    @objc dynamic var ISOID = NSUUID.init().uuidString
-    override static func primaryKey() -> String? {
-        return "ISOID"
-    }
-    convenience init(ISO: String) {
-    self.init()
-        self.ISO = ISO
-    }
-}
-//MARK: Monetary Entity
-class MonetaryCategory: Object, Comparable{
-    
-    static func < (lhs: MonetaryCategory, rhs: MonetaryCategory) -> Bool {
-        return lhs.name > rhs.name
-    }
-    
-    @objc dynamic var name: String = "My category"
-    @objc dynamic var sum: Double = 0
-    @objc dynamic var limit: Double = 0
-    @objc dynamic var limitBalance: Double = 0
-    @objc dynamic var isEnabledLimit = false
-    @objc dynamic var image = "card"
-    @objc dynamic var currencyISO = "USD"
-    @objc dynamic var categoryType: Int = CategoryType.expence.rawValue
-    @objc dynamic var categoryID = NSUUID.init().uuidString
-    @objc dynamic var position : Int = 0
-    var stringEntityType: CategoryType {
-        get { return CategoryType(rawValue: categoryType)! }
-        set { categoryType = newValue.rawValue }
-        }
-    var vector : Bool {
-        get { if CategoryType(rawValue: categoryType)! == .expence {
-            return false
-        }else {
-            return true
-        }}
-    }
-    override static func primaryKey() -> String? {
-        return "categoryID"
-    }
-    convenience init(name: String,sum:Double, limit: Double,limitBalance: Double,image:String,currencyISO: String,categoryType:CategoryType,position: Int) {
-        self.init()
-        self.name = name
-        self.sum = sum
-        self.limit = limit
-        self.limitBalance = limitBalance
-        self.isEnabledLimit = isEnabledLimit
-        self.image = image
-        self.currencyISO = currencyISO
-        self.categoryType = categoryType.rawValue
-        self.position = position
-      
-    }
-}
-
-
-
 
 //MARK: Monetary Account
 class MonetaryAccount: Object, Comparable {
     static func < (lhs: MonetaryAccount, rhs: MonetaryAccount) -> Bool {
         return lhs.name > rhs.name
     }
-    
-    
-    
     @objc dynamic var name: String = "My account"
     @objc dynamic var balance: Double = 0
     @objc dynamic var targetSum: Double = 0 // не используется в данной версии
@@ -145,6 +57,53 @@ class MonetaryAccount: Object, Comparable {
         default:break
         }
         return text
+    }
+}
+//MARK: CurrencyObject
+
+//MARK: Monetary Category
+class MonetaryCategory: Object, Comparable{
+    
+    static func < (lhs: MonetaryCategory, rhs: MonetaryCategory) -> Bool {
+        return lhs.name > rhs.name
+    }
+    
+    @objc dynamic var name: String = "My category"
+    @objc dynamic var sum: Double = 0
+    @objc dynamic var limit: Double = 0
+    @objc dynamic var limitBalance: Double = 0
+    @objc dynamic var isEnabledLimit = false
+    @objc dynamic var image = "card"
+    @objc dynamic var currencyISO = "USD"
+    @objc dynamic var categoryType: Int = CategoryType.expence.rawValue
+    @objc dynamic var categoryID = NSUUID.init().uuidString
+    @objc dynamic var position : Int = 0
+    var stringEntityType: CategoryType {
+        get { return CategoryType(rawValue: categoryType)! }
+        set { categoryType = newValue.rawValue }
+        }
+    var vector : Bool {
+        get { if CategoryType(rawValue: categoryType)! == .expence {
+            return false
+        }else {
+            return true
+        }}
+    }
+    override static func primaryKey() -> String? {
+        return "categoryID"
+    }
+    convenience init(name: String,sum:Double, limit: Double,limitBalance: Double,image:String,currencyISO: String,categoryType:CategoryType,position: Int) {
+        self.init()
+        self.name = name
+        self.sum = sum
+        self.limit = limit
+        self.limitBalance = limitBalance
+        self.isEnabledLimit = isEnabledLimit
+        self.image = image
+        self.currencyISO = currencyISO
+        self.categoryType = categoryType.rawValue
+        self.position = position
+      
     }
 }
 
@@ -193,20 +152,13 @@ class MonetaryScheduler: Object, Comparable {
     }
 }
 
-
 struct historyStructModel {  // Создал структуру для сортировки объектов т.к. ПОЧЕМУ ТО нельзя сортировать realm массивы
     var name = ""
     var sum = Double()
     var date = Date()
 }
 
-extension MonetaryCategory {
-    func updateObjext() {
-        try! realm!.write{
-            realm?.add(self, update: .all)
-        }
-}
-}
+
     enum vector:String {
         case to
         case out

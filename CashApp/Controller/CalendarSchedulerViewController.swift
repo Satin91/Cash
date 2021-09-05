@@ -146,7 +146,7 @@ extension CalendarSchedulerViewController : UIPopoverPresentationControllerDeleg
 
 
 //Закрывает поп ап меню, обновляет данные, закрывает анимацию
-extension CalendarSchedulerViewController: ClosePopUpTableViewProtocol, QuickPayCloseProtocol {
+extension CalendarSchedulerViewController: ClosePopUpTableViewProtocol{
     
     //close mini table view in calendar and view the blur
     func closeTableView(object: Any) {

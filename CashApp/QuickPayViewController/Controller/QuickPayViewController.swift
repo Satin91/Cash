@@ -20,21 +20,21 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     var payObjectNameLabel: UILabel = {
         var label = UILabel()
-        label.textColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = "ObjectNameError"
         label.font = .systemFont(ofSize: 26,weight: .regular)
         return label
     }()
     var accountLabel: UILabel = {
         var label = UILabel()
-        label.textColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = "AccountNameError"
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
     }()
     var dateLabel: UILabel = {
         var label = UILabel()
-        label.textColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = "Today"
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
@@ -45,9 +45,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        
-        label.font = UIFont(name:"Ubuntu-Bold",size: 26)
-        label.textColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        label.font = .systemFont(ofSize: 26, weight: .regular)
+        label.textColor = ThemeManager.currentTheme().subtitleTextColor
         
         return label
     }()
@@ -56,15 +55,16 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         tf.borderStyle = .none
         tf.backgroundColor = .clear
         tf.textAlignment = .right
-        tf.textColor = ThemeManager.currentTheme().backgroundColor
-        tf.attributedPlaceholder = NSAttributedString(string: "Sum", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().borderColor ])
+        tf.textColor = ThemeManager.currentTheme().titleTextColor
+        tf.attributedPlaceholder = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().borderColor ])
         tf.addTarget(self, action: #selector(observeConvertedSum), for: .editingChanged)
-        tf.font = UIFont(name:"Ubuntu-Bold",size: 56)
+        tf.font = .systemFont(ofSize: 54, weight: .regular)
+        
         tf.minimumFontSize = 26
         tf.adjustsFontSizeToFitWidth = true
         return tf
     }()
-    
+    var numpadView = NumpadView()
   
     
     //    var accountIdentifier = ""
@@ -74,7 +74,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     //    var dropDownIsOpen = false
     //    var changeValue = true
     //    var commaIsPressed = false // Запятая
-    var closePopUpMenuDelegate: QuickPayCloseProtocol! // Под этот протокол подписан operationViewController
     var calendar = FSCalendarView()
     var date = Date()
     //Аккаунт для того чтобы поставить его первым
@@ -125,7 +124,9 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var scrollOffset: CGFloat = 0
     var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeManager.currentTheme().titleTextColor
+        view.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        view.layer.cornerRadius = 25
+        view.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
         return view
     }()
     var isOffsetUsed = false {
@@ -136,17 +137,14 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }
     @IBAction func cancelAction(_ sender: Any) {
         sumTextField.text = ""
-        closePopUpMenuDelegate.closePopUpMenu()
+        
     }
     
     @IBAction func okAction(_ sender: Any) {
         let doubleEnteredSum = Double(sumTextField.enteredSum)
         guard doubleEnteredSum! > 0 else {return}
         newSave()
-        closePopUpMenuDelegate.closePopUpMenu()
     }
-    
-    
     
     @objc func observeConvertedSum(){
         var currencyCarrier: String = mainCurrency!.ISO
@@ -157,9 +155,10 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         }
         if self.monetaryPaymentISO != currencyCarrier {
             //Конвертация валюты счета в валюту объекта
-            let convertedSum = currencyModelController.convert(Double(sumTextField.enteredSum), inputCurrency: monetaryPaymentISO, outputCurrency: currencyCarrier)
-            self.convertedEnteredSum = convertedSum!.removeHundredthsFromEnd()
-            convertedSumLabel.text = convertedSum?.currencyFormatter(ISO: currencyCarrier)
+            guard let convertedSum = currencyModelController.convert(Double(sumTextField.enteredSum), inputCurrency: monetaryPaymentISO, outputCurrency: currencyCarrier) else {return}
+            
+            self.convertedEnteredSum = convertedSum.removeHundredthsFromEnd()
+            convertedSumLabel.text = convertedSum.currencyFormatter(ISO: currencyCarrier)
         }else{
             convertedEnteredSum = 0
         }
@@ -173,15 +172,18 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         payObjectNameLabel.textAlignment = .left
         tableView = QuickTableView(frame: .zero) // Аналогично
         calendar.delegate = self
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
+        tableView.layer.masksToBounds = false
+        tableView.clipsToBounds = false
         setupContainerView()
         setupScrollView()
         checkPayObjectAndSetItsValue()
+        
         //registerForNotifications()
         //addDoneButtonOnKeyboard()
     }
@@ -198,6 +200,9 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         scrollView.addSubview(tableView)
         scrollView.addSubview(calendar)
         scrollView.addSubview(containerView)
+        scrollView.addSubview(numpadView)
+        numpadView.delegate = self
+        numpadView.delegateAction = self
         containerView.addSubview(convertedSumLabel)
         containerView.addSubview(payObjectNameLabel)
         containerView.addSubview(sumTextField)
@@ -211,6 +216,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         sumTextField.translatesAutoresizingMaskIntoConstraints = false
         accountLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        numpadView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             convertedSumLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -26),
@@ -229,22 +235,25 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             dateLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
             dateLabel.topAnchor.constraint(equalTo: accountLabel.bottomAnchor, constant: 8),
             
+            numpadView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
+            numpadView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
+            numpadView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 22),
+            numpadView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 0)
         ])
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let edge: CGFloat = 22
-        let buttonHeight: CGFloat = 60
         let viewWidth = self.view.bounds.width
         let scrollViewHeight = scrollView.bounds.height
-        tableView.frame = CGRect(x: 0, y: 0, width: 150, height: 150)
-        tableView.frame = CGRect(x: edge, y: edge, width: viewWidth - (edge * 2), height:scrollViewHeight - (edge * 2))
+        tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        
         
         scrollOffset = self.view.bounds.width
         scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
         
-        containerView.frame = CGRect(x: viewWidth, y: 0, width: viewWidth, height: scrollViewHeight / 2)
+        containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
 //        sumTextField.frame = CGRect(x: viewWidth, y: buttonHeight, width: viewWidth, height: scrollViewHeight - buttonHeight )
 //        convertedSumLabel.frame = sumTextField.bounds
 //        convertedSumLabel.frame.origin.x = convertedSumLabel.frame.origin.x + viewWidth / 2 - edge
@@ -265,6 +274,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             let object = payObject as! MonetaryScheduler
             payObjectNameLabel.text = object.name
             if object.stringScheduleType == .oneTime {
+                payObjectNameLabel.text = object.name
                 sumTextField.text = String(object.target - object.available)
                 sumTextField.enteredSum = String(object.target - object.available)
             }
@@ -304,8 +314,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             
         }
         var regularObject: PayPerTime?
-        
-        
         
         for (_,i) in Array(payPerTimeObjects).enumerated() {
             if i.scheduleID == scheduleObject.scheduleID{
@@ -636,7 +644,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     func removeKeyboardNotifications () {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
     
     @objc func kbWillShow(_ notification: Notification) {
@@ -669,7 +676,7 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height / 4
+        return 100
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -696,15 +703,93 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
             scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
             return}
         
+        
         selectedAccountObject = object
         accountLabel.text = object.name
         scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
         
     }
     
+}
+extension QuickPayViewController: TappedNumbers {
+    
+    func checkComma(text: String, comma: inout Bool) {
+        for i in text {
+            if i == "," {
+                 comma.toggle()
+            }
+        }
+    }
+    func sendNumber(number: String) {
+        var comma = false
+        
+        sumTextField.inputView = numpadView
+        comma = sumTextField.checkComma(string: sumTextField.text!)
+        print(comma)
+        print(number)
+        
+        if number != "Save" {
+        if sumTextField.text?.isEmpty == true && number != "," {
+            sumTextField.text?.append(number)
+            sumTextField.textFieldChanged()
+            self.observeConvertedSum()
+
+        }else if sumTextField.text?.isEmpty == false && number == ","  && comma == false {
+            sumTextField.text?.append(number)
+            sumTextField.textFieldChanged()
+            self.observeConvertedSum()
+        }else if sumTextField.text?.isEmpty == false && number != "," {
+            sumTextField.text?.append(number)
+            sumTextField.textFieldChanged()
+            self.observeConvertedSum()
+        }
+        }
+        
+    
+       
+        
+        
+        //sumTextField.insertText(number)
+        if number == "Save" {
+            let doubleEnteredSum = Double(sumTextField.enteredSum)
+            guard doubleEnteredSum! > 0 else {return}
+            newSave()
+            dismiss(animated: true, completion: nil)
+            
+        }else {
+        }
+        
+        
+        
+        //sumTextField.deleteBackward()
+        
+        
+//        sumTextField.textFieldChanged()
+//        self.observeConvertedSum()
+    }
+    
     
 }
-
+extension QuickPayViewController:  tappedButtons{
+    func scrollAndBackspace(action: String) {
+        
+        let x: CGFloat = action == "Accounts" ? 0 : self.view.bounds.width * 2.8
+       
+        switch action {
+        case "Backspace":
+            guard sumTextField.text != "" else {return}
+            sumTextField.text?.removeLast()
+            sumTextField.textFieldChanged()
+        observeConvertedSum()
+        default:
+            scrollView.scrollRectToVisible(CGRect(x: x, y: 0, width: self.view.bounds.width / 3, height: self.view.bounds.height) , animated: true)
+        }
+        
+    }
+    
+    
+    
+}
 ///MARK: Calendar
 extension QuickPayViewController: FSCalendarDelegate {
     

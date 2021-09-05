@@ -29,10 +29,11 @@ struct Metric: Codable {
 extension Metric: CustomStringConvertible {
     private static var valueFormatter: NumberFormatter = {
            let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 3
+        formatter.groupingSeparator = " "
+        formatter.decimalSeparator = ","
            formatter.numberStyle = .decimal
-           formatter.maximumFractionDigits = 3
-           formatter.groupingSeparator = " "
-           formatter.decimalSeparator = ","
+           
            return formatter
        }()
 
@@ -123,12 +124,13 @@ extension UILabel {
     
     
     func changeTextAttributeForFirstLiteralsISO(ISO: String, Balance: Double,additionalText: (String,UIColor)? ) {
+        let currencySymbol = CurrencySymbol()
         guard self.text != nil else {return}
         let characterSet = NSCharacterSet(charactersIn: "1234567890, ")
         var counter: Int = 0
         
-        let currencyModelController = CurrencyModelController()
-        let symbol = currencyModelController.getSymbolForCurrencyCode(code: ISO)
+        
+        let symbol = currencySymbol.getSymbolForCurrencyCode(code: ISO)
         
         let text = symbol + " " + Metric.init(value: Balance).formattedValue
         self.text = text
@@ -159,6 +161,7 @@ extension UILabel {
         let duration = 0.25
         let rate = duration / Double(steps)
         let diff = upto - from
+        
         for i in 0...steps {
             DispatchQueue.main.asyncAfter(deadline: .now() + rate * Double(i)) {
                 let doubl = (from + diff * (Double(i) / Double(steps)))
@@ -198,7 +201,7 @@ extension Numeric {
         // In Swift 4, this ^ was renamed to simply NSLocale.current
         var id = String()
         //let decimalsISO = ["SEK","NOK","CZK","JPY","HUF","IDR","ISK"]
-        for i in curIdentifiers {
+        for i in CurrencyList().identifiers {
             if i.key == ISO {
                 id = i.value.rawValue
             }
@@ -235,6 +238,8 @@ extension CALayer {
     public func setMiddleShadow(color: UIColor) {
            shadowColor = color.cgColor
            shadowOffset = CGSize(width: 4, height: 4)
+           shadowPath = UIBezierPath(rect: bounds).cgPath
+           shouldRasterize = true
            shadowRadius = 30
            shadowOpacity = 0.3
            //shouldRasterize = true
@@ -424,11 +429,6 @@ protocol DropDownProtocol {
     func dropDownAccountIdentifier(identifier: String)
 }
 
-///MARK: PopUpProtocol
-protocol QuickPayCloseProtocol {
-    func closePopUpMenu()
-}
-
 extension UIImageView{
     func changePngColorTo(color: UIColor){
         guard let image =  self.image else {return}
@@ -520,8 +520,8 @@ extension UIView {
         //border.path = UIBezierPath(roundedRect:dashView.bounds, cornerRadius:10.0).cgPath
         border.frame = self.bounds
         border.fillColor = nil
-        border.strokeColor = ThemeManager.currentTheme().subtitleTextColor.cgColor
-        border.lineWidth = 2 // doubled since half will be clipped
+        border.strokeColor = ThemeManager.currentTheme().borderColor.cgColor
+        border.lineWidth = 3 // doubled since half will be clipped
         border.lineDashPattern = [15.0,4]
         self.layer.addSublayer(border)
     }
@@ -600,8 +600,11 @@ extension UIButton{
                 }
             })
     }
-    
+
 }
+
+
+
 //MARK: Uniq
 //sorted uniq array of dates
  func uniq<S: Sequence, T: Hashable> (source: S) -> [T] where S.Iterator.Element == T {
@@ -716,8 +719,6 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
     let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
     
     QuiclPayVC.payObject = PayObject
-    QuiclPayVC.closePopUpMenuDelegate = (delegateController as! QuickPayCloseProtocol) //Почему то работает делегат только если кастить до popupviiewController'a
-    // Проверка для того чтобы каждый раз не добавлять viewController при его открытии
  
     if classViewController == nil {
         classViewController = QuiclPayVC
@@ -892,4 +893,14 @@ extension UITextField {
             self.leftViewMode = .always
         }
  
+}
+extension UIViewController {
+    
+    func addChildViewController(PayObject: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let QuicklPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
+        QuicklPayVC.payObject = PayObject
+        QuicklPayVC.modalPresentationStyle = .pageSheet
+        present(QuicklPayVC, animated: true, completion: nil)
+    }
 }
