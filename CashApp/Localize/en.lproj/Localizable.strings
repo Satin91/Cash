@@ -51,3 +51,56 @@
 //MARK: - Currency View Controller
 
 "currency_converter_label" = "Currency converter";
+
+
+///MARK: - Date Format
+"year_does_not_coincide" = "MMMM, d, Y";
+"year_coincides" = "MMMM, d";
+"day_is_today" = "Today";
+"day_was_yestereday" = "Yestereday";
+
+//MARK: - Currency
+
+"USD" = "United States Dollar" ;
+"EUR" = "European euro" ;
+"JPY" = "Japanese_yen" ;
+"GBP" = "Pound sterling" ;
+"AUD" = "Australian dollar" ;
+"CHF" = "Swiss franc" ;
+"CAD" = "Canadian dollar" ;
+"CNY" = "Chinese Yuan Renminbi" ;
+"SEK" = "Swedish krona" ;
+"NOK" = "Norwegian krone" ;
+"NZD" = "New Zealand dollar" ;
+"SGD" = "Singapore dollar" ;
+"HKD" = "Hong Kong dollar" ;
+"KRW" = "South Korean won" ;
+"TRY" = "Turkish lira" ;
+"RUB" = "Russian ruble" ;
+"INR" = "Indian rupee" ;
+"BRL" = "Brazilian real" ;
+"ZAR" = "South African rand" ;
+"BYN" = "Belarusian ruble" ;
+"UAH" = "Ukrainian hryvnia" ;
+"ILS" = "Israeli new shekel" ;
+"BGN" = "Bulgarian lev" ;
+"CZK" = "Czech koruna" ;
+"DKK" = "Danish krone" ;
+"HRK" = "Croatian kuna" ;
+"HUF" = "Hungarian forint" ;
+"IDR" = "Indonesian rupiah" ;
+"ISK" = "Icelandic krona" ;
+"MXN" = "Mexican peso" ;
+"MYR" = "Malaysian ringgit" ;
+"PLN" = "Polish zloty" ;
+"RON" = "Romanian leu" ;
+"THB" = "Thai baht" ;
+"KZT" = "Kazakhstani tenge" ;
+"AMD" = "Armenian dram" ;
+"ALL" = "Albanian lek" ;
+"BAM" = "Convertible mark" ;
+"RSD" = "Serbian dinar" ;
+"AZN" = "Azerbaijan manat" ;
+"SAR" = "Saudi Riyal" ;
+"EGP" = "Egyptian Pound" ;
+"TMT" = "Turkmenistan New Manat" ;

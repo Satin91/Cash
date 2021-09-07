@@ -20,8 +20,27 @@ class MiniAlertView: UIView {
         super.init(frame: frame)
         print("init")
         messageLabel.text = "Some text"
+        self.accessibilityIdentifier = "Alert-View"
     }
 
+    func showAlert(){
+        super.addSubview(self)
+        
+        
+        self.frame = CGRect(x: super.bounds.width, y: 97, width: super.bounds.width - (Layout.side * 2), height: 98)
+        //miniAlert.messageLabel.text = message
+        UIView.animate(withDuration: 0.45, delay: 0,usingSpringWithDamping: 0.7,initialSpringVelocity: 0.9,options: .curveEaseInOut) {
+            self.frame.origin.x = Layout.side
+        }completion: { (true) in
+            UIView.animate(withDuration: 0.25,delay: 2.0) {
+                    self.frame.origin.x = self.bounds.width
+                }completion: { _ in
+                    self.removeFromSuperview()
+            }
+        
+        }
+        
+    }
     
     func visualSettings() {
         messageLabel.font = .systemFont(ofSize: 22, weight: .regular)
@@ -46,6 +65,7 @@ class MiniAlertView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         print("coder")
+        self.accessibilityIdentifier = "Alert-View" //Идентификатор для распознования представления исключающий повтор
     }
 }
 extension UIView {

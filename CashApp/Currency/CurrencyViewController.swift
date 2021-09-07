@@ -286,10 +286,11 @@ class CurrencyTableViewCell: UITableViewCell {
         getCurrenciesByPriorities()
         visualSettings()
         currencyImage.image = UIImage(named: currencyObject.ISO)
-        isMainCurrencyLabel.text = currencyObject.ISO == mainCurrency?.ISO ? "Main currency": "Additional currency"
+        isMainCurrencyLabel.text = currencyObject.ISO == mainCurrency?.ISO ? NSLocalizedString("main_currency_cell", comment: ""): NSLocalizedString("additional_currency_cell", comment: "")
         isMainCurrencyLabel.textColor = currencyObject.ISO == mainCurrency?.ISO ? ThemeManager.currentTheme().contrastColor1:ThemeManager.currentTheme().subtitleTextColor
         ISOLabel.text = currencyObject.ISO
         currencyDescriptionLabel.text = CurrencyList.CurrencyName(rawValue: currencyObject.ISO)?.getRaw
+        print()
     }
     
     func converterSet(currencyObject: CurrencyObject, enteredSum: Double){

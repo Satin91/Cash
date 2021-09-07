@@ -90,6 +90,7 @@
 		75AD2A0B266A006C00F6880B /* CurrencyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */; };
 		75AE325125239E30004422F4 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE325025239E30004422F4 /* AccountsViewController.swift */; };
 		75AE5A9325CCAC25006AC7E0 /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE5A9225CCAC25006AC7E0 /* ChartsView.swift */; };
+		75AFE4A926E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AFE4A826E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift */; };
 		75B59B70262DE57600DFCCCD /* AddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */; };
 		75B59B71262DE57600DFCCCD /* AddCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */; };
 		75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C0DF752524D52400D5B0FA /* CalendarView.swift */; };
@@ -209,6 +210,7 @@
 		75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyTableViewCell.xib; sourceTree = "<group>"; };
 		75AE325025239E30004422F4 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		75AE5A9225CCAC25006AC7E0 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
+		75AFE4A826E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEnteredDataAndShowAlert.swift; sourceTree = "<group>"; };
 		75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionViewCell.swift; sourceTree = "<group>"; };
 		75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCollectionViewCell.xib; sourceTree = "<group>"; };
 		75C0DF752524D52400D5B0FA /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 		7578BE3A269666E70063D087 /* AlertView */ = {
 			isa = PBXGroup;
 			children = (
+				75AFE4A826E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift */,
 				754EE23D26E00F0600B66B5A /* MiniAlertView.swift */,
 				7578BE36269666CA0063D087 /* AlertViewController.swift */,
 				7578BE37269666CA0063D087 /* AlertViewController.xib */,
@@ -841,6 +844,7 @@
 				759130CA25F10EF9009F2C93 /* AccountCollectionViewCell.swift in Sources */,
 				7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */,
 				7539D3CB2637962A00A966BB /* PopTableViewCell.swift in Sources */,
+				75AFE4A926E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift in Sources */,
 				75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */,
 				7510F83E2509A87600030A52 /* CategoriesViewController.swift in Sources */,
 				75A7413C26E48C9800A9C586 /* AccountImageCell.swift in Sources */,
@@ -1073,6 +1077,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				INFOPLIST_FILE = CashApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -1095,6 +1100,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				INFOPLIST_FILE = CashApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;

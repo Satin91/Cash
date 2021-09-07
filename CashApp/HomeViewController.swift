@@ -52,7 +52,6 @@ class HomeViewController: UIViewController  {
     @IBOutlet var tableView: EnlargeTableView!
     let networking = Networking()
     var theme = ThemeManager.currentTheme()
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         getCurrenciesByPriorities()//Обновить данные об изменении главной валюты
@@ -61,13 +60,15 @@ class HomeViewController: UIViewController  {
         tableView.enterHistoryData() // Обновление данных истории
         tableView.reloadData()
         self.reloadInputViews()
-    }   
+    }
+  
     //MARK: SCROLL EFFECT
 
     override func viewDidLoad() {
         super.viewDidLoad()
         installBackgroundView()
         setRightBarButton()
+        setLeftBarButtn()
         self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         //totalBalanceButtom.mainButtonTheme()
         tableView.clipsToBounds = true
@@ -75,6 +76,7 @@ class HomeViewController: UIViewController  {
        // setTotalBalance()
         tableView.separatorStyle = .none
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
+        
 //        if NetworkMonitor.shared.isConnected {
 //            print("You'r on wifi")
 //        }else{
@@ -98,7 +100,11 @@ class HomeViewController: UIViewController  {
         //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
     }
     
- 
+    func setLeftBarButtn() {
+        let image = UIImageView(image: UIImage(named: "navigationBarSettings"))
+        self.navigationItem.leftBarButtonItem!.image = image.image
+        self.navigationItem.leftBarButtonItem?.isEnabled = false
+    }
     
     func setRightBarButton() {
         navigationItem.title = NSLocalizedString("home_navigation_title", comment: "")

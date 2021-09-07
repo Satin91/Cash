@@ -121,10 +121,12 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
         self.chartSize.backgroundColor = .clear
         textView.backgroundColor = .clear
         textView.textColor = ThemeManager.currentTheme().titleTextColor
+        textView.textAlignment = .center
         textView.font = .systemFont(ofSize: 17)
         self.layer.masksToBounds = false
         bounds(view: self)
         bounds(view: chartSize)
+        
         
     }
 
@@ -188,20 +190,20 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
     func set(element: LineChartDataModel) {
         ISO = element.account.currencyISO
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM"
+        formatter.dateFormat = "LLLL"
         
         switch element.chartDataSet.label {
         case "ArrayIsEmpty" :
             lineChartView.isHidden = true
             textView.isHidden = false
-            textView.text = "You have not made a single transaction"
+            textView.text = NSLocalizedString("no_transactions", comment: "")
             monthLabel.text = formatter.string(from: element.date)
         case "ArrayIsIncomplete":
             lineChartView.isHidden = true
             textView.isHidden = false
-            textView.text = "You need at least one transaction in this month to display the chart!"
+            textView.text = NSLocalizedString("need_at_least_one", comment: "")
             monthLabel.text = formatter.string(from: element.date)
-        print("You need at least one transaction in this month to display the chart!")
+   
         default:
             lineChartView.isHidden = false
             chartVisualSettings(chartDataSet: element.chartDataSet)

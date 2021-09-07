@@ -68,6 +68,7 @@ class AddScheduleViewController: UIViewController {
     
     var calendarComponent: Calendar.Component = .weekOfMonth
     var date: Date!
+    var checkData: CheckEnteredDataAndShowAlert!
     var calendar: FSCalendarView = {
        let calendar = FSCalendarView()
         calendar.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
@@ -91,7 +92,7 @@ class AddScheduleViewController: UIViewController {
     let currencyModelController = CurrencyModelController()
     var alertView = AlertViewController()
     var dateRhythm: DateRhythm = .month
-    var dateRhythmArray = ["Repeat every month","repeat every week","repeat every day"]
+    var dateRhythmArray = [NSLocalizedString("repeat_every_month", comment: ""),NSLocalizedString("repeat_every_week", comment: ""),NSLocalizedString("repeat_every_day", comment: "")]
     var isEditingScheduler: Bool = false
     var vector: Bool = false
     var payArray = [PayPerTime]() // Используется в записи платежных данных
@@ -156,7 +157,7 @@ class AddScheduleViewController: UIViewController {
     @IBAction func cancelButtonAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    var selectedImageName = "AppIcon" {
+    var selectedImageName = "emptyImage" {
         willSet{
             selectImageButtonOutlet.setImage(UIImage(named: newValue), for: .normal)
             selectImageButtonOutlet.imageView?.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
@@ -175,11 +176,13 @@ class AddScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.alpha = isEditingScheduler ? 1 : 0
+        checkData = CheckEnteredDataAndShowAlert(controller: self)
         visualSettings()
         checkScheduleType()
         setupCalendarAndTableView()
         stackViewSettings()
         setupButtonsAndFields()
+        
         guard isEditingScheduler else {return}
         setDataFromEditableObject()
     }
@@ -214,16 +217,6 @@ class AddScheduleViewController: UIViewController {
         case .goal :
             return saveGoal()
         }
-    }
-    func checkEnteredData() -> Bool {
-        var message = ""
-        guard nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", date != nil else {
-            message = "Заполните все поля"
-            self.showMiniAlert(message: message, alertStyle: .warning)
-            return false
-        }
-
-        return false
     }
     
     func getNumberOfMontsForMultyplyPayPerTime(targetSum: Double, sumPerTime: Double) -> (Int,Double?) {
@@ -272,7 +265,7 @@ class AddScheduleViewController: UIViewController {
         if isEditingScheduler == true {
             removeAllPayPerTimeFromScheduler()
         }
-        print(totalSumTextField.text)
+        
         let targetSum = target
         let sumPerTime = sumPerTime
         let resultNumbersAndRemainder: (Int, Double?) = getNumberOfMontsForMultyplyPayPerTime(targetSum: targetSum, sumPerTime: sumPerTime)
@@ -303,7 +296,7 @@ class AddScheduleViewController: UIViewController {
 
     func saveOneTime()-> Bool {
         
-        if nameTextField.text != "", totalSumTextField.text != "", self.date != nil{
+        if nameTextField.text != "", totalSumTextField.text != "", self.date != nil, selectedImageName != "emptyImage"{
             
             name = nameTextField.text!
             target = Double(totalSumTextField.enteredSum)!
@@ -333,7 +326,7 @@ class AddScheduleViewController: UIViewController {
             return true
         }else{
             
-            return checkEnteredData()
+            return checkData.showAlertForScheduler(textFields: [nameTextField,totalSumTextField], imageName: selectedImageName, date: date)
         }
     }
     
@@ -341,7 +334,7 @@ class AddScheduleViewController: UIViewController {
     
     func saveMultiply()-> Bool {
 
-        if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", date != nil{
+        if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", date != nil, selectedImageName != "emptyImage"{
             
             name = nameTextField.text!
    
@@ -385,7 +378,7 @@ class AddScheduleViewController: UIViewController {
             return true
         }else{
             
-            return  checkEnteredData()
+            return  checkData.showAlertForScheduler(textFields: [nameTextField,totalSumTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
             
         }
     }
@@ -393,7 +386,7 @@ class AddScheduleViewController: UIViewController {
     
     
     func saveRegular() -> Bool {
-        if nameTextField.text != "", sumPerTimeTextField.text != "", self.date != nil{
+        if nameTextField.text != "", sumPerTimeTextField.text != "", self.date != nil, selectedImageName != "emptyImage"{
             
             name = nameTextField.text!
             sumPerTime = sumPerTimeTextField.removeAllExceptNumbers()
@@ -426,16 +419,16 @@ class AddScheduleViewController: UIViewController {
             return true
         }else{
             
-            return checkEnteredData()
+            return checkData.showAlertForScheduler(textFields: [nameTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
         }
     }
     func saveGoal() -> Bool{
         
         var isOkay = false
-        if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", self.date != nil{
+        if nameTextField.text != "", totalSumTextField.text != "",sumPerTimeTextField.text != "", self.date != nil, selectedImageName != "emptyImage"{
             name = nameTextField.text!
             target = totalSumTextField.removeAllExceptNumbers()
-            sumPerTime = sumPerTimeTextField.removeAllExceptNumbers()
+            sumPerTime = sumPerTimeTextField.removeAllExceptNumbers() // Выполняет роль имеющейся суммы
 
             
             
@@ -498,7 +491,7 @@ class AddScheduleViewController: UIViewController {
         }else{
           
             
-            return checkEnteredData()
+            return checkData.showAlertForScheduler(textFields: [nameTextField,totalSumTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
         }
     }
 }
@@ -525,20 +518,27 @@ extension AddScheduleViewController {
         expenceVectorButtonOutlet.layer.cornerRadius = 10
         
         
+        let isEditingButtonTitle = isEditingScheduler ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
         selectDateButtonOutlet.mainButtonTheme(color: ThemeManager.currentTheme().titleTextColor, "date_button")
-        okButtonOutlet.mainButtonTheme(color: ThemeManager.currentTheme().contrastColor1,"Create")
+        okButtonOutlet.mainButtonTheme(color: ThemeManager.currentTheme().contrastColor1,isEditingButtonTitle)
         
         selectImageButtonOutlet.layer.cornerRadius = 25
         selectImageButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         selectImageButtonOutlet.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-      
+        
         
         //selectImageButtonOutlet.addSubview(imageForSelectButtonImage)
-        //selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
+        
+        
+        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
+        selectImageButtonOutlet.imageView?.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        
         //selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
         
         scrollView.backgroundColor = .clear
     }
+    
+   
     func setupButtonsAndFields() {
         nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
         
@@ -551,6 +551,7 @@ extension AddScheduleViewController {
         sumPerTimeTextField.changeVisualDesigh()
         let title = isEditingScheduler ? newScheduleObject.currencyISO : mainCurrency!.ISO
         rightViewTextFieldButtonFor(title: title)
+        
         
     }
     func constraintsForTableViewAndCalendar() {
@@ -618,15 +619,14 @@ extension AddScheduleViewController: ClosePopUpTableViewProtocol{
 //MARK: - set data for header labels
 extension AddScheduleViewController {
     enum headerText: String {
-        
         case oneTime = "add_one_time_title"
         case multiply = "add_multiply_title"
         case regular = "add_regular_title"
         case goal = "add_goal_title"
     }
     enum editingHeaderText: String {
-        case oneTime = "Изменить разовый платеж"
-        case multiply = "Изменить многоразовый"
+        case oneTime = "edit_one_time_title"
+        case multiply = "edit_multiply_title"
         case regular = "Изменить регулярную оплату"
         case goal = "Изменить существующую цель "
     }
@@ -637,31 +637,32 @@ extension AddScheduleViewController {
         case regular = "add_regular_description"
         case goal = "add_goal_description"
     }
+//    enum editingDescriptionText: String {
+//        case oneTime = "Изменить разовый платеж"
+//        case multiply = "Изменить многоразовый"
+//        case regular = "Изменить  регулярную оплату"
+//        case goal = "Изменить существующую цель "
+//    }
     func checkScheduleType() {
         
         if isEditingScheduler {
+            descriptionTextLabel.isHidden = true//Вырубает описание(так как оно бестолковое и так все понятно)
             switch newScheduleObject.stringScheduleType{
             case .oneTime :
-                headingTextLabel.text = editingHeaderText.oneTime.rawValue
-                descriptionTextLabel.text = descriptionText.oneTime.rawValue
+                headingTextLabel.text = NSLocalizedString(editingHeaderText.oneTime.rawValue, comment: "")
                 sumPerTimeTextField.isHidden = true
-                //rhythmSegmentedControl.isHidden = true
                 scrollView.isScrollEnabled = true
             case .multiply :
-                headingTextLabel.text = editingHeaderText.multiply.rawValue
-                descriptionTextLabel.text = descriptionText.multiply.rawValue
-            // vectorSegmentedControl.isHidden = true
+                headingTextLabel.text = NSLocalizedString(editingHeaderText.multiply.rawValue, comment: "")
             case .regular :
-                headingTextLabel.text = editingHeaderText.regular.rawValue
-                descriptionTextLabel.text = descriptionText.regular.rawValue
+                headingTextLabel.text = NSLocalizedString(editingHeaderText.regular.rawValue, comment: "")
                 totalSumTextField.isHidden = true
-                
             case .goal :
-                headingTextLabel.text = editingHeaderText.goal.rawValue
-                descriptionTextLabel.text = descriptionText.goal.rawValue
+                headingTextLabel.text = NSLocalizedString(editingHeaderText.goal.rawValue, comment: "")
                 sumPerTimeTextField.isHidden = false
             }
         }else{
+            descriptionTextLabel.isHidden = false
         switch newScheduleObject.stringScheduleType{
         case .oneTime :
             headingTextLabel.text = NSLocalizedString(headerText.oneTime.rawValue, comment: "")
@@ -693,7 +694,7 @@ extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.date = date
         
-        selectDateButtonOutlet.setTitle(fullDateToString(date: date), for: .normal)
+        selectDateButtonOutlet.setTitle(dateToString(date: date), for: .normal)
         //selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
         self.view.reservedAnimateView2(animatedView: self.calendar)
         self.view.reservedAnimateView2(animatedView: self.blurView)
@@ -703,6 +704,7 @@ extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
 extension AddScheduleViewController: SendIconToParentViewController {
     func sendIconName(name: String) {
         selectedImageName = name
+        
     }
     
     

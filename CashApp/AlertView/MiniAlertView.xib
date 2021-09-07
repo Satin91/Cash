@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Лейбл" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="97" translatesAutoresizingMaskIntoConstraints="NO" id="tP8-zv-7oW">
-                    <rect key="frame" x="355" y="124.5" width="51" height="21"/>
+                    <rect key="frame" x="26" y="124.5" width="380" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -25,6 +25,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="tP8-zv-7oW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="26" id="JXG-ug-DaN"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="tP8-zv-7oW" secondAttribute="trailing" constant="8" id="Myl-tK-woB"/>
                 <constraint firstItem="tP8-zv-7oW" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="mDI-30-sIw"/>
             </constraints>

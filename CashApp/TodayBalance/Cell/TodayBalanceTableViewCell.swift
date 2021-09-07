@@ -16,6 +16,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
     @IBOutlet var monetaryImage: UIImageView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var subTitleLabel: UILabel!
+    var swtch: AIFlatSwitch!
     var lineView: UIView = {
        let view = UIView()
         view.backgroundColor = ThemeManager.currentTheme().separatorColor
@@ -29,6 +30,8 @@ class TodayBalanceTableViewCell: UITableViewCell {
         return nib
         
     }
+    
+    
     func visualSettings() {
         titleLabel.textColor = theme.titleTextColor
         titleLabel.font = .systemFont(ofSize: 19, weight: .regular)
@@ -39,14 +42,29 @@ class TodayBalanceTableViewCell: UITableViewCell {
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         
+       // insertSwitchInCell()
+    }
+    
+    func insertSwitchInCell() {
+
+        let swtc = AIFlatSwitch()
+        let size: CGFloat = 35
+        let xPos:CGFloat = self.bounds.width - 40 - (size / 2)
+        let yPos: CGFloat = self.bounds.height / 2 - (size / 2)
+        swtch = AIFlatSwitch(frame: CGRect(x: xPos, y: yPos, width: size, height: size))
+        self.addSubview(swtch)
+        
+        
+        //AISwitch.center.y = cell.center.y
+        swtc.isEnabled = false
         
     }
+    
     func setUnderline(isLast: Bool){
     }
     var switchTogle: Bool = false
     override func prepareForReuse() {
         super.prepareForReuse()
-        
     }
     func setConstraintsForUnderLine(){
         self.addSubview(lineView)

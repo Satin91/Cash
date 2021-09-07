@@ -183,9 +183,12 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
              
             let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(4.5/5), heightDimension: .fractionalHeight(4.5/5)))
-//            trailingItem.contentInsets = NSDirectionalEdgeInsets(top: 3.0, leading: 3.0, bottom: 3.0, trailing: 3.0)
+            if self.view.bounds.width > 400 {
+            trailingItem.contentInsets = NSDirectionalEdgeInsets(top: 8.0, leading: 8.0, bottom: 8.0, trailing: 8.0)
+            }
             
             let subGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(2/5)), subitem: trailingItem, count: 3)
+           // subGroup.interItemSpacing = NSCollectionLayoutSpacing.fixed(25)
             subGroup.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0)
             
             

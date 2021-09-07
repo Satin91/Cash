@@ -65,15 +65,20 @@ class PopTableViewCell: UITableViewCell {
         }
     }
     func setAction(object: String) {
-        nameLabel.text = object
+        //nameLabel.text = object
         sumLabel.isHidden = true
         popCellImage.isHidden = true
         if object == "Edit" {
-            nameLabel.textColor = ThemeManager.currentTheme().contrastColor1
+            nameLabel.text = NSLocalizedString("pop_edit_name_label", comment: "")
+            nameLabel.textColor = ThemeManager.currentTheme().titleTextColor
         }else{
+            nameLabel.text = NSLocalizedString("pop_delete_name_label", comment: "")
+            
             nameLabel.textColor = ThemeManager.currentTheme().contrastColor2
         }
     }
+    
+    
     
     func setCurrency(object: CurrencyObject) {
         nameLabel.text = object.ISO
@@ -83,6 +88,8 @@ class PopTableViewCell: UITableViewCell {
     
     func setSchedule(scheduleObject: MonetaryScheduler){
         nameLabel.text = scheduleObject.name
+        nameLabel.textAlignment = .left
+        sumLabel.textAlignment = .left
         let totalSum = scheduleObject.target - scheduleObject.available
         sumLabel.text = String(totalSum.currencyFormatter(ISO: scheduleObject.currencyISO))
         popCellImage.image = UIImage(named: scheduleObject.image)

@@ -35,7 +35,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var dateLabel: UILabel = {
         var label = UILabel()
         label.textColor = ThemeManager.currentTheme().titleTextColor
-        label.text = "Today"
+        label.text = NSLocalizedString("day_is_today", comment: "")
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
     }()
@@ -44,7 +44,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var convertedSumLabel: UILabel = {
         let label = UILabel()
         label.text = ""
-        label.textAlignment = .center
+        label.textAlignment = .right
         label.font = .systemFont(ofSize: 26, weight: .regular)
         label.textColor = ThemeManager.currentTheme().subtitleTextColor
         
@@ -79,7 +79,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     //Аккаунт для того чтобы поставить его первым
     var withoutAccountObject: MonetaryAccount = {
         var object = MonetaryAccount()
-        object.name = "Without account"
+        object.name = NSLocalizedString("without_Account", comment: "")
         object.balance = 0
         object.accountID = "NO ACCOUNT"
         return object
@@ -220,6 +220,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
         NSLayoutConstraint.activate([
             convertedSumLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -26),
+            convertedSumLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
             convertedSumLabel.bottomAnchor.constraint(equalTo: sumTextField.topAnchor, constant: -8),
            
             sumTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -26),
@@ -237,7 +238,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             
             numpadView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
             numpadView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
-            numpadView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 22),
+            numpadView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
             numpadView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 0)
         ])
     }
@@ -247,7 +248,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         let edge: CGFloat = 22
         let viewWidth = self.view.bounds.width
         let scrollViewHeight = scrollView.bounds.height
-        tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        tableView.frame = CGRect(x: 0, y: 22, width: self.view.bounds.width, height: self.view.bounds.height)
         
         
         scrollOffset = self.view.bounds.width
@@ -282,7 +283,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             let object = payObject as! MonetaryCategory
             payObjectNameLabel.text = object.name
         }
-        accountLabel.text = selectedAccountObject != nil ? selectedAccountObject?.name : "Without account"
+        accountLabel.text = selectedAccountObject != nil ? selectedAccountObject?.name : withoutAccountObject.name
         
     }
     
@@ -796,6 +797,6 @@ extension QuickPayViewController: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
         self.date = date
-        dateLabel.text = fullDateToString(date: date)
+        dateLabel.text = dateToString(date: date)
     }
 }

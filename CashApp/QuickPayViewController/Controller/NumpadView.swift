@@ -38,8 +38,12 @@ class NumpadView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        let spacing = self.bounds.width * 0.04
+        allStackViewSettings(spacing: spacing)
         zeroWidthConstraint.constant = (self.frame.width / 2) - (12 / 2)
         dotWidthConstraint.constant = allButtons[0].bounds.width
+        
+        
         //allButtons[0].frame.width * 2
     }
     @IBAction func saveButton(_ sender: UIButton) {
@@ -47,10 +51,12 @@ class NumpadView: UIView {
     @IBOutlet var contentView: UIView!
     @IBOutlet var headerView: UIView!
     @IBOutlet var allButtons: [UIButton]!
+    
+    @IBOutlet var allStackView: [UIStackView]!
     var delegate: TappedNumbers!
     var delegateAction: tappedButtons!
   
-
+    
     
     @IBAction func numbers(_ sender: UIButton) {
         delegate.sendNumber(number: sender.titleLabel!.text!)
@@ -62,27 +68,65 @@ class NumpadView: UIView {
     }
    
     
+    let backspaceImage: UIImageView = {
+       let image = UIImageView()
+        image.image = UIImage(named: "backspace")
+        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        return image
+    }()
+    let accountsImage: UIImageView = {
+       let image = UIImageView()
+        image.image = UIImage(named: "accounts")
+        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        return image
+    }()
+    let calendarImage: UIImageView = {
+       let image = UIImageView()
+        image.image = UIImage(named: "calendar")
+        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        return image
+    }()
     
+    func allStackViewSettings(spacing: CGFloat) {
+        allStackView.forEach { (stView) in
+            stView.spacing = spacing
+        }
+    }
     
-    func visualSettings() {
+    func allButtonSettings() {
+        
         allButtons.forEach { (btn) in
             btn.layer.cornerRadius = 12
-            btn.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+            btn.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
             btn.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .normal)
-            btn.titleLabel?.font = .systemFont(ofSize: 22, weight: .regular)
+            btn.titleLabel?.font = .systemFont(ofSize: 26, weight: .regular)
             btn.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
             btn.layer.borderWidth = 1
             btn.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
-            
+         
+            switch btn.tag {
+            case 21:
+                btn.setImage(backspaceImage.image, for: .normal)
+                btn.setImageTintColor(ThemeManager.currentTheme().titleTextColor)
+                btn.contentMode = .scaleAspectFit
+            case 22:
+                btn.setImage(accountsImage.image, for: .normal)
+                btn.setImageTintColor(ThemeManager.currentTheme().titleTextColor)
+            case 23:
+                btn.setImage(calendarImage.image, for: .normal)
+                btn.setImageTintColor(ThemeManager.currentTheme().titleTextColor)
+            default:
+                break
+            }
         }
-        
+   
         
         self.contentView.backgroundColor = .clear
     }
       override init(frame: CGRect) {
         super.init(frame: frame)
         loadNib()
-        visualSettings()
+        allButtonSettings()
         
       }
 

@@ -310,11 +310,11 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
             account = i
             }
         }
-        
+        try! realm.write {
         guard let acc = account else {
+            realm.delete(historyObject)
             return
         }
-        try! realm.write {
             acc.balance -= historyObject.sum
             realm.add(acc,update: .all)
             realm.delete(historyObject)
@@ -342,9 +342,8 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
 
         //Запрещает использовать иной tableView
         if tableView.tag != 15888 {
+            
         let deleteAction = UIContextualAction(style: .normal, title: "Delete") { _, _, complete in
-            
-            
             
                 let object = self.enlargeArray[tableView.tag].historyArray[indexPath.row]
                 self.enlargeArray[tableView.tag].historyArray.remove(at: indexPath.row)
@@ -362,9 +361,6 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         image.tintColor = ThemeManager.currentTheme().titleTextColor
         deleteAction.image = image.image
       
-        
-        
-
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = false
 

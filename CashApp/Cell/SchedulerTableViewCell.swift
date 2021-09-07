@@ -131,7 +131,7 @@ class SchedulerTableViewCell: SwipeTableViewCell {
         
         //background
         roundedBackground.layer.cornerRadius = 25
-        roundedBackground.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        roundedBackground.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
         roundedBackground.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         self.backgroundColor = .clear
         

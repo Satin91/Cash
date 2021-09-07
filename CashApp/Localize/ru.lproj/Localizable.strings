@@ -16,8 +16,15 @@
 "segmented_control_0" = "Расходы";
 "segmented_control_1" = "Доходы";
 
+
+//MARK: - Add categories View Controller
+"category_expence_heading_title" = "Создать категорию расходов";
+"category_income_heading_title" = "Создать категорию доходов";
+"category_description_title" = "Назовите новую категорию и выбирете изображение";
+
 //MARK: - Scheduler View Controller
-"scheduler_navigation_title" = "Планировщик";
+"scheduler_navigation_title" = "Планы";
+
 //MARK: - Select new schedule type View Controller
 "select_one_time_title" = "Разовый платеж";
 "select_multiply_title" = "Многоразовый платеж";
@@ -29,23 +36,128 @@
 "select_regular_description" = "Создавайте платежи или выплаты на постоянной основе.";
 "select_goal_description" = "На что-нибудь копите? - Отлично! Укажите дату и сумму, а планировщик рассчитает ваш дневной бюджет.";
 
-//MARK: - Add Scheduler View Controller
+//MARK: - Add/Edit Scheduler View Controller
 "add_one_time_title" = "Добавить разовый платеж в планы";
 "add_multiply_title" = "Добавить многоразовый платеж";
 "add_regular_title" = "Добавить регулярную оплату";
 "add_goal_title" = "Добавить новую цель в планы";
+//Edit
+"edit_one_time_title" = "Редактирование разового платежа";
+"edit_multiply_title" = "Редактирование многоразового платежа";
+"edit_regular_title" = "Редактирование регулярной оплаты";
+"edit_goal_title" = "Редактирование существующей цели";
 
 "add_one_time_description" = "Заполните данные и выберете направление разового платежа";
 "add_multiply_description" = "Заполните данные и выберете направление многоразового платежа";
 "add_regular_description" = "Заполните данныые для регулярной оплаты";
 "add_goal_description" = "Заполните данные для вашей цели";
+
+
 //Text fields
-"name_text_field" = "Имя";
 "total_sum_text_field" = "Общая сумма";
 "sum_per_time_text_field" = "Сумма платежа";
 "available_sum" = "Имеется в данный момент";
-"date_button" = "Дата";
+//Buttons
+
+//repeatTalbeView
+"repeat_every_month" = "Повторять каждый месяц";
+"repeat_every_week" = "Повторять каждую неделю";
+"repeat_every_day" = "Повторять каждый день";
 
 //MARK: - Currency View Controller
-
 "currency_converter_label" = "Конвертер валют";
+
+//MARK: - TodayBalanceViewController
+"date_not_selected_label" = "Дата не выбрана";
+"dayly_budget_label" = "Дневной бюджет";
+"date_not_selected_label" = "Рассчитано до";
+"impact_on_balance_label" = "Влияние планов на дневной бюджет";
+"segmented_control_plans" = "Планы";
+"segmented_control_accounts" = "Счета";
+"empty_accounts" = "Отсутствуют счета";
+
+//MARK: - Accounts View Controller
+"back_button" = "Назад";
+
+//MARK: - Line Chart Cell
+//TextView messages
+"no_transactions" = "Вы не совершили ниодной транзакции в этом месяце";
+"need_at_least_one" = "Для отображения графика требуется еще одна транзакция";
+
+//MARK: - AddAccount View Controller
+"heading_label_text" = "Добавить новый счет";
+"name_text_field_placeholder" = "Имя";
+"balance_text_field_placeholder" = "Баланс";
+"save_button" = "Создать";
+
+//MARK: - Quick Pay View Controller
+"without_Account" = "Без счета";
+///MARK: - Date Format
+"year_does_not_coincide" = "d MMMM Y";
+"year_coincides" = "d MMMM";
+"day_is_today" = "Сегодня";
+"day_was_yestereday" = "Вчера";
+
+
+//MARK: - Общие переводы
+"name_text_field" = "Имя";
+"date_button" = "Дата";
+"create_button" = "Создать";
+"save_button" = "Сохранить";
+
+
+//MARK: - Currency View Controller
+"main_currency_cell" = "Главная валюта";
+"additional_currency_cell" = "Дополнительная валюта";
+
+//MARK: - Pop Up Table View
+"pop_edit_name_label" = "Изменить";
+"pop_delete_name_label" = "Удалить";
+
+
+//MARK: - Currency
+"USD" = "Доллар США" ;
+"EUR" = "Евро" ;
+"JPY" = "Японская йена" ;
+"GBP" = "Фунт стерлингов" ;
+"AUD" = "Австралийский доллар" ;
+"CHF" = "Швейцарский франк" ;
+"CAD" = "Канадский доллар" ;
+"CNY" = "Китайский юань женьминьби" ;
+"SEK" = "Шведская крона" ;
+"NOK" = "Норвежская крона" ;
+"NZD" = "Ново­зеландский доллар" ;
+"SGD" = "Сингапурский доллар" ;
+"HKD" = "Гонконгский доллар" ;
+"KRW" = "Южно-корейская вона" ;
+"TRY" = "Турецкая лира" ;
+"RUB" = "Российский рубль" ;
+"INR" = "Индийская рупия" ;
+"BRL" = "Бразильский реал" ;
+"ZAR" = "Южно-африканский рэнд" ;
+"BYN" = "Белорусский рубль" ;
+"UAH" = "Украинская гривна" ;
+"ILS" = "Израильский шекель" ;
+"BGN" = "Болгарский лев" ;
+"CZK" = "Чешская крона" ;
+"DKK" = "Датская крона" ;
+"HRK" = "Хорватская куна" ;
+"HUF" = "Венгерский форинт" ;
+"IDR" = "Индонезийская рупия" ;
+"ISK" = "Исландская крона" ;
+"MXN" = "Мексиканский песо" ;
+"MYR" = "Малайзийский ринггит" ;
+"PLN" = "Польский злотый" ;
+"RON" = "Румынский лей" ;
+"THB" = "Таиландский бат" ;
+"KZT" = "Казахский тенге" ;
+"AMD" = "Армянский драм" ;
+"ALL" = "Албанский лек" ;
+"BAM" = "Конвертируемая марка" ;
+"RSD" = "Сербский динар" ;
+"AZN" = "Азербайджанский манат" ;
+"SAR" = "Саудовский риял" ;
+"EGP" = "Египетский фунт" ;
+"TMT" = "Туркменский манат" ;
+
+

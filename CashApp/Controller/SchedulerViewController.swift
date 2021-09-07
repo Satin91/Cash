@@ -284,6 +284,7 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         case .regular:
             guard pptObject != nil else {return}
             QuiclPayVC.payObject = pptObject
+            self.addChildViewController(PayObject: pptObject)
             
            // goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         }

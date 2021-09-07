@@ -94,7 +94,7 @@ class TodayBalanceViewController: UIViewController {
     }()
     let imageForCalendarButton: UIImageView = { // Это потом надо удалить
         let image = UIImageView()
-        image.image = UIImage(systemName: "calendar")
+        image.image = UIImage(named: "calendarForButton")
         image.frame = .zero
         return image
     }()
@@ -116,11 +116,13 @@ class TodayBalanceViewController: UIViewController {
         super.viewDidLoad()
         calendarButton.addTarget(self, action: #selector(calendarButtonPressed(_:)), for: .touchUpInside)
         updateTotalBalanceSum(animated: false)
+        setTodayBalanceData(animated: false) // Это на случай если не сработает обновление данных
         visualSettings()
         installCalendar()
         setupTableView()
         getSchedulersToTableView()
         createConstraints()
+        
     }
     
     //MARK: - GETSCHEDULERS TO TABLE VIEW
@@ -201,7 +203,7 @@ class TodayBalanceViewController: UIViewController {
     func setEmptyBalanceData() {
         guard let mainCurrency = mainCurrency else {return}
         dailyBudgetBalanceLabel.countISOAnimation(upto: 0, iso: mainCurrency.ISO)
-        dailyBudgetLabel.text = "Отсутствуют счета"
+        dailyBudgetLabel.text = NSLocalizedString("empty_accounts", comment: "")
         circleBar.progressAnimation(currentlyBalance: 0, commonBalance: 0)
         
     }
@@ -220,13 +222,13 @@ class TodayBalanceViewController: UIViewController {
         guard let mainCurrency = mainCurrency?.ISO else {return}
         guard let balance = todayBalanceObject else {
             dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: 0, additionalText: nil)
-            calculatedUntilDateLabel.text = "Date not selected"
+            calculatedUntilDateLabel.text = NSLocalizedString("date_not_selected_label", comment: "")
             return}
         //endDate = todayBalanceObject?.endDate
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM,dd"
-        calculatedUntilDateLabel.text = "Calculated until " + formatter.string(from: balance.endDate) 
-        dailyBudgetLabel.text = "Daily budget"
+        calculatedUntilDateLabel.text = NSLocalizedString("date_not_selected_label", comment: "") + formatter.string(from: balance.endDate)
+        dailyBudgetLabel.text = NSLocalizedString("dayly_budget_label", comment: "")
         var currentBalance: Double = 0
         let divider = getDivider()
         currentBalance = divider != 0 ? balance.currentBalance / Double(divider) : balance.currentBalance
@@ -286,9 +288,12 @@ class TodayBalanceViewController: UIViewController {
     }
     
     @objc func calendarButtonPressed(_ button: UIButton) {
+        calendarContainerView.center = self.view.center
+        calendar.center = calendarContainerView.center
         
         self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
         self.view.animateViewWithBlur(animatedView: calendarContainerView, parentView: self.view)
+        
         self.view.animateViewWithBlur(animatedView: calendar, parentView: self.view)
     }
     
@@ -305,6 +310,17 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
         changeValue ? EXPSchedulerArray.count : accountsObjects.count
     }
     
+    func insertSwitchInCell(_ AISwitch:AIFlatSwitch, cell: UITableViewCell) {
+        AISwitch.removeFromSuperview()
+        let size: CGFloat = 35
+        let xPos:CGFloat = cell.bounds.width - 40 - (size / 2)
+        let yPos: CGFloat = cell.bounds.height / 2 - (size / 2)
+        cell.addSubview(AISwitch)
+        AISwitch.frame = CGRect(x: xPos, y: yPos, width: size, height: size)
+        //AISwitch.center.y = cell.center.y
+        AISwitch.isEnabled = false
+        
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: TodayBalanceTableViewCell.identifier,for: indexPath) as! TodayBalanceTableViewCell
@@ -315,23 +331,25 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
             let switchs = schedulerSwitchs[indexPath.row]
             let object = EXPSchedulerArray[indexPath.row]
             switchs.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
-            cell.accessoryView = switchs
             switchs.isSelected = object.scheduler.isUseForTudayBalance
+            cell.accessoryView = switchs
+            cell.accessoryView?.isUserInteractionEnabled = false
             cell.set(object: object)
-            cell.accessoryView?.backgroundColor = .clear
+            //cell.accessoryView?.backgroundColor = .clear
             return cell
         case false:
             let object = accountsObjects[indexPath.row]
             let switchs = accSwitchs[indexPath.row]
+            switchs.isSelected = object.isUseForTudayBalance
             switchs.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
             cell.accessoryView = switchs
-            switchs.isSelected = object.isUseForTudayBalance
+            cell.accessoryView?.isUserInteractionEnabled = false
             cell.set(object: object)
-            cell.accessoryView?.backgroundColor = .clear
             
             return cell
         }
     }
+  
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }

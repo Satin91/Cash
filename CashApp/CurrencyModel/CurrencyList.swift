@@ -108,100 +108,109 @@ public enum CurrencyName: String {
     case SAR
     case EGP
     case TMT
+    func getLocalozed(iso: String) -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
     var getRaw: String {
         switch self {
-        case .USD: return "United States Dollar"
-        case .EUR: return "European euro"
+        case .USD: return NSLocalizedString("USD", comment: "")
+        
+        case .EUR: return NSLocalizedString("EUR", comment: "")
         
         case .JPY:
-            return "Japanese yen"
+            return NSLocalizedString("JPY", comment: "")
         case .GBP:
-            return "Pound sterling"
+            return NSLocalizedString("GBP", comment: "")
         case .AUD:
-            return "Australian dollar"
+            return NSLocalizedString("AUD", comment: "")
         case .CHF:
-            return "Swiss franc"
+            return NSLocalizedString("CHF", comment: "")
         case .CAD:
-            return "Canadian dollar"
+            return NSLocalizedString("CAD", comment: "")
         case .CNY:
-            return "Chinese Yuan Renminbi"
+            return NSLocalizedString("CNY", comment: "")
         case .SEK:
-            return "Swedish krona"
+            return NSLocalizedString("SEK", comment: "")
         case .NOK:
-            return "Norwegian krone"
+            return NSLocalizedString("NOK", comment: "")
         case .NZD:
-            return "New Zealand dollar"
+            return NSLocalizedString("NZD", comment: "")
         case .SGD:
-            return "Singapore dollar"
+            return NSLocalizedString("SGD", comment: "")
         case .HKD:
-            return "Hong Kong dollar"
+            return NSLocalizedString("HKD", comment: "")
         case .KRW:
-            return "South Korean won"
+            return NSLocalizedString("KRW", comment: "")
         case .TRY:
-            return "Turkish lira"
+            return NSLocalizedString("TRY", comment: "")
         case .RUB:
-            return "Russian ruble"
+            return NSLocalizedString("RUB", comment: "")
         case .INR:
-            return "Indian rupee"
+            return NSLocalizedString("INR", comment: "")
         case .BRL:
-            return "Brazilian real"
+            return NSLocalizedString("BRL", comment: "")
         case .ZAR:
-            return "South African rand"
+            return NSLocalizedString("ZAR", comment: "")
         case .BYN:
-            return "Belarusian ruble"
+            return NSLocalizedString("BYN", comment: "")
         case .UAH:
-            return "Ukrainian hryvnia"
+            return NSLocalizedString("UAH", comment: "")
         case .ILS:
-            return "Israeli new shekel"
+            return NSLocalizedString("ILS", comment: "")
         case .BGN:
-            return "Bulgarian lev"
+            return NSLocalizedString("BGN", comment: "")
         case .CZK:
-            return "Czech koruna"
+            return NSLocalizedString("CZK", comment: "")
         case .DKK:
-            return "Danish krone"
+            return NSLocalizedString("DKK", comment: "")
         case .HRK:
-            return "Croatian kuna"
+            return NSLocalizedString("HRK", comment: "")
         case .HUF:
-            return "Hungarian forint"
+            return NSLocalizedString("HUF", comment: "")
         case .IDR:
-            return "Indonesian rupiah"
+            return NSLocalizedString("IDR", comment: "")
         case .ISK:
-            return "Icelandic krona"
+            return NSLocalizedString("ISK", comment: "")
         case .MXN:
-            return "Mexican peso"
+            return NSLocalizedString("MXN", comment: "")
         case .MYR:
-            return "Malaysian ringgit"
+            return NSLocalizedString("MYR", comment: "")
         case .PLN:
-            return "Polish zloty"
+            return NSLocalizedString("PLN", comment: "")
         case .RON:
-            return "Romanian leu"
+            return NSLocalizedString("RON", comment: "")
         case .THB:
-            return "Thai baht"
+            return NSLocalizedString("THB", comment: "")
         case .KZT:
-            return "Kazakhstani tenge"
+            return NSLocalizedString("KZT", comment: "")
         case .AMD:
-            return "Armenian dram"
+            return NSLocalizedString("AMD", comment: "")
         case .ALL:
-            return "Albanian lek"
+            return NSLocalizedString("ALL", comment: "")
         case .BAM:
-            return "Bosnia and Herzegovina convertible mark"
+            return NSLocalizedString("BAM", comment: "")
         case .RSD:
-            return "Serbian dinar"
+            return NSLocalizedString("RSD", comment: "")
         case .AZN:
-            return "Azerbaijan manat"
+            return NSLocalizedString("AZN", comment: "")
         case .SAR:
-            return "Saudi Riyal"
+            return NSLocalizedString("SAR", comment: "")
         case .EGP:
-            return "Egyptian Pound"
+            return NSLocalizedString("EGP", comment: "")
         case .TMT:
-            return "Turkmenistan New Manat"
+            return NSLocalizedString("TMT", comment: "")
+            
         }
         
+      
     }
     
-//    func getRaw2(ISO: String)->String {
-//          return ISO
-//    }
+
+
+//    func getTitleFor(title: String) -> String {
+//           return CurrencyName.localizedString()
+//       }
+
 }
 
 public enum CurrencyLocale: String {

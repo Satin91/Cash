@@ -18,29 +18,49 @@ extension AddOperationViewController {
         selectedImageName = newCategoryObject.image
         let imcomeOrExpenceText = newCategoryObject.stringEntityType == .expence ? "Изменить категорию расходов" : "Изменить категорию доходов"
         headingTextLabel.text = imcomeOrExpenceText
+        //Скрывает описание
+        descriptionLabel.isHidden = true
         descriptionLabel.text = "Внесите изменения в и сохраните результат"
         saveButtonOutlet.isEnabled = true
     }
-    func saveElement(){
+    
+    func saveElement() -> Bool {
+        var isAvailibleToSave = false
+        isAvailibleToSave = isEditingCategory ? saveEdit() : createElement()
+        return isAvailibleToSave
+    }
+    
+    func saveEdit()-> Bool{
+        guard checkEnteredData() == true else {return false}
+      
         try! realm.write({
             newCategoryObject.name = nameTextField.text!
             newCategoryObject.image = selectedImageName
-            
             realm.add(newCategoryObject,update: .all)
         })
+
+            return true
+        }
+    
+    func checkEnteredData() -> Bool{
+         
+        
+        return checkData.showAlertForCategories(textField: nameTextField, imageName: selectedImageName)
     }
     
     //Create
     func setDataForСreatingControls() {
-        selectImageButton.setImage(UIImage(named: "AppIcon"), for: .normal)
-        let imcomeOrExpenceText = newCategoryObject.stringEntityType == .expence ? "Создать категорию расходов" : "Создать категорию доходов"
+        selectImageButton.setImage(UIImage(named: selectedImageName), for: .normal)
+        selectImageButton.imageView?.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        let imcomeOrExpenceText = newCategoryObject.stringEntityType == .expence ? NSLocalizedString("category_expence_heading_title", comment: "") : NSLocalizedString("category_income_heading_title", comment: "")
         headingTextLabel.text = imcomeOrExpenceText
-        descriptionLabel.text = "Назовите новую категорию и выбирете иконку"
-        saveButtonOutlet.isEnabled = false
+        descriptionLabel.text = NSLocalizedString("category_description_title", comment: "")
     }
     
     
-    func createElement(){
+    func createElement() -> Bool{
+        
+        guard checkEnteredData() else {return false}
         newCategoryObject.name = nameTextField.text!
         newCategoryObject.image = selectedImageName
         
@@ -52,9 +72,10 @@ extension AddOperationViewController {
         }
         guard let currency = mainCurrency?.ISO else {
             newCategoryObject.currencyISO = "USD"
-            return}
+            return false}
         newCategoryObject.currencyISO = currency
         DBManager.addCategoryObject(object: newCategoryObject)
+        return true
     }
  
 }

@@ -239,7 +239,7 @@ extension CALayer {
            shadowColor = color.cgColor
            shadowOffset = CGSize(width: 4, height: 4)
            shadowPath = UIBezierPath(rect: bounds).cgPath
-           shouldRasterize = true
+           //shouldRasterize = true
            shadowRadius = 30
            shadowOpacity = 0.3
            //shouldRasterize = true
@@ -764,10 +764,22 @@ extension UIViewController {
     
    
     func showMiniAlert(message: String, alertStyle: MiniAlertStyle) {
+
+        
         var miniAlert: MiniAlertView!
+        for i in self.view.subviews {
+            if i.accessibilityIdentifier == "Alert-View" {
+                
+                print("Есть такой идентификатор")
+                return
+            }
+        }
         miniAlert = MiniAlertView.loadFromNib()
+     
         miniAlert.frame = CGRect(x: self.view.bounds.width, y: 97, width: self.view.bounds.width - (Layout.side * 2), height: 98)
+       
         self.view.addSubview(miniAlert)
+      
         miniAlert.messageLabel.text = message
         UIView.animate(withDuration: 0.45, delay: 0,usingSpringWithDamping: 0.7,initialSpringVelocity: 0.9,options: .curveEaseInOut) {
             miniAlert.frame.origin.x = Layout.side

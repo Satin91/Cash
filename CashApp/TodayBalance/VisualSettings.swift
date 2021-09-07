@@ -46,7 +46,7 @@ extension TodayBalanceViewController {
         circleBarContainerView.backgroundColor = theme.secondaryBackgroundColor
         circleBarContainerView.layer.cornerRadius = 20
         circleBarContainerView.layer.setSmallShadow(color: theme.shadowColor)
-        segmentedControlOutlet.changeValuesForCashApp(segmentOne: "Plans", segmentTwo: "Accounts")
+        segmentedControlOutlet.changeValuesForCashApp(segmentOne: NSLocalizedString("segmented_control_plans", comment: ""), segmentTwo: NSLocalizedString("segmented_control_accounts", comment: ""))
         calendarButtonContainerView.layer.cornerRadius = 12
         calendarButtonContainerView.backgroundColor = theme.contrastColor1
         blur.frame = self.view.bounds
@@ -62,6 +62,9 @@ extension TodayBalanceViewController {
         calculatedUntilDateLabel.font = .systemFont(ofSize: 16, weight: .regular)
         dailyBudgetBalanceLabel.font = .systemFont(ofSize: 46, weight: .medium)
         impactOnBalanceLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        impactOnBalanceLabel.text = NSLocalizedString("impact_on_balance_label", comment: "")
+        impactOnBalanceLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        impactOnBalanceLabel.numberOfLines = 0
     }
     
 }

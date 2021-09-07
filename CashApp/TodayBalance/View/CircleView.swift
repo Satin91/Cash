@@ -68,8 +68,9 @@ class CircleView: UIView {
     
     func percentage() -> CGFloat {
         var diff = CGFloat(0)
-        
-        diff = (CGFloat(object!.currentBalance) - CGFloat(object!.commonBalance)) / CGFloat(abs(Int32(CGFloat(object!.commonBalance)))) * 100
+//        _ = fetchTodayBalance()
+//        guard let object = object else {return 0}
+        diff = (CGFloat(todayBalanceObject!.currentBalance) - CGFloat(todayBalanceObject!.commonBalance)) / CGFloat(abs(Int32(CGFloat(todayBalanceObject!.commonBalance)))) * 100
         return diff
     }
     

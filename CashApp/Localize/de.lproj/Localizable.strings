@@ -50,3 +50,56 @@
 //MARK: - Currency View Controller
 
 "currency_converter_label" = "Währungsrechner";
+
+
+///MARK: - Date Format
+"year_does_not_coincide" = "MMMM, d, Y";
+"year_coincides" = "MMMM, d";
+"day_is_today" = "Heute";
+"day_was_yestereday" = "Gestern";
+
+
+//MARK: - Currency
+"USD" = "US-Dollar" ;
+"EUR" = "Euro" ;
+"JPY" = "Japanischer Yen" ;
+"GBP" = "Pfund Sterling" ;
+"AUD" = "Australischer Dollar" ;
+"CHF" = "Schweizer Franken" ;
+"CAD" = "Kanadischer Dollar" ;
+"CNY" = "Chinesischer Yuan Renminbi" ;
+"SEK" = "Schwedische Krone" ;
+"NOK" = "Norwegische Krone" ;
+"NZD" = "Neuseeland-Dollar" ;
+"SGD" = "Singapur-Dollar" ;
+"HKD" = "Hongkong-Dollar" ;
+"KRW" = "Südkoreanischer Won" ;
+"TRY" = "Türkische Lira" ;
+"RUB" = "Russischer Rubel" ;
+"INR" = "Indische Rupie" ;
+"BRL" = "Brasilianischer Real" ;
+"ZAR" = "Südafrikanischer Rand" ;
+"BYN" = "Weißrussischer Rubel" ;
+"UAH" = "Ukrainische Hrywnja" ;
+"ILS" = "Neuer israelischer Schekel" ;
+"BGN" = "Bulgarischer Lew" ;
+"CZK" = "Tschechische Krone" ;
+"DKK" = "Dänische Krone" ;
+"HRK" = "Kroatische Kuna" ;
+"HUF" = "Ungarischer Forint" ;
+"IDR" = "Indonesische Rupie" ;
+"ISK" = "Isländische Krone" ;
+"MXN" = "Mexikanischer Peso" ;
+"MYR" = "Malaysischer Ringgit" ;
+"PLN" = "Polnischer Zloty" ;
+"RON" = "Rumänischer Leu" ;
+"THB" = "Thailändischer Baht" ;
+"KZT" = "Kasachischer Tenge" ;
+"AMD" = "Armenischer Dram" ;
+"ALL" = "Albanischer Lek" ;
+"BAM" = "Konvertible Mark" ;
+"RSD" = "Serbischer Dinar" ;
+"AZN" = "Aserbaidschan-Manat" ;
+"SAR" = "Saudi-Riyal" ;
+"EGP" = "Ägyptisches Pfund" ;
+"TMT" = "Turkmenistan-Manat" ;

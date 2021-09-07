@@ -80,6 +80,20 @@ final class HeaderView: UIViewController {
         return label
     }()
     
+    var accountsImage: UIImageView = {
+       let imageView = UIImageView()
+        imageView.image = UIImage(named: "wallet")
+        imageView.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        return imageView
+    }()
+    
+    var todayBalanceImage: UIImageView = {
+       let imageView = UIImageView()
+        imageView.image = UIImage(named: "todayBalance")
+        imageView.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        return imageView
+    }()
+    
     let lineView: UIView = {
        let line = UIView()
        return line
@@ -110,8 +124,10 @@ final class HeaderView: UIViewController {
         accountsButton.addSubview(chartView)
         accountsButton.addSubview(accountsLabel)
         accountsButton.addSubview(totalBalanceLabel)
+        accountsButton.addSubview(accountsImage)
         todayBalanceButton.addSubview(todayBalanceLabel)
         todayBalanceButton.addSubview(todayBalanceSumLabel)
+        todayBalanceButton.addSubview(todayBalanceImage)
     }
     
     func setAccountsBalance(){
@@ -223,13 +239,19 @@ final class HeaderView: UIViewController {
             accountsButton.heightAnchor.constraint(equalToConstant: 157)
         ])
         NSLayoutConstraint.activate([
-            accountsLabel.leadingAnchor.constraint(equalTo: accountsButton.leadingAnchor,constant: 20),
+            accountsImage.leadingAnchor.constraint(equalTo: accountsButton.leadingAnchor,constant: 20),
+            accountsImage.topAnchor.constraint(equalTo: accountsButton.topAnchor,constant: 19),
+            accountsImage.widthAnchor.constraint(equalToConstant: 26),
+            accountsImage.heightAnchor.constraint(equalToConstant: 26),
+        ])
+        NSLayoutConstraint.activate([
+            accountsLabel.leadingAnchor.constraint(equalTo: accountsImage.trailingAnchor,constant: 4),
             accountsLabel.topAnchor.constraint(equalTo: accountsButton.topAnchor,constant: 18)
         ])
         NSLayoutConstraint.activate([
             totalBalanceLabel.leadingAnchor.constraint(equalTo: accountsButton.leadingAnchor,constant: 20),
             totalBalanceLabel.trailingAnchor.constraint(equalTo: accountsButton.trailingAnchor,constant: -20),
-            totalBalanceLabel.topAnchor.constraint(equalTo: accountsLabel.bottomAnchor,constant: 8)
+            totalBalanceLabel.topAnchor.constraint(equalTo: accountsLabel.bottomAnchor,constant: 12)
         ])
         //TodayBalance button
         NSLayoutConstraint.activate([
@@ -238,10 +260,16 @@ final class HeaderView: UIViewController {
             todayBalanceButton.topAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -97),
             todayBalanceButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        
         NSLayoutConstraint.activate([
-            todayBalanceLabel.leadingAnchor.constraint(equalTo: todayBalanceButton.leadingAnchor,constant: 20),
-            todayBalanceLabel.topAnchor.constraint(equalTo: todayBalanceButton.topAnchor,constant: 14)
+            todayBalanceImage.leadingAnchor.constraint(equalTo: todayBalanceButton.leadingAnchor,constant: 20),
+            todayBalanceImage.topAnchor.constraint(equalTo: todayBalanceButton.topAnchor,constant: 12),
+            todayBalanceImage.widthAnchor.constraint(equalToConstant: 26),
+            todayBalanceImage.heightAnchor.constraint(equalToConstant: 26),
+        ])
+        NSLayoutConstraint.activate([
+            todayBalanceLabel.leadingAnchor.constraint(equalTo: todayBalanceImage.trailingAnchor,constant: 4),
+            //todayBalanceLabel.centerYAnchor.constraint(equalTo: todayBalanceImage.centerYAnchor)
+            todayBalanceLabel.topAnchor.constraint(equalTo: todayBalanceButton.topAnchor,constant: 16)
         ])
         
         NSLayoutConstraint.activate([
@@ -269,14 +297,17 @@ final class HeaderView: UIViewController {
         lineView.heightAnchor.constraint(equalToConstant: 4)
         ])
         
+        
         chartView.translatesAutoresizingMaskIntoConstraints = false
         todayBalanceSumLabel.translatesAutoresizingMaskIntoConstraints = false
         todayBalanceLabel.translatesAutoresizingMaskIntoConstraints = false
         lineView.translatesAutoresizingMaskIntoConstraints = false
         todayBalanceButton.translatesAutoresizingMaskIntoConstraints = false
         totalBalanceLabel.translatesAutoresizingMaskIntoConstraints = false
+        todayBalanceImage.translatesAutoresizingMaskIntoConstraints = false
         accountsButton.translatesAutoresizingMaskIntoConstraints = false
         accountsLabel.translatesAutoresizingMaskIntoConstraints = false
+        accountsImage.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     

@@ -20,8 +20,14 @@ class AccountImagesCollectionView: UIView {
     }
     let accountsImages = ["account1","account2","account3","account4"]
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    var account: MonetaryAccount?
+    var account: MonetaryAccount? {
+        willSet {
+            getImageIndex()
+            collectionView.reloadData()
+        }
+    }
     var delegate: ActionsWithAccount!
+    var indexPathForScale: IndexPath = IndexPath(row: 2, section: 0)
     
     func setupCollectionView() {
         
@@ -34,10 +40,17 @@ class AccountImagesCollectionView: UIView {
         collectionView.delegate = self
         collectionView.register(AccountImageCell.self, forCellWithReuseIdentifier: "AccountImageCell")
         collectionView.showsVerticalScrollIndicator = false
-        
+        collectionView.clipsToBounds = false
         
     }
-    
+    func getImageIndex(){
+        guard account != nil else {return}
+        for (index,value) in accountsImages.enumerated() {
+            if account!.imageForAccount == value {
+                indexPathForScale = IndexPath(row: index, section: 0)
+            }
+        }
+    }
     override func layoutSubviews() {
         super.layoutSubviews()
         let minimumSpacing: CGFloat = 20
@@ -55,9 +68,11 @@ class AccountImagesCollectionView: UIView {
         collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupCollectionView()
+        
+        //setupCollectionView()
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -70,18 +85,34 @@ extension AccountImagesCollectionView: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AccountImageCell", for: indexPath) as! AccountImageCell
+        
+       
         cell.set(image: UIImage(named: accountsImages[indexPath.row])!)
-
+        if indexPathForScale == indexPath {
+            cell.isSelected = true
+        }
+        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let account = self.account else {return}
+        let cell = collectionView.cellForItem(at: indexPath)
         try! realm.write({
             account.imageForAccount = accountsImages[indexPath.row]
         })
+        indexPathForScale = indexPath
         delegate.actionsWithAccount()
+        collectionView.reloadData()
     }
-    
-    
+
+    func setBorder(cell: UICollectionViewCell) {
+        let view = UIView(frame: CGRect(x: cell.bounds.origin.x - 10, y:  cell.bounds.origin.y - 10, width: cell.bounds.width + 20, height: cell.bounds.height + 20))
+        
+        view.layer.cornerRadius = 15
+        view.layer.borderWidth = 5
+        view.layer.borderColor = UIColor.black.cgColor
+        
+        self.addSubview(view)
+    }
     
 }

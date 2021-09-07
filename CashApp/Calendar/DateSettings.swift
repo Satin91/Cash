@@ -43,14 +43,17 @@ func fullDateToString(date: Date) -> String {
 
 ///Дата в текст
 func dateToString(date: Date) -> String {
-    
+    let someDateFormatterEx = DateFormatter()
     let format = Calendar.current.component(.year, from: date)
     let currentFormat = Calendar.current.component(.year, from: Date())
-    if currentFormat != format {
-        someDateFormatterEx.dateFormat = "MMMM, d, Y"
-        
+    if date.thisDayisToday() {
+        return NSLocalizedString("day_is_today", comment: "")
+    }else if date.thisDayWasEstereday() {
+        return NSLocalizedString("day_was_yestereday", comment: "")
+    }else if  currentFormat != format {
+        someDateFormatterEx.dateFormat = NSLocalizedString("year_does_not_coincide", comment: "")
     }else {
-        someDateFormatterEx.dateFormat = "MMMM, d"
+        someDateFormatterEx.dateFormat = NSLocalizedString("year_coincides", comment: "")
     }
     let returnString = someDateFormatterEx.string(from: date)
     return returnString
@@ -65,3 +68,23 @@ func componentsToString(date Components: DateComponents) -> String {
     return returnString
 }
 
+extension Date {
+    func thisDayisToday() -> Bool {
+        let today =  Calendar.current.component(.day, from: Date())
+        let day = Calendar.current.component(.day, from: self)
+        if today == day {
+            return true
+        }else{
+            return false
+        }
+    }
+    func thisDayWasEstereday() -> Bool {
+        let today =  Calendar.current.component(.day, from: Date())
+        let day = Calendar.current.component(.day, from: self)
+        if day == today - 1 {
+            return true
+        }else{
+            return false
+        }
+    }
+}
