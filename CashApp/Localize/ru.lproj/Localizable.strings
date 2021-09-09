@@ -97,7 +97,7 @@
 "year_coincides" = "d MMMM";
 "day_is_today" = "Сегодня";
 "day_was_yestereday" = "Вчера";
-
+"small_date" = "dd MMM" ;
 
 //MARK: - Общие переводы
 "name_text_field" = "Имя";

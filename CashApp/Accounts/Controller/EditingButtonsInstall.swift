@@ -39,10 +39,6 @@ extension AccountsViewController {
     }
     
     @objc func deleteAction(_ sender: UIButton) {
-        
-                    
-        
-        
         editableObject = nil
         
         try! realm.write({
@@ -100,7 +96,7 @@ extension AccountsViewController {
     
     }
     @objc func saveAction(_ sender: UIButton) {
-        print("save")
+        
     }
     
     func showHideBlur(isActive: Bool){

@@ -17,7 +17,7 @@ class EditingButtons: UIButton {
         button.setTitle("Delete", for: .normal)
         button.layer.cornerRadius = 18
         button.layer.borderWidth = 2
-        button.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
+        button.layer.borderColor = ThemeManager.currentTheme().contrastColor2.cgColor
         button.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
         button.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .disabled)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
@@ -28,7 +28,7 @@ class EditingButtons: UIButton {
     }()
     let save: UIButton = {
         let button = UIButton()
-        button.setTitle("Save", for: .normal)
+        button.setTitle("Сделать главным", for: .normal)
         button.layer.cornerRadius = 18
         button.backgroundColor = ThemeManager.currentTheme().titleTextColor
         button.setTitleColor(ThemeManager.currentTheme().backgroundColor, for: .normal)

@@ -57,7 +57,7 @@
 "year_coincides" = "MMMM, d";
 "day_is_today" = "Heute";
 "day_was_yestereday" = "Gestern";
-
+"small_date" = "MMM dd" ;
 
 //MARK: - Currency
 "USD" = "US-Dollar" ;

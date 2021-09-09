@@ -31,7 +31,7 @@ class PopTableViewController: UITableViewController{
         tableView.register(xibCell, forCellReuseIdentifier: "SelectDateCell")
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = ThemeManager.currentTheme().secondaryColor
+        tableView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         tableView.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

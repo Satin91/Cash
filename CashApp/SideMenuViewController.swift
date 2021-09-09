@@ -53,10 +53,11 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            ThemeManager.applyTheme(theme: .white)
+           // ThemeManager.applyTheme(theme: .white)
         }else{
-            ThemeManager.applyTheme(theme: .dark)
+          //  ThemeManager.applyTheme(theme: .dark)
         }
+        
         self.reloadInputViews()
         dismiss(animated: true, completion: nil)
     }

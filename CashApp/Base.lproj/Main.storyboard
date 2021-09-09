@@ -170,7 +170,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
-                    <blurEffect style="regular"/>
+                    <blurEffect style="extraLight"/>
                 </visualEffectView>
             </objects>
             <point key="canvasLocation" x="-3217" y="1000"/>
@@ -600,7 +600,7 @@
         <!--Scheduler View Controller-->
         <scene sceneID="TRe-HM-puV">
             <objects>
-                <viewController id="3VW-AZ-Ohg" customClass="SchedulerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="schedulerVC" id="3VW-AZ-Ohg" customClass="SchedulerViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CgH-eC-1PI">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1034,14 +1034,6 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="64z-9u-Rbi">
-                                        <rect key="frame" x="252" y="18" width="60" height="60"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="oxO-Xr-2Bw"/>
-                                            <constraint firstAttribute="height" constant="60" id="tbq-oK-8oL"/>
-                                        </constraints>
-                                    </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="ReJ-1x-Lih">
                                         <rect key="frame" x="26" y="76.666666666666657" width="286" height="20.333333333333329"/>
                                         <subviews>
@@ -1053,18 +1045,29 @@
                                             </label>
                                         </subviews>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5rd-QP-p4O">
+                                        <rect key="frame" x="252" y="18" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="Oak-uy-Y2M"/>
+                                            <constraint firstAttribute="height" constant="60" id="yQX-g8-oa9"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="calendarButtonAction:" destination="KjZ-w7-d8C" eventType="touchUpInside" id="lB1-3M-zP2"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="5rd-QP-p4O" secondAttribute="trailing" constant="26" id="5B8-TX-zuY"/>
                                     <constraint firstItem="rL2-pn-htP" firstAttribute="top" secondItem="HPs-TA-xJz" secondAttribute="bottom" constant="6" id="5hZ-pE-D8o"/>
                                     <constraint firstItem="ReJ-1x-Lih" firstAttribute="top" secondItem="rL2-pn-htP" secondAttribute="bottom" constant="12" id="9oH-xB-5MU"/>
                                     <constraint firstAttribute="height" constant="155" id="Doe-Iz-4Sa"/>
                                     <constraint firstItem="HPs-TA-xJz" firstAttribute="top" secondItem="YeX-q6-lue" secondAttribute="top" constant="18" id="GsX-Yo-gDf"/>
                                     <constraint firstItem="ReJ-1x-Lih" firstAttribute="leading" secondItem="YeX-q6-lue" secondAttribute="leading" constant="26" id="HfL-9Q-vjp"/>
-                                    <constraint firstItem="64z-9u-Rbi" firstAttribute="top" secondItem="YeX-q6-lue" secondAttribute="top" constant="18" id="L1y-vF-maL"/>
-                                    <constraint firstAttribute="trailing" secondItem="64z-9u-Rbi" secondAttribute="trailing" constant="26" id="NRo-dP-hRq"/>
                                     <constraint firstItem="rL2-pn-htP" firstAttribute="leading" secondItem="YeX-q6-lue" secondAttribute="leading" constant="26" id="Qcs-qv-cr8"/>
                                     <constraint firstItem="HPs-TA-xJz" firstAttribute="leading" secondItem="YeX-q6-lue" secondAttribute="leading" constant="26" id="R9Y-YB-ie5"/>
+                                    <constraint firstItem="5rd-QP-p4O" firstAttribute="top" secondItem="YeX-q6-lue" secondAttribute="top" constant="18" id="dR2-kV-lhG"/>
                                     <constraint firstAttribute="trailing" secondItem="ReJ-1x-Lih" secondAttribute="trailing" constant="26" id="kja-Qs-IdN"/>
                                 </constraints>
                             </view>
@@ -1132,7 +1135,7 @@
                     </view>
                     <connections>
                         <outlet property="calculatedUntilDateLabel" destination="rL2-pn-htP" id="fz5-Vy-y69"/>
-                        <outlet property="calendarButtonContainerView" destination="64z-9u-Rbi" id="yiY-ac-gdq"/>
+                        <outlet property="calendarButtonOutlet" destination="5rd-QP-p4O" id="N5q-RD-tF2"/>
                         <outlet property="circleBar" destination="bNg-wV-j6B" id="1tX-ff-l7O"/>
                         <outlet property="circleBarContainerView" destination="C7H-zV-nHF" id="Yrk-bI-qcY"/>
                         <outlet property="containerView" destination="YeX-q6-lue" id="adO-QF-e1R"/>

@@ -12,10 +12,9 @@ import UIKit
 class EnlargeTableViewCell: UITableViewCell{
  
 
-    var dateLabel: UILabel = {
-        let label = UILabel()
+    var dateLabel: TitleLabel = {
+        let label = TitleLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = ThemeManager.currentTheme().titleTextColor
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.frame = .zero
         return label
@@ -42,7 +41,7 @@ class EnlargeTableViewCell: UITableViewCell{
     func commonInit() {
         tableView = UITableView(frame: .zero)
         self.contentView.addSubview(tableViewContainer)
-     
+        ThemManager.shared.register(self)
         clearedBackGround()
         self.contentView.addSubview(tableView)
         self.contentView.addSubview(dateLabel)
@@ -62,7 +61,6 @@ class EnlargeTableViewCell: UITableViewCell{
     func miniTableViewSettings() {
         
         tableView.tableFooterView = UIView()
-        tableViewContainer.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         tableViewContainer.layer.cornerRadius = 20
         tableViewContainer.layer.masksToBounds = false
         tableViewContainer.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
@@ -109,6 +107,17 @@ extension EnlargeTableViewCell {
         tableView.tag = row
         tableView.reloadData()
         }
+}
+
+extension EnlargeTableViewCell: Themable {
+    func applyTheme(_ theme: MyTheme) {
+        
+        tableViewContainer.backgroundColor = theme.settings.secondaryBackgroundColor
+        tableViewContainer.layer.setSmallShadow(color: theme.settings.shadowColor)
+        
+    }
+    
+    
 }
 
 

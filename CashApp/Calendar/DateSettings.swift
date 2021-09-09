@@ -41,6 +41,8 @@ func fullDateToString(date: Date) -> String {
     return returnString
 }
 
+
+
 ///Дата в текст
 func dateToString(date: Date) -> String {
     let someDateFormatterEx = DateFormatter()
@@ -70,8 +72,8 @@ func componentsToString(date Components: DateComponents) -> String {
 
 extension Date {
     func thisDayisToday() -> Bool {
-        let today =  Calendar.current.component(.day, from: Date())
-        let day = Calendar.current.component(.day, from: self)
+        let today =  Calendar.current.dateComponents([.day,.month,.year], from: Date())
+        let day = Calendar.current.dateComponents([.day,.month,.year], from: self)
         if today == day {
             return true
         }else{
@@ -87,4 +89,19 @@ extension Date {
             return false
         }
     }
+    func getDayMonthYear() -> DateComponents {
+   
+        let dateComponents = Calendar.current.dateComponents([.minute,.hour,.day,.month,.year], from: self)
+        return dateComponents
+    }
+    func thisDayIsTommorow() -> Bool {
+        let today =  Calendar.current.component(.day, from: Date())
+        let day = Calendar.current.component(.day, from: self)
+        if day == today + 1 {
+            return true
+        }else{
+            return false
+        }
+    }
 }
+

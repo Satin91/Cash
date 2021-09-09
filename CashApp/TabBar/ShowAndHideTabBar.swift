@@ -20,7 +20,6 @@ extension UITabBar {
             self.isHidden = false
             UIView.animate(withDuration: 0.5) {
                 UIView.animate(withDuration: 1) {
-                    
                     self.frame.origin.y = self.frame.origin.y - self.frame.height
 
                 }
@@ -29,7 +28,6 @@ extension UITabBar {
     }
     func hideTabBar() {
         if self.isHidden == false {
-            
             UIView.animate(withDuration: 0.5) {
                 UIView.animate(withDuration: 1) {
                     self.frame.origin.y = self.frame.origin.y + self.frame.height

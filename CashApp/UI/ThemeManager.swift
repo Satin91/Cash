@@ -35,6 +35,8 @@ extension UIColor {
     }
 }
 
+
+
 class colors {
     
     //White colors
@@ -44,8 +46,12 @@ class colors {
     var secondaryBackgroundColor = "FFFFFF"
     var titleTextColor = "353B40"
     var subtitleTextColor = "A1A6B0"
-    var contrastColor1 = "0A94EB"
-    var contrastColor2 = "F03226"
+    var contrastColor1 = "1871AC"
+    var contrastColor2 = "AB1438"
+    var redColor = "81323D"
+    var greenColor = "4E6C54"
+    var yellowColor = "E8C511"
+    
     var mainShadowColor = "90A0AA"
     var buttonShadowColor = ""
     var separatorColor = "F3F3F6"
@@ -56,8 +62,8 @@ class colors {
     var darkSecondaryBackgroundColor = "2F3437"
     var darkTitleTextColor = "E9EBEC"
     var darkSubtitleTextColor = "97A2B5"
-    var darkContrastColor1 = "0A94EB"
-    var darkContrastColor2 = "F03226"
+    var darkContrastColor1 = "1871AC"
+    var darkContrastColor2 = "b08053"
     var darkMainShadowColor = "18191B"
     var darkButtonShadowColor = ""
     var darkSeparatorColor = "34393D"
@@ -90,7 +96,7 @@ enum Theme: Int {
             return .black
         }
     }
-
+    
     var navigationBackgroundImage: UIImage? {
         return self == .white ? UIImage(named: "navBackground") : nil
     }
@@ -98,7 +104,33 @@ enum Theme: Int {
     var tabBarBackgroundImage: UIImage? {
         return self == .white ? UIImage(named: "tabBarBackground") : nil
     }
-
+//MARK: AlertColors
+    var redColor: UIColor {
+        switch self {
+        case .white:
+            return UIColor().colorFromHexString(colors().redColor)
+        case .dark:
+            return UIColor().colorFromHexString(colors().redColor)
+        }
+    }
+    var greenColor: UIColor {
+        switch self {
+        case .white:
+            return UIColor().colorFromHexString(colors().greenColor)
+        case .dark:
+            return UIColor().colorFromHexString(colors().greenColor)
+        }
+    }
+    var yellowColor: UIColor {
+        switch self {
+        case .white:
+            return UIColor().colorFromHexString(colors().yellowColor)
+        case .dark:
+            return UIColor().colorFromHexString(colors().yellowColor)
+        }
+    }
+    
+    //MARK: BackgroundColors
     var backgroundColor: UIColor {
         switch self {
         case .white:
@@ -205,8 +237,6 @@ let SelectedThemeKey = "SelectedTheme"
 
 // This will let you use a theme in the app.
 
-
-
 class ThemeManager {
 
     // ThemeManager
@@ -235,8 +265,8 @@ class ThemeManager {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "backArrow")
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "backArrowMaskFixed")
         
-       // UITabBar.appearance().barStyle = theme.barStyle
-        //UITabBar.appearance().backgroundImage = theme.tabBarBackgroundImage
+        UITabBar.appearance().backgroundColor = ThemeManager.currentTheme().backgroundColor
+        UITabBar.appearance().backgroundImage = theme.tabBarBackgroundImage
 
 //        let tabIndicator = UIImage(named: "tabBarSelectionIndicator")?.withRenderingMode(.alwaysTemplate)
 //        let tabResizableIndicator = tabIndicator?.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 2.0, bottom: 0, right: 2.0))

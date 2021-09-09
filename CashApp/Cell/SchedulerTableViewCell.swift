@@ -69,7 +69,7 @@ class SchedulerTableViewCell: SwipeTableViewCell {
             sumLabelText.text = "Cумма"
             sumLabel.text = (object.target - object.available).currencyFormatter(ISO: object.currencyISO)
             nextPayLabelText.text = "Дата"
-            nextPayDate.text = dateToString(date: object.date!)
+            nextPayDate.text = dateToString(date: object.date)
             remainingSumLabelText.isHidden = true
             remainingSum.isHidden = true
         case .multiply:
@@ -111,20 +111,20 @@ class SchedulerTableViewCell: SwipeTableViewCell {
     }
     
     func visualSettings(){
-        titleLabel.font = .systemFont(ofSize: 17, weight: .regular)
+        titleLabel.font = .systemFont(ofSize: 19, weight: .medium)
         titleLabel.textColor = ThemeManager.currentTheme().titleTextColor
         
-        nextPayLabelText.font = .systemFont(ofSize: 14, weight: .regular)
+        nextPayLabelText.font = .systemFont(ofSize: 14, weight: .medium)
         nextPayLabelText.textColor = ThemeManager.currentTheme().subtitleTextColor
         nextPayDate.font = .systemFont(ofSize: 14, weight: .regular)
         nextPayDate.textColor = ThemeManager.currentTheme().titleTextColor
         
-        sumLabelText.font = .systemFont(ofSize: 14, weight: .regular)
+        sumLabelText.font = .systemFont(ofSize: 14, weight: .medium)
         sumLabel.font = .systemFont(ofSize: 14, weight: .regular)
         sumLabelText.textColor = ThemeManager.currentTheme().subtitleTextColor
         sumLabel.textColor = ThemeManager.currentTheme().titleTextColor
         
-        remainingSumLabelText.font = .systemFont(ofSize: 14, weight: .regular)
+        remainingSumLabelText.font = .systemFont(ofSize: 14, weight: .medium)
         remainingSum.font = .systemFont(ofSize: 14, weight: .regular)
         remainingSumLabelText.textColor = ThemeManager.currentTheme().subtitleTextColor
         remainingSum.textColor = ThemeManager.currentTheme().titleTextColor

@@ -23,12 +23,12 @@ class AccountCollectionViewCell: UICollectionViewCell {
     @IBAction func isMineAccountAction(_ sender: UISwitch) {
         changeMineAccountProperties(sender: sender.isOn)
     }
-     
-
+    
+    
     
     
     @IBAction func editButtonAction(_ sender: UIButton) {
-        print("tapped")
+        toggle.toggle()
         delegate.tapped(tapped: true)
     }
     @IBOutlet var editButtonOutlet: UIButton!
@@ -37,18 +37,39 @@ class AccountCollectionViewCell: UICollectionViewCell {
     @IBOutlet var balanceTextField: NumberTextField!
     var accountsImageView: UIImageView!
     var accountObject = MonetaryAccount()
-    
+    var toggle: Bool = false {
+        willSet {
+            buttonSettings(toggle: newValue)
+        }
+    }
+    func buttonSettings(toggle: Bool) {
+        editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
+        editButtonOutlet.setImageTintColor(ThemeManager.currentTheme().backgroundColor)
+        editButtonOutlet.layer.cornerRadius = 12
+        editButtonOutlet.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        switch toggle {
+        case true:
+            editButtonOutlet.backgroundColor = ThemeManager.currentTheme().contrastColor1
+            
+        case false:
+            editButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+            
+        }
+        
+    }
     func visualSettings() {
         changeTFPropherties(textField: nameTextField)
         changeTFPropherties(textField: balanceTextField)
-        self.layer.cornerRadius = 25
+        self.layer.cornerRadius = 22
         self.layer.cornerCurve = .continuous
         accountsImageView = UIImageView(frame: self.bounds)
         self.clipsToBounds = true
         balanceTextField.font = UIFont(name:"Ubuntu-Bold",size: 34)
-        editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
+        buttonSettings(toggle: toggle)
+        
         self.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         visualSettings()
@@ -81,11 +102,11 @@ class AccountCollectionViewCell: UICollectionViewCell {
         
         for i in EnumeratedAccounts(array: accountsGroup) {
             try! realm.write {
-            i.isMainAccount = false
+                i.isMainAccount = false
                 realm.add(i, update: .all)
             }
             try! realm.write {
-            accountObject.isMainAccount = sender
+                accountObject.isMainAccount = sender
                 realm.add(accountObject, update: .all)
             }
         }
@@ -135,7 +156,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     func enableUnderLine(textField: UITextField) {
         let attributedString = NSMutableAttributedString(string: textField.text!)
         attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
-            textField.attributedText = attributedString
+        textField.attributedText = attributedString
     }
     
     func disableUnderLine(textField: UITextField){

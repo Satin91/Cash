@@ -28,8 +28,7 @@ class MainTableViewCell: UITableViewCell {
     
     func toSchedule(schedule: MonetaryScheduler) {
         primaryLabel.text = schedule.name
-        guard let date = schedule.date else {return}
-        secondaryLabel.text = dateToString(date: date)
+        secondaryLabel.text = dateToString(date: schedule.date)
         monetaryImage.image = UIImage(named: schedule.image)
         
     }

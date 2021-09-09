@@ -251,7 +251,6 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView.tag == tableView.tag {
-            print(tableView.tag)
             var cell = EnlargedCell(tag: tableView.tag)
             cell.smallCell.append(indexPath)
             cell.largeCell = ipath

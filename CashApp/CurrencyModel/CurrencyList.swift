@@ -54,7 +54,7 @@ public var identifiers: [String: CurrencyLocale] = ["USD": .englishUnitedStates
                                                 "AMD":.armenianArmenia,
                                                 "ALL":.albanianAlbania,
                                                 "BAM":.bosnianBosniaHerzegovina,
-                                                "RSD":.serbianSerbia,
+                                                "RSD": .serbianKosovo,
                                                 "AZN": .azerbaijaniAzerbaijan,
                                                 "SAR": .arabicSaudiArabia,
                                                 "EGP": .arabicEgypt,

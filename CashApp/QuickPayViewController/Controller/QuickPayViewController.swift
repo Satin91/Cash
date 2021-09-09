@@ -17,7 +17,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     @IBOutlet var okButtonOutlet: UIButton!
     @IBOutlet var cancelButtomOutlet: UIButton!
-    
+    let theme = ThemeManager.currentTheme()
     var payObjectNameLabel: UILabel = {
         var label = UILabel()
         label.textColor = ThemeManager.currentTheme().titleTextColor
@@ -184,6 +184,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         setupScrollView()
         checkPayObjectAndSetItsValue()
         
+        UIApplication.shared.reloadInputViews()
+        
         //registerForNotifications()
         //addDoneButtonOnKeyboard()
     }
@@ -323,7 +325,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             }
         }
         guard let object = regularObject else {return (nil,nil)}
-        let newNextObject = PayPerTime(scheduleName: scheduleObject.name, date: Calendar.current.date(byAdding: calendarComponent, value: 1, to: object.date)!, target: scheduleObject.sumPerTime, currencyISO: object.currencyISO, scheduleID: scheduleObject.scheduleID, vector: object.vector)
+        let newNextObject = PayPerTime(scheduleName: scheduleObject.name, date: Calendar.current.date(byAdding: calendarComponent, value: 1, to: object.date)!, dateOfCreation: Date(), target: scheduleObject.sumPerTime, currencyISO: object.currencyISO, scheduleID: scheduleObject.scheduleID, vector: object.vector)
         return (regularObject,newNextObject)
     }
     ///Распределение для регулярного платежа

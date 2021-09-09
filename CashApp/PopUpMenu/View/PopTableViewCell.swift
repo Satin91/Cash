@@ -71,9 +71,10 @@ class PopTableViewCell: UITableViewCell {
         if object == "Edit" {
             nameLabel.text = NSLocalizedString("pop_edit_name_label", comment: "")
             nameLabel.textColor = ThemeManager.currentTheme().titleTextColor
+            nameLabel.sizeToFit()
         }else{
             nameLabel.text = NSLocalizedString("pop_delete_name_label", comment: "")
-            
+            nameLabel.sizeToFit()
             nameLabel.textColor = ThemeManager.currentTheme().contrastColor2
         }
     }

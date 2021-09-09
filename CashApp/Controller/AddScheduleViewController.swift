@@ -68,7 +68,7 @@ class AddScheduleViewController: UIViewController {
     
     var calendarComponent: Calendar.Component = .weekOfMonth
     var date: Date!
-    var checkData: CheckEnteredDataAndShowAlert!
+    var miniAlertView: MiniAlertView!
     var calendar: FSCalendarView = {
        let calendar = FSCalendarView()
         calendar.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
@@ -127,17 +127,9 @@ class AddScheduleViewController: UIViewController {
     @IBAction func selectImageButtonAction(_ sender: Any) {
         
         self.present(iconsCollectionView, animated: true, completion: nil)
-        
-        //iconsCollectionView = IconsCollectionView(frame: self.view.bounds)
         iconsCollectionView.sendImageDelegate = self
-        
-       // self.view.addSubview(iconsCollectionView)
-        
-        //view.animateViewWithBlur(animatedView: iconsCollectionView, parentView: self.view)
     }
-    //@IBOutlet var vectorSegmentedControl: HBSegmentedControl!
-    // @IBOutlet var rhythmSegmentedControl: HBSegmentedControl!
-   
+ 
     @IBAction func selectDateButtonAction(_ sender: Any) {
         self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
         self.view.animateViewWithBlur(animatedView: calendar, parentView: self.view)
@@ -176,7 +168,8 @@ class AddScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.alpha = isEditingScheduler ? 1 : 0
-        checkData = CheckEnteredDataAndShowAlert(controller: self)
+        miniAlertView = MiniAlertView.loadFromNib()
+        miniAlertView.controller = self
         visualSettings()
         checkScheduleType()
         setupCalendarAndTableView()
@@ -201,9 +194,12 @@ class AddScheduleViewController: UIViewController {
     }
     func saveScheduleElement()-> Bool {
         
+        
         if isEditingScheduler == false {
+            newScheduleObject.dateOfCreation = Date()
             newScheduleObject.image = selectedImageName
             newScheduleObject.currencyISO = currency
+            
         }
         
         
@@ -240,12 +236,12 @@ class AddScheduleViewController: UIViewController {
             counter += 1
             if counter == numberOfMonth { // Если итерация послелняя т.е. соответствует количеству месяцев
                 if remainingSum != nil {
-                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: remainingSum!, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
+                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, dateOfCreation: Date(), target: remainingSum!, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 }else{
-                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
+                    payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, dateOfCreation: Date(), target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 }
             }else{
-                payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
+                payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, dateOfCreation: Date(), target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate!)
                 iterationDate = nextMonth
             }
@@ -279,10 +275,10 @@ class AddScheduleViewController: UIViewController {
         }
         
         let object = newScheduleObject
-        var iterationDate = newScheduleObject.date!
+        var iterationDate = newScheduleObject.date
         for _ in 0..<1 {//создается один объект, который пересоздается
             // payPerTimeObject.date = iterationDate
-            payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate, target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
+            payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate, dateOfCreation: Date(), target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
             let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate)
             iterationDate = nextMonth!
             
@@ -312,10 +308,10 @@ class AddScheduleViewController: UIViewController {
                     newScheduleObject.date = date
                     newScheduleObject.target = target
                     newScheduleObject.vector = self.vector
+                    newScheduleObject.dateOfCreation = Date()
                     realm.add(newScheduleObject,update: .all)
                 }
             }else{
-                
                 newScheduleObject.name = name
                 newScheduleObject.date = date
                 newScheduleObject.target = target
@@ -326,7 +322,7 @@ class AddScheduleViewController: UIViewController {
             return true
         }else{
             
-            return checkData.showAlertForScheduler(textFields: [nameTextField,totalSumTextField], imageName: selectedImageName, date: date)
+            return miniAlertView.showAlertForScheduler(textFields: [nameTextField,totalSumTextField], imageName: selectedImageName, date: date)
         }
     }
     
@@ -344,7 +340,7 @@ class AddScheduleViewController: UIViewController {
             guard target >= sumPerTime else {
                 
                 
-                self.showMiniAlert(message: "Разовый платежь больше общей суммы", alertStyle: .warning)
+                miniAlertView.showMiniAlert(message: "Разовый платежь больше общей суммы", alertStyle: .moreThan)
                 return false
             }
             if isEditingScheduler == true {
@@ -357,28 +353,28 @@ class AddScheduleViewController: UIViewController {
                         newScheduleObject.sumPerTime = sumPerTime
                         newScheduleObject.date = date
                         newScheduleObject.dateRhythm = dateRhythm.rawValue
-                        newScheduleObject.vector = vector
+                        newScheduleObject.vector = self.vector
+                        newScheduleObject.dateOfCreation = Date()
                         realm.add(newScheduleObject, update: .all)
                     }
-
                     saveMultiplyPayPerTime()
-                
             }else{
+                
             newScheduleObject.name = name
             newScheduleObject.target = target
             newScheduleObject.sumPerTime = sumPerTime
             newScheduleObject.date = date
+            newScheduleObject.vector = self.vector
             newScheduleObject.dateRhythm = dateRhythm.rawValue
             
             saveMultiplyPayPerTime()
-            
-           
+        
             DBManager.addObject(object: newScheduleObject)
             }
             return true
         }else{
             
-            return  checkData.showAlertForScheduler(textFields: [nameTextField,totalSumTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
+            return  miniAlertView.showAlertForScheduler(textFields: [nameTextField,totalSumTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
             
         }
     }
@@ -400,7 +396,8 @@ class AddScheduleViewController: UIViewController {
                         newScheduleObject.sumPerTime = sumPerTime
                         newScheduleObject.date = date
                         newScheduleObject.dateRhythm = dateRhythm.rawValue
-                        newScheduleObject.vector = vector
+                        newScheduleObject.dateOfCreation = Date()
+                        newScheduleObject.vector = self.vector
                         realm.add(newScheduleObject, update: .all)
                     }
 
@@ -419,7 +416,7 @@ class AddScheduleViewController: UIViewController {
             return true
         }else{
             
-            return checkData.showAlertForScheduler(textFields: [nameTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
+            return miniAlertView.showAlertForScheduler(textFields: [nameTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
         }
     }
     func saveGoal() -> Bool{
@@ -458,7 +455,7 @@ class AddScheduleViewController: UIViewController {
                     }
                 }
                 }else{
-                     self.showMiniAlert(message: "Имеющаяся сумма равна либо превышает цель", alertStyle: .warning)
+                    miniAlertView.showMiniAlert(message: "Имеющаяся сумма равна либо превышает цель", alertStyle: .moreThan)
                 }
                 
                 
@@ -472,7 +469,8 @@ class AddScheduleViewController: UIViewController {
                     newScheduleObject.name = name
                     newScheduleObject.date = date
                     newScheduleObject.available = (sumPerTimeTextField.text!.isEmpty ? 0: sumPerTimeTextField.removeAllExceptNumbers())
-                    newScheduleObject.vector = vector
+                    newScheduleObject.vector = self.vector
+                    newScheduleObject.dateOfCreation = Date()
                     newScheduleObject.target = totalSumTextField.removeAllExceptNumbers()
                     realm.add(newScheduleObject,update: .all)
                 }
@@ -481,7 +479,7 @@ class AddScheduleViewController: UIViewController {
                 newScheduleObject.name = name
                 newScheduleObject.date = date
                 newScheduleObject.available = (sumPerTimeTextField.text!.isEmpty ? 0: sumPerTimeTextField.removeAllExceptNumbers())
-                newScheduleObject.vector = vector
+                newScheduleObject.vector = self.vector
                 newScheduleObject.target = totalSumTextField.removeAllExceptNumbers()
                 DBManager.addObject(object: newScheduleObject)
             }
@@ -491,7 +489,8 @@ class AddScheduleViewController: UIViewController {
         }else{
           
             
-            return checkData.showAlertForScheduler(textFields: [nameTextField,totalSumTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
+            return miniAlertView.showAlertForScheduler(textFields: [nameTextField,totalSumTextField,sumPerTimeTextField], imageName: selectedImageName, date: date)
+                
         }
     }
 }

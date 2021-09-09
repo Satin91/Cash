@@ -8,34 +8,36 @@
 
 import UIKit
 
-class SecondTableViewCell: UITableViewCell {
+class SecondTableViewCell: UITableViewCell  {
+   
+    
     
     var delegate: SendEnlargeIndex!
     var object = Int()
     let themeManager = ThemeManager.currentTheme()
     
-    var titleLabel: UILabel = {
-        let label = UILabel(frame: .zero)
+    var titleLabel: TitleLabel = {
+        let label = TitleLabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 19, weight: .regular)
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+
         return label
     }()
     
-    var subTitleLabel: UILabel = {
-        let label = UILabel(frame: .zero)
+    var subTitleLabel: SubtitleLabel = {
+        let label = SubtitleLabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = ThemeManager.currentTheme().subtitleTextColor
+
         return label
     }()
     
     
-    var sumLabel: UILabel = {
-        let label = UILabel(frame: .zero)
+    var sumLabel: TitleLabel = {
+        let label = TitleLabel(frame: .zero)
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+
         return label
     }()
     
@@ -46,8 +48,8 @@ class SecondTableViewCell: UITableViewCell {
         return button
     }()
     
-    var image: UIImageView = {
-        let image = UIImageView()
+    var image: ThemebleImageView = {
+        let image = ThemebleImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
@@ -62,6 +64,7 @@ class SecondTableViewCell: UITableViewCell {
         super.prepareForReuse()
         lineView.isHidden = false
     }
+    
     
     func checkTheAccount(accountID: String) -> String {
         var accountIdentifier: String?
@@ -78,7 +81,7 @@ class SecondTableViewCell: UITableViewCell {
         titleLabel.text = object.name
         subTitleLabel.text = checkTheAccount(accountID: object.accountID)
         sumLabel.text = String(object.sum.currencyFormatter(ISO: object.currencyISO))
-        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+       // image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
         if isLast == true {
             lineView.isHidden = true
         }
@@ -87,17 +90,14 @@ class SecondTableViewCell: UITableViewCell {
         
         
     }
-    func setColors(){
-        lineView.backgroundColor = themeManager.separatorColor
-    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         super.awakeFromNib()
+        ThemManager.shared.register(self)
         self.backgroundColor = .clear
         contentView.backgroundColor = .clear
         sendButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
-        setColors()
         createConstraints()
     }
     
@@ -163,6 +163,14 @@ class SecondTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+extension SecondTableViewCell: Themable {
+    func applyTheme(_ theme: MyTheme) {
+        lineView.backgroundColor = theme.settings.separatorColor
+        image.setImageColor(color: theme.settings.titleTextColor)
+    }
+    
+    
 }
 
 protocol SendEnlargeIndex {

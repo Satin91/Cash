@@ -17,12 +17,18 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     func scrollToNewAccount(account: MonetaryAccount) {
         var indexPathIndex = 0
         accountsCollectionView.reloadData()
+        
         for i in EnumeratedAccounts(array: accountsGroup) {
             if i.accountID == account.accountID {
                 accountsCollectionView.scrollToItem(at: IndexPath(row: indexPathIndex, section: 0), at: .centeredHorizontally, animated: true)
-            }
+                
+            }else{
             indexPathIndex += 1
+            }
         }
+        
+        visibleIndexPath = IndexPath(row: indexPathIndex, section: 0)
+        sendNotification(objectAt: IndexPath(row: indexPathIndex, section: 0))
     }
     
     var imageCollectionView = AccountImagesCollectionView()
@@ -56,6 +62,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         addVC.scrollToNewAccountDelegate = self
         
     }
+    //Отправляет уведомления для обновления графика
     func sendNotification(objectAt: IndexPath?) {
         guard let indexPath = objectAt else {return}
         
@@ -90,6 +97,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         let nib = UINib(nibName: "AccountCollectionViewCell", bundle: nil)
         accountsCollectionView.register(nib, forCellWithReuseIdentifier: AccountCollectionViewCell().identifier)
         blurView.frame = self.view.bounds
+        
         setupNavigationController(Navigation: navigationController!)
         self.view.insertSubview(self.blurView, at: 9)
         self.view.bringSubviewToFront(accountsCollectionView)
@@ -314,6 +322,7 @@ extension AccountsViewController: collectionCellProtocol {
     }
  
     func tapped(tapped: Bool) {
+        toggle.toggle()
         switch toggle {
         case false: // Не в режиме редактирования
             // Инициализировали редактирование
@@ -330,14 +339,16 @@ extension AccountsViewController: collectionCellProtocol {
            // changeConstraint()
             showImageCollectionView(togle: false)
             createEditingButtons(isActive: false)
-            toggle.toggle()
+        //    toggle.toggle()
             //accountsCollectionView.isScrollEnabled = true
          //   accountsCollectionView.reloadData()
         case true: // В режиме редактирования
             
            // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil, userInfo: ["CASE":true])
            // selectedIndexPath = IndexPath(item: 0, section: 0)  //visibleIndexPath
+            
             editableObject = accountsObjects[visibleIndexPath.row]
+            
             showImageCollectionView(togle: true)
             imageCollectionView.account = editableObject
             accountsCollectionView.reloadData()
@@ -347,7 +358,7 @@ extension AccountsViewController: collectionCellProtocol {
             createEditingButtons(isActive: true)
             
             
-            toggle.toggle()
+         //   toggle.toggle()
             //changeConstraint()
             // Вернул индекс в доВыбранное состояние птмчто возвращает текущий видимый и при новом нажатии на редактор возвращает нил
             //visibleIndexPath = selectedIndexPath

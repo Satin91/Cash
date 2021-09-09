@@ -38,16 +38,16 @@ final class HeaderView: UIViewController {
         return button
     }()
     
-    var accountsLabel: UILabel = {
-        let label = UILabel()
+    var accountsLabel: TitleLabel = {
+        let label = TitleLabel()
         label.font = .systemFont(ofSize: 23, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = NSLocalizedString("header_accounts", comment: "")
         return label
         
     }()
-    var totalBalanceLabel: UILabel = {
-        let label = UILabel()
+    var totalBalanceLabel: TitleLabel = {
+        let label = TitleLabel()
         label.font = .systemFont(ofSize: 34, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
         label.adjustsFontSizeToFitWidth = true
@@ -64,16 +64,16 @@ final class HeaderView: UIViewController {
         return button
     }()
     
-    var todayBalanceLabel: UILabel = {
-        let label = UILabel()
+    var todayBalanceLabel: TitleLabel = {
+        let label = TitleLabel()
         label.font = .systemFont(ofSize: 19, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = NSLocalizedString("header_budgetToday", comment: "")
         return label
     }()
     
-    var todayBalanceSumLabel: UILabel = {
-        let label = UILabel()
+    var todayBalanceSumLabel: TitleLabel = {
+        let label = TitleLabel()
         label.font = .systemFont(ofSize: 26, weight: .medium)
         label.textColor = ThemeManager.currentTheme().titleTextColor
         label.text = "0"
@@ -134,7 +134,6 @@ final class HeaderView: UIViewController {
         guard let mainCurrency = mainCurrency?.ISO else {return}
         var totalBalance: Double = 0
         for i in accountsObjects {
-            print(mainCurrency)
             totalBalance += currencyModelController.convert(i.balance, inputCurrency: i.currencyISO, outputCurrency: mainCurrency) ?? 0
         }
         totalBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: totalBalance , additionalText: nil)
@@ -160,7 +159,7 @@ final class HeaderView: UIViewController {
         todayBalanceSumLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency.ISO, Balance: getTodayBalance() + todayExpences, additionalText: additionalText)
     }
     func setColorTheme() {
-        lineView.backgroundColor = themeManager.separatorColor
+//        lineView.backgroundColor = themeManager.separatorColor
         
     }
     
@@ -173,14 +172,8 @@ final class HeaderView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ThemManager.shared.register(self)
         self.view.layer.cornerRadius = 35
-        self.view.layer.shadowOpacity = 0.20
-        self.view.layer.shadowColor = themeManager.shadowColor.cgColor
-        self.view.backgroundColor = themeManager.secondaryBackgroundColor
-        self.view.layer.shadowOffset = CGSize(width: 4, height: 4)
-        self.view.layer.shadowRadius = 15
-        self.view.layer.masksToBounds = false
-        
         
         
         initControls()
@@ -323,6 +316,20 @@ extension UIView {
         return view
         
     }
+}
+extension HeaderView: Themable {
+    func applyTheme(_ theme: MyTheme) {
+        self.view.backgroundColor = theme.settings.secondaryBackgroundColor
+        //self.view.layer.setMiddleShadow(color: theme.settings.shadowColor)
+
+                self.view.layer.shadowOpacity = 0.20
+                self.view.layer.shadowColor = theme.settings.shadowColor.cgColor
+                self.view.layer.shadowOffset = CGSize(width: 4, height: 4)
+                self.view.layer.shadowRadius = 15
+                self.view.layer.masksToBounds = false
+        lineView.backgroundColor = theme.settings.separatorColor
+    }
+    
     
 }
 extension HeaderView: ChartViewDelegate {
@@ -355,6 +362,7 @@ extension HeaderView: ChartViewDelegate {
         set.drawCirclesEnabled = false
         set.circleRadius = 40
         set.lineWidth = 2
+        
         set.setColor(ThemeManager.currentTheme().contrastColor2)
         set.mode = .cubicBezier
         set.drawValuesEnabled = false

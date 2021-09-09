@@ -775,11 +775,8 @@ extension UIViewController {
             }
         }
         miniAlert = MiniAlertView.loadFromNib()
-     
         miniAlert.frame = CGRect(x: self.view.bounds.width, y: 97, width: self.view.bounds.width - (Layout.side * 2), height: 98)
-       
         self.view.addSubview(miniAlert)
-      
         miniAlert.messageLabel.text = message
         UIView.animate(withDuration: 0.45, delay: 0,usingSpringWithDamping: 0.7,initialSpringVelocity: 0.9,options: .curveEaseInOut) {
             miniAlert.frame.origin.x = Layout.side
@@ -791,7 +788,6 @@ extension UIViewController {
             }
         
         }
-        
     }
     func closeAlert(alertView: AlertViewController) {
         

@@ -73,7 +73,10 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func setupCollectionView() {
         let collectionView = AccountImagesCollectionView(frame: accountsImageCollectionView.bounds)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         accountsImageCollectionView.addSubview(collectionView)
+        initConstraints(view: collectionView, to: accountsImageCollectionView)
+        
         collectionView.collectionView.delegate = self
         collectionView.collectionView.dataSource = self
     }

@@ -43,9 +43,7 @@ extension AddOperationViewController {
         }
     
     func checkEnteredData() -> Bool{
-         
-        
-        return checkData.showAlertForCategories(textField: nameTextField, imageName: selectedImageName)
+        return miniAlertView.showAlertForCategories(textField: nameTextField, imageName: selectedImageName)
     }
     
     //Create

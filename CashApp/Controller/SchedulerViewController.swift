@@ -87,10 +87,12 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         installTableView()
         setupNavigationController(Navigation: self.navigationController!)
         visualSettings()
+        
 
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
     }
     
     func installTableView() {

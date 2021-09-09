@@ -29,10 +29,10 @@ class CalendarSchedulerViewController: UIViewController {
                 
             }
             for x in Array(oneTimeObjects) {
-                dates.append(x.date!)
+                dates.append(x.date)
             }
             for y in Array(goalObjects) {
-                dates.append(y.date!)
+                dates.append(y.date)
             }
             return dates
         }()

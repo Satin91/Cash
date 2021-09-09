@@ -14,10 +14,10 @@ extension TodayBalanceViewController {
     
     func createConstraints() {
         initConstraints(view: containerForTableView, to: tableView)
-        calendarButtonContainerView.addSubview(calendarButton)
-        calendarButtonContainerView.addSubview(imageForCalendarButton)
-        initConstraints(view: imageForCalendarButton, to: calendarButtonContainerView)
-        initConstraints(view: calendarButton, to: calendarButtonContainerView)
+//        calendarButtonContainerView.addSubview(calendarButton)
+//        calendarButtonContainerView.addSubview(imageForCalendarButton)
+//        initConstraints(view: imageForCalendarButton, to: calendarButtonContainerView)
+//        initConstraints(view: calendarButton, to: calendarButtonContainerView)
     }
     func setupTableView() {
         self.view.addSubview(containerForTableView)
@@ -47,12 +47,14 @@ extension TodayBalanceViewController {
         circleBarContainerView.layer.cornerRadius = 20
         circleBarContainerView.layer.setSmallShadow(color: theme.shadowColor)
         segmentedControlOutlet.changeValuesForCashApp(segmentOne: NSLocalizedString("segmented_control_plans", comment: ""), segmentTwo: NSLocalizedString("segmented_control_accounts", comment: ""))
-        calendarButtonContainerView.layer.cornerRadius = 12
-        calendarButtonContainerView.backgroundColor = theme.contrastColor1
+        calendarButtonOutlet.layer.cornerRadius = 12
+        calendarButtonOutlet.backgroundColor = ThemeManager.currentTheme().contrastColor1
+        calendarButtonOutlet.setImage(UIImage(named: "calendarForButton"), for: .normal)
+        calendarButtonOutlet.setTitle("", for: .normal)
+        calendarButtonOutlet.setImageTintColor(ThemeManager.currentTheme().backgroundColor)
         blur.frame = self.view.bounds
         calendar.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.6)
         calendarContainerView.frame = calendar.frame
-        imageForCalendarButton.setImageColor(color: theme.secondaryBackgroundColor)
         //labels
         dailyBudgetLabel.textColor = theme.titleTextColor
         calculatedUntilDateLabel.textColor = theme.subtitleTextColor

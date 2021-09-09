@@ -10,6 +10,7 @@ import RealmSwift
 
 
 var realm = try! Realm(configuration: .init( deleteRealmIfMigrationNeeded: true))
+
 var results: Results<MonetaryCategory>!
 
 

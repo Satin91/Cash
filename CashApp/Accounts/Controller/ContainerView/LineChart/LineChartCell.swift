@@ -203,7 +203,6 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
             textView.isHidden = false
             textView.text = NSLocalizedString("need_at_least_one", comment: "")
             monthLabel.text = formatter.string(from: element.date)
-   
         default:
             lineChartView.isHidden = false
             chartVisualSettings(chartDataSet: element.chartDataSet)
@@ -214,6 +213,7 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
             monthLabel.text = formatter.string(from: element.date)
          
         }
+       
     }
     func animateEntryView(animate: @escaping () -> (Void) ) {
         

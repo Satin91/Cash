@@ -58,6 +58,7 @@
 "year_coincides" = "MMMM, d";
 "day_is_today" = "Today";
 "day_was_yestereday" = "Yestereday";
+"small_date" = "MMM dd" ;
 
 //MARK: - Currency
 

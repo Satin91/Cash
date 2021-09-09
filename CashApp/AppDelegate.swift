@@ -9,21 +9,24 @@
 import UIKit
 import RealmSwift
 import IQKeyboardManagerSwift
+import UserNotifications
+
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    let notifications = Notifications()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
 //        IQKeyboardManager.shared.enable = true
 //        IQKeyboardManager.shared.enableAutoToolbar = true // Бар для доп кнопок
 //        
+        ThemeManager.applyTheme(theme: .dark)
         
-        ThemeManager.applyTheme(theme: .white)
-        
-            
-        
+        notifications.requestAutorization()
+        notifications.notificationCenter.delegate = notifications
         
         
         let config = Realm.Configuration(shouldCompactOnLaunch: { totalBytes, usedBytes in
@@ -73,6 +76,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-
+    
+    
+   
 }
+
 

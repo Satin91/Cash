@@ -138,7 +138,7 @@
                 <outlet property="sumLabelText" destination="3f0-q1-kGv" id="ba8-pf-Slt"/>
                 <outlet property="titleLabel" destination="0Cg-gM-aqv" id="MxC-hq-0gC"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="117.52232142857142"/>
+            <point key="canvasLocation" x="109" y="114"/>
         </tableViewCell>
     </objects>
     <resources>

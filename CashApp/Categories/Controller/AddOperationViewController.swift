@@ -21,7 +21,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     //Protocol for reload data to previous table view
     var tableReloadDelegate: ReloadParentTableView!
     var ImageCollectionView: IconsCollectionView!
-    var checkData: CheckEnteredDataAndShowAlert!
+    var miniAlertView: MiniAlertView!
     @IBOutlet var doneButton: UIBarButtonItem!
     
     var newCategoryObject = MonetaryCategory()
@@ -71,7 +71,8 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     ///                     View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkData = CheckEnteredDataAndShowAlert(controller: self)
+        miniAlertView = MiniAlertView.loadFromNib()
+        miniAlertView.controller = self
         visualSettings()
         iconsCollectionView.sendImageDelegate = self
         setupControls()

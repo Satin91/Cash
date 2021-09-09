@@ -80,6 +80,7 @@ class OperationCell: UICollectionViewCell {
         roundedRect.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         roundedRect.widthAnchor.constraint(equalTo: roundedRect.heightAnchor).isActive = true
         
+        
     
         self.roundedRect.addSubview(categoryImage)
         categoryImage.translatesAutoresizingMaskIntoConstraints = false

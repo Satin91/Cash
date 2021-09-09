@@ -20,6 +20,8 @@
 		7512178226CFB943004A8FD5 /* NumpadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7512178126CFB942004A8FD5 /* NumpadView.xib */; };
 		7512178426CFBC06004A8FD5 /* NumpadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7512178326CFBC06004A8FD5 /* NumpadView.swift */; };
 		7518FEE626E153A300506035 /* UIControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7518FEE526E153A300506035 /* UIControls.swift */; };
+		75200ADB26E9DCED009C63A5 /* NotificationProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75200ADA26E9DCED009C63A5 /* NotificationProperties.swift */; };
+		75200ADE26EA2440009C63A5 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75200ADD26EA243F009C63A5 /* NotificationData.swift */; };
 		7522652E24D1D55700D30CD6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7522652D24D1D55700D30CD6 /* Model.swift */; };
 		7523BD322697F67400F00762 /* MiniAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7523BD312697F67400F00762 /* MiniAlertView.xib */; };
 		75262B27268E6B7E00D7F38E /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75262B26268E6B7E00D7F38E /* CircleView.swift */; };
@@ -56,11 +58,15 @@
 		7575718525FFA02F00C2F663 /* LineChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7575718325FFA02F00C2F663 /* LineChartCell.xib */; };
 		7578BE38269666CA0063D087 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578BE36269666CA0063D087 /* AlertViewController.swift */; };
 		7578BE39269666CA0063D087 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7578BE37269666CA0063D087 /* AlertViewController.xib */; };
+		757AA57C26E87B3100F8C443 /* SetAlertViewVisual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757AA57B26E87B3100F8C443 /* SetAlertViewVisual.swift */; };
+		757AA57F26E8CDB900F8C443 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757AA57E26E8CDB900F8C443 /* Notifications.swift */; };
 		757B99542689549D005FB908 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B99532689549D005FB908 /* HeaderView.swift */; };
+		757D0AC426E8D2140087E956 /* SchedulerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D0AC326E8D2140087E956 /* SchedulerModel.swift */; };
+		757D0AC626E8D2BF0087E956 /* PayPerTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D0AC526E8D2BF0087E956 /* PayPerTimeModel.swift */; };
 		757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D64AA25250679008CDEE1 /* DateSettings.swift */; };
 		757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */; };
 		757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F2F25402BBB00F0B1D0 /* DBManager.swift */; };
-		757F8F3A25402E5600F0B1D0 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F3925402E5600F0B1D0 /* Animations.swift */; };
+		757F8F3A25402E5600F0B1D0 /* ShowAndHideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F8F3925402E5600F0B1D0 /* ShowAndHideTabBar.swift */; };
 		7583E19F26E1E728009DC96C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7583E19E26E1E728009DC96C /* Category.swift */; };
 		7583E1A326E20E30009DC96C /* CurrencySymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7583E1A226E20E30009DC96C /* CurrencySymbol.swift */; };
 		7583E1A526E21022009DC96C /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7583E1A426E21022009DC96C /* Networking.swift */; };
@@ -90,7 +96,6 @@
 		75AD2A0B266A006C00F6880B /* CurrencyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */; };
 		75AE325125239E30004422F4 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE325025239E30004422F4 /* AccountsViewController.swift */; };
 		75AE5A9325CCAC25006AC7E0 /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE5A9225CCAC25006AC7E0 /* ChartsView.swift */; };
-		75AFE4A926E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AFE4A826E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift */; };
 		75B59B70262DE57600DFCCCD /* AddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */; };
 		75B59B71262DE57600DFCCCD /* AddCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */; };
 		75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C0DF752524D52400D5B0FA /* CalendarView.swift */; };
@@ -104,6 +109,8 @@
 		75CB7AA8255D50DA00451F1D /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7AA4255D50DA00451F1D /* SF-Pro-Text-Bold.otf */; };
 		75CB7AA9255D50DA00451F1D /* SF-Pro-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7AA5255D50DA00451F1D /* SF-Pro-Text-Regular.otf */; };
 		75CEC755261F10F3001184CD /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CEC754261F10F3001184CD /* NumberTextField.swift */; };
+		75D1704E26EA6AB5001AE45F /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D1704D26EA6AB5001AE45F /* Themes.swift */; };
+		75D1705026EA8481001AE45F /* ThemeControlsClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D1704F26EA8481001AE45F /* ThemeControlsClasses.swift */; };
 		75D28016268AE1E6000BA1EE /* layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28015268AE1E6000BA1EE /* layout.swift */; };
 		75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */; };
 		75D3A1172688BE1200E3BEAE /* CreateScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D3A1152688BE1200E3BEAE /* CreateScheduleCell.swift */; };
@@ -138,6 +145,8 @@
 		7512178126CFB942004A8FD5 /* NumpadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NumpadView.xib; sourceTree = "<group>"; };
 		7512178326CFBC06004A8FD5 /* NumpadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumpadView.swift; sourceTree = "<group>"; };
 		7518FEE526E153A300506035 /* UIControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControls.swift; sourceTree = "<group>"; };
+		75200ADA26E9DCED009C63A5 /* NotificationProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationProperties.swift; sourceTree = "<group>"; };
+		75200ADD26EA243F009C63A5 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		7522652D24D1D55700D30CD6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7523BD312697F67400F00762 /* MiniAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MiniAlertView.xib; sourceTree = "<group>"; };
 		75262B26268E6B7E00D7F38E /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
@@ -176,11 +185,15 @@
 		7575718325FFA02F00C2F663 /* LineChartCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChartCell.xib; sourceTree = "<group>"; };
 		7578BE36269666CA0063D087 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		7578BE37269666CA0063D087 /* AlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertViewController.xib; sourceTree = "<group>"; };
+		757AA57B26E87B3100F8C443 /* SetAlertViewVisual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAlertViewVisual.swift; sourceTree = "<group>"; };
+		757AA57E26E8CDB900F8C443 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		757B99532689549D005FB908 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		757D0AC326E8D2140087E956 /* SchedulerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerModel.swift; sourceTree = "<group>"; };
+		757D0AC526E8D2BF0087E956 /* PayPerTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPerTimeModel.swift; sourceTree = "<group>"; };
 		757D64AA25250679008CDEE1 /* DateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSettings.swift; sourceTree = "<group>"; };
 		757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableVIewCell.swift; sourceTree = "<group>"; };
 		757F8F2F25402BBB00F0B1D0 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
-		757F8F3925402E5600F0B1D0 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
+		757F8F3925402E5600F0B1D0 /* ShowAndHideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAndHideTabBar.swift; sourceTree = "<group>"; };
 		7583E19E26E1E728009DC96C /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		7583E1A226E20E30009DC96C /* CurrencySymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySymbol.swift; sourceTree = "<group>"; };
 		7583E1A426E21022009DC96C /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
@@ -210,7 +223,6 @@
 		75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyTableViewCell.xib; sourceTree = "<group>"; };
 		75AE325025239E30004422F4 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		75AE5A9225CCAC25006AC7E0 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
-		75AFE4A826E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEnteredDataAndShowAlert.swift; sourceTree = "<group>"; };
 		75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionViewCell.swift; sourceTree = "<group>"; };
 		75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCollectionViewCell.xib; sourceTree = "<group>"; };
 		75C0DF752524D52400D5B0FA /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -224,6 +236,8 @@
 		75CB7AA4255D50DA00451F1D /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Text-Bold.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
 		75CB7AA5255D50DA00451F1D /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Text-Regular.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
 		75CEC754261F10F3001184CD /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
+		75D1704D26EA6AB5001AE45F /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
+		75D1704F26EA8481001AE45F /* ThemeControlsClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeControlsClasses.swift; sourceTree = "<group>"; };
 		75D28015268AE1E6000BA1EE /* layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layout.swift; sourceTree = "<group>"; };
 		75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceViewController.swift; sourceTree = "<group>"; };
 		75D340622642F077002881EB /* CurrencyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyList.swift; sourceTree = "<group>"; };
@@ -315,9 +329,21 @@
 			isa = PBXGroup;
 			children = (
 				7529F98D267493EE00087F46 /* ThemeManager.swift */,
+				75D1704D26EA6AB5001AE45F /* Themes.swift */,
+				75D1704F26EA8481001AE45F /* ThemeControlsClasses.swift */,
 				7518FEE526E153A300506035 /* UIControls.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		75200ADC26EA13E4009C63A5 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				757AA57E26E8CDB900F8C443 /* Notifications.swift */,
+				75200ADD26EA243F009C63A5 /* NotificationData.swift */,
+				75200ADA26E9DCED009C63A5 /* NotificationProperties.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		75262B28268E6B8700D7F38E /* View */ = {
@@ -479,13 +505,31 @@
 		7578BE3A269666E70063D087 /* AlertView */ = {
 			isa = PBXGroup;
 			children = (
-				75AFE4A826E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift */,
+				757AA57B26E87B3100F8C443 /* SetAlertViewVisual.swift */,
 				754EE23D26E00F0600B66B5A /* MiniAlertView.swift */,
 				7578BE36269666CA0063D087 /* AlertViewController.swift */,
 				7578BE37269666CA0063D087 /* AlertViewController.xib */,
 				7523BD312697F67400F00762 /* MiniAlertView.xib */,
 			);
 			path = AlertView;
+			sourceTree = "<group>";
+		};
+		757AA57D26E8C80900F8C443 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				757F8F3925402E5600F0B1D0 /* ShowAndHideTabBar.swift */,
+				7552BFE526169CBC00BACB65 /* MainTabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		757D0AC226E8D2010087E956 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				757D0AC326E8D2140087E956 /* SchedulerModel.swift */,
+				757D0AC526E8D2BF0087E956 /* PayPerTimeModel.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		757D64AE25250688008CDEE1 /* Extensions */ = {
@@ -634,12 +678,12 @@
 			children = (
 				75EE502D2571844C007A7E97 /* DropDownTableView.swift */,
 				75EA2AEF24CDDB8200D03E95 /* AppDelegate.swift */,
+				75EDDC35250AD352000C0E27 /* AnyOptions.swift */,
+				75D28015268AE1E6000BA1EE /* layout.swift */,
 				75EA2AF124CDDB8200D03E95 /* SceneDelegate.swift */,
 				7518FEE426E1532100506035 /* UI */,
+				75200ADC26EA13E4009C63A5 /* Notifications */,
 				757D64AE25250688008CDEE1 /* Extensions */,
-				75EDDC35250AD352000C0E27 /* AnyOptions.swift */,
-				757F8F3925402E5600F0B1D0 /* Animations.swift */,
-				75D28015268AE1E6000BA1EE /* layout.swift */,
 				7578BE3A269666E70063D087 /* AlertView */,
 				7529F98C26748D5E00087F46 /* Calendar */,
 				756FC72E2643055600327BAC /* CurrencyModel */,
@@ -656,7 +700,7 @@
 				755DE792262DD70D00CA835D /* IconsCollectionView.swift */,
 				75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */,
 				75EA2AF524CDDB8200D03E95 /* Main.storyboard */,
-				7552BFE526169CBC00BACB65 /* MainTabBarController.swift */,
+				757AA57D26E8C80900F8C443 /* TabBar */,
 				75EA2AF824CDDB8B00D03E95 /* Assets.xcassets */,
 				75EA2AFA24CDDB8B00D03E95 /* LaunchScreen.storyboard */,
 				75EA2AFD24CDDB8B00D03E95 /* Info.plist */,
@@ -677,6 +721,7 @@
 		75F585352619D06200355CBF /* Scheduler */ = {
 			isa = PBXGroup;
 			children = (
+				757D0AC226E8D2010087E956 /* Model */,
 				750888AD26877ED00037C804 /* Controller */,
 				750888AC26877E850037C804 /* Cell */,
 			);
@@ -828,6 +873,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75D1704E26EA6AB5001AE45F /* Themes.swift in Sources */,
 				7583E1A326E20E30009DC96C /* CurrencySymbol.swift in Sources */,
 				7583E1A726E2117B009DC96C /* DeleteUnnecessary.swift in Sources */,
 				75A7413F26E499A300A9C586 /* EditingButtonsInstall.swift in Sources */,
@@ -838,13 +884,14 @@
 				75A7413926E47F0400A9C586 /* AccountImagesCollectionView.swift in Sources */,
 				75D28016268AE1E6000BA1EE /* layout.swift in Sources */,
 				75A7414126E4A03A00A9C586 /* EditingButtons.swift in Sources */,
+				757D0AC426E8D2140087E956 /* SchedulerModel.swift in Sources */,
 				75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */,
 				754F15F326681A44002250BB /* EnlargeSecondTableViewCell.swift in Sources */,
 				7575718425FFA02F00C2F663 /* LineChartCell.swift in Sources */,
 				759130CA25F10EF9009F2C93 /* AccountCollectionViewCell.swift in Sources */,
 				7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */,
 				7539D3CB2637962A00A966BB /* PopTableViewCell.swift in Sources */,
-				75AFE4A926E76C5700C4B36E /* CheckEnteredDataAndShowAlert.swift in Sources */,
+				757D0AC626E8D2BF0087E956 /* PayPerTimeModel.swift in Sources */,
 				75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */,
 				7510F83E2509A87600030A52 /* CategoriesViewController.swift in Sources */,
 				75A7413C26E48C9800A9C586 /* AccountImageCell.swift in Sources */,
@@ -853,7 +900,7 @@
 				759FA92B26189BA600502172 /* MainTableViewCell.swift in Sources */,
 				75F585332619B7A700355CBF /* SchedulerViewController.swift in Sources */,
 				7518FEE626E153A300506035 /* UIControls.swift in Sources */,
-				757F8F3A25402E5600F0B1D0 /* Animations.swift in Sources */,
+				757F8F3A25402E5600F0B1D0 /* ShowAndHideTabBar.swift in Sources */,
 				755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */,
 				7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */,
 				75FF12F826B98C7F002E1321 /* ChartView.swift in Sources */,
@@ -865,6 +912,7 @@
 				754EE23C26E00EFC00B66B5A /* NetworkMonitor.swift in Sources */,
 				75D9DE7E253B6294007677BA /* AddOperationViewController.swift in Sources */,
 				75727D372694F67F000BC7DE /* SelectSchedulerTypeViewController.swift in Sources */,
+				757AA57F26E8CDB900F8C443 /* Notifications.swift in Sources */,
 				755E675D25FE024B0049E113 /* ContainerViewController.swift in Sources */,
 				750EF5D926A7FBBF000FF9D2 /* CreateOperationCell.swift in Sources */,
 				75EE502E2571844C007A7E97 /* DropDownTableView.swift in Sources */,
@@ -876,11 +924,13 @@
 				757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */,
 				75262B27268E6B7E00D7F38E /* CircleView.swift in Sources */,
 				754F15EE2667A9F8002250BB /* EnlargeTableView.swift in Sources */,
+				75200ADE26EA2440009C63A5 /* NotificationData.swift in Sources */,
 				75FA2BB2253B066800E8CCD8 /* Colors.swift in Sources */,
 				757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */,
 				750888A7268764260037C804 /* CalendarSchedulerViewController.swift in Sources */,
 				753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */,
 				75A974BF26CE9D2A0053583B /* SideMenuViewController.swift in Sources */,
+				75D1705026EA8481001AE45F /* ThemeControlsClasses.swift in Sources */,
 				756ACCE226E288CD00C8C1CF /* VisualSettings.swift in Sources */,
 				7578BE38269666CA0063D087 /* AlertViewController.swift in Sources */,
 				757B99542689549D005FB908 /* HeaderView.swift in Sources */,
@@ -901,6 +951,7 @@
 				75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */,
 				750888AA26877E710037C804 /* SchedulerTableViewCell.swift in Sources */,
 				7512178426CFBC06004A8FD5 /* NumpadView.swift in Sources */,
+				757AA57C26E87B3100F8C443 /* SetAlertViewVisual.swift in Sources */,
 				75AD2A082669E72600F6880B /* CurrencyViewController.swift in Sources */,
 				753EACAE268E388000860745 /* TodayBalanceTableViewCell.swift in Sources */,
 				75D3A1172688BE1200E3BEAE /* CreateScheduleCell.swift in Sources */,
@@ -911,6 +962,7 @@
 				75EA2AF224CDDB8200D03E95 /* SceneDelegate.swift in Sources */,
 				7583E1A926E21427009DC96C /* RealmCurrency.swift in Sources */,
 				75EDDC36250AD352000C0E27 /* AnyOptions.swift in Sources */,
+				75200ADB26E9DCED009C63A5 /* NotificationProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

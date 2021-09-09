@@ -30,19 +30,29 @@ class HomeViewController: UIViewController  {
     
     var miniAlert: MiniAlertView!
     let transition = SideInTransition()
-    @IBAction func settingsButtonAction(_ sender: UIBarButtonItem) {
-
-        //self.showMiniAlert(message: "Укажите дату и имя", alertStyle: .warning)
-        guard let sideMenu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SideMenuVC") as? SideMenuViewController else { return}
-        
-        sideMenu.modalPresentationStyle = .overCurrentContext
-        sideMenu.transitioningDelegate = self
-        present(sideMenu, animated: true, completion: nil)
-        
-//        self.present(sideMenu, animated: true, completion: nil)
-    //var alertView = AlertViewController()
-   
+    var alertView: MiniAlertView!
+    
+    var toggle: Bool = false {
+        didSet {
+            ThemManager.shared.theme = toggle ? .dark : .light
+        }
     }
+    @IBAction func settingsButtonAction(_ sender: UIBarButtonItem) {
+        miniAlert.showMiniAlert(message: "Message", alertStyle: .error)
+        //ThemeManager.theme = DarkTheme()
+        ThemeManager.applyTheme(theme: .dark)
+        toggle.toggle()
+       
+//        guard let sideMenu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SideMenuVC") as? SideMenuViewController else { return}
+//
+//        sideMenu.modalPresentationStyle = .overCurrentContext
+//        sideMenu.transitioningDelegate = self
+//        present(sideMenu, animated: true, completion: nil)
+//
+    }
+    
+    
+    let notifications = Notifications()
     //label который сверху (бывш. Total balance)
     @IBOutlet var primaryLabel: UILabel!
     //собсна баланс
@@ -50,10 +60,15 @@ class HomeViewController: UIViewController  {
     //собсна кнопка для показывания счетов
     @IBOutlet var totalBalanceButtom: UIButton!
     @IBOutlet var tableView: EnlargeTableView!
+    
+    @IBOutlet var testLabel: HighlightedLabel!
     let networking = Networking()
     var theme = ThemeManager.currentTheme()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        miniAlert = MiniAlertView.loadFromNib()
+        miniAlert.controller = self
+        
         getCurrenciesByPriorities()//Обновить данные об изменении главной валюты
        // setTotalBalance() //Назначить сумму
         setRightBarButton()
@@ -62,14 +77,21 @@ class HomeViewController: UIViewController  {
         self.reloadInputViews()
     }
   
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+    }
+    
     //MARK: SCROLL EFFECT
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        notifications.sendTodayNotifications()
+        ThemManager.shared.register(self)
         installBackgroundView()
         setRightBarButton()
         setLeftBarButtn()
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        //self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         //totalBalanceButtom.mainButtonTheme()
         tableView.clipsToBounds = true
         networking.getCurrenciesFromJSON(from: .URL)
@@ -103,7 +125,8 @@ class HomeViewController: UIViewController  {
     func setLeftBarButtn() {
         let image = UIImageView(image: UIImage(named: "navigationBarSettings"))
         self.navigationItem.leftBarButtonItem!.image = image.image
-        self.navigationItem.leftBarButtonItem?.isEnabled = false
+        
+        //self.navigationItem.leftBarButtonItem?.isEnabled = false
     }
     
     func setRightBarButton() {
@@ -250,6 +273,16 @@ class HomeViewController: UIViewController  {
 //
 //    }
 //
+}
+
+extension HomeViewController: Themable {
+    func applyTheme(_ theme: MyTheme) {
+        view.backgroundColor = theme.settings.backgroundColor
+        
+        
+    }
+    
+    
 }
 
 extension HomeViewController: prepareForMainViewControllers {
