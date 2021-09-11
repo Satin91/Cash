@@ -8,13 +8,13 @@
 
 import Foundation
 import UIKit
+import Themer
 
 extension AddOperationViewController {
     
     //Save
     func setDataForEditableControls() {
         self.nameTextField.text = newCategoryObject.name
-        selectImageButton.setImage(UIImage(named: newCategoryObject.image), for: .normal)
         selectedImageName = newCategoryObject.image
         let imcomeOrExpenceText = newCategoryObject.stringEntityType == .expence ? "Изменить категорию расходов" : "Изменить категорию доходов"
         headingTextLabel.text = imcomeOrExpenceText
@@ -22,6 +22,7 @@ extension AddOperationViewController {
         descriptionLabel.isHidden = true
         descriptionLabel.text = "Внесите изменения в и сохраните результат"
         saveButtonOutlet.isEnabled = true
+            
     }
     
     func saveElement() -> Bool {
@@ -48,11 +49,10 @@ extension AddOperationViewController {
     
     //Create
     func setDataForСreatingControls() {
-        selectImageButton.setImage(UIImage(named: selectedImageName), for: .normal)
-        selectImageButton.imageView?.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
         let imcomeOrExpenceText = newCategoryObject.stringEntityType == .expence ? NSLocalizedString("category_expence_heading_title", comment: "") : NSLocalizedString("category_income_heading_title", comment: "")
         headingTextLabel.text = imcomeOrExpenceText
         descriptionLabel.text = NSLocalizedString("category_description_title", comment: "")
+            
     }
     
     

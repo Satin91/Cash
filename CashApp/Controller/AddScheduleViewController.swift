@@ -8,25 +8,32 @@
 import FSCalendar
 import UIKit
 import RealmSwift
+import Themer
+
 protocol closeScheduler {
     func close()
 }
 class AddScheduleViewController: UIViewController {
     
+   
     var closeDelegate: closeScheduler!
     var reloadParentTableViewDelegate: ReloadParentTableView!
     @IBOutlet var topAnchorConstraint: NSLayoutConstraint!
     // @IBOutlet var nameTextField: NumberTextField!
     @IBOutlet var headingTextLabel: UILabel!
     @IBOutlet var descriptionTextLabel: UILabel!
-    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var nameTextField: ThemableTextField!
     @IBOutlet var totalSumTextField: NumberTextField!
     @IBOutlet var sumPerTimeTextField: NumberTextField!
     @IBOutlet var expenceVectorButtonOutlet: UIButton!
     @IBOutlet var incomeVectorButtonOutlet: UIButton!
-    @IBOutlet var okButtonOutlet: UIButton!
-    @IBOutlet var selectDateButtonOutlet: UIButton!
+    @IBOutlet var okButtonOutlet: ContrastButton!
+    @IBOutlet var selectDateButtonOutlet: MainButton!
     @IBOutlet var selectImageButtonOutlet: UIButton!
+    lazy var titleTextColor:UIColor = .clear
+    lazy var borderColor:UIColor = .clear
+    lazy var backgroundColor: UIColor = .clear
+    lazy var subTitleTextColor: UIColor = .clear
     
     @IBAction func okButtonAction(_ sender: Any) {
         guard saveScheduleElement() else {return}
@@ -42,9 +49,9 @@ class AddScheduleViewController: UIViewController {
     @IBAction func expenceVectorAction(_ sender: UIButton) {
         self.vector = false
         expenceVectorButtonOutlet.scaleButtonAnimation()
-        UIView.animate(withDuration: 0.15) {
-            self.incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
-            self.expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+        UIView.animate(withDuration: 0.15) { [weak self] in
+            self!.incomeVectorButtonOutlet.backgroundColor = self!.borderColor
+            self!.expenceVectorButtonOutlet.backgroundColor = self!.titleTextColor
         }
         
     }
@@ -52,9 +59,9 @@ class AddScheduleViewController: UIViewController {
     @IBAction func incomeVectorAction(_ sender: UIButton) {
         self.vector = true
         incomeVectorButtonOutlet.scaleButtonAnimation()
-        UIView.animate(withDuration: 0.15) {
-            self.expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
-            self.incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+        UIView.animate(withDuration: 0.15) { [weak self] in
+            self!.expenceVectorButtonOutlet.backgroundColor = self!.borderColor
+            self!.incomeVectorButtonOutlet.backgroundColor = self!.titleTextColor
         }
     }
     
@@ -62,7 +69,7 @@ class AddScheduleViewController: UIViewController {
     var imageForSelectButtonImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "home")
-        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        image.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return image
     }()
     
@@ -71,9 +78,7 @@ class AddScheduleViewController: UIViewController {
     var miniAlertView: MiniAlertView!
     var calendar: FSCalendarView = {
        let calendar = FSCalendarView()
-        calendar.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         calendar.translatesAutoresizingMaskIntoConstraints = false
-        calendar.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
         calendar.layer.cornerRadius = 18
         calendar.alpha = 0
         return calendar
@@ -108,20 +113,6 @@ class AddScheduleViewController: UIViewController {
     }()
     @IBOutlet var scrollView: UIScrollView! // Нужен только для отмены скролинга в случае выбора одноразовой операции
    
-   
-    
-//    @IBAction func dateRhythmSegmentedController(_ sender: HBSegmentedControl) {
-//        switch sender.selectedIndex {
-//        case 0:
-//            self.dateRhythm = .week
-//            self.calendarComponent = .weekOfMonth
-//        case 1:
-//            self.dateRhythm = .month
-//            self.calendarComponent = .month
-//        default:
-//            break
-//        }
-//    }
 
     
     @IBAction func selectImageButtonAction(_ sender: Any) {
@@ -150,9 +141,8 @@ class AddScheduleViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     var selectedImageName = "emptyImage" {
-        willSet{
-            selectImageButtonOutlet.setImage(UIImage(named: newValue), for: .normal)
-            selectImageButtonOutlet.imageView?.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        didSet{
+            Themer.shared.register(target: self, action: AddScheduleViewController.theme(_:))
         }
     }
 
@@ -167,14 +157,15 @@ class AddScheduleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        visualSettings()
+        Themer.shared.register(target: self, action: AddScheduleViewController.theme(_:))
         self.view.alpha = isEditingScheduler ? 1 : 0
         miniAlertView = MiniAlertView.loadFromNib()
         miniAlertView.controller = self
-        visualSettings()
         checkScheduleType()
         setupCalendarAndTableView()
         stackViewSettings()
-        setupButtonsAndFields()
+        //setupButtonsAndFields()
         
         guard isEditingScheduler else {return}
         setDataFromEditableObject()
@@ -493,66 +484,7 @@ class AddScheduleViewController: UIViewController {
                 
         }
     }
-}
 
-//MARK: - visual settings
-extension AddScheduleViewController {
-    func visualSettings() {
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        self.headingTextLabel.textColor = ThemeManager.currentTheme().titleTextColor
-        self.headingTextLabel.numberOfLines = 2
-        self.headingTextLabel.minimumScaleFactor = 0.5
-        
-        self.descriptionTextLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
-        self.headingTextLabel.font = .systemFont(ofSize: 34, weight: .medium)
-        self.descriptionTextLabel.font = .systemFont(ofSize: 17, weight: .light)
-        
-        descriptionTextLabel.numberOfLines = 0
-        
-        incomeVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
-        expenceVectorButtonOutlet.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
-        incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
-        expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
-        incomeVectorButtonOutlet.layer.cornerRadius = 10
-        expenceVectorButtonOutlet.layer.cornerRadius = 10
-        
-        
-        let isEditingButtonTitle = isEditingScheduler ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
-        selectDateButtonOutlet.mainButtonTheme(color: ThemeManager.currentTheme().titleTextColor, "date_button")
-        okButtonOutlet.mainButtonTheme(color: ThemeManager.currentTheme().contrastColor1,isEditingButtonTitle)
-        
-        selectImageButtonOutlet.layer.cornerRadius = 25
-        selectImageButtonOutlet.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        selectImageButtonOutlet.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-        
-        
-        //selectImageButtonOutlet.addSubview(imageForSelectButtonImage)
-        
-        
-        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
-        selectImageButtonOutlet.imageView?.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
-        
-        //selectImageButtonOutlet.imageView?.contentMode = .scaleAspectFill
-        
-        scrollView.backgroundColor = .clear
-    }
-    
-   
-    func setupButtonsAndFields() {
-        nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
-        
-        let sumPerTimeText = newScheduleObject.stringScheduleType == .goal ? NSLocalizedString("available_sum", comment: "") : NSLocalizedString("sum_per_time_text_field", comment: "")
-        totalSumTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("total_sum_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor ])
-        sumPerTimeTextField.attributedPlaceholder = NSAttributedString(string: sumPerTimeText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular), NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().subtitleTextColor])
-        
-        nameTextField.changeVisualDesigh()
-        totalSumTextField.changeVisualDesigh()
-        sumPerTimeTextField.changeVisualDesigh()
-        let title = isEditingScheduler ? newScheduleObject.currencyISO : mainCurrency!.ISO
-        rightViewTextFieldButtonFor(title: title)
-        
-        
-    }
     func constraintsForTableViewAndCalendar() {
         self.view.addSubview(calendar)
         self.view.addSubview(tableView)
@@ -724,28 +656,27 @@ extension AddScheduleViewController: UITableViewDelegate, UITableViewDataSource 
         return 60
     }
     
-    func createLineView(cell: UITableViewCell)->UIView {
-        let separatorView = UIView(frame: CGRect(x: 0, y: cell.bounds.height - 4, width: cell.bounds.width, height: 4))
-        
-        separatorView.backgroundColor = ThemeManager.currentTheme().separatorColor
-        
-        return separatorView
-    }
+  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = dateRhythmArray[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "DateRhythmCell", for: indexPath)
-        let separatorView = createLineView(cell: cell)
+       // let separatorView = createLineView(cell: cell)
+        let separator = SeparatorView(cell: cell).createLineView()
+        
         if indexPath.row != dateRhythmArray.count - 1 {
-            cell.addSubview(separatorView)
+            cell.addSubview(separator)
         }
+        
         if indexPath.row == dateRhythm.rawValue - 1 {
             cell.textLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         }else{
             cell.textLabel?.font = .systemFont(ofSize: 17,weight: .regular)
         }
-        cell.textLabel?.textColor = ThemeManager.currentTheme().titleTextColor
+        cell.setColors()
         cell.selectionStyle = .none
-        cell.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        
+        
+        
         cell.textLabel?.text = object
         cell.textLabel?.textAlignment = .center
         return cell

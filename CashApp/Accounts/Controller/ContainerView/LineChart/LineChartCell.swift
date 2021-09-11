@@ -22,15 +22,15 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.circleRadius = 3
         chartDataSet.drawCircleHoleEnabled = false
-        chartDataSet.setCircleColor(ThemeManager.currentTheme().contrastColor1)
+        chartDataSet.setCircleColor(ThemeManager2.currentTheme().contrastColor1)
         chartDataSet.lineWidth = 2.5
-        chartDataSet.setColor(ThemeManager.currentTheme().contrastColor2)
+        chartDataSet.setColor(ThemeManager2.currentTheme().contrastColor2)
         chartDataSet.mode = .cubicBezier
         chartDataSet.drawValuesEnabled = false
         chartDataSet.lineCapType = .square
         chartDataSet.drawHorizontalHighlightIndicatorEnabled = false
         chartDataSet.highlightLineWidth = 3
-        chartDataSet.highlightColor = ThemeManager.currentTheme().subtitleTextColor
+        chartDataSet.highlightColor = ThemeManager2.currentTheme().subtitleTextColor
         //chartDataSet.highlightLineDashPhase = CGFloat(4)
         chartDataSet.highlightLineDashLengths = [6,6]
     }
@@ -77,8 +77,8 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
     }
     var entryView: UIView = {
        let view = UIView()
-        view.backgroundColor = ThemeManager.currentTheme().titleTextColor
-        view.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        view.backgroundColor = ThemeManager2.currentTheme().titleTextColor
+        view.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         view.layer.cornerRadius = 12
         view.alpha = 0
         return view
@@ -86,7 +86,7 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
     var entryLabel: UILabel = {
        let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.textColor = ThemeManager.currentTheme().backgroundColor
+        label.textColor = ThemeManager2.currentTheme().backgroundColor
         return label
     }()
     
@@ -111,16 +111,16 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
     }
    
     func cellVisualSettings() {
-        monthLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        monthLabel.textColor = ThemeManager2.currentTheme().titleTextColor
         monthLabel.font = .systemFont(ofSize: 26)
         self.backgroundColor = .clear
-        self.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         self.layer.cornerRadius = 25
         self.layer.cornerCurve = .continuous
-        self.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        self.layer.setMiddleShadow(color: ThemeManager2.currentTheme().shadowColor)
         self.chartSize.backgroundColor = .clear
         textView.backgroundColor = .clear
-        textView.textColor = ThemeManager.currentTheme().titleTextColor
+        textView.textColor = ThemeManager2.currentTheme().titleTextColor
         textView.textAlignment = .center
         textView.font = .systemFont(ofSize: 17)
         self.layer.masksToBounds = false

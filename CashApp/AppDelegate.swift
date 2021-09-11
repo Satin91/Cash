@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import IQKeyboardManagerSwift
 import UserNotifications
-
+import Themer
 
 
 @UIApplicationMain
@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        IQKeyboardManager.shared.enable = true
 //        IQKeyboardManager.shared.enableAutoToolbar = true // Бар для доп кнопок
 //        
-        ThemeManager.applyTheme(theme: .dark)
+        ThemeManager2.applyTheme(theme: .dark)
         
         notifications.requestAutorization()
         notifications.notificationCenter.delegate = notifications

@@ -9,33 +9,36 @@
 import UIKit
 
 class TodayBalanceTableViewCell: UITableViewCell {
-    let theme = ThemeManager.currentTheme()
-    
+    let colors = AppColors()
 
     
     @IBOutlet var monetaryImage: UIImageView!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var subTitleLabel: UILabel!
+    @IBOutlet var titleLabel: TitleLabel!
+    @IBOutlet var subTitleLabel: SubTitleLabel!
     var swtch: AIFlatSwitch!
+    var separatorView: UIView!
     var lineView: UIView = {
        let view = UIView()
-        view.backgroundColor = ThemeManager.currentTheme().separatorColor
+        view.backgroundColor = ThemeManager2.currentTheme().separatorColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
    static let identifier = "TodayBalanceTableViewCell"
    static func nib() -> UINib {
         let nib = UINib(nibName: "TodayBalanceTableViewCell", bundle: nil)
         return nib
         
     }
-    
+    func setConstraintsForUnderLine(){
+        separatorView = SeparatorView(cell: self).createLineViewWithConstraints()
+        separatorView.backgroundColor = colors.separatorColor
+    }
     
     func visualSettings() {
-        titleLabel.textColor = theme.titleTextColor
+    
+        
         titleLabel.font = .systemFont(ofSize: 19, weight: .regular)
-        subTitleLabel.textColor = theme.subtitleTextColor
+        
         subTitleLabel.font = .systemFont(ofSize: 16, weight: .regular)
         monetaryImage.contentMode = .scaleAspectFill
         monetaryImage.layer.cornerRadius = 10
@@ -45,35 +48,14 @@ class TodayBalanceTableViewCell: UITableViewCell {
        // insertSwitchInCell()
     }
     
-    func insertSwitchInCell() {
-
-        let swtc = AIFlatSwitch()
-        let size: CGFloat = 35
-        let xPos:CGFloat = self.bounds.width - 40 - (size / 2)
-        let yPos: CGFloat = self.bounds.height / 2 - (size / 2)
-        swtch = AIFlatSwitch(frame: CGRect(x: xPos, y: yPos, width: size, height: size))
-        self.addSubview(swtch)
-        
-        
-        //AISwitch.center.y = cell.center.y
-        swtc.isEnabled = false
-        
-    }
     
-    func setUnderline(isLast: Bool){
-    }
+    
     var switchTogle: Bool = false
     override func prepareForReuse() {
         super.prepareForReuse()
+        
     }
-    func setConstraintsForUnderLine(){
-        self.addSubview(lineView)
-        lineView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        lineView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 4).isActive = true
-    }
-    
+ 
     func set(object: Any) {
         if object is SchedulersForTableView {
             let object = object as! SchedulersForTableView
@@ -81,14 +63,16 @@ class TodayBalanceTableViewCell: UITableViewCell {
             let text = object.todaySum.currencyFormatter(ISO: object.scheduler.currencyISO)
             subTitleLabel.text = object.scheduler.vector ? "+" + text : "-" + text
             monetaryImage.image = UIImage(named: object.scheduler.image)
-            subTitleLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
+            monetaryImage.changePngColorTo(color: colors.titleTextColor)
         }else if object is PayPerTime{
             let object = object as! PayPerTime
             titleLabel.text = object.scheduleName
             subTitleLabel.text = object.currencyISO
+            
             for i in EnumeratedSchedulers(object: schedulerGroup) {
                 if i.scheduleID == object.scheduleID {
                     monetaryImage.image = UIImage(named: i.image)
+                    monetaryImage.changePngColorTo(color: colors.titleTextColor)
                 }
             }
         }else if object is MonetaryAccount {
@@ -96,26 +80,30 @@ class TodayBalanceTableViewCell: UITableViewCell {
             titleLabel.text = object.name
             subTitleLabel.text = object.balance.currencyFormatter(ISO: object.currencyISO)
             monetaryImage.image = UIImage(named: object.imageForAccount)
-            subTitleLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
         }
+        
     }
     
     func togleSwitch() {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        setConstraintsForUnderLine()
+       
+        
     }
     override func awakeFromNib() {
         super.awakeFromNib()
+        colors.loadColors()
         visualSettings()
-       
+        
+        setConstraintsForUnderLine()
         // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
+        
     }
     
 }

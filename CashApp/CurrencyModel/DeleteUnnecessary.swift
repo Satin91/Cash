@@ -9,6 +9,21 @@
 import Foundation
 import UIKit
 
+func unique<S : Sequence, T : CurrencyObject>(source: S) -> [T] where S.Iterator.Element == T {
+    var buffer = [T]()
+    var added = Set<T>()
+
+    for elem in source {
+        if !added.contains(where: { object in
+            object.ISO == elem.ISO
+        }) {
+            buffer.append(elem)
+            added.insert(elem)
+        }
+    }
+    return buffer
+}
+
 class DeleteUnnecessary {
     
     func deleteDublicates() {

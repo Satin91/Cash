@@ -15,7 +15,7 @@
 //
 
 import UIKit
-
+import Themer
 class HBSegmentedControl: UIControl {
     
     fileprivate var labels = [UILabel]()
@@ -71,7 +71,7 @@ class HBSegmentedControl: UIControl {
         layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
         layer.borderWidth = 2.5
         
-        backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         setupLabels()
         insertSubview(thumbView, at: 0)
     }
@@ -210,13 +210,16 @@ class HBSegmentedControl: UIControl {
     
     func changeValuesForCashApp (segmentOne: String, segmentTwo: String) {
         self.items = [segmentOne,segmentTwo]
-        self.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        self.selectedLabelColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        self.unselectedLabelColor = ThemeManager.currentTheme().subtitleTextColor
-        self.thumbColor = ThemeManager.currentTheme().titleTextColor
+        Themer.shared.register(target: self, action: HBSegmentedControl.theme(_:))
+    }
+}
+extension HBSegmentedControl {
+    func theme(_ theme: MyTheme) {
+        self.backgroundColor = theme.settings.secondaryBackgroundColor
+        self.selectedLabelColor = theme.settings.secondaryBackgroundColor
+        self.unselectedLabelColor = theme.settings.subtitleTextColor
+        self.thumbColor = theme.settings.titleTextColor
         self.borderColor = .clear
-        self.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
-       //self.borderColor = .black
-        //self.layer.borderColor = UIColor.systemGray.cgColor
+        self.layer.setSmallShadow(color: theme.settings.shadowColor)
     }
 }

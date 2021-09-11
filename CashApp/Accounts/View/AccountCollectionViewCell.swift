@@ -44,15 +44,15 @@ class AccountCollectionViewCell: UICollectionViewCell {
     }
     func buttonSettings(toggle: Bool) {
         editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
-        editButtonOutlet.setImageTintColor(ThemeManager.currentTheme().backgroundColor)
+        editButtonOutlet.setImageTintColor(ThemeManager2.currentTheme().backgroundColor, imageName: "Edit")
         editButtonOutlet.layer.cornerRadius = 12
-        editButtonOutlet.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        editButtonOutlet.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         switch toggle {
         case true:
-            editButtonOutlet.backgroundColor = ThemeManager.currentTheme().contrastColor1
+            editButtonOutlet.backgroundColor = ThemeManager2.currentTheme().contrastColor1
             
         case false:
-            editButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
+            editButtonOutlet.backgroundColor = ThemeManager2.currentTheme().titleTextColor
             
         }
         
@@ -67,7 +67,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
         balanceTextField.font = UIFont(name:"Ubuntu-Bold",size: 34)
         buttonSettings(toggle: toggle)
         
-        self.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        self.layer.setMiddleShadow(color: ThemeManager2.currentTheme().shadowColor)
     }
     
     override func awakeFromNib() {

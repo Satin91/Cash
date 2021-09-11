@@ -511,7 +511,7 @@ extension UIView {
         
     }
     
-    func drawDash(radius: CGFloat) {
+    func drawDash(radius: CGFloat, color: UIColor) {
         //Нужно чтобы слой не повторялся
         self.layer.sublayers?.removeAll()
         let border = CAShapeLayer()
@@ -520,7 +520,7 @@ extension UIView {
         //border.path = UIBezierPath(roundedRect:dashView.bounds, cornerRadius:10.0).cgPath
         border.frame = self.bounds
         border.fillColor = nil
-        border.strokeColor = ThemeManager.currentTheme().borderColor.cgColor
+        border.strokeColor = color.cgColor
         border.lineWidth = 3 // doubled since half will be clipped
         border.lineDashPattern = [15.0,4]
         self.layer.addSublayer(border)
@@ -582,23 +582,23 @@ extension UIImageView {
 //MARK: Button settings
 extension UIButton{
     
-    func setImageTintColor(_ color: UIColor) {
-        let tintedImage = self.imageView?.image?.withRenderingMode(.alwaysTemplate)
-        self.setImage(tintedImage, for: .disabled)
+    func setImageTintColor(_ color: UIColor, imageName: String) {
+        let image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
+        self.setImage(image, for: .normal)
         self.tintColor = color
     }
     
     func scaleButtonAnimation() {
         let duration: TimeInterval = 0.15
-        UIView.animate(withDuration: duration,
-            animations: {
-                self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-            },
-            completion: { _ in
-                UIView.animate(withDuration: duration) {
-                    self.transform = CGAffineTransform.identity
-                }
-            })
+        UIView.animate(withDuration: duration, delay: 0, options: .allowUserInteraction) {
+            self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+        } completion: { _ in
+            UIView.animate(withDuration: duration) {
+                self.transform = CGAffineTransform.identity
+            }
+        }
+
+   
     }
 
 }
@@ -872,28 +872,25 @@ extension UITextField {
     }
     
     func changeVisualDesigh() {
-       
         self.borderStyle = .none
-        
         self.layer.cornerRadius = 16
         self.layer.cornerCurve = .continuous
         self.layer.borderWidth = 1
-        self.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        self.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
-        self.textColor = ThemeManager.currentTheme().titleTextColor
+        self.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
+        self.layer.borderColor = ThemeManager2.currentTheme().borderColor.cgColor
+        self.textColor = ThemeManager2.currentTheme().titleTextColor
         self.font = .systemFont(ofSize: 17, weight: .regular)
         self.textAlignment = .left
         let shadowLayer = CAShapeLayer()
-        shadowLayer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        shadowLayer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
-        shadowLayer.fillColor = ThemeManager.currentTheme().secondaryBackgroundColor.cgColor
+        shadowLayer.fillColor = ThemeManager2.currentTheme().secondaryBackgroundColor.cgColor
         shadowLayer.cornerCurve = .continuous
         self.clipsToBounds = true
         self.layer.masksToBounds = false
       //  self.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
         self.layer.insertSublayer(shadowLayer, at: 0)
         indent(size: 17)
-        
     }
     
     func indent(size:CGFloat) {

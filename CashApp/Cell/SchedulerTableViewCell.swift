@@ -8,26 +8,31 @@
 
 import UIKit
 import SwipeCellKit
+import Themer
 protocol SendScheduleObjectToEdit {
     func sendObject(object: MonetaryScheduler)
 }
+
+
+
+
 class SchedulerTableViewCell: SwipeTableViewCell {
     
     //Labels
     var sendSchedulerDelegate: SendScheduleObjectToEdit!
     
     @IBOutlet var roundedBackground: UIView!
-    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var titleLabel: TitleLabel!
     
     @IBOutlet var scheduleImage: UIImageView!
-    @IBOutlet var nextPayLabelText: UILabel!
-    @IBOutlet var nextPayDate: UILabel!
+    @IBOutlet var nextPayLabelText: SubTitleLabel!
+    @IBOutlet var nextPayDate: TitleLabel!
     
-    @IBOutlet var sumLabelText: UILabel!
-    @IBOutlet var sumLabel: UILabel!
+    @IBOutlet var sumLabelText: SubTitleLabel!
+    @IBOutlet var sumLabel: TitleLabel!
     
-    @IBOutlet var remainingSumLabelText: UILabel!
-    @IBOutlet var remainingSum: UILabel!
+    @IBOutlet var remainingSumLabelText: SubTitleLabel!
+    @IBOutlet var remainingSum: TitleLabel!
     @IBOutlet var editButtonOutlet: UIButton!
     
     @IBAction func editButtonAction(_ sender: UIButton) {
@@ -41,16 +46,17 @@ class SchedulerTableViewCell: SwipeTableViewCell {
     }
     
     var object: MonetaryScheduler!
+
     
     func set(object: MonetaryScheduler) {
         fillTheDataForLabels(object: object, pptObject: getPPTObject(object: object))
+        Themer.shared.register(target: self, action: SchedulerTableViewCell.theme(_:))
     }
     
     func fillTheDataForLabels(object: MonetaryScheduler, pptObject: PayPerTime?) {
         titleLabel.text = object.name
         
         scheduleImage.image = UIImage(named: object.image)
-        scheduleImage.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
         self.object = object
         switch object.stringScheduleType {
         case .goal:
@@ -112,32 +118,26 @@ class SchedulerTableViewCell: SwipeTableViewCell {
     
     func visualSettings(){
         titleLabel.font = .systemFont(ofSize: 19, weight: .medium)
-        titleLabel.textColor = ThemeManager.currentTheme().titleTextColor
         
         nextPayLabelText.font = .systemFont(ofSize: 14, weight: .medium)
-        nextPayLabelText.textColor = ThemeManager.currentTheme().subtitleTextColor
         nextPayDate.font = .systemFont(ofSize: 14, weight: .regular)
-        nextPayDate.textColor = ThemeManager.currentTheme().titleTextColor
         
         sumLabelText.font = .systemFont(ofSize: 14, weight: .medium)
         sumLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        sumLabelText.textColor = ThemeManager.currentTheme().subtitleTextColor
-        sumLabel.textColor = ThemeManager.currentTheme().titleTextColor
         
         remainingSumLabelText.font = .systemFont(ofSize: 14, weight: .medium)
         remainingSum.font = .systemFont(ofSize: 14, weight: .regular)
-        remainingSumLabelText.textColor = ThemeManager.currentTheme().subtitleTextColor
-        remainingSum.textColor = ThemeManager.currentTheme().titleTextColor
         
         //background
         roundedBackground.layer.cornerRadius = 25
-        roundedBackground.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
-        roundedBackground.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+       
+        
         self.backgroundColor = .clear
         
     }
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         visualSettings()
         self.layer.masksToBounds = false
         self.contentView.layer.masksToBounds = false
@@ -151,4 +151,11 @@ class SchedulerTableViewCell: SwipeTableViewCell {
         // Configure the view for the selected state
     }
     
+}
+extension SchedulerTableViewCell{
+     func theme(_ theme: MyTheme) {
+        roundedBackground.backgroundColor = theme.settings.secondaryBackgroundColor
+        roundedBackground.layer.setSmallShadow(color: theme.settings.shadowColor)
+        scheduleImage.changePngColorTo(color: theme.settings.titleTextColor) 
+    }
 }

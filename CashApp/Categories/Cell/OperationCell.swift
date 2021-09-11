@@ -7,45 +7,45 @@
 //
 
 import UIKit
+import Themer
 
 class OperationCell: UICollectionViewCell {
     
     
-    let label: UILabel = {
-        let label = UILabel()
+    let label: SubTitleLabel = {
+        let label = SubTitleLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = " "
-        label.textColor = ThemeManager.currentTheme().subtitleTextColor
+        
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textAlignment = .center
         return label
     }()
     
-    let roundedRect: UIView = {
-        let rect = UIView()
+    let roundedRect: ThemableSecondaryView = {
+        let rect = ThemableSecondaryView()
         rect.layer.cornerRadius = 12
-        rect.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        //rect.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         rect.translatesAutoresizingMaskIntoConstraints = false
-        rect.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        //rect.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         return rect
     }()
     let categoryImage: UIImageView = {
         let image = UIImageView()
-        
-        
         return image
         
     }()
+    
     fileprivate func visualSettings() {
-        categoryImage.image = UIImage(named: "AppIcon")
-        
+       // categoryImage.image = UIImage(named: "AppIcon")
+       // categoryImage.changePngColorTo(color: ThemeManager2.currentTheme().titleTextColor)
         layer.masksToBounds = false
     }
     
     func set(object: MonetaryCategory) {
         categoryImage.image = UIImage(named: object.image)
         label.text = object.name
-        categoryImage.changePngColorTo(color: ThemeManager.currentTheme().titleTextColor)
+        Themer.shared.register(target: self, action: OperationCell.theme(_:))
     }
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -94,5 +94,10 @@ class OperationCell: UICollectionViewCell {
 //        categoryImage.bottomAnchor.constraint(equalTo:  roundedRect.bottomAnchor).isActive = true
         
         
+    }
+}
+extension OperationCell {
+    func theme(_ theme: MyTheme){
+        categoryImage.changePngColorTo(color: theme.settings.titleTextColor)
     }
 }

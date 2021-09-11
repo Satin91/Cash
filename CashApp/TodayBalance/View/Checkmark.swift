@@ -12,7 +12,7 @@ import UIKit
 @IBDesignable open class AIFlatSwitch: UIControl {
     
     // MARK: - Public
-    
+    let colors = AppColors()
     /**
      Line width for the circle, trail and checkmark parts of the switch.
      */
@@ -33,7 +33,7 @@ import UIKit
      Stroke color for circle and checkmark.
      Circle disappears and trail becomes visible when the switch is selected.
      */
-    @IBInspectable open var strokeColor: UIColor = ThemeManager.currentTheme().titleTextColor {
+    @IBInspectable open var strokeColor: UIColor = .clear {
         didSet {
             self.circle.strokeColor = strokeColor.cgColor
             self.checkmark.strokeColor = strokeColor.cgColor
@@ -44,7 +44,7 @@ import UIKit
      Stroke color for trail.
      Trail disappears and circle becomes visible when the switch is deselected.
      */
-    @IBInspectable open var trailStrokeColor: UIColor = ThemeManager.currentTheme().separatorColor {
+    @IBInspectable open var trailStrokeColor: UIColor = .clear {
         didSet {
             self.trailCircle.strokeColor = trailStrokeColor.cgColor
         }
@@ -103,7 +103,14 @@ import UIKit
      */
     open func setSelected(_ isSelected: Bool, animated: Bool) {
         self.isSelectedInternal = isSelected
-        
+        switch isSelected {
+        case true :
+            self.strokeColor = colors.titleTextColor
+            self.trailStrokeColor = colors.borderColor
+        case false :
+            self.strokeColor = colors.borderColor
+            self.trailStrokeColor = colors.titleTextColor
+        }
         // Remove all animations before switching to new state
         checkmark.removeAllAnimations()
         circle.removeAllAnimations()
@@ -229,7 +236,7 @@ import UIKit
      Configures target for tocuh up inside event for triggering selection.
      */
     private func configure() {
-        
+        colors.loadColors()
         func configureShapeLayer(_ shapeLayer: CAShapeLayer) {
             shapeLayer.lineJoin = CAShapeLayerLineJoin.round
             shapeLayer.lineCap = CAShapeLayerLineCap.round

@@ -55,11 +55,11 @@ class CurrencyViewController: UIViewController {
         self.tabBarController?.tabBar.showTabBar()
     }
     func visualSettings() {
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        self.view.backgroundColor = ThemeManager2.currentTheme().backgroundColor
         currencyConverterTextField.changeVisualDesigh()
         currencyConverterLabel.text = NSLocalizedString("currency_converter_label", comment: "")
         currencyConverterLabel.font = .systemFont(ofSize: 19, weight: .regular)
-        currencyConverterLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        currencyConverterLabel.textColor = ThemeManager2.currentTheme().titleTextColor
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -219,18 +219,18 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
         let object = userCurrencyObjects[indexPath.row]
         if self.currencyConverterTextField.text?.isEmpty == false {
             cell.converterSet(currencyObject: object, enteredSum: Double(currencyConverterTextField.enteredSum)!)
-            cell.ISOLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
+            cell.ISOLabel.textColor = ThemeManager2.currentTheme().subtitleTextColor
             cell.currencyImage.image = UIImage(named: object.ISO)
             cell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO ? .systemFont(ofSize: 17, weight: .medium) : .systemFont(ofSize: 17, weight: .regular)
             cell.isMainCurrencyLabel.text = object.ISO == mainCurrency?.ISO ? "Main cyrrency" : "Additional currency"
-            cell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? ThemeManager.currentTheme().titleTextColor : ThemeManager.currentTheme().subtitleTextColor
+            cell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? ThemeManager2.currentTheme().titleTextColor : ThemeManager2.currentTheme().subtitleTextColor
             
             return cell
         }else{
             cell.defaultSet(currencyObject: object)
             cell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO ? .systemFont(ofSize: 17, weight: .medium) : .systemFont(ofSize: 17, weight: .regular)
             cell.isMainCurrencyLabel.text = object.ISO == mainCurrency?.ISO ? "Main cyrrency" : "Additional currency"
-            cell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? ThemeManager.currentTheme().titleTextColor : ThemeManager.currentTheme().subtitleTextColor
+            cell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? ThemeManager2.currentTheme().titleTextColor : ThemeManager2.currentTheme().subtitleTextColor
         }
         cell.selectionStyle = .none
         return cell
@@ -267,13 +267,13 @@ class CurrencyTableViewCell: UITableViewCell {
         ISOLabel.font = .systemFont(ofSize: 14, weight: .regular)
         isMainCurrencyLabel.font = .systemFont(ofSize: 17, weight: .regular)
         currencyDescriptionLabel.font = .systemFont(ofSize: 21, weight: .regular)
-        ISOLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
-        isMainCurrencyLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
-        currencyDescriptionLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        ISOLabel.textColor = ThemeManager2.currentTheme().subtitleTextColor
+        isMainCurrencyLabel.textColor = ThemeManager2.currentTheme().subtitleTextColor
+        currencyDescriptionLabel.textColor = ThemeManager2.currentTheme().titleTextColor
         currencyImage.layer.cornerRadius = 5
         currencyImage.layer.borderWidth = 1.5
         
-        currencyImage.layer.borderColor = ThemeManager.currentTheme().backgroundColor.cgColor
+        currencyImage.layer.borderColor = ThemeManager2.currentTheme().backgroundColor.cgColor
         
     }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -287,7 +287,7 @@ class CurrencyTableViewCell: UITableViewCell {
         visualSettings()
         currencyImage.image = UIImage(named: currencyObject.ISO)
         isMainCurrencyLabel.text = currencyObject.ISO == mainCurrency?.ISO ? NSLocalizedString("main_currency_cell", comment: ""): NSLocalizedString("additional_currency_cell", comment: "")
-        isMainCurrencyLabel.textColor = currencyObject.ISO == mainCurrency?.ISO ? ThemeManager.currentTheme().contrastColor1:ThemeManager.currentTheme().subtitleTextColor
+        isMainCurrencyLabel.textColor = currencyObject.ISO == mainCurrency?.ISO ? ThemeManager2.currentTheme().contrastColor1:ThemeManager2.currentTheme().subtitleTextColor
         ISOLabel.text = currencyObject.ISO
         currencyDescriptionLabel.text = CurrencyList.CurrencyName(rawValue: currencyObject.ISO)?.getRaw
         print()
@@ -309,14 +309,14 @@ class CurrencyTableViewCell: UITableViewCell {
         self.contentView.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
         self.contentView.layer.cornerRadius = 20
-        contentView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        contentView.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        contentView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
+        contentView.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.contentView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.contentView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         self.backgroundColor = .clear
         self.clipsToBounds = false
         self.layer.masksToBounds = false

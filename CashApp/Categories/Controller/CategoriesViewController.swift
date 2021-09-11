@@ -8,7 +8,7 @@
 
 import UIKit
 import RealmSwift
-
+import Themer
 
 
 class CategoriesViewController: UIViewController, UITextFieldDelegate {
@@ -95,10 +95,7 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
 //        })
 //    }
     
-    private func visualSettings() {
-        let theme = ThemeManager.currentTheme()
-        self.view.backgroundColor = theme.backgroundColor
-    }
+  
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -112,14 +109,14 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Themer.shared.register(target: self, action: CategoriesViewController.theme(_:))
         
         segmentedControl.changeValuesForCashApp(segmentOne:NSLocalizedString("segmented_control_0", comment: ""), segmentTwo: NSLocalizedString("segmented_control_1", comment: ""))
         setupNavigationController(Navigation: navigationController!)
         self.navigationItem.title = NSLocalizedString("categories_navigation_title", comment: "") // Обязательно писать именно так, (вместо title) иначе таббар присвоит это значение
         blurView.bounds = self.view.frame
-        self.view.backgroundColor = whiteThemeBackground
         setupCollectionView()
-        visualSettings()
+        
         
     }
 
@@ -321,4 +318,8 @@ extension CategoriesViewController: UIPopoverPresentationControllerDelegate{
         return .none
     }
 }
-
+extension CategoriesViewController {
+    private func theme(_ theme: MyTheme ) {
+        view.backgroundColor = theme.settings.backgroundColor
+    }
+}

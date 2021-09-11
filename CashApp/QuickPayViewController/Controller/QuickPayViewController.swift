@@ -13,40 +13,41 @@ import FSCalendar
 class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     var tableView = QuickTableView()
+    let colors = AppColors()
     @IBOutlet var scrollView: UIScrollView!
     
     @IBOutlet var okButtonOutlet: UIButton!
     @IBOutlet var cancelButtomOutlet: UIButton!
-    let theme = ThemeManager.currentTheme()
-    var payObjectNameLabel: UILabel = {
-        var label = UILabel()
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+    let theme = ThemeManager2.currentTheme()
+    var payObjectNameLabel: TitleLabel = {
+        var label = TitleLabel()
+        
         label.text = "ObjectNameError"
         label.font = .systemFont(ofSize: 26,weight: .regular)
         return label
     }()
-    var accountLabel: UILabel = {
-        var label = UILabel()
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+    var accountLabel: TitleLabel = {
+        var label = TitleLabel()
+        
         label.text = "AccountNameError"
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
     }()
-    var dateLabel: UILabel = {
-        var label = UILabel()
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+    var dateLabel: TitleLabel = {
+        var label = TitleLabel()
+        
         label.text = NSLocalizedString("day_is_today", comment: "")
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
     }()
     
     
-    var convertedSumLabel: UILabel = {
-        let label = UILabel()
+    var convertedSumLabel: SubTitleLabel = {
+        let label = SubTitleLabel()
         label.text = ""
         label.textAlignment = .right
         label.font = .systemFont(ofSize: 26, weight: .regular)
-        label.textColor = ThemeManager.currentTheme().subtitleTextColor
+        
         
         return label
     }()
@@ -55,8 +56,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         tf.borderStyle = .none
         tf.backgroundColor = .clear
         tf.textAlignment = .right
-        tf.textColor = ThemeManager.currentTheme().titleTextColor
-        tf.attributedPlaceholder = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.foregroundColor: ThemeManager.currentTheme().borderColor ])
+        
         tf.addTarget(self, action: #selector(observeConvertedSum), for: .editingChanged)
         tf.font = .systemFont(ofSize: 54, weight: .regular)
         
@@ -124,9 +124,9 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var scrollOffset: CGFloat = 0
     var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        
         view.layer.cornerRadius = 25
-        view.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        
         return view
     }()
     var isOffsetUsed = false {
@@ -172,7 +172,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        self.setColors()
+        
         payObjectNameLabel.textAlignment = .left
         tableView = QuickTableView(frame: .zero) // Аналогично
         calendar.delegate = self
@@ -622,13 +623,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }
 
     
-    func whiteThemeFunc() {
-        payObjectNameLabel.textColor = whiteThemeMainText
-        self.view.backgroundColor = whiteThemeBackground
-        payObjectNameLabel.textColor = whiteThemeBackground
-        sumTextField.textColor = whiteThemeMainText
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         sumTextField.resignFirstResponder()
         return false
@@ -686,6 +680,24 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
         return privateAccounts().count
     }
     
+    func configureBackgroundView(cell: UITableViewCell) {
+        
+        var backg = UIView(frame: cell.bounds)
+        backg.frame = cell.bounds.inset(by: UIEdgeInsets(top: 10, left: 26, bottom: 10, right: 26) )
+        backg.backgroundColor = colors.secondaryBackgroundColor
+        backg.layer.cornerRadius = 20
+        backg.layer.setSmallShadow(color: colors.shadowColor)
+        cell.contentView.addSubview(backg)
+        cell.backgroundColor = .clear
+        cell.contentView.backgroundColor = .clear
+        cell.textLabel?.textColor = colors.titleTextColor
+        cell.textLabel?.font = .systemFont(ofSize: 22, weight: .regular)
+        cell.layer.masksToBounds = false
+        cell.textLabel?.textAlignment = .center
+        
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var appendAccount = enumeratedALL(object: accountsObjects) //EnumeratedAccounts(array: accountsGroup)
         for i in appendAccount {
@@ -694,10 +706,23 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         appendAccount.append(withoutAccountObject)
+        
         let object = appendAccount[indexPath.row]
+        //WithoutAccountCell
+        if indexPath.row == appendAccount.count - 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "WithoutAccountCell", for: indexPath)
+           
+            configureBackgroundView(cell: cell)
+            cell.textLabel?.text = object.name
+            cell.selectionStyle = .none
+            //cell.backgroundView!.frame = (cell.backgroundView?.bounds.inset(by: UIEdgeInsets(top: 2, left: 50, bottom: 5, right: 50) ))!
+            return cell
+        }else{
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuickTableViewCell", for: indexPath) as! QuickTableVIewCell
+            cell.selectionStyle = .none
         cell.set(object: object)
         return cell
+        }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let object = privateAccounts()[indexPath.row]

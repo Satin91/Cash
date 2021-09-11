@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Themer
 
 class MainTabBarController: UITabBarController {
     
@@ -67,16 +68,20 @@ extension MainTabBarController: UITabBarControllerDelegate {
 // MyTabController.swift
 
 import UIKit
-
+extension MyTabBarController {
+    func theme(_ theme: MyTheme) {
+        self.tabBar.isTranslucent = true
+        self.tabBar.barTintColor = theme.settings.backgroundColor
+        self.tabBar.tintColor = theme.settings.titleTextColor
+        self.tabBar.unselectedItemTintColor = theme.settings.subtitleTextColor
+    }
+}
 class MyTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        self.tabBar.isTranslucent = true
-        self.tabBar.barTintColor = ThemeManager.currentTheme().backgroundColor
-        self.tabBar.tintColor = ThemeManager.currentTheme().titleTextColor
-        self.tabBar.unselectedItemTintColor = ThemeManager.currentTheme().subtitleTextColor
+        Themer.shared.register(target: self, action: MyTabBarController.theme(_:))
         
         setTabBarItems()
     }

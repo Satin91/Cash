@@ -9,7 +9,15 @@
 import UIKit
 import FSCalendar
 import SwipeCellKit
-
+import Themer
+extension SchedulerViewController {
+    
+    func theme(_ theme: MyTheme) {
+        self.view.backgroundColor = theme.settings.backgroundColor
+        deleteColor = theme.settings.contrastColor2
+        editColor = theme.settings.borderColor
+    }
+}
 class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView {
    
     
@@ -18,7 +26,8 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         tableView.reloadData()
     }
     
-    
+    var deleteColor: UIColor = .clear
+    var editColor: UIColor = .clear
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     func dismissVC(goingTo: String, typeIdentifier: String) {
         let addScheduleVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
@@ -76,13 +85,15 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     }
     
     func visualSettings() {
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        
         self.navigationItem.title = NSLocalizedString("scheduler_navigation_title", comment: "")
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Themer.shared.register(target: self, action: SchedulerViewController.theme(_:))
+        
         addBlur()
         installTableView()
         setupNavigationController(Navigation: self.navigationController!)
@@ -136,6 +147,7 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
             realm.delete(ar[indexPath.row])
         })
     }
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else {return nil}
         var a = EnumeratedSchedulers(object: schedulerGroup)
@@ -157,8 +169,8 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
             self.present(editVC, animated: true, completion: nil)
         }
         
-        delete.backgroundColor = ThemeManager.currentTheme().contrastColor2
-        edit.backgroundColor = ThemeManager.currentTheme().borderColor
+        delete.backgroundColor = deleteColor //ThemeManager2.currentTheme().contrastColor2
+        edit.backgroundColor = editColor //ThemeManager2.currentTheme().borderColor
         
         return [delete,edit]
     }

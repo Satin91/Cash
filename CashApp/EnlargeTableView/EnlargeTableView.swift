@@ -216,11 +216,9 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
                 if indexPath.row == object.historyArray.count - 1 {
                     cell2.set(object: object.historyArray[indexPath.row], isLast: true)
                     cell2.delegate = self
-                    cell2.image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
                     return cell2
                 }else{
                     cell2.set(object: object.historyArray[indexPath.row], isLast: false)
-                    cell2.image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
                     cell2.delegate = self
                     return cell2
                 }
@@ -354,10 +352,10 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
             
             complete(true)
         }
-        deleteAction.backgroundColor = ThemeManager.currentTheme().contrastColor2
+        deleteAction.backgroundColor = ThemeManager2.currentTheme().contrastColor2
         let image = UIImageView()
         image.image = UIImage(systemName: "trash")
-        image.tintColor = ThemeManager.currentTheme().titleTextColor
+        image.tintColor = ThemeManager2.currentTheme().titleTextColor
         deleteAction.image = image.image
       
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])

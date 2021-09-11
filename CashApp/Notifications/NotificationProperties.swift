@@ -19,7 +19,7 @@ class NotificationProperties {
     
     
     //Time
-    var tomorrowHour = 14 ; var tomorrowMinute = 2
+    var tomorrowHour = 20 ; var tomorrowMinute = 40
     var todayHour = 13 ; var todayMinute = 43
     
     

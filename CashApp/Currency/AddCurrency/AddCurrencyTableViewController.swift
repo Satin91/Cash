@@ -32,7 +32,7 @@ class AddCurrencyTableViewController: UITableViewController{
         searchController.searchBar.searchTextField.font = .systemFont(ofSize: 17)
         searchController.searchBar.searchTextField.textAlignment = .center
         searchController.searchResultsUpdater = self
-        searchController.searchBar.tintColor = ThemeManager.currentTheme().borderColor
+        searchController.searchBar.tintColor = ThemeManager2.currentTheme().borderColor
         searchController.searchBar.frame(forAlignmentRect: CGRect(x: 0, y: 0, width: 50, height: 50))
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
@@ -55,7 +55,7 @@ class AddCurrencyTableViewController: UITableViewController{
         let nib = UINib(nibName: "AddCurrencyTableViewCell", bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: "addCurrencyCell")
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        tableView.backgroundColor = ThemeManager2.currentTheme().backgroundColor
         tableView.separatorStyle = .none
     }
     // MARK: - Search bar delegate

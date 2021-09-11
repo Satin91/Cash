@@ -22,7 +22,7 @@
                         <rect key="frame" x="26" y="14" width="268" height="81"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4YW-j8-UIs">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4YW-j8-UIs" customClass="TitleLabel" customModule="CashApp" customModuleProvider="target">
                         <rect key="frame" x="119" y="33.5" width="82.5" height="42"/>
                         <fontDescription key="fontDescription" type="system" pointSize="35"/>
                         <nil key="textColor"/>

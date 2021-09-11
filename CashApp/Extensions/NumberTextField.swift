@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NumberTextField: UITextField,UITextFieldDelegate {
+class NumberTextField: ThemableTextField,UITextFieldDelegate {
 
     var enteredSum = "0"
     override init(frame: CGRect) {
@@ -21,7 +21,7 @@ class NumberTextField: UITextField,UITextFieldDelegate {
         button.setImage(UIImage(named: "send.png"), for: .normal)
         button.setTitle(text, for: .normal)
         button.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
-        button.setTitleColor(ThemeManager.currentTheme().borderColor, for: .normal)
+        button.setTitleColor(ThemeManager2.currentTheme().borderColor, for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -17, bottom: 0, right: 0)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
           

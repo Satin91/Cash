@@ -25,11 +25,11 @@ extension AddScheduleViewController {
         selectedImageName = newScheduleObject.image
         currency = newScheduleObject.currencyISO
         if vector {
-            incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
-            expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
+            incomeVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().titleTextColor
+            expenceVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().borderColor
         }else{
-            expenceVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().titleTextColor
-            incomeVectorButtonOutlet.backgroundColor = ThemeManager.currentTheme().borderColor
+            expenceVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().titleTextColor
+            incomeVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().borderColor
         }
         
         if newScheduleObject.stringScheduleType == .regular || newScheduleObject.stringScheduleType == .multiply {

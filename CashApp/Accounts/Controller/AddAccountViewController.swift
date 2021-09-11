@@ -57,7 +57,7 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
     @IBOutlet var nameTextField : UITextField!
     @IBOutlet var balanceTextField : NumberTextField!
     //Outlets
-    @IBOutlet var saveButtonOutlet: UIButton!
+    @IBOutlet var saveButtonOutlet: ContrastButton!
     //Actions
     @IBAction func saveButtonAction(_ sender: Any) {
         saveElement()
@@ -119,12 +119,12 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
     
 
     func visualSettings(){
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        headingTextLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        self.view.backgroundColor = ThemeManager2.currentTheme().backgroundColor
+        headingTextLabel.textColor = ThemeManager2.currentTheme().titleTextColor
         headingTextLabel.font = .systemFont(ofSize: 46, weight: .medium)
         nameTextField.changeVisualDesigh()
         balanceTextField.changeVisualDesigh()
-        saveButtonOutlet.mainButtonTheme(color: ThemeManager.currentTheme().contrastColor1, NSLocalizedString("save_button", comment: ""))
+        saveButtonOutlet.mainButtonTheme("save_button")
     }
 
     

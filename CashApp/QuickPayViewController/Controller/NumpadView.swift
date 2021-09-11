@@ -15,9 +15,20 @@ protocol TappedNumbers {
 protocol tappedButtons {
     func scrollAndBackspace(action: String)
 }
+
+extension NumpadView {
+    private func theme(_ theme: MyTheme) {
+        
+    }
+}
+
 class NumpadView: UIView {
 
-   
+    lazy var backgroundcolor:UIColor = .clear
+    lazy var shadowColor:UIColor = .clear
+    lazy var secondaryBackground:UIColor = .clear
+    
+    let colors = AppColors()
     
     
     @IBOutlet var accountsButton: UIButton!
@@ -71,19 +82,19 @@ class NumpadView: UIView {
     let backspaceImage: UIImageView = {
        let image = UIImageView()
         image.image = UIImage(named: "backspace")
-        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        image.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return image
     }()
     let accountsImage: UIImageView = {
        let image = UIImageView()
         image.image = UIImage(named: "accounts")
-        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        image.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return image
     }()
     let calendarImage: UIImageView = {
        let image = UIImageView()
         image.image = UIImage(named: "calendar")
-        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        image.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return image
     }()
     
@@ -97,24 +108,25 @@ class NumpadView: UIView {
         
         allButtons.forEach { (btn) in
             btn.layer.cornerRadius = 12
-            btn.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
-            btn.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .normal)
+            btn.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
+            btn.setTitleColor(ThemeManager2.currentTheme().subtitleTextColor, for: .normal)
             btn.titleLabel?.font = .systemFont(ofSize: 26, weight: .regular)
-            btn.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+            btn.backgroundColor = colors.secondaryBackgroundColor
             btn.layer.borderWidth = 1
-            btn.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
+            btn.layer.borderColor = colors.borderColor.cgColor
          
             switch btn.tag {
             case 21:
                 btn.setImage(backspaceImage.image, for: .normal)
-                btn.setImageTintColor(ThemeManager.currentTheme().titleTextColor)
+                
+                btn.setImageTintColor(colors.titleTextColor, imageName: "backspace")
                 btn.contentMode = .scaleAspectFit
             case 22:
                 btn.setImage(accountsImage.image, for: .normal)
-                btn.setImageTintColor(ThemeManager.currentTheme().titleTextColor)
+                btn.setImageTintColor(colors.titleTextColor, imageName: "accounts")
             case 23:
                 btn.setImage(calendarImage.image, for: .normal)
-                btn.setImageTintColor(ThemeManager.currentTheme().titleTextColor)
+                btn.setImageTintColor(colors.titleTextColor, imageName: "calendar")
             default:
                 break
             }
@@ -126,6 +138,7 @@ class NumpadView: UIView {
       override init(frame: CGRect) {
         super.init(frame: frame)
         loadNib()
+        colors.loadColors()
         allButtonSettings()
         
       }

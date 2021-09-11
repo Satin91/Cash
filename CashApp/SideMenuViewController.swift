@@ -15,9 +15,9 @@ class SideMenuViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     var sideMenuSwitch: UISwitch = {
        let sw = UISwitch()
-        sw.onTintColor = ThemeManager.currentTheme().contrastColor1
-        sw.tintColor = ThemeManager.currentTheme().titleTextColor
-        sw.thumbTintColor = ThemeManager.currentTheme().titleTextColor
+        sw.onTintColor = ThemeManager2.currentTheme().contrastColor1
+        sw.tintColor = ThemeManager2.currentTheme().titleTextColor
+        sw.thumbTintColor = ThemeManager2.currentTheme().titleTextColor
         return sw
     }()
     
@@ -29,8 +29,8 @@ class SideMenuViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     func visualSettings() {
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        self.headerView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.view.backgroundColor = ThemeManager2.currentTheme().backgroundColor
+        self.headerView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
     }
     
     let tableViewItemsArray = ["Dark theme","Notifications"]
@@ -66,12 +66,12 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SideMenuCell",for: indexPath)
         let object = tableViewItemsArray[indexPath.row]
         cell.backgroundColor = .clear
-        cell.contentView.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        cell.contentView.backgroundColor = ThemeManager2.currentTheme().backgroundColor
         sideMenuSwitch = UISwitch(frame: CGRect(x: 0, y: 0, width: 50, height: 50) )
         cell.accessoryView = sideMenuSwitch
         cell.selectionStyle = .none
         cell.textLabel?.text = object
-        cell.textLabel?.textColor = ThemeManager.currentTheme().titleTextColor
+        cell.textLabel?.textColor = ThemeManager2.currentTheme().titleTextColor
         cell.textLabel?.font = .systemFont(ofSize: 17, weight: .medium)
         
         return cell

@@ -26,11 +26,13 @@ class QuickTableView: UIView {
         initConstraints(view: tableView, to: self)
         self.clipsToBounds = false
         self.layer.masksToBounds = false
-        let nibName = UINib(nibName: "DropDownTableViewCell", bundle: nil)
+        tableView.layer.masksToBounds = false
+        tableView.clipsToBounds = false
+        let nibName = UINib(nibName: "QuickTableViewCell", bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: "QuickTableViewCell")
-
-        let nibName2 = UINib(nibName: "FirstDropDownTableViewCell", bundle: nil)
-        tableView.register(nibName2, forCellReuseIdentifier: "FirstDropDownTableViewCellIdentifier")
+        
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WithoutAccountCell")
         
     }
     required init?(coder: NSCoder) {

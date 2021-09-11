@@ -7,43 +7,44 @@
 //
 
 import UIKit
+import Themer
 protocol SendIconToParentViewController{
     func sendIconName(name: String)
+}
+
+extension IconsCollectionView {
+    func theme(_ theme: MyTheme) {
+        view.backgroundColor = theme.settings.backgroundColor
+    //    boundsForCollection.backgroundColor =
+    //    boundsForCollection.layer.setMiddleShadow(color: theme.settings.shadowColor)
+        self.view.backgroundColor = theme.settings.backgroundColor
+    }
 }
 class IconsCollectionView: UIViewController ,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     var collectionView: UICollectionView!
     var sendImageDelegate: SendIconToParentViewController!
     var selectedImageName = "card"
-    var boundsForCollection: UIView!
+    
     let cancelButton = UIButton()
   
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupBoundsForCollection()
-        setupCollectionView()        
+        
+        setupCollectionView()
+        Themer.shared.register(target: self, action: IconsCollectionView.theme(_:))
     }
-    func setupBoundsForCollection() {
-        boundsForCollection = UIView(frame: self.view.bounds) //CGRect(x: 0, y: self.bounds.height * 0.1, width: self.bounds.width * 0.8, height: self.bounds.height * 0.8))
-        self.view.addSubview(boundsForCollection)
-        boundsForCollection.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        boundsForCollection.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-        boundsForCollection.center.x = self.view.center.x
-        boundsForCollection.layer.cornerRadius = 18
-        boundsForCollection.clipsToBounds = true
-    }
-    
 
-    
     func setupCollectionView(){
-        collectionView = UICollectionView(frame: .zero,collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView = UICollectionView(frame: self.view.bounds,collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
+        
+        self.view.addSubview(collectionView)
         self.view.layer.cornerRadius = 0.5
         collectionView.delegate = self
         collectionView.dataSource = self
         self.view.addSubview(collectionView)
-        initConstraints(view: collectionView, to: boundsForCollection)
         let nib = UINib(nibName: "AddCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "addCell")
     }
@@ -96,10 +97,10 @@ class IconsCollectionView: UIViewController ,UICollectionViewDelegate,UICollecti
         let images = imagesForCollection[indexPath.item]
         //let image = imageToData(imageName: images)// Перевод в Data нужен лишь для того чтобы потом можно было с легкостью сохранить изображение в базу данных, открыть в ячейке можно и не png файл
         let image = UIImage(named: images)
+        cell.set(image: image!)
         
-        
-        cell.imageView.image = image
-        cell.imageView.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        //cell.imageView.image = image
+        //cell.imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         
         
         return cell

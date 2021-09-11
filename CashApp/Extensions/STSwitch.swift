@@ -11,12 +11,12 @@ import UIKit
 class STSwitch: UIControl {
     
     
-    public var onTintColor = ThemeManager.currentTheme().contrastColor1 {
+    public var onTintColor = ThemeManager2.currentTheme().contrastColor1 {
         didSet{
             self.setupUI()
         }
     }
-    public var offTintColor = ThemeManager.currentTheme().borderColor{
+    public var offTintColor = ThemeManager2.currentTheme().borderColor{
         didSet{
             self.setupUI()
         }
@@ -27,7 +27,7 @@ class STSwitch: UIControl {
         }
     }
     
-    public var thumbTintColor = ThemeManager.currentTheme().secondaryBackgroundColor {
+    public var thumbTintColor = ThemeManager2.currentTheme().secondaryBackgroundColor {
         didSet{
             self.thumbView.backgroundColor = self.thumbTintColor
         }

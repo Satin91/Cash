@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,7 @@
 		7510F83E2509A87600030A52 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7510F83D2509A87600030A52 /* CategoriesViewController.swift */; };
 		7512178226CFB943004A8FD5 /* NumpadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7512178126CFB942004A8FD5 /* NumpadView.xib */; };
 		7512178426CFBC06004A8FD5 /* NumpadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7512178326CFBC06004A8FD5 /* NumpadView.swift */; };
-		7518FEE626E153A300506035 /* UIControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7518FEE526E153A300506035 /* UIControls.swift */; };
+		7518FEE626E153A300506035 /* ThemableViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7518FEE526E153A300506035 /* ThemableViews.swift */; };
 		75200ADB26E9DCED009C63A5 /* NotificationProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75200ADA26E9DCED009C63A5 /* NotificationProperties.swift */; };
 		75200ADE26EA2440009C63A5 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75200ADD26EA243F009C63A5 /* NotificationData.swift */; };
 		7522652E24D1D55700D30CD6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7522652D24D1D55700D30CD6 /* Model.swift */; };
@@ -27,14 +27,22 @@
 		75262B27268E6B7E00D7F38E /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75262B26268E6B7E00D7F38E /* CircleView.swift */; };
 		7527E187261F7F4500DEF5AD /* AddScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */; };
 		7528447C2695701400699B0E /* EditScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7528447B2695701400699B0E /* EditScheduler.swift */; };
-		7529F98E267493EE00087F46 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7529F98D267493EE00087F46 /* ThemeManager.swift */; };
+		7529F98E267493EE00087F46 /* ThemeManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7529F98D267493EE00087F46 /* ThemeManager2.swift */; };
+		75309CE326ECBA5C0093AFF3 /* FSCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CE226ECBA5C0093AFF3 /* FSCalendarCell.swift */; };
+		75309CE526ED26BD0093AFF3 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CE426ED26BD0093AFF3 /* SeparatorView.swift */; };
+		75309CE826ED31BD0093AFF3 /* QuickPayTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CE726ED31BD0093AFF3 /* QuickPayTheme.swift */; };
+		75309CEA26ED339C0093AFF3 /* ThemableButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CE926ED339C0093AFF3 /* ThemableButtons.swift */; };
+		75309CEC26ED33F20093AFF3 /* ThemableLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CEB26ED33F20093AFF3 /* ThemableLabels.swift */; };
+		75309CEE26ED34210093AFF3 /* ThemableTextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CED26ED34210093AFF3 /* ThemableTextFields.swift */; };
+		75309CF026ED34520093AFF3 /* ThemableCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CEF26ED34520093AFF3 /* ThemableCells.swift */; };
+		75309CF326ED38C80093AFF3 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CF226ED38C80093AFF3 /* AppColors.swift */; };
+		75309CF526ED47150093AFF3 /* TodayBalanceTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CF426ED47150093AFF3 /* TodayBalanceTheme.swift */; };
 		753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */; };
 		7537E58025DEF0730019768C /* QuickTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E57F25DEF0730019768C /* QuickTableView.swift */; };
 		7539D3CB2637962A00A966BB /* PopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7539D3C92637962A00A966BB /* PopTableViewCell.swift */; };
 		7539D3CC2637962A00A966BB /* SelectDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7539D3CA2637962A00A966BB /* SelectDateTableViewCell.xib */; };
 		753EACAE268E388000860745 /* TodayBalanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753EACAC268E388000860745 /* TodayBalanceTableViewCell.swift */; };
 		753EACAF268E388100860745 /* TodayBalanceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 753EACAD268E388000860745 /* TodayBalanceTableViewCell.xib */; };
-		753EACB2268E619500860745 /* DIYCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753EACB1268E619500860745 /* DIYCalendarCell.swift */; };
 		7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545C91B25AFD06000042332 /* AccountsHistory.swift */; };
 		7545E1B1255C45F600454803 /* LineChartContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */; };
 		754D66ED2631C90C00B2383C /* PopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D66EC2631C90C00B2383C /* PopUpTableViewController.swift */; };
@@ -48,6 +56,7 @@
 		755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755DE792262DD70D00CA835D /* IconsCollectionView.swift */; };
 		755E675D25FE024B0049E113 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E675C25FE024B0049E113 /* ContainerViewController.swift */; };
 		7560D034259482E700E496B0 /* QuickPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7560D033259482E700E496B0 /* QuickPayViewController.swift */; };
+		75635D9C26EBD59E00742FCA /* SchedulerVisualSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75635D9B26EBD59E00742FCA /* SchedulerVisualSettings.swift */; };
 		756ACCE226E288CD00C8C1CF /* VisualSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756ACCE126E288CC00C8C1CF /* VisualSettings.swift */; };
 		756ACCE426E28B9600C8C1CF /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756ACCE326E28B9600C8C1CF /* Calendar.swift */; };
 		756FC729264304B300327BAC /* CurrencyModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D340632642F077002881EB /* CurrencyModelController.swift */; };
@@ -99,7 +108,7 @@
 		75B59B70262DE57600DFCCCD /* AddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */; };
 		75B59B71262DE57600DFCCCD /* AddCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */; };
 		75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C0DF752524D52400D5B0FA /* CalendarView.swift */; };
-		75C328F72571A12100E9CAD4 /* DropDownTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75C328F52571A12100E9CAD4 /* DropDownTableViewCell.xib */; };
+		75C328F72571A12100E9CAD4 /* QuickTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75C328F52571A12100E9CAD4 /* QuickTableViewCell.xib */; };
 		75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CB20792509E26800152EFF /* SegmentedControl.swift */; };
 		75CB7A9E255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7A9B255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf */; };
 		75CB7A9F255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7A9C255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf */; };
@@ -109,8 +118,6 @@
 		75CB7AA8255D50DA00451F1D /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7AA4255D50DA00451F1D /* SF-Pro-Text-Bold.otf */; };
 		75CB7AA9255D50DA00451F1D /* SF-Pro-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7AA5255D50DA00451F1D /* SF-Pro-Text-Regular.otf */; };
 		75CEC755261F10F3001184CD /* NumberTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CEC754261F10F3001184CD /* NumberTextField.swift */; };
-		75D1704E26EA6AB5001AE45F /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D1704D26EA6AB5001AE45F /* Themes.swift */; };
-		75D1705026EA8481001AE45F /* ThemeControlsClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D1704F26EA8481001AE45F /* ThemeControlsClasses.swift */; };
 		75D28016268AE1E6000BA1EE /* layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28015268AE1E6000BA1EE /* layout.swift */; };
 		75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */; };
 		75D3A1172688BE1200E3BEAE /* CreateScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D3A1152688BE1200E3BEAE /* CreateScheduleCell.swift */; };
@@ -128,6 +135,8 @@
 		75EE502E2571844C007A7E97 /* DropDownTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EE502D2571844C007A7E97 /* DropDownTableView.swift */; };
 		75F585332619B7A700355CBF /* SchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F585322619B7A700355CBF /* SchedulerViewController.swift */; };
 		75FA2BB2253B066800E8CCD8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FA2BB1253B066800E8CCD8 /* Colors.swift */; };
+		75FD0FD226EB3E0100BB0F6B /* Themer in Frameworks */ = {isa = PBXBuildFile; productRef = 75FD0FD126EB3E0100BB0F6B /* Themer */; };
+		75FD0FD426EB40B300BB0F6B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FD0FD326EB40B300BB0F6B /* ThemeManager.swift */; };
 		75FF12F826B98C7F002E1321 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FF12F726B98C7F002E1321 /* ChartView.swift */; };
 /* End PBXBuildFile section */
 
@@ -144,7 +153,7 @@
 		7510F83D2509A87600030A52 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		7512178126CFB942004A8FD5 /* NumpadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NumpadView.xib; sourceTree = "<group>"; };
 		7512178326CFBC06004A8FD5 /* NumpadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumpadView.swift; sourceTree = "<group>"; };
-		7518FEE526E153A300506035 /* UIControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControls.swift; sourceTree = "<group>"; };
+		7518FEE526E153A300506035 /* ThemableViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemableViews.swift; sourceTree = "<group>"; };
 		75200ADA26E9DCED009C63A5 /* NotificationProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationProperties.swift; sourceTree = "<group>"; };
 		75200ADD26EA243F009C63A5 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		7522652D24D1D55700D30CD6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -152,14 +161,22 @@
 		75262B26268E6B7E00D7F38E /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewController.swift; sourceTree = "<group>"; };
 		7528447B2695701400699B0E /* EditScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduler.swift; sourceTree = "<group>"; };
-		7529F98D267493EE00087F46 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		7529F98D267493EE00087F46 /* ThemeManager2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager2.swift; sourceTree = "<group>"; };
+		75309CE226ECBA5C0093AFF3 /* FSCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarCell.swift; sourceTree = "<group>"; };
+		75309CE426ED26BD0093AFF3 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
+		75309CE726ED31BD0093AFF3 /* QuickPayTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPayTheme.swift; sourceTree = "<group>"; };
+		75309CE926ED339C0093AFF3 /* ThemableButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemableButtons.swift; sourceTree = "<group>"; };
+		75309CEB26ED33F20093AFF3 /* ThemableLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemableLabels.swift; sourceTree = "<group>"; };
+		75309CED26ED34210093AFF3 /* ThemableTextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemableTextFields.swift; sourceTree = "<group>"; };
+		75309CEF26ED34520093AFF3 /* ThemableCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemableCells.swift; sourceTree = "<group>"; };
+		75309CF226ED38C80093AFF3 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		75309CF426ED47150093AFF3 /* TodayBalanceTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceTheme.swift; sourceTree = "<group>"; };
 		753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickTypePopUpTableViewController.swift; sourceTree = "<group>"; };
 		7537E57F25DEF0730019768C /* QuickTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableView.swift; sourceTree = "<group>"; };
 		7539D3C92637962A00A966BB /* PopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopTableViewCell.swift; sourceTree = "<group>"; };
 		7539D3CA2637962A00A966BB /* SelectDateTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectDateTableViewCell.xib; sourceTree = "<group>"; };
 		753EACAC268E388000860745 /* TodayBalanceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceTableViewCell.swift; sourceTree = "<group>"; };
 		753EACAD268E388000860745 /* TodayBalanceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayBalanceTableViewCell.xib; sourceTree = "<group>"; };
-		753EACB1268E619500860745 /* DIYCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DIYCalendarCell.swift; path = /Users/artur/Xcode/CashApp/CashUP/CashApp/TodayBalance/DIYCalendarCell.swift; sourceTree = "<absolute>"; };
 		7545C91B25AFD06000042332 /* AccountsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsHistory.swift; sourceTree = "<group>"; };
 		7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartContainerViewController.swift; sourceTree = "<group>"; };
 		754D66EC2631C90C00B2383C /* PopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpTableViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +194,7 @@
 		755DE792262DD70D00CA835D /* IconsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionView.swift; sourceTree = "<group>"; };
 		755E675C25FE024B0049E113 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		7560D033259482E700E496B0 /* QuickPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPayViewController.swift; sourceTree = "<group>"; };
+		75635D9B26EBD59E00742FCA /* SchedulerVisualSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerVisualSettings.swift; sourceTree = "<group>"; };
 		756ACCE126E288CC00C8C1CF /* VisualSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualSettings.swift; sourceTree = "<group>"; };
 		756ACCE326E28B9600C8C1CF /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
@@ -226,7 +244,7 @@
 		75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionViewCell.swift; sourceTree = "<group>"; };
 		75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddCollectionViewCell.xib; sourceTree = "<group>"; };
 		75C0DF752524D52400D5B0FA /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		75C328F52571A12100E9CAD4 /* DropDownTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DropDownTableViewCell.xib; sourceTree = "<group>"; };
+		75C328F52571A12100E9CAD4 /* QuickTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuickTableViewCell.xib; sourceTree = "<group>"; };
 		75CB20792509E26800152EFF /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		75CB7A9B255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Medium.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Rounded-Medium.otf"; sourceTree = "<group>"; };
 		75CB7A9C255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Regular.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Rounded-Regular.otf"; sourceTree = "<group>"; };
@@ -236,8 +254,6 @@
 		75CB7AA4255D50DA00451F1D /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Text-Bold.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
 		75CB7AA5255D50DA00451F1D /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Text-Regular.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
 		75CEC754261F10F3001184CD /* NumberTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTextField.swift; sourceTree = "<group>"; };
-		75D1704D26EA6AB5001AE45F /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
-		75D1704F26EA8481001AE45F /* ThemeControlsClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeControlsClasses.swift; sourceTree = "<group>"; };
 		75D28015268AE1E6000BA1EE /* layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = layout.swift; sourceTree = "<group>"; };
 		75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceViewController.swift; sourceTree = "<group>"; };
 		75D340622642F077002881EB /* CurrencyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyList.swift; sourceTree = "<group>"; };
@@ -259,6 +275,7 @@
 		75EE502D2571844C007A7E97 /* DropDownTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownTableView.swift; sourceTree = "<group>"; };
 		75F585322619B7A700355CBF /* SchedulerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerViewController.swift; sourceTree = "<group>"; };
 		75FA2BB1253B066800E8CCD8 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		75FD0FD326EB40B300BB0F6B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		75FF12F726B98C7F002E1321 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		B7079BB9EFF631A89368A655 /* Pods-CashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.debug.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.debug.xcconfig"; sourceTree = "<group>"; };
 		BC0B5D0B512592E1234414A8 /* Pods_CashApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -270,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A03F1724520B9252C8110FC /* Pods_CashApp.framework in Frameworks */,
+				75FD0FD226EB3E0100BB0F6B /* Themer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +327,7 @@
 			children = (
 				75F585322619B7A700355CBF /* SchedulerViewController.swift */,
 				7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */,
+				75635D9B26EBD59E00742FCA /* SchedulerVisualSettings.swift */,
 				7528447B2695701400699B0E /* EditScheduler.swift */,
 				750888A6268764260037C804 /* CalendarSchedulerViewController.swift */,
 				75727D362694F67F000BC7DE /* SelectSchedulerTypeViewController.swift */,
@@ -328,10 +347,10 @@
 		7518FEE426E1532100506035 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				7529F98D267493EE00087F46 /* ThemeManager.swift */,
-				75D1704D26EA6AB5001AE45F /* Themes.swift */,
-				75D1704F26EA8481001AE45F /* ThemeControlsClasses.swift */,
-				7518FEE526E153A300506035 /* UIControls.swift */,
+				75309CE626ED27EA0093AFF3 /* UIElements */,
+				7529F98D267493EE00087F46 /* ThemeManager2.swift */,
+				75FD0FD326EB40B300BB0F6B /* ThemeManager.swift */,
+				75309CF126ED34A40093AFF3 /* ThemableControls */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -371,8 +390,30 @@
 			children = (
 				757D64AA25250679008CDEE1 /* DateSettings.swift */,
 				75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */,
+				75309CE226ECBA5C0093AFF3 /* FSCalendarCell.swift */,
 			);
 			path = Calendar;
+			sourceTree = "<group>";
+		};
+		75309CE626ED27EA0093AFF3 /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+				75309CE426ED26BD0093AFF3 /* SeparatorView.swift */,
+			);
+			path = UIElements;
+			sourceTree = "<group>";
+		};
+		75309CF126ED34A40093AFF3 /* ThemableControls */ = {
+			isa = PBXGroup;
+			children = (
+				75309CF226ED38C80093AFF3 /* AppColors.swift */,
+				7518FEE526E153A300506035 /* ThemableViews.swift */,
+				75309CEF26ED34520093AFF3 /* ThemableCells.swift */,
+				75309CED26ED34210093AFF3 /* ThemableTextFields.swift */,
+				75309CEB26ED33F20093AFF3 /* ThemableLabels.swift */,
+				75309CE926ED339C0093AFF3 /* ThemableButtons.swift */,
+			);
+			path = ThemableControls;
 			sourceTree = "<group>";
 		};
 		7539D3CE2637962F00A966BB /* View */ = {
@@ -396,7 +437,6 @@
 		753EACB0268E388C00860745 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				753EACB1268E619500860745 /* DIYCalendarCell.swift */,
 				753EACAC268E388000860745 /* TodayBalanceTableViewCell.swift */,
 				753EACAD268E388000860745 /* TodayBalanceTableViewCell.xib */,
 			);
@@ -559,7 +599,7 @@
 			isa = PBXGroup;
 			children = (
 				7537E57F25DEF0730019768C /* QuickTableView.swift */,
-				75C328F52571A12100E9CAD4 /* DropDownTableViewCell.xib */,
+				75C328F52571A12100E9CAD4 /* QuickTableViewCell.xib */,
 				757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */,
 			);
 			path = View;
@@ -569,6 +609,7 @@
 			isa = PBXGroup;
 			children = (
 				7560D033259482E700E496B0 /* QuickPayViewController.swift */,
+				75309CE726ED31BD0093AFF3 /* QuickPayTheme.swift */,
 				7512178326CFBC06004A8FD5 /* NumpadView.swift */,
 				7512178126CFB942004A8FD5 /* NumpadView.xib */,
 			);
@@ -638,6 +679,7 @@
 			isa = PBXGroup;
 			children = (
 				75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */,
+				75309CF426ED47150093AFF3 /* TodayBalanceTheme.swift */,
 				756ACCE326E28B9600C8C1CF /* Calendar.swift */,
 				756ACCE126E288CC00C8C1CF /* VisualSettings.swift */,
 				75262B28268E6B8700D7F38E /* View */,
@@ -746,6 +788,9 @@
 			dependencies = (
 			);
 			name = CashApp;
+			packageProductDependencies = (
+				75FD0FD126EB3E0100BB0F6B /* Themer */,
+			);
 			productName = CashApp;
 			productReference = 75EA2AEC24CDDB8200D03E95 /* CashApp.app */;
 			productType = "com.apple.product-type.application";
@@ -776,6 +821,9 @@
 				de,
 			);
 			mainGroup = 75EA2AE324CDDB8200D03E95;
+			packageReferences = (
+				75FD0FD026EB3E0100BB0F6B /* XCRemoteSwiftPackageReference "Themer" */,
+			);
 			productRefGroup = 75EA2AED24CDDB8200D03E95 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -819,7 +867,7 @@
 				7539D3CC2637962A00A966BB /* SelectDateTableViewCell.xib in Resources */,
 				750888AB26877E710037C804 /* SchedulerTableViewCell.xib in Resources */,
 				7596C19826E02ECA00E7D677 /* DefaultCurrencies.json in Resources */,
-				75C328F72571A12100E9CAD4 /* DropDownTableViewCell.xib in Resources */,
+				75C328F72571A12100E9CAD4 /* QuickTableViewCell.xib in Resources */,
 				75CB7AA7255D50DA00451F1D /* SF-Pro-Text-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,7 +921,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75D1704E26EA6AB5001AE45F /* Themes.swift in Sources */,
 				7583E1A326E20E30009DC96C /* CurrencySymbol.swift in Sources */,
 				7583E1A726E2117B009DC96C /* DeleteUnnecessary.swift in Sources */,
 				75A7413F26E499A300A9C586 /* EditingButtonsInstall.swift in Sources */,
@@ -884,6 +931,7 @@
 				75A7413926E47F0400A9C586 /* AccountImagesCollectionView.swift in Sources */,
 				75D28016268AE1E6000BA1EE /* layout.swift in Sources */,
 				75A7414126E4A03A00A9C586 /* EditingButtons.swift in Sources */,
+				75309CE826ED31BD0093AFF3 /* QuickPayTheme.swift in Sources */,
 				757D0AC426E8D2140087E956 /* SchedulerModel.swift in Sources */,
 				75C0DF762524D52400D5B0FA /* CalendarView.swift in Sources */,
 				754F15F326681A44002250BB /* EnlargeSecondTableViewCell.swift in Sources */,
@@ -894,12 +942,14 @@
 				757D0AC626E8D2BF0087E956 /* PayPerTimeModel.swift in Sources */,
 				75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */,
 				7510F83E2509A87600030A52 /* CategoriesViewController.swift in Sources */,
+				75309CEA26ED339C0093AFF3 /* ThemableButtons.swift in Sources */,
 				75A7413C26E48C9800A9C586 /* AccountImageCell.swift in Sources */,
 				75CEC755261F10F3001184CD /* NumberTextField.swift in Sources */,
 				754F15F12667AA3C002250BB /* EnlargeTableViewCell.swift in Sources */,
 				759FA92B26189BA600502172 /* MainTableViewCell.swift in Sources */,
 				75F585332619B7A700355CBF /* SchedulerViewController.swift in Sources */,
-				7518FEE626E153A300506035 /* UIControls.swift in Sources */,
+				7518FEE626E153A300506035 /* ThemableViews.swift in Sources */,
+				75309CE526ED26BD0093AFF3 /* SeparatorView.swift in Sources */,
 				757F8F3A25402E5600F0B1D0 /* ShowAndHideTabBar.swift in Sources */,
 				755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */,
 				7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */,
@@ -908,7 +958,10 @@
 				756FC729264304B300327BAC /* CurrencyModelController.swift in Sources */,
 				7522652E24D1D55700D30CD6 /* Model.swift in Sources */,
 				7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */,
+				75635D9C26EBD59E00742FCA /* SchedulerVisualSettings.swift in Sources */,
 				7560D034259482E700E496B0 /* QuickPayViewController.swift in Sources */,
+				75309CF526ED47150093AFF3 /* TodayBalanceTheme.swift in Sources */,
+				75309CEC26ED33F20093AFF3 /* ThemableLabels.swift in Sources */,
 				754EE23C26E00EFC00B66B5A /* NetworkMonitor.swift in Sources */,
 				75D9DE7E253B6294007677BA /* AddOperationViewController.swift in Sources */,
 				75727D372694F67F000BC7DE /* SelectSchedulerTypeViewController.swift in Sources */,
@@ -923,14 +976,15 @@
 				7537E58025DEF0730019768C /* QuickTableView.swift in Sources */,
 				757D64AB25250679008CDEE1 /* DateSettings.swift in Sources */,
 				75262B27268E6B7E00D7F38E /* CircleView.swift in Sources */,
+				75309CF026ED34520093AFF3 /* ThemableCells.swift in Sources */,
 				754F15EE2667A9F8002250BB /* EnlargeTableView.swift in Sources */,
 				75200ADE26EA2440009C63A5 /* NotificationData.swift in Sources */,
 				75FA2BB2253B066800E8CCD8 /* Colors.swift in Sources */,
 				757E4B5B25E003E100D8A7F7 /* QuickTableVIewCell.swift in Sources */,
+				75309CE326ECBA5C0093AFF3 /* FSCalendarCell.swift in Sources */,
 				750888A7268764260037C804 /* CalendarSchedulerViewController.swift in Sources */,
 				753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */,
 				75A974BF26CE9D2A0053583B /* SideMenuViewController.swift in Sources */,
-				75D1705026EA8481001AE45F /* ThemeControlsClasses.swift in Sources */,
 				756ACCE226E288CD00C8C1CF /* VisualSettings.swift in Sources */,
 				7578BE38269666CA0063D087 /* AlertViewController.swift in Sources */,
 				757B99542689549D005FB908 /* HeaderView.swift in Sources */,
@@ -938,7 +992,7 @@
 				754EE23E26E00F0600B66B5A /* MiniAlertView.swift in Sources */,
 				7583E19F26E1E728009DC96C /* Category.swift in Sources */,
 				75A7414326E4A64000A9C586 /* Blur.swift in Sources */,
-				7529F98E267493EE00087F46 /* ThemeManager.swift in Sources */,
+				7529F98E267493EE00087F46 /* ThemeManager2.swift in Sources */,
 				756ACCE426E28B9600C8C1CF /* Calendar.swift in Sources */,
 				756FC72A264304B300327BAC /* CurrencyList.swift in Sources */,
 				75A2AA50266ED79700B86DAC /* AddCurrencyTableViewCell.swift in Sources */,
@@ -949,7 +1003,9 @@
 				75DE7E93269418F700528666 /* STSwitch.swift in Sources */,
 				758F854B24D2CF0A007CD161 /* TableViewCell.swift in Sources */,
 				75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */,
+				75309CF326ED38C80093AFF3 /* AppColors.swift in Sources */,
 				750888AA26877E710037C804 /* SchedulerTableViewCell.swift in Sources */,
+				75309CEE26ED34210093AFF3 /* ThemableTextFields.swift in Sources */,
 				7512178426CFBC06004A8FD5 /* NumpadView.swift in Sources */,
 				757AA57C26E87B3100F8C443 /* SetAlertViewVisual.swift in Sources */,
 				75AD2A082669E72600F6880B /* CurrencyViewController.swift in Sources */,
@@ -957,10 +1013,10 @@
 				75D3A1172688BE1200E3BEAE /* CreateScheduleCell.swift in Sources */,
 				7528447C2695701400699B0E /* EditScheduler.swift in Sources */,
 				75EA2AF024CDDB8200D03E95 /* AppDelegate.swift in Sources */,
-				753EACB2268E619500860745 /* DIYCalendarCell.swift in Sources */,
 				7545E1B1255C45F600454803 /* LineChartContainerViewController.swift in Sources */,
 				75EA2AF224CDDB8200D03E95 /* SceneDelegate.swift in Sources */,
 				7583E1A926E21427009DC96C /* RealmCurrency.swift in Sources */,
+				75FD0FD426EB40B300BB0F6B /* ThemeManager.swift in Sources */,
 				75EDDC36250AD352000C0E27 /* AnyOptions.swift in Sources */,
 				75200ADB26E9DCED009C63A5 /* NotificationProperties.swift in Sources */,
 			);
@@ -1190,6 +1246,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		75FD0FD026EB3E0100BB0F6B /* XCRemoteSwiftPackageReference "Themer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SergeBouts/Themer.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		75FD0FD126EB3E0100BB0F6B /* Themer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75FD0FD026EB3E0100BB0F6B /* XCRemoteSwiftPackageReference "Themer" */;
+			productName = Themer;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 75EA2AE424CDDB8200D03E95 /* Project object */;
 }

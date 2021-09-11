@@ -12,11 +12,12 @@ class CircleView: UIView {
     
     private var circleLayer = CAShapeLayer()
     private var progressLayer = CAShapeLayer()
+    private var progressBackground = CAShapeLayer()
     private let object = todayBalanceObject
+    private let colors = AppColors()
     var primaryValue = 0
-    private var persent: UILabel = {
-        let label = UILabel()
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+    private var persent: TitleLabel = {
+        let label = TitleLabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.frame = .zero
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,17 +35,14 @@ class CircleView: UIView {
         
         createCircularPath()
     }
-    var startValue = 0
   
-    
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        colors.loadColors()
         initConstraintsForLabel()
         createCircularPath()
         self.backgroundColor = .clear
-        //persent.text = String(Int(getPersent() * 100)) + "%"
+        
     }
 
     func createCircularPath() {
@@ -54,15 +52,23 @@ class CircleView: UIView {
         circleLayer.lineCap = .round
         circleLayer.lineWidth = 5
         circleLayer.strokeColor = UIColor.black.cgColor
-        circleLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor1)
+        circleLayer.setCircleShadow(color: colors.contrastColor1)
         progressLayer.path = circularPath.cgPath
         progressLayer.fillColor = UIColor.clear.cgColor
         progressLayer.lineCap = .round
         progressLayer.lineWidth = 5
         progressLayer.strokeEnd = 0
+        progressBackground.path = circularPath.cgPath
+        progressBackground.fillColor = UIColor.clear.cgColor
+        progressBackground.lineCap = .round
+        progressBackground.lineWidth = 5
+        progressBackground.strokeColor = colors.backgroundcolor.withAlphaComponent(0.6).cgColor
+        progressBackground.strokeEnd = 1
+     
         //progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
-        progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
+        progressLayer.setCircleShadow(color: colors.contrastColor2)
         //layer.addSublayer(circleLayer)
+        layer.addSublayer(progressBackground)
         layer.addSublayer(progressLayer)
     }
     
@@ -91,11 +97,11 @@ class CircleView: UIView {
       
      let quotient = quotient()
         if currentlyBalance > commonBalance {
-            progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor1.cgColor
-            progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor1)
+            progressLayer.strokeColor = colors.contrastColor1.cgColor
+            progressLayer.setCircleShadow(color: colors.contrastColor1)
         }else{
-            progressLayer.strokeColor = ThemeManager.currentTheme().contrastColor2.cgColor
-            progressLayer.setCircleShadow(color: ThemeManager.currentTheme().contrastColor2)
+            progressLayer.strokeColor = colors.contrastColor2.cgColor
+            progressLayer.setCircleShadow(color: colors.contrastColor2)
         }
         let circleValue = quotient > 0 ? quotient / 100 : (quotient - (quotient * 2)) / 100
       return (Double(quotient),circleValue)

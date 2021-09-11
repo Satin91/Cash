@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Themer
+
 
 class CreateOperationCell: UICollectionViewCell {
     
@@ -19,14 +21,14 @@ class CreateOperationCell: UICollectionViewCell {
     let imageOfCreate: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "addCategory")
-        image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        //image.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return image
     }()
     override func layoutSubviews() {
         super.layoutSubviews()
         //initConstraints(view: dashView, to: self)
         createConstraints()
-        dashView.drawDash(radius: 12)
+        Themer.shared.register(target: self, action: CreateOperationCell.theme(_:))
         
       
     }
@@ -34,9 +36,6 @@ class CreateOperationCell: UICollectionViewCell {
         super.awakeFromNib()
         self.contentView.addSubview(imageOfCreate)
         dashView.backgroundColor = .clear
-        self.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        
-        // Initialization code
     }
     
     func createConstraints() {
@@ -57,4 +56,11 @@ class CreateOperationCell: UICollectionViewCell {
     }
     
     
+}
+extension CreateOperationCell {
+    func theme(_ theme: MyTheme) {
+        imageOfCreate.changePngColorTo(color: theme.settings.titleTextColor)
+        backgroundColor = theme.settings.backgroundColor
+        dashView.drawDash(radius: 12, color: theme.settings.borderColor)
+    }
 }

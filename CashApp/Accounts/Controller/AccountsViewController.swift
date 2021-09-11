@@ -91,7 +91,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     override func viewDidLoad() {
         super.viewDidLoad()
         accountsLayout()
-        self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        self.view.backgroundColor = ThemeManager2.currentTheme().backgroundColor
         backButtonOutlet.title = NSLocalizedString("back_button", comment: "")
         setupAccountCollectionView()
         let nib = UINib(nibName: "AccountCollectionViewCell", bundle: nil)

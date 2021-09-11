@@ -28,27 +28,27 @@ class AlertViewController: UIViewController {
         //labels
         titleLabel.font = .systemFont(ofSize: 26, weight: .medium)
         titleLabel.numberOfLines = 2
-        titleLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        titleLabel.textColor = ThemeManager2.currentTheme().titleTextColor
         titleLabel.textAlignment = .center
         
         
         messageLabel.font = .systemFont(ofSize: 17, weight: .light)
         messageLabel.numberOfLines = 0
-        messageLabel.textColor = ThemeManager.currentTheme().subtitleTextColor
+        messageLabel.textColor = ThemeManager2.currentTheme().subtitleTextColor
         messageLabel.textAlignment = .center
         //buttons
         
-        leftButtonOutlet.backgroundColor = ThemeManager.currentTheme().contrastColor1
+        leftButtonOutlet.backgroundColor = ThemeManager2.currentTheme().contrastColor1
         leftButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 2
-        leftButtonOutlet.setTitleColor(ThemeManager.currentTheme().backgroundColor, for: .normal)
+        leftButtonOutlet.setTitleColor(ThemeManager2.currentTheme().backgroundColor, for: .normal)
         
         rightButtonOutlet.layer.borderWidth = 1
-        rightButtonOutlet.layer.borderColor = ThemeManager.currentTheme().borderColor.cgColor
+        rightButtonOutlet.layer.borderColor = ThemeManager2.currentTheme().borderColor.cgColor
         rightButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 2
         
-        self.containerView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
+        self.containerView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         self.containerView.layer.cornerRadius = 40
-        self.containerView.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
+        self.containerView.layer.setMiddleShadow(color: ThemeManager2.currentTheme().shadowColor)
         self.view.backgroundColor = .clear
     }
     

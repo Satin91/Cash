@@ -7,7 +7,18 @@
 //
 
 import UIKit
+import Themer
 
+extension SelectSchedulerTypeViewController {
+    private func theme(_ theme: MyTheme) {
+        self.backgroundView.backgroundColor = theme.settings.backgroundColor
+        labelsColors(headerColor: theme.settings.titleTextColor,
+                     descriptionColor: theme.settings.subtitleTextColor,
+                     containerColor: theme.settings.secondaryBackgroundColor,
+                     shadowColor: theme.settings.shadowColor)
+    }
+    
+}
 class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
     
     var reloadDelegate: ReloadParentTableView!
@@ -43,6 +54,24 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
     
     @IBOutlet var backgroundView: UIView!
     @IBOutlet var descriptionLabels: [UILabel]!
+    
+    
+    func labelsColors(headerColor: UIColor, descriptionColor: UIColor, containerColor: UIColor, shadowColor: UIColor) {
+        for header in HeaderLabels {
+            header.font = .systemFont(ofSize: 23, weight: .bold)
+            header.textColor = headerColor
+        }
+        for description in descriptionLabels {
+            description.font = .systemFont(ofSize: 14, weight: .light)
+            description.textColor = descriptionColor
+        }
+        for container in containerView {
+            
+            container.layer.cornerRadius = 20
+            container.backgroundColor = containerColor
+            container.layer.setMiddleShadow(color: shadowColor)
+        }
+    }
     func visualSettings(){
         oneTimeHeaderLabel.text = NSLocalizedString("select_one_time_title", comment: "")
         oneTimeDescriptionLabel.text = NSLocalizedString("select_one_time_description", comment: "")
@@ -60,22 +89,8 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
         goalDescriptionLabel.text = NSLocalizedString("select_goal_description", comment: "")
         goalContainer.tag = 4
         
-        for header in HeaderLabels {
-            header.font = .systemFont(ofSize: 23, weight: .bold)
-            header.textColor = ThemeManager.currentTheme().titleTextColor
-        }
-        for description in descriptionLabels {
-            description.font = .systemFont(ofSize: 14, weight: .light)
-            description.textColor = ThemeManager.currentTheme().subtitleTextColor
-        }
-        for container in containerView {
-            
-            container.layer.cornerRadius = 20
-            container.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-            container.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
-        }
         
-        self.backgroundView.backgroundColor = ThemeManager.currentTheme().backgroundColor
+        
         self.backgroundView.layer.cornerRadius = 22
         self.backgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.roundedLine.frame = CGRect(x: 0, y: 22, width: 77, height: 8)
@@ -84,12 +99,13 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
     }
     var roundedLine: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeManager.currentTheme().borderColor
+        view.backgroundColor = ThemeManager2.currentTheme().borderColor
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Themer.shared.register(target: self, action: SelectSchedulerTypeViewController.theme(_:))
         self.backgroundView.addSubview(roundedLine)
         visualSettings()
         createTapGesture()

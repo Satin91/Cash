@@ -15,7 +15,7 @@ class PopTableViewCell: UITableViewCell {
    
     var lineView: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeManager.currentTheme().borderColor
+        view.backgroundColor = ThemeManager2.currentTheme().borderColor
         return view
     }()
     @IBOutlet var popCellImage: UIImageView!
@@ -70,12 +70,12 @@ class PopTableViewCell: UITableViewCell {
         popCellImage.isHidden = true
         if object == "Edit" {
             nameLabel.text = NSLocalizedString("pop_edit_name_label", comment: "")
-            nameLabel.textColor = ThemeManager.currentTheme().titleTextColor
+            nameLabel.textColor = ThemeManager2.currentTheme().titleTextColor
             nameLabel.sizeToFit()
         }else{
             nameLabel.text = NSLocalizedString("pop_delete_name_label", comment: "")
             nameLabel.sizeToFit()
-            nameLabel.textColor = ThemeManager.currentTheme().contrastColor2
+            nameLabel.textColor = ThemeManager2.currentTheme().contrastColor2
         }
     }
     

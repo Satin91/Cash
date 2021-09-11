@@ -17,18 +17,15 @@ class SchedulersForTableView {
     }
 }
 class TodayBalanceViewController: UIViewController {
-    
+    let colors = AppColors()
     //MARK: Элементы интерфейса
     private let currencyModelController = CurrencyModelController()
     let calendar = FSCalendarView()
     var calendarContainerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 26
-        view.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         view.layer.cornerRadius = 20
-        view.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
         view.layer.masksToBounds = false
-        
         return view
     }()
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
@@ -49,7 +46,7 @@ class TodayBalanceViewController: UIViewController {
     var schedulerSwitchs: [AIFlatSwitch] = []
     
     var EXPSchedulerArray: [SchedulersForTableView] = []
-    let theme = ThemeManager.currentTheme()
+    let theme = ThemeManager2.currentTheme()
     var todayBalance: TodayBalance? 
     var endDate: Date? {
         willSet {
@@ -91,8 +88,6 @@ class TodayBalanceViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     var containerForTableView: UIView = {
         let view = UIView()
-        view.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        view.layer.setMiddleShadow(color: ThemeManager.currentTheme().shadowColor)
         view.frame = .zero
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -110,6 +105,8 @@ class TodayBalanceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        colors.loadColors()
+        self.setColors()
         updateTotalBalanceSum(animated: false)
         setTodayBalanceData(animated: false) // Это на случай если не сработает обновление данных
         visualSettings()
@@ -121,13 +118,13 @@ class TodayBalanceViewController: UIViewController {
     
     //MARK: - GETSCHEDULERS TO TABLE VIEW
     func getSchedulersToTableView(){
-       // var schedulerArray: [MonetaryScheduler] = []
+        // var schedulerArray: [MonetaryScheduler] = []
         var sschedulerArray: [SchedulersForTableView] = []
         guard let todayBalance = todayBalanceObject else {return}
         let divider = getDivider()
         for i in oneTimeObjects {
             if i.date <= todayBalance.endDate {
-                    sschedulerArray.append(SchedulersForTableView(scheduler: i, todaySum: (i.target - i.available) / Double(divider)))
+                sschedulerArray.append(SchedulersForTableView(scheduler: i, todaySum: (i.target - i.available) / Double(divider)))
             }
         }
         for i in goalObjects {
@@ -140,7 +137,7 @@ class TodayBalanceViewController: UIViewController {
             }
         }
         var scheduleID: String?// Местная переменная для исключения повторов
-      
+        
         struct payPerSumAndID {
             var schID: String
             var schlPaySum: Double
@@ -157,9 +154,9 @@ class TodayBalanceViewController: UIViewController {
                 scheduleID = i.scheduleID
             }else{
                 if i.date <= todayBalance.endDate {
-                totalPayPerSum[counter - 1].schlPaySum += i.target
-                totalPayPerSum[counter - 1].date = i.date
-            }
+                    totalPayPerSum[counter - 1].schlPaySum += i.target
+                    totalPayPerSum[counter - 1].date = i.date
+                }
             }
         }
         //Рассчет дневной суммы для корректировки бюджета
@@ -281,10 +278,10 @@ class TodayBalanceViewController: UIViewController {
     }
     
     @objc func calendarButtonPressed(_ button: UIButton) {
-     
+        
     }
     
-   
+    
     
     
     
@@ -298,14 +295,6 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func insertSwitchInCell(_ AISwitch:AIFlatSwitch, cell: UITableViewCell) {
-        AISwitch.removeFromSuperview()
-        let size: CGFloat = 35
-        let xPos:CGFloat = cell.bounds.width - 40 - (size / 2)
-        let yPos: CGFloat = cell.bounds.height / 2 - (size / 2)
-        cell.addSubview(AISwitch)
-        AISwitch.frame = CGRect(x: xPos, y: yPos, width: size, height: size)
-        //AISwitch.center.y = cell.center.y
-        AISwitch.isEnabled = false
         
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -315,22 +304,26 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
         
         switch changeValue {
         case true:
-           
+            
             let switchs = schedulerSwitchs[indexPath.row]
             let object = EXPSchedulerArray[indexPath.row]
             switchs.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
             switchs.isSelected = object.scheduler.isUseForTudayBalance
+            switchs.strokeColor = colors.titleTextColor
+            switchs.trailStrokeColor = colors.borderColor
             cell.accessoryView = switchs
             cell.accessoryView?.isUserInteractionEnabled = false
             cell.set(object: object)
-            //cell.accessoryView?.backgroundColor = .clear
+            
             return cell
         case false:
-   
+            
             let object = accountsObjects[indexPath.row]
             let switchs = accSwitchs[indexPath.row]
             switchs.isSelected = object.isUseForTudayBalance
             switchs.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+            switchs.strokeColor = colors.titleTextColor
+            switchs.trailStrokeColor = colors.borderColor
             cell.accessoryView = switchs
             cell.accessoryView?.isUserInteractionEnabled = false
             cell.set(object: object)
@@ -338,7 +331,7 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
             return cell
         }
     }
-  
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -349,6 +342,7 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
             let SHObject = EXPSchedulerArray[indexPath.row].scheduler
             
             let swit = schedulerSwitchs[indexPath.row]
+            
             try! realm.write {
                 SHObject.isUseForTudayBalance.toggle()
                 realm.add(SHObject,update: .all)
@@ -358,6 +352,7 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
             
             let ACCObject = accountsObjects[indexPath.row]
             let swit = accSwitchs[indexPath.row]
+
             try! realm.write {
                 ACCObject.isUseForTudayBalance.toggle()
                 realm.add(ACCObject,update: .all)

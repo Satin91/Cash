@@ -8,30 +8,39 @@
 
 import UIKit
 import Charts
+import Themer
 protocol prepareForMainViewControllers {
     func prepareFor(viewController: UIViewController)
 }
 
 final class HeaderView: UIViewController {
-
+    
     var chartView = ChartView()
-    let themeManager = ThemeManager.currentTheme()
+    let themeManager = ThemeManager2.currentTheme()
     let currencyModelController = CurrencyModelController()
+    var chartLineColor: UIColor = .clear { // Цвет для графика(вынесено сюда для стороннего изменения так как в графике нельзя установить переменный цвет
+        didSet{
+            setChartData() // Обновить цвет
+            
+        }
+    }
+
+
     
     var delegate: prepareForMainViewControllers!
-    var dateLabel: UILabel = {
-       let label = UILabel()
+    var dateLabel: TitleLabel = {
+        let label = TitleLabel()
         label.backgroundColor = .clear
         label.text = "Date"
         label.font = .boldSystemFont(ofSize: 34)
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.frame = .zero
         label.layer.opacity = 0
         return label
     }()
-
+    
     var accountsButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.frame = .zero
         button.backgroundColor = .clear
         button.setTitle(" ", for: .normal)
@@ -41,7 +50,7 @@ final class HeaderView: UIViewController {
     var accountsLabel: TitleLabel = {
         let label = TitleLabel()
         label.font = .systemFont(ofSize: 23, weight: .medium)
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.text = NSLocalizedString("header_accounts", comment: "")
         return label
         
@@ -49,7 +58,7 @@ final class HeaderView: UIViewController {
     var totalBalanceLabel: TitleLabel = {
         let label = TitleLabel()
         label.font = .systemFont(ofSize: 34, weight: .medium)
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+        //label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         label.text = "0"
@@ -67,7 +76,7 @@ final class HeaderView: UIViewController {
     var todayBalanceLabel: TitleLabel = {
         let label = TitleLabel()
         label.font = .systemFont(ofSize: 19, weight: .medium)
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.text = NSLocalizedString("header_budgetToday", comment: "")
         return label
     }()
@@ -75,28 +84,28 @@ final class HeaderView: UIViewController {
     var todayBalanceSumLabel: TitleLabel = {
         let label = TitleLabel()
         label.font = .systemFont(ofSize: 26, weight: .medium)
-        label.textColor = ThemeManager.currentTheme().titleTextColor
+        label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.text = "0"
         return label
     }()
     
     var accountsImage: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.image = UIImage(named: "wallet")
-        imageView.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return imageView
     }()
     
     var todayBalanceImage: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.image = UIImage(named: "todayBalance")
-        imageView.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+        imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return imageView
     }()
     
     let lineView: UIView = {
-       let line = UIView()
-       return line
+        let line = UIView()
+        return line
     }()
     
     func getTodayBalance() -> Double {
@@ -112,6 +121,27 @@ final class HeaderView: UIViewController {
         
         return balance.currentBalance / Double(dateCount)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setAccountsBalance()
+        setTodayBalance()
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        Themer.shared.register(target: self, action: HeaderView.theme(_:))
+        self.view.layer.cornerRadius = 35
+        initControls()
+
+        createConstraints()
+        setAccountsBalance()
+        setChartData()
+        dateLabel.center = self.view.center
+    }
+    
+    
     func initControls() {
         accountsButton.addTarget(self, action: #selector(prepareForAccounts), for: .touchUpInside)
         todayBalanceButton.addTarget(self, action: #selector(prepareForTodayBalance), for: .touchUpInside)
@@ -154,36 +184,14 @@ final class HeaderView: UIViewController {
             }
         }
         let addNumber = todayExpences != 0 ? "(\(todayExpences.fromNumberToString()))" : ""
-            //
-        let additionalText = (addNumber ,todayExpences > 0 ? ThemeManager.currentTheme().contrastColor1: ThemeManager.currentTheme().contrastColor2)
+        //
+        let additionalText = (addNumber ,todayExpences > 0 ? ThemeManager2.currentTheme().contrastColor1: ThemeManager2.currentTheme().contrastColor2)
         todayBalanceSumLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency.ISO, Balance: getTodayBalance() + todayExpences, additionalText: additionalText)
     }
-    func setColorTheme() {
-//        lineView.backgroundColor = themeManager.separatorColor
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        setAccountsBalance()
-        setTodayBalance()
-    }
 
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        ThemManager.shared.register(self)
-        self.view.layer.cornerRadius = 35
-        
-        
-        initControls()
-        setColorTheme()
-        createConstraints()
-        setAccountsBalance()
-        setChartData()
-        dateLabel.center = self.view.center
-    }
-
+    
+    
     @objc func prepareForAccounts(){
         let accVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "AccountsViewController") as! AccountsViewController
         delegate.prepareFor(viewController: accVC)
@@ -270,24 +278,24 @@ final class HeaderView: UIViewController {
             todayBalanceSumLabel.trailingAnchor.constraint(equalTo: accountsButton.trailingAnchor,constant: -20),
             todayBalanceSumLabel.topAnchor.constraint(equalTo: todayBalanceLabel.bottomAnchor,constant: 8)
         ])
-
+        
         
         //ChartsView
         
         NSLayoutConstraint.activate([
-        chartView.bottomAnchor.constraint(equalTo: lineView.topAnchor,constant: -6),
-        chartView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-        chartView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -self.view.bounds.width / 2),
-        chartView.topAnchor.constraint(equalTo: totalBalanceLabel.bottomAnchor)
+            chartView.bottomAnchor.constraint(equalTo: lineView.topAnchor,constant: -6),
+            chartView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+            chartView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -self.view.bounds.width / 2),
+            chartView.topAnchor.constraint(equalTo: totalBalanceLabel.bottomAnchor)
         ])
         
         
         //LineView
         NSLayoutConstraint.activate([
-        lineView.bottomAnchor.constraint(equalTo: todayBalanceButton.topAnchor,constant: 6),
-        lineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-        lineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-        lineView.heightAnchor.constraint(equalToConstant: 4)
+            lineView.bottomAnchor.constraint(equalTo: todayBalanceButton.topAnchor,constant: 6),
+            lineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            lineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            lineView.heightAnchor.constraint(equalToConstant: 4)
         ])
         
         
@@ -304,11 +312,12 @@ final class HeaderView: UIViewController {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    
 }
 extension UIView {
     
     var middleShadow: UIView {
-     let view = UIView()
+        let view = UIView()
         view.layer.shadowOpacity = 0.14
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 4, height: 4)
@@ -317,20 +326,31 @@ extension UIView {
         
     }
 }
-extension HeaderView: Themable {
-    func applyTheme(_ theme: MyTheme) {
-        self.view.backgroundColor = theme.settings.secondaryBackgroundColor
-        //self.view.layer.setMiddleShadow(color: theme.settings.shadowColor)
+//extension HeaderView: Themable {
+//    func applyTheme(_ theme: MyTheme) {
 
-                self.view.layer.shadowOpacity = 0.20
-                self.view.layer.shadowColor = theme.settings.shadowColor.cgColor
-                self.view.layer.shadowOffset = CGSize(width: 4, height: 4)
-                self.view.layer.shadowRadius = 15
-                self.view.layer.masksToBounds = false
+//        lineView.backgroundColor = theme.settings.separatorColor
+//    }
+//
+//
+//}
+extension HeaderView {
+    func theme(_ theme: MyTheme) {
+        accountsImage.setImageColor(color: theme.settings.titleTextColor)
+        todayBalanceImage.setImageColor(color: theme.settings.titleTextColor)
+        view.backgroundColor = theme.settings.secondaryBackgroundColor
         lineView.backgroundColor = theme.settings.separatorColor
+       // self.view.layer.setMiddleShadow(color: theme.settings.shadowColor)
+        self.view.layer.shadowOpacity = 0.20
+        self.view.layer.shadowOffset = CGSize(width: 4, height: 4)
+        self.view.layer.shadowRadius = 15
+        self.view.layer.masksToBounds = false
+        chartLineColor = theme.settings.contrastColor2
+        self.view.layer.shadowColor = theme.settings.shadowColor.cgColor
     }
-    
-    
+    func chartColor(chart: LineChartDataSet,_ theme: MyTheme){
+        chart.setColor(theme.settings.contrastColor2)
+    }
 }
 extension HeaderView: ChartViewDelegate {
     
@@ -351,25 +371,27 @@ extension HeaderView: ChartViewDelegate {
         for (index,value) in historyData.enumerated() {
             
             if index >= historyData.count - 6 {
-            historyValues.append(ChartDataEntry(x: x, y: value.sum))
-            x += 5
+                historyValues.append(ChartDataEntry(x: x, y: value.sum))
+                x += 5
             }
         }
-
-      
+        
+        
         chartView.delegate = self
         let set = LineChartDataSet(entries: historyValues)
         set.drawCirclesEnabled = false
         set.circleRadius = 40
         set.lineWidth = 2
         
-        set.setColor(ThemeManager.currentTheme().contrastColor2)
+        //Themer.shared.register(target: self, action: HeaderView.chartColor(set) )
+        set.setColor(chartLineColor)
+        
         set.mode = .cubicBezier
         set.drawValuesEnabled = false
         let data = LineChartData(dataSet: set)
         chartView.data = data
         
-      //  chartView.transform = CGAffineTransform(scaleX: -1, y: 1)
+        //  chartView.transform = CGAffineTransform(scaleX: -1, y: 1)
     }
-   
+    
 }

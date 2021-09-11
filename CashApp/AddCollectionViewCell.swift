@@ -7,7 +7,13 @@
 //
 
 import UIKit
+import Themer
 
+extension AddCollectionViewCell {
+    private func theme(_ theme: MyTheme) {
+        imageView.changePngColorTo(color: theme.settings.titleTextColor)
+    }
+}
 class AddCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
@@ -16,8 +22,13 @@ class AddCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        //print(imageView.image)
+        
     }
+    func set(image: UIImage) {
+        imageView.image = image
+        Themer.shared.register(target: self, action: AddCollectionViewCell.theme(_:))
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }

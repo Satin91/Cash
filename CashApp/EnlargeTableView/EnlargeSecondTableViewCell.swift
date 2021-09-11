@@ -7,14 +7,14 @@
 //
 
 import UIKit
-
+import Themer
 class SecondTableViewCell: UITableViewCell  {
    
     
     
     var delegate: SendEnlargeIndex!
     var object = Int()
-    let themeManager = ThemeManager.currentTheme()
+    let themeManager = ThemeManager2.currentTheme()
     
     var titleLabel: TitleLabel = {
         let label = TitleLabel(frame: .zero)
@@ -24,8 +24,8 @@ class SecondTableViewCell: UITableViewCell  {
         return label
     }()
     
-    var subTitleLabel: SubtitleLabel = {
-        let label = SubtitleLabel(frame: .zero)
+    var subTitleLabel: SubTitleLabel = {
+        let label = SubTitleLabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16, weight: .regular)
 
@@ -35,6 +35,7 @@ class SecondTableViewCell: UITableViewCell  {
     
     var sumLabel: TitleLabel = {
         let label = TitleLabel(frame: .zero)
+        label.textAlignment = .right
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
 
@@ -48,23 +49,28 @@ class SecondTableViewCell: UITableViewCell  {
         return button
     }()
     
-    var image: ThemebleImageView = {
-        let image = ThemebleImageView()
+    var image: UIImageView = {
+        let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
-    var lineView: UIView = {
-       let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    var lineView: UIView!
+//    var lineView: UIView = {
+//       let view = UIView()
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        return view
+//    }()
     var object2 = Int()
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         lineView.isHidden = false
     }
-    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+    }
     
     func checkTheAccount(accountID: String) -> String {
         var accountIdentifier: String?
@@ -77,24 +83,26 @@ class SecondTableViewCell: UITableViewCell  {
     }
     
     func set(object: AccountsHistory, isLast: Bool) {
-        
+        print("Set")
         titleLabel.text = object.name
         subTitleLabel.text = checkTheAccount(accountID: object.accountID)
         sumLabel.text = String(object.sum.currencyFormatter(ISO: object.currencyISO))
-       // image.setImageColor(color: ThemeManager.currentTheme().titleTextColor)
+       
         if isLast == true {
             lineView.isHidden = true
         }
         guard let image = object.image else {return}
         self.image.image = UIImage(named: image)
-        
+//        drawDottedLine(start: CGPoint(x: lineView.bounds.minX, y: lineView.bounds.minY), end: CGPoint(x: lineView.bounds.maxX, y: lineView.bounds.minY), view: lineView)
+        Themer.shared.register(target: self, action: SecondTableViewCell.theme(_:))
         
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        super.awakeFromNib()
-        ThemManager.shared.register(self)
+       // lineView = SeparatorView(cell: self).createLineView()
+        lineView = SeparatorView(cell: self).createLineViewWithConstraints()
+        Themer.shared.register(target: self, action: SecondTableViewCell.theme(_:))
         self.backgroundColor = .clear
         contentView.backgroundColor = .clear
         sendButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
@@ -103,6 +111,18 @@ class SecondTableViewCell: UITableViewCell  {
     
     @objc func pressed() {
     }
+    func drawDottedLine(start p0: CGPoint, end p1: CGPoint, view: UIView) {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.strokeColor = UIColor.lightGray.cgColor
+        shapeLayer.lineWidth = 1
+        shapeLayer.lineDashPattern = [7, 3] // 7 is the length of dash, 3 is length of the gap.
+
+        let path = CGMutablePath()
+        path.addLines(between: [p0, p1])
+        shapeLayer.path = path
+        view.layer.addSublayer(shapeLayer)
+    }
+    
     func createConstraints() {
         
         self.contentView.addSubview(titleLabel)
@@ -139,18 +159,14 @@ class SecondTableViewCell: UITableViewCell  {
 //        var priorityObject = subTitleLabel.trailingAnchor.constraint(equalTo: sumLabel.leadingAnchor)
         
         
-
-        lineView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        lineView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        lineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        lineView.heightAnchor.constraint(equalToConstant: 3).isActive = true
-        sendButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -50).isActive = true
+        
+//        lineView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        lineView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+//        lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+//        lineView.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        sendButton.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -50).isActive = true
         sendButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        
-        
-        
         sendButton.isHidden = true
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -164,15 +180,17 @@ class SecondTableViewCell: UITableViewCell  {
         fatalError("init(coder:) has not been implemented")
     }
 }
-extension SecondTableViewCell: Themable {
-    func applyTheme(_ theme: MyTheme) {
-        lineView.backgroundColor = theme.settings.separatorColor
-        image.setImageColor(color: theme.settings.titleTextColor)
-    }
-    
-    
-}
 
+extension SecondTableViewCell {
+    func theme(_ theme: MyTheme) {
+        //titleLabel.textColor = theme.settings.titleTextColor
+        //subTitleLabel.textColor = theme.settings.subtitleTextColor
+        //image.setImageColor(color: theme.settings.titleTextColor)
+        image.changePngColorTo(color: theme.settings.titleTextColor)
+        lineView.backgroundColor = theme.settings.separatorColor
+        
+    }
+}
 protocol SendEnlargeIndex {
     func enlarge(object: IndexPath)
 }

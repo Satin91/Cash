@@ -110,13 +110,13 @@ class MiniAlertView: UIView {
     
     func visualSettings() {
       
-        alertImage.setImageColor(color: ThemeManager.currentTheme().backgroundColor)
+        alertImage.setImageColor(color: ThemeManager2.currentTheme().backgroundColor)
         messageLabel.font = .systemFont(ofSize: 22, weight: .regular)
-        messageLabel.textColor = ThemeManager.currentTheme().backgroundColor
+        messageLabel.textColor = ThemeManager2.currentTheme().backgroundColor
         messageLabel.numberOfLines = 1
         messageLabel.adjustsFontSizeToFitWidth = true
         self.layer.cornerRadius = 0
-        self.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
+        self.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         self.alpha = 0.95
         
         

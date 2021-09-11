@@ -23,10 +23,10 @@ class AddCurrencyTableViewCell: UITableViewCell {
         self.contentView.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
         self.contentView.layer.cornerRadius = 20
-        self.contentView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-        self.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        self.contentView.layer.setSmallShadow(color: ThemeManager.currentTheme().shadowColor)
-        self.descriptionLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        self.contentView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
+        self.backgroundColor = ThemeManager2.currentTheme().backgroundColor
+        self.contentView.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
+        self.descriptionLabel.textColor = ThemeManager2.currentTheme().titleTextColor
         self.descriptionLabel.font = .systemFont(ofSize: 19, weight: .regular)
     }
     override func layoutSubviews() {

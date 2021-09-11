@@ -17,9 +17,9 @@ class EditingButtons: UIButton {
         button.setTitle("Delete", for: .normal)
         button.layer.cornerRadius = 18
         button.layer.borderWidth = 2
-        button.layer.borderColor = ThemeManager.currentTheme().contrastColor2.cgColor
-        button.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
-        button.setTitleColor(ThemeManager.currentTheme().subtitleTextColor, for: .disabled)
+        button.layer.borderColor = ThemeManager2.currentTheme().contrastColor2.cgColor
+        button.setTitleColor(ThemeManager2.currentTheme().titleTextColor, for: .normal)
+        button.setTitleColor(ThemeManager2.currentTheme().subtitleTextColor, for: .disabled)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
         button.backgroundColor = .clear
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -30,8 +30,8 @@ class EditingButtons: UIButton {
         let button = UIButton()
         button.setTitle("Сделать главным", for: .normal)
         button.layer.cornerRadius = 18
-        button.backgroundColor = ThemeManager.currentTheme().titleTextColor
-        button.setTitleColor(ThemeManager.currentTheme().backgroundColor, for: .normal)
+        button.backgroundColor = ThemeManager2.currentTheme().titleTextColor
+        button.setTitleColor(ThemeManager2.currentTheme().backgroundColor, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
          button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0 // По умолчанию для включения анимации

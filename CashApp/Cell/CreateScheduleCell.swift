@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Themer
+
 
 class CreateScheduleCell: UITableViewCell {
     
-    @IBOutlet var createScheduleLabel: UILabel!
+    @IBOutlet var createScheduleLabel: TitleLabel!
     @IBOutlet var dashView: UIView!
     
     static func nib() -> UINib {
@@ -20,7 +22,6 @@ class CreateScheduleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.contentView.backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
         self.dashView.backgroundColor = .clear
         createScheduleLabel.text = "Добавить"
     }
@@ -35,16 +36,19 @@ class CreateScheduleCell: UITableViewCell {
         self.dashView.layer.cornerRadius = 25
         self.dashView.layer.cornerCurve = .continuous
         self.createScheduleLabel.font = .systemFont(ofSize: 26, weight: .regular)
-        self.createScheduleLabel.textColor = ThemeManager.currentTheme().titleTextColor
+        
     }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
-        dashView.drawDash(radius: 25)
-        
+        Themer.shared.register(target: self, action: CreateScheduleCell.theme(_:))
+        dashView.center = self.contentView.center
+        createScheduleLabel.center = self.contentView.center
         visualSettings()
     }
-   
-    
 }
-
+extension CreateScheduleCell {
+    private func theme(_ theme: MyTheme) {
+        self.contentView.backgroundColor = theme.settings.backgroundColor
+        dashView.drawDash(radius: 25, color: theme.settings.borderColor)
+    }
+}
