@@ -11,7 +11,7 @@ import UIKit
 import Themer
 
 extension UITableViewCell {
-    func setColors() {
+     func setColors() {
         Themer.shared.register(target: self, action: UITableViewCell.setColors(_:))
     }
     func setColors(_ theme:MyTheme){

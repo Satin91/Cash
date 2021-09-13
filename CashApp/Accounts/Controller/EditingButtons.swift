@@ -8,18 +8,33 @@
 
 import Foundation
 import UIKit
-
-class EditingButtons: UIButton {
+import Themer
+class EditingButtons{
     
+    let colors = AppColors()
+    let cornerRadius: CGFloat = 12
+    func setColors() {
+        colors.loadColors()
+        delete.backgroundColor = .clear
+        delete.layer.borderColor = colors.contrastColor2.cgColor
+        delete.setTitleColor(colors.titleTextColor, for: .normal)
+        delete.setTitleColor(colors.subtitleTextColor, for: .disabled)
+        delete.setTitleColor(colors.titleTextColor, for: .normal)
+        delete.layer.cornerRadius = self.cornerRadius
+        
+        save.layer.cornerRadius = self.cornerRadius
+        save.backgroundColor = colors.contrastColor1
+        save.setTitleColor(colors.titleTextColor, for: .normal)
+        
+    }
+    
+ 
     let delete: UIButton = {
+        
        let button = UIButton()
-        button.backgroundColor = .black
+        
         button.setTitle("Delete", for: .normal)
-        button.layer.cornerRadius = 18
         button.layer.borderWidth = 2
-        button.layer.borderColor = ThemeManager2.currentTheme().contrastColor2.cgColor
-        button.setTitleColor(ThemeManager2.currentTheme().titleTextColor, for: .normal)
-        button.setTitleColor(ThemeManager2.currentTheme().subtitleTextColor, for: .disabled)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
         button.backgroundColor = .clear
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -29,9 +44,6 @@ class EditingButtons: UIButton {
     let save: UIButton = {
         let button = UIButton()
         button.setTitle("Сделать главным", for: .normal)
-        button.layer.cornerRadius = 18
-        button.backgroundColor = ThemeManager2.currentTheme().titleTextColor
-        button.setTitleColor(ThemeManager2.currentTheme().backgroundColor, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
          button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0 // По умолчанию для включения анимации

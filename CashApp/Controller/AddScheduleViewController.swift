@@ -157,6 +157,8 @@ class AddScheduleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let cancel = CancelButton(frame: .zero, title: .cancel, owner: self)
+        cancel.addToScrollView(view: self.scrollView)
         visualSettings()
         Themer.shared.register(target: self, action: AddScheduleViewController.theme(_:))
         self.view.alpha = isEditingScheduler ? 1 : 0
@@ -165,6 +167,9 @@ class AddScheduleViewController: UIViewController {
         checkScheduleType()
         setupCalendarAndTableView()
         stackViewSettings()
+        setupNavigationController(Navigation: self.navigationController!)
+        self.isModalInPresentation = false
+        
         //setupButtonsAndFields()
         
         guard isEditingScheduler else {return}

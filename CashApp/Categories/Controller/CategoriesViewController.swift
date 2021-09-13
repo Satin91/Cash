@@ -13,36 +13,14 @@ import Themer
 
 class CategoriesViewController: UIViewController, UITextFieldDelegate {
     
-    
-//
-//
-//    func dismissVC(goingTo: String, typeIdentifier: String) { // Вызывается после подтверждения выбора в addVc
-//
-//        let addCategoryVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addCategoryVC") as! AddOperationViewController
-//        if goingTo == "addCategoryVC" {
-//            switch typeIdentifier {
-//            case "Income":
-//                addCategoryVC.newCategoryObject.stringEntityType = .income
-//            case "Expence":
-//                addCategoryVC.newCategoryObject.stringEntityType = .expence
-//            default:
-//                return
-//            }
-//        }
-//        addCategoryVC.tableReloadDelegate = self
-//        let navVC = UINavigationController(rootViewController: addCategoryVC)
-//        navVC.modalPresentationStyle = .automatic
-//        present(navVC, animated: true, completion: nil)
-//    }
-    
-    
+
     private var popViewController: UIViewController! // Child View Controller
     private var changeValue = true
     private var pressedIndexPath: IndexPath?
     ///             Outlets:
     @IBOutlet var segmentedControl: HBSegmentedControl!
     @IBOutlet var collectionView: UICollectionView!
-    
+    var openBarChartController: OpenNextController!
     ///            Actions:
     @IBAction func actionSegmentedControl(_ sender: HBSegmentedControl) {
         sender.changeSegmentWithAnimation(tableView: nil, collectionView: collectionView, ChangeValue: &changeValue)
@@ -50,53 +28,8 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
     ///             POPUP VIEW
     @IBOutlet var blurView: UIVisualEffectView! // не используется влом удалять пока
     ///             ACTIONS
-    
-//    func goToAddOperationVC() {
-//        let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpTableViewController
-//        pickTypeVC.cellNames = ["Income","Expence"]
-//        pickTypeVC.goingTo = "addCategoryVC"
-//        pickTypeVC.delegate = self
-//
-//        let navVC = UINavigationController(rootViewController: pickTypeVC)
-//        navVC.modalPresentationStyle = .popover
-//        let popVC = navVC.popoverPresentationController
-//        popVC?.delegate = self
-//        let barButtonView = self.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
-//        popVC?.sourceView = barButtonView
-//        popVC?.sourceRect = barButtonView!.bounds
-//        pickTypeVC.preferredContentSize = CGSize(width: 200, height: pickTypeVC.cellNames.count * 50)
-//        present(navVC, animated: true, completion: nil)
-//        // Передача данных описана в классе PickTypePopUpViewController
-//        guard popViewController != nil else {return}
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
-//            self.closeChildViewController()
-//        })
-//    }
-//    @IBAction func addButton(_ sender: Any) {
-//        //addVC
-//        let pickTypeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "pickTypeVC") as! PickTypePopUpTableViewController
-//        pickTypeVC.cellNames = ["Income","Expence"]
-//        pickTypeVC.goingTo = "addCategoryVC"
-//
-//
-//        let navVC = UINavigationController(rootViewController: pickTypeVC)
-//        navVC.modalPresentationStyle = .popover
-//        let popVC = navVC.popoverPresentationController
-//        popVC?.delegate = self
-//        let barButtonView = self.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
-//        popVC?.sourceView = barButtonView
-//        popVC?.sourceRect = barButtonView!.bounds
-//        pickTypeVC.preferredContentSize = CGSize(width: 200, height: pickTypeVC.cellNames.count * 50)
-//        present(navVC, animated: true, completion: nil)
-//        // Передача данных описана в классе PickTypePopUpViewController
-//        guard popViewController != nil else {return}
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
-//            self.closeChildViewController()
-//        })
-//    }
-    
-  
-    
+ 
+    @objc var openBarChartButton: CancelButton!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         collectionView.reloadData()
@@ -106,10 +39,21 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
         
         //При переходе через таб бар обновления не происходят
     }
-    
+    @objc func openBarChart(_ sender: UIButton) {
+        openBarChartController.makeTheTransition()
+    }
+    func createRightBarButton() {
+        openBarChartButton = CancelButton(frame: CGRect(x: 0, y: 0, width: 50, height: 25), title: .create, owner: self)
+        openBarChartButton.addTarget(self, action: #selector(CategoriesViewController.openBarChart(_:)), for: .touchUpInside)
+        let rightBarButton = UIBarButtonItem(customView: openBarChartButton)
+        
+        navigationItem.rightBarButtonItem = rightBarButton
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: CategoriesViewController.theme(_:))
+        createRightBarButton()
+        openBarChartController = OpenNextController(storyBoardID: "BarChart", fromViewController: self, toViewControllerID: "BarChartID", toViewController: BarChartViewController())
         
         segmentedControl.changeValuesForCashApp(segmentOne:NSLocalizedString("segmented_control_0", comment: ""), segmentTwo: NSLocalizedString("segmented_control_1", comment: ""))
         setupNavigationController(Navigation: navigationController!)
@@ -207,14 +151,14 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         case true:
             if indexPath.row != expenceObjects.count {
                 let object =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
-                addChildViewController(PayObject: object)
+                goToQuickPayVC(PayObject: object)
             }else{
                 goToAddVC(object: nil, isEditing: false)
             }
         case false:
             if indexPath.row != incomeObjects.count {
                 let object =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
-                addChildViewController(PayObject: object)
+                goToQuickPayVC(PayObject: object)
             }else{
                 goToAddVC(object: nil, isEditing: false)
             }
@@ -249,6 +193,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.backgroundColor = .clear
         collectionView.collectionViewLayout = createNewLayout()
         collectionView.addGestureRecognizer(gesture)
@@ -275,6 +220,10 @@ extension CategoriesViewController: ClosePopUpTableViewProtocol {
     
     func goToAddVC(object: MonetaryCategory?, isEditing: Bool){
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addCategoryVC") as! AddOperationViewController
+        
+        let vc = UINavigationController(rootViewController: addVC)
+        vc.modalPresentationStyle = .pageSheet
+        
         addVC.tableReloadDelegate = self
         addVC.isEditingCategory = isEditing
         if object != nil {
@@ -283,7 +232,7 @@ extension CategoriesViewController: ClosePopUpTableViewProtocol {
         addVC.newCategoryObject.stringEntityType = changeValue ? .expence : .income
         }
        
-        present(addVC, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
     }
     
     func closeTableView(object: Any) {
@@ -292,7 +241,6 @@ extension CategoriesViewController: ClosePopUpTableViewProtocol {
         let categoryObject = changeValue ? expenceObjects[index!.row] : incomeObjects[index!.row]
         switch object.keys.first {
         case "Edit":
-            print(categoryObject)
             //Нужно делать запуск контроллера в фоновом потоке так как он открывается не дождавшись выгрузки поп менюшки
             DispatchQueue.main.async {
                 self.goToAddVC(object: categoryObject, isEditing: true)

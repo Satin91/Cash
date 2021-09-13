@@ -53,7 +53,7 @@ class AccountImagesCollectionView: UIView {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        let minimumSpacing: CGFloat = 20
+        let minimumSpacing: CGFloat = self.bounds.height / 10
         let width: CGFloat = (collectionView.bounds.width / 2 ) - minimumSpacing / 2
         let height: CGFloat = (collectionView.bounds.height / 2 ) - minimumSpacing
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -96,7 +96,7 @@ extension AccountImagesCollectionView: UICollectionViewDelegate, UICollectionVie
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let account = self.account else {return}
-        let cell = collectionView.cellForItem(at: indexPath)
+        //let cell = collectionView.cellForItem(at: indexPath)
         try! realm.write({
             account.imageForAccount = accountsImages[indexPath.row]
         })

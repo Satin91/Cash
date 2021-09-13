@@ -36,7 +36,7 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
         self.appearance.headerTitleAlignment = .left
         //self.appearance.headerTitleOffset = .init(x: 26, y: 0)
         self.headerHeight = self.bounds.height / 5
-        self.appearance.headerTitleFont = .systemFont(ofSize: 56, weight: .light)
+        self.appearance.headerTitleFont = .systemFont(ofSize: 56, weight: .medium)
         self.appearance.headerMinimumDissolvedAlpha = 0
         
         let label = UILabel()

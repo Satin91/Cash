@@ -17,7 +17,6 @@ extension AddScheduleViewController {
         incomeVectorButtonOutlet.backgroundColor = theme.settings.borderColor
         expenceVectorButtonOutlet.backgroundColor = theme.settings.titleTextColor
         selectImageButtonOutlet.backgroundColor = theme.settings.secondaryBackgroundColor
-        
         setColors(backgroundColor: theme.settings.backgroundColor,
                        titleColor: theme.settings.titleTextColor,
                        borderColor: theme.settings.borderColor,
@@ -44,8 +43,8 @@ extension AddScheduleViewController {
     func visualSettings() {
         self.headingTextLabel.numberOfLines = 2
         self.headingTextLabel.minimumScaleFactor = 0.5
-        self.headingTextLabel.font = .systemFont(ofSize: 34, weight: .medium)
-        self.descriptionTextLabel.font = .systemFont(ofSize: 17, weight: .light)
+        self.headingTextLabel.font = .systemFont(ofSize: 34, weight: .bold)
+        self.descriptionTextLabel.font = .systemFont(ofSize: 17, weight: .regular)
         descriptionTextLabel.numberOfLines = 0
         incomeVectorButtonOutlet.layer.cornerRadius = 10
         expenceVectorButtonOutlet.layer.cornerRadius = 10

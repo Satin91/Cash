@@ -10,9 +10,12 @@ import Foundation
 import UIKit
 extension AccountsViewController {
     
-    
+    func buttonsColors() {
+        
+    }
     func createEditingButtons(isActive: Bool){
         activateButtons()
+        
         stackViewForEditingButtons.axis = .horizontal
         stackViewForEditingButtons.distribution = .fillEqually
         stackViewForEditingButtons.alignment = .center
@@ -34,6 +37,7 @@ extension AccountsViewController {
     }
     
     func activateButtons(){
+        editingButtons.setColors()
         editingButtons.delete.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
         editingButtons.save.addTarget(self, action: #selector(saveAction(_:)), for: .touchUpInside)
     }

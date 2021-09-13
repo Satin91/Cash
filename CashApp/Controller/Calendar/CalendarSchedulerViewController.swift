@@ -23,7 +23,7 @@ class CalendarSchedulerViewController: UIViewController {
     @IBAction func closeButtonAction(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+    var cancelButton: CancelButton!
     var datesArray = [Date]()
     var quickPayVC: UIViewController!
     fileprivate let gregorian = Calendar(identifier: .gregorian)
@@ -72,10 +72,11 @@ class CalendarSchedulerViewController: UIViewController {
         return objectsArray
     }
     
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        Themer.shared.register(target: self, action: CalendarSchedulerViewController.theme(_:))
+        createCancelButton()
+
         calendarView.reloadData()
         calendarView.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
         calendarView.delegate = self
@@ -84,8 +85,14 @@ class CalendarSchedulerViewController: UIViewController {
         //calendarView.appearance.headerTitleOffset
         calendarView.layer.cornerRadius = 22
         datesArray = updateDatesArray()
-        
+        Themer.shared.register(target: self, action: CalendarSchedulerViewController.theme(_:))
         // Do any additional setup after loading the view.
+    }
+    
+ 
+    func createCancelButton() {
+        cancelButton = CancelButton(frame: self.view.bounds, title: .cancel, owner: self)
+        cancelButton.addToParentView(view: self.view)
     }
 }
 
@@ -262,7 +269,7 @@ extension CalendarSchedulerViewController: ClosePopUpTableViewProtocol{
         
         //        guard blur.alpha != 1 else {return}
         //        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
+        CashApp.goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         
     }
     //close quicl pay and reload data in calendar and hide blur

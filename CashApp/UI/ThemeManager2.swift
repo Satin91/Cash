@@ -42,21 +42,21 @@ class colors {
     //White colors
     var mainColor = "353B40"
     
-    var backgroundColor = "F5F8FA"
+    var backgroundColor = "F6F8F8"
     var secondaryBackgroundColor = "FFFFFF"
-    var titleTextColor = "353B40"
-    var subtitleTextColor = "A1A6B0"
-    var contrastColor1 = "1871AC"
-    var contrastColor2 = "AB1438"
+    var titleTextColor = "282D2F"
+    var subtitleTextColor = "949798"
+    var contrastColor1 = "507C59"
+    var contrastColor2 = "507C59"
     var redColor = "81323D"
     var greenColor = "4E6C54"
     var yellowColor = "E8C511"
     
-    var mainShadowColor = "90A0AA"
+    var mainShadowColor = "A3B6C8"
     var buttonShadowColor = ""
     var separatorColor = "F3F3F6"
     var buttonBackgroundColorWhite = "353B40"
-    var borderColor = "D0D8DE"
+    var borderColor = "D0D5DE"
     //Dark colors
     var darkBackgroundColor = "1A1D1F"
     var darkSecondaryBackgroundColor = "252729"

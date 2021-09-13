@@ -15,7 +15,7 @@ struct LineChartDataModel {
 }
 
 class LineChartContainerViewController: UIViewController {
-
+   let colors = AppColors()
     
     var lineChartDefinition: [LineChartDataModel] = []
     
@@ -60,8 +60,10 @@ class LineChartContainerViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .clear
-        collectionView.backgroundColor = .clear
+        colors.loadColors()
+        self.setColors()
+        
+        
       
         collectionView.delegate = self
         collectionView.dataSource = self

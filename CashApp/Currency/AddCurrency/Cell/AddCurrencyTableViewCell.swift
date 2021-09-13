@@ -9,12 +9,14 @@
 import UIKit
 
 class AddCurrencyTableViewCell: UITableViewCell {
-
+  
+    let colors = AppColors()
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var currencyImage: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        colors.loadColors()
         
     }
     func visualSettings() {
@@ -23,10 +25,6 @@ class AddCurrencyTableViewCell: UITableViewCell {
         self.contentView.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
         self.contentView.layer.cornerRadius = 20
-        self.contentView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
-        self.backgroundColor = ThemeManager2.currentTheme().backgroundColor
-        self.contentView.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
-        self.descriptionLabel.textColor = ThemeManager2.currentTheme().titleTextColor
         self.descriptionLabel.font = .systemFont(ofSize: 19, weight: .regular)
     }
     override func layoutSubviews() {
@@ -37,6 +35,7 @@ class AddCurrencyTableViewCell: UITableViewCell {
         visualSettings()
         currencyImage.image = UIImage(named: currencyObject.ISO)
         descriptionLabel.text = CurrencyList.CurrencyName(rawValue: currencyObject.ISO)?.getRaw
+        self.setCellColors()
         
     }
     override func setSelected(_ selected: Bool, animated: Bool) {

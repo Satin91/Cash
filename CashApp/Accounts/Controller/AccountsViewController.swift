@@ -12,7 +12,7 @@ import FSCalendar
 
 
 class AccountsViewController: UIViewController, scrollToNewAccount{
-    
+    let colors = AppColors()
 
     func scrollToNewAccount(account: MonetaryAccount) {
         var indexPathIndex = 0
@@ -90,8 +90,10 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        colors.loadColors()
+        self.setColors()
         accountsLayout()
-        self.view.backgroundColor = ThemeManager2.currentTheme().backgroundColor
+        
         backButtonOutlet.title = NSLocalizedString("back_button", comment: "")
         setupAccountCollectionView()
         let nib = UINib(nibName: "AccountCollectionViewCell", bundle: nil)
@@ -134,7 +136,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     func setupAccountCollectionView() {
         accountsCollectionView.delegate = self
         accountsCollectionView.dataSource = self
-        accountsCollectionView.backgroundColor = .clear
+        
         accountsCollectionView.isPagingEnabled = true
     }
     

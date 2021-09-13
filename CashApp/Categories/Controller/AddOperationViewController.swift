@@ -10,7 +10,7 @@ import UIKit
 import FSCalendar
 import RealmSwift
 import Themer
-
+import IQKeyboardManagerSwift
 
 
 class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIconToParentViewController{
@@ -19,7 +19,8 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         selectedImageName = name
     }
     
-    
+    @IBOutlet var scrollView: UIScrollView!//нужен только для того, чтобы выключить скрол(до следующих обновлений с лимитом)
+    var cancelButton: CancelButton!
     //Protocol for reload data to previous table view
     var tableReloadDelegate: ReloadParentTableView!
     var ImageCollectionView: IconsCollectionView!
@@ -51,16 +52,14 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         _ = navigationController?.popViewController(animated: true) //Exit если нет
         
     }
-    @IBAction func backButton(_ sender: UIBarButtonItem) {
-        //Выход описан в сториборде спомощью unwind
-        dismiss(animated: true, completion: nil)
-    }
-    @IBAction func doneAction(_ sender: Any) {
-        
-    }
+
     @IBOutlet var selectImageButton: UIButton!
         
-      
+    func createCancelButton() {
+        cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
+        cancelButton.addToParentView(view: self.view)
+        self.navigationController?.navigationBar.isUserInteractionEnabled = false
+    }
         
     
     var selectedImageName = "emptyImage" {
@@ -78,8 +77,11 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: AddOperationViewController.theme(_:))
+        createCancelButton()
         miniAlertView = MiniAlertView.loadFromNib()
+        scrollView.isScrollEnabled = false
         miniAlertView.controller = self
+        self.isModalInPresentation = true
         visualSettings()
         iconsCollectionView.sendImageDelegate = self
         setupControls()
@@ -94,16 +96,14 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     }
     
     func visualSettings() {
-        headingTextLabel.numberOfLines = 0
-        headingTextLabel.font = .systemFont(ofSize: 34, weight: .medium)
-       
+        headingTextLabel.numberOfLines = 2
+        headingTextLabel.font = .systemFont(ofSize: 34, weight: .bold)
         selectImageButton.layer.cornerRadius = 25
         let saveButtomTitle = isEditingCategory ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
         saveButtonOutlet.mainButtonTheme(saveButtomTitle)
-        descriptionLabel.font = .systemFont(ofSize: 17, weight: .light)
+        descriptionLabel.font = .systemFont(ofSize: 17, weight: .regular)
         isEditingCategory == true ? setDataForEditableControls() : setDataForСreatingControls()
         Themer.shared.register(target: self, action: AddOperationViewController.theme(_:))
-        self.isModalInPresentation = false
     }
     
     
@@ -119,10 +119,11 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
 }
 extension AddOperationViewController {
      func theme(_ theme: MyTheme) {
-        nameTextField.borderedTheme(fillColor: theme.settings.backgroundColor, shadowColor: theme.settings.shadowColor)
+        nameTextField.borderedTheme(fillColor: theme.settings.secondaryBackgroundColor, shadowColor: theme.settings.shadowColor)
         
         nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: theme.settings.subtitleTextColor ])
         view.backgroundColor = theme.settings.backgroundColor
+        selectImageButton.layer.setMiddleShadow(color: theme.settings.shadowColor)
         selectImageButton.backgroundColor = theme.settings.secondaryBackgroundColor
         selectImageButton.setImageTintColor(theme.settings.titleTextColor, imageName: selectedImageName)
     }

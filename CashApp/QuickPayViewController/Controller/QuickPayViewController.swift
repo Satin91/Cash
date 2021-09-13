@@ -122,6 +122,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var monetaryPaymentISO: String?
     let currencyModelController = CurrencyModelController()
     var scrollOffset: CGFloat = 0
+    var cancelButton: CancelButton!
+    
     var containerView: UIView = {
         let view = UIView()
         
@@ -169,11 +171,17 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
     }
-    
+    func createCancelButton() {
+        self.cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
+        cancelButton.addToScrollView(view: self.scrollView)
+         
+        
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setColors()
-        
+        createCancelButton()
         payObjectNameLabel.textAlignment = .left
         tableView = QuickTableView(frame: .zero) // Аналогично
         calendar.delegate = self
@@ -181,6 +189,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         tableView.tableView.dataSource = self
         tableView.layer.masksToBounds = false
         tableView.clipsToBounds = false
+        sumTextField.isEnabled = false
         setupContainerView()
         setupScrollView()
         checkPayObjectAndSetItsValue()
@@ -213,56 +222,24 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         containerView.addSubview(dateLabel)
         createConstraints()
     }
-    func createConstraints() {
-        convertedSumLabel.translatesAutoresizingMaskIntoConstraints = false
-        payObjectNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        sumTextField.translatesAutoresizingMaskIntoConstraints = false
-        accountLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        numpadView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            convertedSumLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -26),
-            convertedSumLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            convertedSumLabel.bottomAnchor.constraint(equalTo: sumTextField.topAnchor, constant: -8),
-           
-            sumTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -26),
-            sumTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            sumTextField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -26),
-            
-            payObjectNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            payObjectNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 22),
-            
-            accountLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            accountLabel.topAnchor.constraint(equalTo: payObjectNameLabel.bottomAnchor, constant: 8),
-            
-            dateLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            dateLabel.topAnchor.constraint(equalTo: accountLabel.bottomAnchor, constant: 8),
-            
-            numpadView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
-            numpadView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
-            numpadView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
-            numpadView.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 0)
-        ])
-    }
+   
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        //cancelButton.frame.origin.x = self.view.bounds.width + 26
+        cancelButton.frame.origin.x += self.view.frame.width / 2
         let edge: CGFloat = 22
         let viewWidth = self.view.bounds.width
         let scrollViewHeight = scrollView.bounds.height
-        tableView.frame = CGRect(x: 0, y: 22, width: self.view.bounds.width, height: self.view.bounds.height)
+        tableView.frame = CGRect(x: 0, y: 12, width: self.view.bounds.width, height: self.view.bounds.height)
         
         
         scrollOffset = self.view.bounds.width
         scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
         
         containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
-//        sumTextField.frame = CGRect(x: viewWidth, y: buttonHeight, width: viewWidth, height: scrollViewHeight - buttonHeight )
-//        convertedSumLabel.frame = sumTextField.bounds
-//        convertedSumLabel.frame.origin.x = convertedSumLabel.frame.origin.x + viewWidth / 2 - edge
         calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge)
-        //payObjectNameLabel.frame = CGRect(x: viewWidth + edge, y: 0, width: self.view.bounds.width - (edge * 2), height: buttonHeight)
         isOffsetUsed = true
         scrollView.contentSize.height = 1 // Disable vertical scroll
     }
@@ -728,13 +705,14 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
         let object = privateAccounts()[indexPath.row]
         guard object != privateAccounts().last else {
             selectedAccountObject = nil
-            scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
+            ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
             return}
         
         
         selectedAccountObject = object
         accountLabel.text = object.name
-        scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
+        ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
+       
         
     }
     
@@ -822,7 +800,7 @@ extension QuickPayViewController:  tappedButtons{
 extension QuickPayViewController: FSCalendarDelegate {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        scrollView.setContentOffset(CGPoint(x: self.view.bounds.width, y: 0), animated: true)
+        ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
         self.date = date
         dateLabel.text = dateToString(date: date)
     }

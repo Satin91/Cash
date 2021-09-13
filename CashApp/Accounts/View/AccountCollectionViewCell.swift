@@ -14,7 +14,7 @@ protocol collectionCellProtocol {
 
 
 class AccountCollectionViewCell: UICollectionViewCell {
-    
+    let colors = AppColors()
     let identifier = "AccountCell"
     var delegate: collectionCellProtocol!
     
@@ -26,7 +26,12 @@ class AccountCollectionViewCell: UICollectionViewCell {
     
     
     
-    
+    func setColors(){
+        editButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
+        editButtonOutlet.setImageTintColor(colors.backgroundcolor, imageName: "Edit")
+        self.layer.setMiddleShadow(color: colors.shadowColor)
+        balanceTextField.textColor = .white
+    }
     @IBAction func editButtonAction(_ sender: UIButton) {
         toggle.toggle()
         delegate.tapped(tapped: true)
@@ -44,15 +49,13 @@ class AccountCollectionViewCell: UICollectionViewCell {
     }
     func buttonSettings(toggle: Bool) {
         editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
-        editButtonOutlet.setImageTintColor(ThemeManager2.currentTheme().backgroundColor, imageName: "Edit")
         editButtonOutlet.layer.cornerRadius = 12
-        editButtonOutlet.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         switch toggle {
         case true:
-            editButtonOutlet.backgroundColor = ThemeManager2.currentTheme().contrastColor1
+            editButtonOutlet.backgroundColor = colors.contrastColor1
             
         case false:
-            editButtonOutlet.backgroundColor = ThemeManager2.currentTheme().titleTextColor
+            editButtonOutlet.backgroundColor = colors.titleTextColor
             
         }
         
@@ -67,12 +70,15 @@ class AccountCollectionViewCell: UICollectionViewCell {
         balanceTextField.font = UIFont(name:"Ubuntu-Bold",size: 34)
         buttonSettings(toggle: toggle)
         
-        self.layer.setMiddleShadow(color: ThemeManager2.currentTheme().shadowColor)
+        
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        colors.loadColors()
+        self.setColors()
         visualSettings()
+        
         cellBackground.insertSubview(accountsImageView, at: 0)
         initConstraints(view: accountsImageView, to: cellBackground)
         nameTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)

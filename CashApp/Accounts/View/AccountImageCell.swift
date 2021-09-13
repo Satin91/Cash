@@ -42,7 +42,7 @@ class AccountImageCell: UICollectionViewCell {
     func setupCell() {
         accImage = UIImageView(frame: self.bounds)
         self.contentView.addSubview(accImage)
-        self.accImage.layer.cornerRadius = 18
+        self.accImage.layer.cornerRadius = self.bounds.height / 6
         self.accImage.layer.cornerCurve = .continuous
         self.accImage.clipsToBounds = true
         self.clipsToBounds = false

@@ -11,22 +11,15 @@ import UIKit
 protocol scrollToNewAccount {
     func scrollToNewAccount(account: MonetaryAccount)
 }
-class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class AddAccountViewController: UIViewController  {
     
+    let colors = AppColors()
     let accountsImages = ["account1","account2","account3","account4"]
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AccountImageCell", for: indexPath) as! AccountImageCell
-        cell.accImage.image = UIImage(named: accountsImages[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        newAccountObject.imageForAccount = accountsImages[indexPath.row]
-    }
+ 
 
     var indexForImage: IndexPath = [0,0]
     //Border neo bouds for textFields
@@ -52,9 +45,9 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
     @IBOutlet var accountsImageCollectionView: UIView!
     var newAccountObject = MonetaryAccount()
     //TextLabels
-    @IBOutlet var headingTextLabel : UILabel!
+    @IBOutlet var headingTextLabel : TitleLabel!
     //TextFields
-    @IBOutlet var nameTextField : UITextField!
+    @IBOutlet var nameTextField : ThemableTextField!
     @IBOutlet var balanceTextField : NumberTextField!
     //Outlets
     @IBOutlet var saveButtonOutlet: ContrastButton!
@@ -82,6 +75,8 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        colors.loadColors()
+        self.setColors()
         setupCollectionView()
         //setupNavigationController(Navigation: navigationController!)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -106,8 +101,8 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
         goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender)
     }
     func setTextForViewElements() {
-        nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field_placeholder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
-        balanceTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("balance_text_field_placeholder", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: whiteThemeTranslucentText ])
+        nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field_placeholder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: colors.subtitleTextColor ])
+        balanceTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("balance_text_field_placeholder", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: colors.subtitleTextColor ])
         balanceTextField.createRightButton(text: mainCurrency?.ISO ?? "")
         balanceTextField.button.addTarget(self, action: #selector(changeISO(_:) ), for: .touchUpInside)
         //Labels
@@ -119,11 +114,9 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
     
 
     func visualSettings(){
-        self.view.backgroundColor = ThemeManager2.currentTheme().backgroundColor
-        headingTextLabel.textColor = ThemeManager2.currentTheme().titleTextColor
+       
         headingTextLabel.font = .systemFont(ofSize: 46, weight: .medium)
-        nameTextField.changeVisualDesigh()
-        balanceTextField.changeVisualDesigh()
+        
         saveButtonOutlet.mainButtonTheme("save_button")
     }
 
@@ -131,7 +124,17 @@ class AddAccountViewController: UIViewController, UICollectionViewDelegate, UICo
     
     
 }
-
+extension AddAccountViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AccountImageCell", for: indexPath) as! AccountImageCell
+        cell.accImage.image = UIImage(named: accountsImages[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        newAccountObject.imageForAccount = accountsImages[indexPath.row]
+    }
+}
 extension AddAccountViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none

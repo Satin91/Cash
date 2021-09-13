@@ -20,7 +20,7 @@ extension SchedulerViewController {
 }
 class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView {
    
-    
+    var openCalendar: OpenNextController!
     
     func reloadData() {
         tableView.reloadData()
@@ -52,7 +52,13 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         present(navVC, animated: true, completion: nil)
     }
     
-    
+    @objc func createTransition(_ sender: Any) {
+        print("ANY")
+        //let vc = CalendarSchedulerViewController()
+       // present(vc, animated: true, completion: nil)
+        openCalendar = OpenNextController(storyBoardID: "CalendarStoryboard", fromViewController: self, toViewControllerID: "CalendarScheduler", toViewController: CalendarSchedulerViewController())
+        openCalendar.makeTheTransition()
+    }
     
     @IBOutlet var tableView: UITableView!
     
@@ -60,7 +66,6 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     //Тут в принципе вызывается календарь
     @IBAction func addButton(_ sender: Any) {
         goToPickTypeVC(delegateController: self, buttonsNames: ["One time","Multiple","Regular","Goal"], goingTo: "addScheduleVC")
-        
     }
     
     //Я ее напихал во все обновляющие функции т.к. календарь все время обновляется
@@ -84,6 +89,10 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         return repeating
     }
     
+    func setupRightButton() {
+        self.navigationItem.rightBarButtonItem?.target = self
+        self.navigationItem.rightBarButtonItem?.action = #selector(SchedulerViewController.createTransition(_:))
+    }
     func visualSettings() {
         
         self.navigationItem.title = NSLocalizedString("scheduler_navigation_title", comment: "")
@@ -93,7 +102,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: SchedulerViewController.theme(_:))
-        
+        setupRightButton()
         addBlur()
         installTableView()
         setupNavigationController(Navigation: self.navigationController!)
@@ -265,7 +274,7 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         //self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: "QuickPay", bundle: nil)
         let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
         QuiclPayVC.modalPresentationStyle = .formSheet
         
@@ -284,21 +293,21 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         switch object.stringScheduleType {
         case .goal:
             QuiclPayVC.payObject = object
-            self.addChildViewController(PayObject: object)
+            self.goToQuickPayVC(PayObject: object)
          //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         case .oneTime:
             
-            self.addChildViewController(PayObject: object)
+            self.goToQuickPayVC(PayObject: object)
          //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         case .multiply:
             guard pptObject != nil else {return}
             
-            self.addChildViewController(PayObject: pptObject)
+            self.goToQuickPayVC(PayObject: pptObject)
          //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         case .regular:
             guard pptObject != nil else {return}
             QuiclPayVC.payObject = pptObject
-            self.addChildViewController(PayObject: pptObject)
+            self.goToQuickPayVC(PayObject: pptObject)
             
            // goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         }

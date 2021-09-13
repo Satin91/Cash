@@ -715,19 +715,25 @@ func goToPickTypeVC(delegateController: UIViewController,buttonsNames: [String],
 }
 ///MARK: Go to some VC
 func goToQuickPayVC(delegateController: UIViewController, classViewController: inout UIViewController?, PayObject: Any) {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let storyboard = UIStoryboard(name: "QuickPay", bundle: nil)
     let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
-    
+    print("QUICK PAY VC")
     QuiclPayVC.payObject = PayObject
- 
-    if classViewController == nil {
-        classViewController = QuiclPayVC
-        classViewController!.view.frame = CGRect(x: delegateController.view.frame.width / 2, y: delegateController.view.frame.height / 2, width: delegateController.view.bounds.width * 0.8, height: delegateController.view.bounds.height * 0.55)
-        classViewController!.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
-        //delegateController.addChild(classViewController!) // Не знаю зачем это, надо удалить без него тоже работает
-        delegateController.view.animateViewWithBlur(animatedView: classViewController!.view, parentView: delegateController.view)
-        classViewController!.didMove(toParent: delegateController)
-    }
+    QuiclPayVC.modalPresentationStyle = .pageSheet
+    let vc = UINavigationController(rootViewController: QuiclPayVC)
+    classViewController?.present(vc, animated: true, completion: nil)
+    
+    
+    
+//
+//    if classViewController == nil {
+//        classViewController = QuiclPayVC
+//        classViewController!.view.frame = CGRect(x: delegateController.view.frame.width / 2, y: delegateController.view.frame.height / 2, width: delegateController.view.bounds.width * 0.8, height: delegateController.view.bounds.height * 0.55)
+//        classViewController!.view.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+//        //delegateController.addChild(classViewController!) // Не знаю зачем это, надо удалить без него тоже работает
+//        delegateController.view.animateViewWithBlur(animatedView: classViewController!.view, parentView: delegateController.view)
+//        classViewController!.didMove(toParent: delegateController)
+//    }
 }
 
 func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
@@ -901,11 +907,12 @@ extension UITextField {
 }
 extension UIViewController {
     
-    func addChildViewController(PayObject: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    func goToQuickPayVC(PayObject: Any) {
+        let storyboard = UIStoryboard(name: "QuickPay", bundle: nil)
         let QuicklPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
         QuicklPayVC.payObject = PayObject
-        QuicklPayVC.modalPresentationStyle = .pageSheet
-        present(QuicklPayVC, animated: true, completion: nil)
+        let vc = UINavigationController(rootViewController: QuicklPayVC)
+        vc.modalPresentationStyle = .pageSheet
+        present(vc, animated: true, completion: nil)
     }
 }

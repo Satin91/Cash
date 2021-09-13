@@ -10,11 +10,12 @@ import UIKit
 
 class AddCurrencyTableViewController: UITableViewController{
     
-    
+    let colors = AppColors()
     var actionWithCurrency: ActionsWithCurrency?
     var classCurrencyObject: CurrencyObject?
     private var filteredCurrencies: [CurrencyObject]?
-    private var searchController = UISearchController()
+    var searchController = UISearchController()
+    var searchTextField: ThemableTextField!
     
     private var searchIsEmpty: Bool {
         guard let text = searchController.searchBar.text else {return false}
@@ -28,21 +29,21 @@ class AddCurrencyTableViewController: UITableViewController{
     
     
     func createSearchBar(){
+        searchTextField = ThemableTextField(frame: CGRect(x: 0, y: 0, width: 140, height: 50))
         navigationItem.searchController = searchController
         searchController.searchBar.searchTextField.font = .systemFont(ofSize: 17)
         searchController.searchBar.searchTextField.textAlignment = .center
         searchController.searchResultsUpdater = self
-        searchController.searchBar.tintColor = ThemeManager2.currentTheme().borderColor
-        searchController.searchBar.frame(forAlignmentRect: CGRect(x: 0, y: 0, width: 50, height: 50))
+        searchController.searchBar.frame.inset(by: UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25))
+        //searchController.searchBar.frame(forAlignmentRect: CGRect(x: 0, y: 0, width: 50, height: 50))
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
-        searchController.searchBar.frame.inset(by: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) )
-        // searchController.searchBar.searchBarStyle = .prominent
-        //searchController.searchBar.backgroundColor = .clear
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        colors.loadColors()
+        self.setColors()
         title = ""
         filteredCurrencies = currencyNonPrioritiesObjects
         
@@ -55,13 +56,13 @@ class AddCurrencyTableViewController: UITableViewController{
         let nib = UINib(nibName: "AddCurrencyTableViewCell", bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: "addCurrencyCell")
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = ThemeManager2.currentTheme().backgroundColor
         tableView.separatorStyle = .none
+        tableView.tableHeaderView?.frame = tableView.tableHeaderView!.bounds.inset(by:  UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25))
     }
     // MARK: - Search bar delegate
     
     
-    
+   
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         //Напоминалка: если оставить значение по умолчанию(0), То ничего(внезапно) не отобразится
@@ -87,7 +88,7 @@ class AddCurrencyTableViewController: UITableViewController{
         }else{
             object = currencyNonPrioritiesObjects[indexPath.row]
         }
-        
+        cell.selectionStyle = .none
         cell.set(currencyObject: object)
         return cell
     }
