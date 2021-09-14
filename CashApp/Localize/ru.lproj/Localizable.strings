@@ -81,8 +81,8 @@
 
 //MARK: - Line Chart Cell
 //TextView messages
-"no_transactions" = "Вы не совершили ниодной транзакции в этом месяце";
-"need_at_least_one" = "Для отображения графика требуется еще одна транзакция";
+"no_transactions" = "Нет ни одной записи в этом месяце по этому счету";
+"need_at_least_one" = "Для отображения графика требуется еще одна запись";
 
 //MARK: - AddAccount View Controller
 "heading_label_text" = "Добавить новый счет";

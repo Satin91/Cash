@@ -1,80 +1,13 @@
 //
-//  OperationViewController.swift
+//  CategoriesCollectionView.swift
 //  CashApp
 //
-//  Created by Артур on 9/10/20.
-//  Copyright © 2020 Артур. All rights reserved.
+//  Created by Артур on 14.09.21.
+//  Copyright © 2021 Артур. All rights reserved.
 //
 
 import UIKit
-import RealmSwift
-import Themer
 
-
-class CategoriesViewController: UIViewController, UITextFieldDelegate {
-    
-
-    private var popViewController: UIViewController! // Child View Controller
-    private var changeValue = true
-    private var pressedIndexPath: IndexPath?
-    ///             Outlets:
-    @IBOutlet var segmentedControl: HBSegmentedControl!
-    @IBOutlet var collectionView: UICollectionView!
-    var openBarChartController: OpenNextController!
-    ///            Actions:
-    @IBAction func actionSegmentedControl(_ sender: HBSegmentedControl) {
-        sender.changeSegmentWithAnimation(tableView: nil, collectionView: collectionView, ChangeValue: &changeValue)
-    }
-    ///             POPUP VIEW
-    @IBOutlet var blurView: UIVisualEffectView! // не используется влом удалять пока
-    ///             ACTIONS
- 
-    @objc var openBarChartButton: CancelButton!
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        collectionView.reloadData()
-        
-        self.tabBarController?.tabBar.showTabBar()
-        
-        
-        //При переходе через таб бар обновления не происходят
-    }
-    @objc func openBarChart(_ sender: UIButton) {
-        openBarChartController.makeTheTransition()
-    }
-    func createRightBarButton() {
-        openBarChartButton = CancelButton(frame: CGRect(x: 0, y: 0, width: 50, height: 25), title: .create, owner: self)
-        openBarChartButton.addTarget(self, action: #selector(CategoriesViewController.openBarChart(_:)), for: .touchUpInside)
-        let rightBarButton = UIBarButtonItem(customView: openBarChartButton)
-        
-        navigationItem.rightBarButtonItem = rightBarButton
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        Themer.shared.register(target: self, action: CategoriesViewController.theme(_:))
-        createRightBarButton()
-        openBarChartController = OpenNextController(storyBoardID: "BarChart", fromViewController: self, toViewControllerID: "BarChartID", toViewController: BarChartViewController())
-        
-        segmentedControl.changeValuesForCashApp(segmentOne:NSLocalizedString("segmented_control_0", comment: ""), segmentTwo: NSLocalizedString("segmented_control_1", comment: ""))
-        setupNavigationController(Navigation: navigationController!)
-        self.navigationItem.title = NSLocalizedString("categories_navigation_title", comment: "") // Обязательно писать именно так, (вместо title) иначе таббар присвоит это значение
-        blurView.bounds = self.view.frame
-        setupCollectionView()
-        
-        
-    }
-
-    //MARK: Add/Delete Child View Controller
-  
-    
-    func closeChildViewController() {
-        self.view.reservedAnimateView(animatedView: popViewController.view, viewController: popViewController)
-        popViewController = nil // Это нужно для того, чтобы снова его открыть. Потому что в открытии стоит условие
-        self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
-        
-    }
-    
-}
 
 //MARK: Collectiom view delegate dataSource
 extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -202,72 +135,4 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         
     }
     
-}
-
-
-extension CategoriesViewController: ReloadParentTableView {
-    func reloadData() {
-        collectionView.reloadData()
-    }
-}
-
-extension CategoriesViewController: ClosePopUpTableViewProtocol {
-    
-    enum isEditing{
-        case edit
-        case create
-    }
-    
-    func goToAddVC(object: MonetaryCategory?, isEditing: Bool){
-        let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addCategoryVC") as! AddOperationViewController
-        
-        let vc = UINavigationController(rootViewController: addVC)
-        vc.modalPresentationStyle = .pageSheet
-        
-        addVC.tableReloadDelegate = self
-        addVC.isEditingCategory = isEditing
-        if object != nil {
-            addVC.newCategoryObject = object!
-        }else{
-        addVC.newCategoryObject.stringEntityType = changeValue ? .expence : .income
-        }
-       
-        present(vc, animated: true, completion: nil)
-    }
-    
-    func closeTableView(object: Any) {
-        guard let object = object as? [String: IndexPath] else {return}
-        let index = object.values.first
-        let categoryObject = changeValue ? expenceObjects[index!.row] : incomeObjects[index!.row]
-        switch object.keys.first {
-        case "Edit":
-            //Нужно делать запуск контроллера в фоновом потоке так как он открывается не дождавшись выгрузки поп менюшки
-            DispatchQueue.main.async {
-                self.goToAddVC(object: categoryObject, isEditing: true)
-            }
-        case "Delete":
-            try! realm.write({
-                realm.delete(categoryObject)
-            })
-            collectionView.deleteItems(at: [index!])
-            collectionView.reloadData()
-        default:
-            break
-        }
-        
-        
-    }
-    
-}
-
-extension CategoriesViewController: UIPopoverPresentationControllerDelegate{
-    
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
-    }
-}
-extension CategoriesViewController {
-    private func theme(_ theme: MyTheme ) {
-        view.backgroundColor = theme.settings.backgroundColor
-    }
 }

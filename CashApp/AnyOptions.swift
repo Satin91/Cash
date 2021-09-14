@@ -411,11 +411,17 @@ class GradientView: UIView {
 
 //MARK: NavigationBarSettings
 
-func setupNavigationController(Navigation Controller: UINavigationController) {
-    Controller.navigationBar.shadowImage = UIImage()
-    Controller.navigationBar.setBackgroundImage(UIImage(), for: .default)
-    Controller.navigationBar.tintColor = whiteThemeRed
-    Controller.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: "Helvetica Neue", size: 26)!]
+func setupNavigationController(_ controller: UINavigationController?) {
+    guard let controller = controller else {
+        print("Navigation is nill(setupNavigationController)")
+        return}
+    let colors = AppColors()
+    colors.loadColors()
+    controller.navigationBar.shadowImage = UIImage()
+    controller.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    controller.navigationBar.tintColor = colors.contrastColor1
+    
+    //controller.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: "SF-Pro-Text-Medium", size: 46)!]
 }
 ///MARK: dismissVC
 protocol dismissVC {
@@ -735,21 +741,28 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
 //        classViewController!.didMove(toParent: delegateController)
 //    }
 }
-
+enum PopUpType {
+    case menu
+    case tableView
+}
 func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
     let popTableView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PopUpTableView") as! PopTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
     popTableView.closeSelectDateDelegate = delegateController as? ClosePopUpTableViewProtocol
-    print(payObject)
     popTableView.payObject = payObject
     let navVC = UINavigationController(rootViewController: popTableView)
     navVC.modalPresentationStyle = .popover
     let popVC = navVC.popoverPresentationController
+    
     popVC?.delegate = delegateController as? UIPopoverPresentationControllerDelegate
     //let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
     popVC?.sourceView = sourseView
     popVC?.sourceRect = sourseView.bounds
+    popVC?.permittedArrowDirections = .down
+    
+    
     navVC.view.alpha = 0
+    
     
     let navBarHeight = 44
     let height = payObject is [IndexPath] ? 2 *  Int(popTableView.cellHeight): payObject.count * Int(popTableView.cellHeight)

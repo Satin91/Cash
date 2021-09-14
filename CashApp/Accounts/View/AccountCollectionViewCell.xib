@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -54,27 +53,18 @@
                                     </textField>
                                 </subviews>
                             </stackView>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q7r-zb-j5X">
-                                <rect key="frame" x="16" y="67.5" width="51" height="31"/>
-                                <color key="onTintColor" systemColor="linkColor"/>
-                                <connections>
-                                    <action selector="isMineAccountAction:" destination="gTV-IL-0wX" eventType="valueChanged" id="IIa-yL-arw"/>
-                                </connections>
-                            </switch>
                         </subviews>
                         <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                         <accessibility key="accessibilityConfiguration">
                             <bool key="isElement" value="YES"/>
                         </accessibility>
                         <constraints>
-                            <constraint firstItem="q7r-zb-j5X" firstAttribute="centerY" secondItem="K8c-Yy-Km2" secondAttribute="centerY" id="53j-WA-Up1"/>
                             <constraint firstAttribute="trailing" secondItem="lxZ-rG-Nv3" secondAttribute="trailing" constant="16" id="Rmc-pW-tA2"/>
                             <constraint firstItem="9zw-pc-M7K" firstAttribute="top" secondItem="K8c-Yy-Km2" secondAttribute="top" constant="16" id="aTp-Gp-bNr"/>
                             <constraint firstItem="CV6-e1-xhq" firstAttribute="top" secondItem="K8c-Yy-Km2" secondAttribute="top" constant="16" id="dyS-Ks-yog"/>
                             <constraint firstItem="9zw-pc-M7K" firstAttribute="leading" secondItem="CV6-e1-xhq" secondAttribute="trailing" constant="8" symbolic="YES" id="eId-xo-zqj"/>
                             <constraint firstAttribute="trailing" secondItem="9zw-pc-M7K" secondAttribute="trailing" constant="16" id="eVB-ew-mXq"/>
                             <constraint firstAttribute="bottom" secondItem="lxZ-rG-Nv3" secondAttribute="bottom" constant="23" id="f3M-H0-cw2"/>
-                            <constraint firstItem="q7r-zb-j5X" firstAttribute="leading" secondItem="K8c-Yy-Km2" secondAttribute="leading" constant="16" id="gZA-NF-bTT"/>
                             <constraint firstItem="CV6-e1-xhq" firstAttribute="leading" secondItem="K8c-Yy-Km2" secondAttribute="leading" constant="16" id="mc3-kO-17h"/>
                             <constraint firstItem="lxZ-rG-Nv3" firstAttribute="leading" secondItem="K8c-Yy-Km2" secondAttribute="leading" constant="16" id="yaP-Z4-1ee"/>
                         </constraints>
@@ -93,16 +83,12 @@
                 <outlet property="balanceTextField" destination="1CE-we-QZq" id="Psx-22-4Ic"/>
                 <outlet property="cellBackground" destination="K8c-Yy-Km2" id="yp6-az-EkP"/>
                 <outlet property="editButtonOutlet" destination="9zw-pc-M7K" id="wnx-TI-1Uj"/>
-                <outlet property="isMainAccountOutlet" destination="q7r-zb-j5X" id="Ak0-5n-NsD"/>
                 <outlet property="nameTextField" destination="CV6-e1-xhq" id="WEL-4u-0aK"/>
             </connections>
             <point key="canvasLocation" x="216.66666666666669" y="164.73214285714286"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

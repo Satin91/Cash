@@ -34,12 +34,12 @@ class CancelButton: UIButton {
         
        // addToView()
     }
-    
+    let y: CGFloat = 26
      func addToParentView(view: UIView){
         let width: CGFloat = 80
         let height: CGFloat = 34
         let x = ownerViewController.view.bounds.width - 26 - width
-        let y :CGFloat = 26
+        let y :CGFloat = self.y
         self.frame = CGRect(x: x, y: y, width: width, height: height)
          setup()
         view.insertSubview(self, at: 10)

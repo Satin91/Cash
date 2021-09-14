@@ -7,10 +7,6 @@
 //
 
 import UIKit
-protocol collectionCellProtocol {
-    func tapped(tapped: Bool)
-    func cellTextFieldChanged(_ levelTableViewCell: AccountCollectionViewCell, didEndEditingWithText: String?, textFieldName: String!)
-}
 
 
 class AccountCollectionViewCell: UICollectionViewCell {
@@ -18,11 +14,11 @@ class AccountCollectionViewCell: UICollectionViewCell {
     let identifier = "AccountCell"
     var delegate: collectionCellProtocol!
     
-    @IBOutlet var isMainAccountOutlet: UISwitch!
     
-    @IBAction func isMineAccountAction(_ sender: UISwitch) {
-        changeMineAccountProperties(sender: sender.isOn)
-    }
+    
+    
+    ///    changeMineAccountProperties(sender: sender.isOn)
+    
     
     
     
@@ -149,7 +145,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     }
     
     func setAccount(account: MonetaryAccount) {
-        isMainAccountOutlet.isOn = account.isMainAccount
+        
         nameTextField.text = account.name
         balanceTextField.text =  String(account.balance.currencyFormatter(ISO: account.currencyISO))
         accountsImageView.image = UIImage(named: account.imageForAccount)

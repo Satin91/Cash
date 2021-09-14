@@ -81,6 +81,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         miniAlertView = MiniAlertView.loadFromNib()
         scrollView.isScrollEnabled = false
         miniAlertView.controller = self
+       
         self.isModalInPresentation = true
         visualSettings()
         iconsCollectionView.sendImageDelegate = self

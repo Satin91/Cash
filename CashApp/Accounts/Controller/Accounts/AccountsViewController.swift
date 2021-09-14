@@ -32,11 +32,12 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     }
     
     var imageCollectionView = AccountImagesCollectionView()
-   
+    var menu: InstallMenuTableView!
     
     var stackViewForEditingButtons = UIStackView()
     @IBAction func addButton(_ sender: Any) {
-        gotoNextVC()
+       // gotoNextVC()
+        openAddVC()
     }
     let alertView = AlertViewController()
     @IBOutlet var containerView: UIView!
@@ -54,7 +55,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         
     }
 
-    func gotoNextVC() { // Delegate только так работает
+    func openAddVC() { // Delegate только так работает
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addAccountVC") as! AddAccountViewController
         let navVC = UINavigationController(rootViewController: addVC)
         navVC.modalPresentationStyle = .automatic
@@ -62,6 +63,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         addVC.scrollToNewAccountDelegate = self
         
     }
+    
     //Отправляет уведомления для обновления графика
     func sendNotification(objectAt: IndexPath?) {
         guard let indexPath = objectAt else {return}
@@ -88,11 +90,16 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         super.viewWillDisappear(true)
         self.tabBarController?.tabBar.showTabBar()
     }
+    
+    @objc func openAddController(_ sender: UIButton){
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         colors.loadColors()
         self.setColors()
         accountsLayout()
+        menu = InstallMenuTableView(owner: self)
         
         backButtonOutlet.title = NSLocalizedString("back_button", comment: "")
         setupAccountCollectionView()
@@ -100,7 +107,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         accountsCollectionView.register(nib, forCellWithReuseIdentifier: AccountCollectionViewCell().identifier)
         blurView.frame = self.view.bounds
         
-        setupNavigationController(Navigation: navigationController!)
+        
         self.view.insertSubview(self.blurView, at: 9)
         self.view.bringSubviewToFront(accountsCollectionView)
         blurView.layer.opacity = 0
@@ -290,86 +297,7 @@ extension AccountsViewController: UIPopoverPresentationControllerDelegate {
     }
 }
 
-//MARK: Collection protocol
-extension AccountsViewController: collectionCellProtocol {
-    
-    func cellTextFieldChanged(_ levelTableViewCell: AccountCollectionViewCell, didEndEditingWithText: String?, textFieldName: String!) {
-        switch textFieldName {
-        case "HeaderIsEditing":
-            print("HeaderIsEditing")
-            try! realm.write {
-                visibleObject!.name = didEndEditingWithText!
-            }
-        case "BalanceIsEditing":
-            print("BalanceIsEditing")
-            try! realm.write {
-                guard let sum = Double(didEndEditingWithText!) else {editableObject?.balance = 0; return} // Убирает nil если текст филд не дает никакого числа
-                visibleObject!.balance = Double(sum)
-                }
-        default:
-            break
-        }
-    }
-    func showImageCollectionView(togle: Bool){
-        
-        if togle {
-        UIView.animate(withDuration: 0.4) {
-            self.imageCollectionView.alpha = 1
-        }
-        }else{
-            UIView.animate(withDuration: 0.4) {
-                self.imageCollectionView.alpha = 0
-            }
-        }
-    }
- 
-    func tapped(tapped: Bool) {
-        toggle.toggle()
-        switch toggle {
-        case false: // Не в режиме редактирования
-            // Инициализировали редактирование
-            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil, userInfo: ["CASE":false])
-            editableObject = nil
-            selectedIndexPath = nil
-            accountsCollectionView.isScrollEnabled = true
-            accountsCollectionView.reloadData()
-            
-            // Вытащил объект по индексу
-           // selectedObject = EnumeratedAccounts(array: accountsGroup)[selectedIndexPath.row]
-            // Сменил констрейнт и переместился к текущему изображению в редакторе
-            
-           // changeConstraint()
-            showImageCollectionView(togle: false)
-            createEditingButtons(isActive: false)
-        //    toggle.toggle()
-            //accountsCollectionView.isScrollEnabled = true
-         //   accountsCollectionView.reloadData()
-        case true: // В режиме редактирования
-            
-           // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil, userInfo: ["CASE":true])
-           // selectedIndexPath = IndexPath(item: 0, section: 0)  //visibleIndexPath
-            
-            editableObject = accountsObjects[visibleIndexPath.row]
-            
-            showImageCollectionView(togle: true)
-            imageCollectionView.account = editableObject
-            accountsCollectionView.reloadData()
-            //editableObject = accountsObjects[selectedIndexPath.row]
-            //imageCollectionView.account = editableObject
-            accountsCollectionView.isScrollEnabled = false
-            createEditingButtons(isActive: true)
-            
-            
-         //   toggle.toggle()
-            //changeConstraint()
-            // Вернул индекс в доВыбранное состояние птмчто возвращает текущий видимый и при новом нажатии на редактор возвращает нил
-            //visibleIndexPath = selectedIndexPath
-            
-            
-        }
-    }
-    
-}
+
 
 extension AccountsViewController: ActionsWithAccount {
     func actionsWithAccount() {

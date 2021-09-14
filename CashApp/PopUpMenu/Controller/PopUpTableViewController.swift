@@ -13,16 +13,25 @@ protocol ClosePopUpTableViewProtocol {
 
 
 class PopTableViewController: UITableViewController{
-
+let colors = AppColors()
     //Протокол который отправляет назад выбранные данные
     var closeSelectDateDelegate: ClosePopUpTableViewProtocol!
     var payObject: [Any]!
     let cellHeight: CGFloat = 60
+    func showPopupMenu() {
+        self.view.backgroundColor = .black
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        colors.loadColors()
+        self.view.backgroundColor = .clear
         navigationItem.title = ""
         navigationController?.setNavigationBarHidden(true, animated: false)
         tableViewSettings()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
     }
     func tableViewSettings() {
         tableView.delegate = self
@@ -31,8 +40,8 @@ class PopTableViewController: UITableViewController{
         tableView.register(xibCell, forCellReuseIdentifier: "SelectDateCell")
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
-        tableView.layer.setMiddleShadow(color: ThemeManager2.currentTheme().shadowColor)
+        tableView.backgroundColor = colors.secondaryBackgroundColor
+        tableView.layer.setMiddleShadow(color: colors.shadowColor)
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if payObject.first is IndexPath {

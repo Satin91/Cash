@@ -102,10 +102,11 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: SchedulerViewController.theme(_:))
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         setupRightButton()
         addBlur()
         installTableView()
-        setupNavigationController(Navigation: self.navigationController!)
+        
         visualSettings()
         
 

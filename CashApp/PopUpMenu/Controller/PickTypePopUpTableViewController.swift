@@ -15,6 +15,7 @@ class PickTypePopUpTableViewController: UITableViewController{
     var delegate: dismissVC!
     var cellNames = [String]()
     var goingTo: String = ""
+    let colors = AppColors()
 
  
     deinit {
@@ -46,17 +47,18 @@ class PickTypePopUpTableViewController: UITableViewController{
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     override func viewDidLoad() {
         super.viewDidLoad()
+        colors.loadColors()
+        self.view.backgroundColor = colors.secondaryBackgroundColor
         tableView.delegate = self
         tableView.dataSource = self
-        guard let navigationController = self.navigationController else {return}
-        setupNavigationController(Navigation: navigationController)
+        //setupNavigationController(navigationController!)
         tableView.tableFooterView = UIView()
         tableView.isScrollEnabled = false
         isModalInPresentation = false
         blurView.frame = self.view.bounds
         //self.view.addSubview(blurView)
         //self.view.backgroundColor = .white
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = colors.secondaryBackgroundColor
         //blurView.backgroundColor = .clear
         tableView.separatorStyle = .none
         

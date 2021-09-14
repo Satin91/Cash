@@ -47,7 +47,7 @@ class colors {
     var titleTextColor = "282D2F"
     var subtitleTextColor = "949798"
     var contrastColor1 = "507C59"
-    var contrastColor2 = "507C59"
+    var contrastColor2 = "A80019"
     var redColor = "81323D"
     var greenColor = "4E6C54"
     var yellowColor = "E8C511"
@@ -56,7 +56,7 @@ class colors {
     var buttonShadowColor = ""
     var separatorColor = "F3F3F6"
     var buttonBackgroundColorWhite = "353B40"
-    var borderColor = "D0D5DE"
+    var borderColor = "D0D9DE"
     //Dark colors
     var darkBackgroundColor = "1A1D1F"
     var darkSecondaryBackgroundColor = "252729"

@@ -11,16 +11,18 @@ import RealmSwift
 import Themer
 
 
+
 class HomeViewController: UIViewController  {
     
     var miniAlert: MiniAlertView!
     let transition = SideInTransition()
     var alertView: MiniAlertView!
-    
+    let navBar = setupNavigationBar()
     var toggle: Bool = false {
         didSet {
             UIView.animate(withDuration: 0.2) {
                 Themer.shared.theme = self.toggle ? .dark : .light
+                self.navBar.setColors()
             }
         }
     }
@@ -28,7 +30,7 @@ class HomeViewController: UIViewController  {
         miniAlert.showMiniAlert(message: "Тема поменялась", alertStyle: .success)
         //ThemeManager.theme = DarkTheme()
         //ThemeManager.applyTheme(theme: .dark)
-
+      
         toggle.toggle()
        
 //        guard let sideMenu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SideMenuVC") as? SideMenuViewController else { return}
@@ -72,12 +74,25 @@ class HomeViewController: UIViewController  {
     }
     
     //MARK: SCROLL EFFECT
-
+    func createMenu()-> UIMenu {
+        let action = UIAction(title: "Светлая тема" ) { (Action) in
+            Themer.shared.theme = .light
+            
+        }
+        let actionTwo = UIAction(title: "Темная тема") { (action) in
+            Themer.shared.theme = .dark
+            
+        }
+        let menu = UIMenu(title: "Menu", image: UIImage(named: "AppIcon"), options: .displayInline , children: [action,actionTwo])
+        
+       return menu
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Themer.shared.theme = .light
+        let barButton = UIBarButtonItem(title: "", image: UIImage(named: "AppIcon"), primaryAction: nil, menu: createMenu())
+        navigationItem.leftBarButtonItem = barButton
         Themer.shared.register(target: self, action: HomeViewController.theme(_:))
+        
         notifications.sendTodayNotifications()
         installBackgroundView()
         setRightBarButton()
@@ -131,7 +146,6 @@ class HomeViewController: UIViewController  {
         let imgView = UIImageView(image: UIImage(named: mainImage))
         imgView.image = imgView.image?.withRenderingMode(.alwaysOriginal)
         self.navigationItem.rightBarButtonItem?.image = imgView.image
-        navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
     }
     
     var header: HeaderView!

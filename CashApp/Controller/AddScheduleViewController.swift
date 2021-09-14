@@ -167,7 +167,7 @@ class AddScheduleViewController: UIViewController {
         checkScheduleType()
         setupCalendarAndTableView()
         stackViewSettings()
-        setupNavigationController(Navigation: self.navigationController!)
+        //setupNavigationController(self.navigationController)
         self.isModalInPresentation = false
         
         //setupButtonsAndFields()

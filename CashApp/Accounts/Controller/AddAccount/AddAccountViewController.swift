@@ -15,6 +15,8 @@ class AddAccountViewController: UIViewController  {
     
     let colors = AppColors()
     let accountsImages = ["account1","account2","account3","account4"]
+    @IBOutlet var scrollView: UIScrollView!
+    var cancelButton: CancelButton!
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
@@ -77,9 +79,10 @@ class AddAccountViewController: UIViewController  {
         super.viewDidLoad()
         colors.loadColors()
         self.setColors()
+        cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
+        cancelButton.addToScrollView(view: self.scrollView)
         setupCollectionView()
         //setupNavigationController(Navigation: navigationController!)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         visualSettings()
         setTextForViewElements()
     }
@@ -106,7 +109,10 @@ class AddAccountViewController: UIViewController  {
         balanceTextField.createRightButton(text: mainCurrency?.ISO ?? "")
         balanceTextField.button.addTarget(self, action: #selector(changeISO(_:) ), for: .touchUpInside)
         //Labels
-        headingTextLabel.numberOfLines = 0
+        
+        headingTextLabel.numberOfLines = 2
+        headingTextLabel.textAlignment = .left
+        headingTextLabel.font = .systemFont(ofSize: 46, weight: .bold)
         headingTextLabel.text = NSLocalizedString("heading_label_text", comment: "")
     }
     

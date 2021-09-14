@@ -17,14 +17,16 @@ import Themer
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let notifications = Notifications()
+    let navBar = setupNavigationBar()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         IQKeyboardManager.shared.enable = true
 //        IQKeyboardManager.shared.enableAutoToolbar = true // Бар для доп кнопок
 //        
-        ThemeManager2.applyTheme(theme: .dark)
-        
+       // ThemeManager2.applyTheme(theme: .dark)
+        Themer.shared.theme = .light
+        navBar.setColors()
         notifications.requestAutorization()
         notifications.notificationCenter.delegate = notifications
         
