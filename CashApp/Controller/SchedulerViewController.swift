@@ -19,7 +19,7 @@ extension SchedulerViewController {
     }
 }
 class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView {
-   
+   let colors = AppColors()
     var openCalendar: OpenNextController!
     
     func reloadData() {
@@ -89,20 +89,26 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         return repeating
     }
     
-    func setupRightButton() {
-        self.navigationItem.rightBarButtonItem?.target = self
-        self.navigationItem.rightBarButtonItem?.action = #selector(SchedulerViewController.createTransition(_:))
-    }
+   
     func visualSettings() {
         
         self.navigationItem.title = NSLocalizedString("scheduler_navigation_title", comment: "")
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setupNavBar()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: SchedulerViewController.theme(_:))
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        colors.loadColors()
+        navigationController?.navigationBar.prefersLargeTitles = true
+       
+        
+ 
+        
         setupRightButton()
         addBlur()
         installTableView()
@@ -111,11 +117,8 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         
 
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-    }
-    
+  
+   
     func installTableView() {
         //let nib = UINib(nibName: "MainTableViewCell", bundle: nil)
         //tableView.register(nib, forCellReuseIdentifier: "MainIdentifier")
@@ -132,7 +135,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         self.blur.alpha = 0
         self.view.addSubview(blur)
     }
-
+   
    
 
 }
@@ -331,7 +334,7 @@ extension SchedulerViewController: ClosePopUpTableViewProtocol,SendScheduleObjec
     
     func closeTableView(object: Any) {
         guard blur.alpha != 1 else {return}
-        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
+        self.view.animateView(animatedView: blur, parentView: self.view)
        // goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
     }
     

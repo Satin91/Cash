@@ -29,7 +29,7 @@ class MiniAlertView: UIView {
     @IBOutlet var alertImage: UIImageView!
     @IBOutlet var messageLabel: UILabel!
     
-    var controller: UIViewController!
+    weak var controller: UIViewController!
     let setVisual = SetAlertViewVisual()
      override init(frame: CGRect) {
         super.init(frame: frame)

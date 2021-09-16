@@ -15,7 +15,7 @@ class AccountImageCell: UICollectionViewCell {
         
         // Initialization code
     }
-    func set(image: UIImage){
+    func set(image: UIImage) {
         accImage.image = image
     }
     func setTheBorder(view: UIImageView) {
@@ -36,8 +36,6 @@ class AccountImageCell: UICollectionViewCell {
           }
         }
     }
-    
-
     
     func setupCell() {
         accImage = UIImageView(frame: self.bounds)

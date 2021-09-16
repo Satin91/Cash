@@ -122,11 +122,11 @@ class AddScheduleViewController: UIViewController {
     }
  
     @IBAction func selectDateButtonAction(_ sender: Any) {
-        self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
-        self.view.animateViewWithBlur(animatedView: calendar, parentView: self.view)
+        self.view.animateView(animatedView: blurView, parentView: self.view)
+        self.view.animateView(animatedView: calendar, parentView: self.view)
         calendar.select(date, scrollToDate: true)
         guard newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular else {return}
-        self.view.animateViewWithBlur(animatedView: tableView, parentView: self.view)
+        self.view.animateView(animatedView: tableView, parentView: self.view)
         
     }
     @IBOutlet var stackView: UIStackView! //для редактирования расстояния для четчайшести
@@ -154,7 +154,7 @@ class AddScheduleViewController: UIViewController {
         }
         
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let cancel = CancelButton(frame: .zero, title: .cancel, owner: self)
@@ -183,6 +183,7 @@ class AddScheduleViewController: UIViewController {
         }
     }
     deinit {
+        
         nameTextField.isHidden = false
         sumPerTimeTextField.isHidden = false
         totalSumTextField.isHidden = false
@@ -430,7 +431,7 @@ class AddScheduleViewController: UIViewController {
                 
                 if isEditingScheduler == true {
                     
-                self.addAlert(alertView: alertView, title: "Закрыть план?", message: "Имеющаяся сумма равна либо превышает цель", alertStyle: .close)
+                    self.alertView.showAlert(title: "Закрыть план?", message: "Имеющаяся сумма равна либо превышает цель", alertStyle: .close)
                     
                     alertView.alertAction = { (success) in
                     
@@ -438,14 +439,14 @@ class AddScheduleViewController: UIViewController {
                         isOkay = true
 
                         self.saveAndCloseScheduler()
-                        self.closeAlert(alertView: self.alertView)
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                             self.reloadParentTableViewDelegate.reloadData()
                             self.dismiss(animated: true, completion: nil)
                         }
                         
                     }else{
-                        self.closeAlert(alertView: self.alertView)
+                        
                         isOkay = false
                         
                     }

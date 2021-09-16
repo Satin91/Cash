@@ -71,6 +71,8 @@ extension BarChartViewController: UITableViewDelegate, UITableViewDataSource {
         let categoryType : CategoryType = changeValue ? .income : .expence
         let object = barChartModelController.getBarChartItems(categoryType: categoryType)[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "barChartCell", for: indexPath) as! BarChartCell
+        
+        
         cell.set(object: object )
         
         return cell

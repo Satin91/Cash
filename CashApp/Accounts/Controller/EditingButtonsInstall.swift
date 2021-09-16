@@ -51,16 +51,16 @@ extension AccountsViewController {
         accountsCollectionView.deleteItems(at: [visibleIndexPath])
         
         accountsCollectionView.reloadData()
-        //selectedIndexPath = nil
-        //self.accountsCollectionView.deleteItems(at: [self.selectedIndexPath])
+        selectedIndexPath = nil
+        self.accountsCollectionView.deleteItems(at: [self.selectedIndexPath])
         
-//        accountsCollectionView.performBatchUpdates {
-//            self.accountsCollectionView.deleteItems(at: [selectedIndexPath])
-//        }completion: { comp in
-//            if comp {
-//
-//            }
-//        }
+        accountsCollectionView.performBatchUpdates {
+            self.accountsCollectionView.deleteItems(at: [selectedIndexPath])
+        }completion: { comp in
+            if comp {
+
+            }
+        }
 
             //return
            
@@ -69,7 +69,7 @@ extension AccountsViewController {
         
                        
                         
-        print(accountsObjects.count)
+        
                     
 //        self.addAlert(alertView: alertView, title: "Удалить счет?", message: "Счет будет удалет", alertStyle: .delete)
 //        alertView.alertAction = { [weak self] (success) in

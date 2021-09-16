@@ -10,17 +10,12 @@ import UIKit
 import RealmSwift
 
 
-
-
 ///View the numeric
 extension Locale {
     static let englishUS: Locale = .init(identifier: "en_US")
     static let frenchFR: Locale = .init(identifier: "fr_FR")
     static let portugueseBR: Locale = .init(identifier: "pt_BR")
     static let belarusBY: Locale = .init(identifier: "be_BY")
-    
-    
-    // ... and so on
 }
 struct Metric: Codable {
     var value: Double
@@ -36,8 +31,6 @@ extension Metric: CustomStringConvertible {
            
            return formatter
        }()
-
-    
     var currencyFormattedValue: String {
         
         return "asd"
@@ -59,9 +52,7 @@ extension Formatter {
         
         let formatter = NumberFormatter()
         formatter.decimalSeparator = "."
-        //formatter.numberStyle = .decimal
-        
-        
+
         return formatter
     }()
     static let withSeparator: NumberFormatter = {
@@ -84,9 +75,7 @@ extension Formatter {
     }()
     
 }
-//extension Numeric {
-//    var formattedWithSeparator: String { Formatter.withSeparator.string(for: self) ?? "" }
-//}
+
 extension String {
 
     var formattedWithoutSpaces: String { Formatter.withoutSpaces.string(for: self) ?? "" }
@@ -239,7 +228,7 @@ extension CALayer {
            shadowColor = color.cgColor
            shadowOffset = CGSize(width: 4, height: 4)
            shadowPath = UIBezierPath(rect: bounds).cgPath
-           //shouldRasterize = true
+           // shouldRasterize = true
            shadowRadius = 30
            shadowOpacity = 0.3
            //shouldRasterize = true
@@ -447,7 +436,7 @@ extension UIImageView{
 //MARK: Extension UIView (Animate)
 extension UIView {
     ///
-    func animateViewWithBlur (animatedView: UIView, parentView: UIView) {
+    func animateView(animatedView: UIView, parentView: UIView) {
         let background = parentView
         background.addSubview(animatedView)
        // animatedView.center = parentView.center
@@ -455,25 +444,20 @@ extension UIView {
         animatedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         animatedView.alpha = 0
         //start the animation
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut) {
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveLinear) {
             animatedView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             animatedView.alpha = 1
-        
-            
         }
     }
     
     func reservedAnimateView(animatedView: UIView, viewController: UIViewController?){
         //start the animation
+        viewController!.view.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
             animatedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             animatedView.alpha = 0}completion: { _ in
-                if viewController != nil {
-                    viewController!.willMove(toParent: nil)
-                    viewController!.removeFromParent()
-                }
-
-                animatedView.removeFromSuperview()
+                animatedView.transform = CGAffineTransform.identity
+                viewController!.view.isUserInteractionEnabled = true
             }
     }
     
@@ -723,7 +707,7 @@ func goToPickTypeVC(delegateController: UIViewController,buttonsNames: [String],
 func goToQuickPayVC(delegateController: UIViewController, classViewController: inout UIViewController?, PayObject: Any) {
     let storyboard = UIStoryboard(name: "QuickPay", bundle: nil)
     let QuiclPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
-    print("QUICK PAY VC")
+    
     QuiclPayVC.payObject = PayObject
     QuiclPayVC.modalPresentationStyle = .pageSheet
     let vc = UINavigationController(rootViewController: QuiclPayVC)
@@ -773,17 +757,8 @@ func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], s
 ///MARK: Alert controller
 
 extension UIViewController {
-    func showAlert(message: String, title: String = "") {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(OKAction)
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    
-   
-    func showMiniAlert(message: String, alertStyle: MiniAlertStyle) {
 
+    func showMiniAlert(message: String, alertStyle: MiniAlertStyle) {
         
         var miniAlert: MiniAlertView!
         for i in self.view.subviews {
@@ -808,63 +783,9 @@ extension UIViewController {
         
         }
     }
-    func closeAlert(alertView: AlertViewController) {
-        
-      //  self.view.reservedAnimateView(animatedView: alertView.view, viewController: self)
-        
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-            alertView.view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            alertView.view.alpha = 0}completion: { _ in
-                
-                alertView.dismiss(animated: false) {
-                    alertView.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                }
-            }
-    }
-    
-    func addAlert( alertView: AlertViewController, title: String, message: String, alertStyle: AlertStyle) {
-        alertView.modalPresentationStyle = .overFullScreen
-        alertView.view.alpha = 0
-        alertView.titleLabel.text = title
-        alertView.messageLabel.text = message
-        alertView.setAlertStyle(alertStyle: alertStyle)
-        self.present(alertView, animated: false) {
-            alertView.view.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: .curveEaseInOut )  {
-                alertView.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                alertView.view.alpha = 1
-            }completion: { (true) in
-                
-            }
-        }
-        
-    }
-    
-    func showAlertController(title: String, message: String, alertStyle: AlertStyle, blurView: UIView) -> AlertViewController? {
-        print(title,message)
-        let alertView = AlertViewController()
-        
-        //guard !self.children.contains(AlertViewController()) else {return nil}
-        
-        if self.children.contains(AlertViewController()) {
-            print("Есть такое")
-        }
-        self.addChild(alertView)
-        alertView.didMove(toParent: self)
-        
-      //  alertView.titleLabel.text = title
-        //alertView.messageLabel.text = message
-        alertView.alertStyle = alertStyle
-        alertView.view.frame = CGRect(x:Layout.side + (Layout.side / 2), y: 0, width: view.frame.width - (Layout.side + (Layout.side / 2)) * 2 , height: self.view.bounds.height * 0.55)
-        alertView.view.center = self.view.center
-        blurView.frame = self.view.frame
-        
-        self.view.animateViewWithBlur(animatedView: blurView, parentView: self.view)
-        self.view.animateViewWithBlur(animatedView: alertView.view, parentView: self.view)
-        
-        return alertView
-        //self.present(xib, animated: true, completion: nil)
-    }
+
+ 
+ 
     
     var topBarHeight: CGFloat {
         var top = self.navigationController?.navigationBar.frame.height ?? 0.0

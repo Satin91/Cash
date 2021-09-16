@@ -374,7 +374,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         }
         //чтобы удалить план
         if enteredSum > arraySum {
-            showAlert(message: "Завершить план?")
+            
             try! realm.write {
                 realm.delete(payArray!)
                 payArray = nil
@@ -521,7 +521,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         historyObject.scheduleID = scheduleObject.scheduleID
         
         if scheduleObject.available + Double(sumTextField.enteredSum)! >= scheduleObject.target {
-            self.showAlert(message: "Закрыть план?")
+            
             try! realm.write {
                 realm.delete(scheduleObject)
             }

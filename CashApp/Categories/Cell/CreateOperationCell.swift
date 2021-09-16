@@ -27,15 +27,16 @@ class CreateOperationCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         //initConstraints(view: dashView, to: self)
-        createConstraints()
+       
         Themer.shared.register(target: self, action: CreateOperationCell.theme(_:))
-        
+        createConstraints()
       
     }
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.addSubview(imageOfCreate)
         dashView.backgroundColor = .clear
+        
     }
     
     func createConstraints() {

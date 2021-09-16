@@ -56,7 +56,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     private func createNewLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
              
-            let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(4.5/5), heightDimension: .fractionalHeight(4.5/5)))
+            let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(5/5), heightDimension: .fractionalHeight(5/5)))
             if self.view.bounds.width > 400 {
             trailingItem.contentInsets = NSDirectionalEdgeInsets(top: 8.0, leading: 8.0, bottom: 8.0, trailing: 8.0)
             }

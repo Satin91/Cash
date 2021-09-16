@@ -71,9 +71,9 @@ class TodayBalanceViewController: UIViewController {
         calendarContainerView.center = self.view.center
         calendar.center = calendarContainerView.center
         
-        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        self.view.animateViewWithBlur(animatedView: calendarContainerView, parentView: self.view)
-        self.view.animateViewWithBlur(animatedView: calendar, parentView: self.view)
+        self.view.animateView(animatedView: blur, parentView: self.view)
+        self.view.animateView(animatedView: calendarContainerView, parentView: self.view)
+        self.view.animateView(animatedView: calendar, parentView: self.view)
     }
     @IBOutlet var circleBarContainerView: UIView!
     @IBOutlet var circleBar: CircleView!

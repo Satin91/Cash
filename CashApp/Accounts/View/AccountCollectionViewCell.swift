@@ -12,27 +12,30 @@ import UIKit
 class AccountCollectionViewCell: UICollectionViewCell {
     let colors = AppColors()
     let identifier = "AccountCell"
-    var delegate: collectionCellProtocol!
+    var delegate: CellTappedProtocol!
     
-    
-    
-    
+
     ///    changeMineAccountProperties(sender: sender.isOn)
-    
-    
-    
-    
-    func setColors(){
+ 
+    func setColors() {
         editButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
         editButtonOutlet.setImageTintColor(colors.backgroundcolor, imageName: "Edit")
         self.layer.setMiddleShadow(color: colors.shadowColor)
         balanceTextField.textColor = .white
     }
+    var closure: ((Bool) -> Void)?
     @IBAction func editButtonAction(_ sender: UIButton) {
         toggle.toggle()
-        delegate.tapped(tapped: true)
+        buttomAction(succes: toggle, completion: closure!)
+       // delegate.tapped(tapped: true)
     }
-    @IBOutlet var editButtonOutlet: UIButton!
+    
+    func buttomAction( succes: Bool, completion: (Bool) -> Void)  {
+        completion(succes)
+    }
+    
+    
+    @IBOutlet weak var editButtonOutlet: UIButton!
     @IBOutlet var cellBackground: UIView!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var balanceTextField: NumberTextField!
@@ -63,11 +66,10 @@ class AccountCollectionViewCell: UICollectionViewCell {
         self.layer.cornerCurve = .continuous
         accountsImageView = UIImageView(frame: self.bounds)
         self.clipsToBounds = true
-        balanceTextField.font = UIFont(name:"Ubuntu-Bold",size: 34)
+        balanceTextField.font = UIFont(name: "Ubuntu-Bold",size: 34)
         buttonSettings(toggle: toggle)
-        
-        
     }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -83,12 +85,23 @@ class AccountCollectionViewCell: UICollectionViewCell {
         
         
         //nameTextField.addTarget(self, action: #selector(touchOnTextField(_:)), for: .allTouchEvents)
-        
-        
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(receive), name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil)
     }
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+       // toggle = false
+//        DispatchQueue.main.async { [weak self] in
+//            guard let self = self else { return }
+//            guard self.toggle == true else { return }
+//            self.buttomAction(succes: self.toggle, completion: self.closure!)
+//
+//        }
+
+    }
+    deinit {
+        removeObservers()
+    }
     func changeTFPropherties(textField: UITextField) {
         textField.font = .systemFont(ofSize: 34, weight: .regular)
         textField.backgroundColor = .clear
@@ -100,19 +113,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     func removeObservers() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil)
     }
-    func changeMineAccountProperties(sender: Bool) {
-        
-        for i in EnumeratedAccounts(array: accountsGroup) {
-            try! realm.write {
-                i.isMainAccount = false
-                realm.add(i, update: .all)
-            }
-            try! realm.write {
-                accountObject.isMainAccount = sender
-                realm.add(accountObject, update: .all)
-            }
-        }
-    }
+   
     
     @objc func didEndEditing(_ sender: UITextField) {
         guard delegate != nil else {return}

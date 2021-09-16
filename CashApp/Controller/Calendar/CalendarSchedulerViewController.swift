@@ -71,7 +71,11 @@ class CalendarSchedulerViewController: UIViewController {
         }
         return objectsArray
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        navigationController!.navigationBar.backgroundColor = .clear
+        navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    }
   
     override func viewDidLoad() {
         super.viewDidLoad()

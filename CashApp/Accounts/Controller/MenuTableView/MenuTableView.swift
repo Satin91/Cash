@@ -8,27 +8,25 @@
 
 import UIKit
 
-class MenuTableView: UITableView,UITableViewDelegate,UITableViewDataSource {
+class MenuTableView: UITableView{
    
     let colors = AppColors()
-    var account: MonetaryAccount?
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         colors.loadColors()
         setupTableView()
         visualSettings()
     }
-   
-    func getMenuCells()-> [MenuCell] {
-        
-        let currencyImage = UIImage(named: account?.currencyISO ?? " ")
-        let objects: [MenuCell] =  [
-            MenuCell(menuType: .changeCurrency, menuImage: currencyImage!),
-            MenuCell(menuType: .makeMain, menuImage: UIImage(named: "makeMainAccount")!),
-            MenuCell(menuType: .delete, menuImage: UIImage(named: "deleteAccount")!) ]
-        
-        return objects
-    }
+//    
+//    func getMenuCells()-> [MenuCell]? {
+//        
+//        let objects: [MenuCell] =  [
+//            MenuCell(menuType: .changeCurrency, account: account),
+//            MenuCell(menuType: .makeMain, account: account),
+//            MenuCell(menuType: .delete, account: account) ]
+//        
+//        return objects
+//    }
     
     func visualSettings() {
         self.layer.cornerRadius = 14
@@ -38,8 +36,6 @@ class MenuTableView: UITableView,UITableViewDelegate,UITableViewDataSource {
     }
     
     func setupTableView() {
-        self.delegate = self
-        self.dataSource = self
         let nib = UINib(nibName: "MenuTableViewCell", bundle: nil)
         self.register(nib, forCellReuseIdentifier: "menuCell")
         self.separatorStyle = .none
@@ -56,19 +52,9 @@ class MenuTableView: UITableView,UITableViewDelegate,UITableViewDataSource {
         return 3
     }
     
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
-        let object = getMenuCells()[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell", for: indexPath) as! MenuTableViewCell
-        cell.set(object: object)
-        if indexPath.row == getMenuCells().count - 1 {
-            cell.lineView.isHidden = true
-        }
-        return cell
+    deinit {
+        print("Deinit TableVIew")
+
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
+
 }

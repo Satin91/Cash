@@ -7,13 +7,14 @@
 //
 
 import UIKit
-
+import Themer
 enum AlertStyle {
     case delete
     case close
 }
 
-class AlertViewController: UIViewController {
+class AlertViewController: UIView {
+    let colors = AppColors()
     
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
@@ -21,50 +22,72 @@ class AlertViewController: UIViewController {
     @IBOutlet var leftButtonOutlet: UIButton!
     @IBOutlet var rightButtonOutlet: UIButton!
     
-    
+    weak var controller: UIViewController!
     var alertStyle: AlertStyle?
-    var blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+    var blur = UIVisualEffectView(effect: UIBlurEffect(style: Themer.shared.theme == .dark ? .systemUltraThinMaterialDark : .systemUltraThinMaterialLight))
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+       
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.colors.loadColors()
+        visualSettings()
+        
+        //blur.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        self.insertSubview(blur, at: 0)
+    }
+
     func visualSettings() {
+        //blur
+        blur.frame = self.bounds
         //labels
         titleLabel.font = .systemFont(ofSize: 26, weight: .medium)
         titleLabel.numberOfLines = 2
-        titleLabel.textColor = ThemeManager2.currentTheme().titleTextColor
+        titleLabel.textColor = colors.titleTextColor
         titleLabel.textAlignment = .center
         
         
         messageLabel.font = .systemFont(ofSize: 17, weight: .light)
         messageLabel.numberOfLines = 0
-        messageLabel.textColor = ThemeManager2.currentTheme().subtitleTextColor
+        messageLabel.textColor = colors.subtitleTextColor
         messageLabel.textAlignment = .center
         //buttons
         
-        leftButtonOutlet.backgroundColor = ThemeManager2.currentTheme().contrastColor1
+        leftButtonOutlet.backgroundColor = colors.contrastColor1
         leftButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 2
-        leftButtonOutlet.setTitleColor(ThemeManager2.currentTheme().backgroundColor, for: .normal)
+        leftButtonOutlet.setTitleColor(colors.backgroundcolor, for: .normal)
         
         rightButtonOutlet.layer.borderWidth = 1
-        rightButtonOutlet.layer.borderColor = ThemeManager2.currentTheme().borderColor.cgColor
+        rightButtonOutlet.layer.borderColor = colors.borderColor.cgColor
         rightButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 2
         
-        self.containerView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
+        self.containerView.backgroundColor = colors.secondaryBackgroundColor
         self.containerView.layer.cornerRadius = 40
-        self.containerView.layer.setMiddleShadow(color: ThemeManager2.currentTheme().shadowColor)
-        self.view.backgroundColor = .clear
+        self.containerView.layer.setMiddleShadow(color: colors.shadowColor)
+        self.backgroundColor = .clear
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-            super.init(nibName: "AlertViewController", bundle: nil)
-       
+//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//            super.init(nibName: "AlertViewController", bundle: nil)
+//
+//        }
+    
+    @IBOutlet var containerView: UIView! {
+        willSet {
+            print(newValue.frame)
         }
-    
-    @IBOutlet var containerView: UIView!
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
-  
-    
-    func setAlertStyle(alertStyle: AlertStyle) {
+   
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         
+    }
+ 
+    func setAlertStyle(alertStyle: AlertStyle) {
         switch alertStyle {
         case .close:
             leftButtonOutlet.setTitle("Close", for: .normal)
@@ -75,29 +98,37 @@ class AlertViewController: UIViewController {
         }
     }
     func closeAlert(blur: UIVisualEffectView) {
-        self.removeFromParent()
-        self.view.reservedAnimateView(animatedView: self.view, viewController: parent)
-        self.view.reservedAnimateView2(animatedView: blur)
-        blur.removeFromSuperview()
-        parent?.tabBarController?.tabBar.showTabBar()
+        self.reservedAnimateView(animatedView: self, viewController: controller)
+ 
+    }
+    func showAlert( title: String, message: String, alertStyle: AlertStyle) {
+        self.controller.view.isUserInteractionEnabled = false // чтобы нельзя было 100 раз нажать на вызов контроллера пока тото появляется
+        self.alpha = 0
+        self.blur.alpha = 0
+        self.titleLabel.text = title
+        self.messageLabel.text = message
+        self.setAlertStyle(alertStyle: alertStyle)
+        self.frame = controller.view.bounds
+        controller.view.addSubview(self)
+        self.containerView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: .beginFromCurrentState )  {
+            self.containerView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                self.alpha = 1
+                self.blur.alpha = 1
+            }completion: { (true) in
+                self.controller.view.isUserInteractionEnabled = true
+            }
+    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        visualSettings()
-        blur.frame = self.view.bounds
-        blur.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-        self.view.insertSubview(blur, at: 0)
-        
-        
-        
         // Do any additional setup after loading the view.
-    }
+    
     typealias CompletionHandler = (_ success: Bool) -> Void
     
-    var alertAction: (Bool) -> Void = {_ in
-    
-    }
+    var alertAction: ((Bool) -> Void)?
     
     func buttomAction(succes: Bool,completion:CompletionHandler)  {
       
@@ -113,12 +144,13 @@ class AlertViewController: UIViewController {
     }
     
     @IBAction func leftButtonAction(_ sender: UIButton) {
-        buttomAction(succes: true, completion: alertAction)
+        buttomAction(succes: true, completion: alertAction!)
         
     }
     
     @IBAction func rightButtonAction(_ sender: UIButton) {
-        buttomAction(succes: false, completion: alertAction)
+        closeAlert(blur: blur)
+        buttomAction(succes: false, completion: alertAction!)
         
         //self.view.reservedAnimateView2(animatedView: blur)
         //self.view.reservedAnimateView2(animatedView: containerView)

@@ -10,7 +10,7 @@ import UIKit
 
 struct MenuCell {
     var menuType: MenuCellType
-    var menuImage: UIImage
+    var account: MonetaryAccount
 }
 enum MenuCellType {
     case changeCurrency
@@ -52,13 +52,13 @@ let colors = AppColors()
         case .changeCurrency:
             self.menuLabel.text = "Change currency"
             self.menuImage.contentMode = .scaleAspectFit
-            self.menuImage.image = object.menuImage.withAlignmentRectInsets(UIEdgeInsets(top: -2, left: -2, bottom: -2, right: -2) )
+            self.menuImage.image = UIImage(named: object.account.currencyISO)!.withAlignmentRectInsets(UIEdgeInsets(top: -2, left: -2, bottom: -2, right: -2) )
         case .makeMain:
-            self.menuImage.image = object.menuImage
+            self.menuImage.image = UIImage(named: "makeMainAccount")
             self.menuLabel.text = "Make main"
             self.menuImage.setImageColor(color: colors.titleTextColor)
         case .delete:
-            self.menuImage.image = object.menuImage
+            self.menuImage.image =  UIImage(named: "deleteAccount")
             self.menuLabel.text = "Delete"
             self.menuLabel.font = .systemFont(ofSize: 17, weight: .medium)
             self.menuImage.setImageColor(color: colors.titleTextColor)
@@ -75,5 +75,6 @@ let colors = AppColors()
 
         // Configure the view for the selected state
     }
+    
     
 }

@@ -43,9 +43,11 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
         openBarChartController.makeTheTransition()
     }
     func createRightBarButton() {
-        openBarChartButton = CancelButton(frame: CGRect(x: 0, y: 0, width: 50, height: 25), title: .create, owner: self)
-        openBarChartButton.addTarget(self, action: #selector(CategoriesViewController.openBarChart(_:)), for: .touchUpInside)
-        let rightBarButton = UIBarButtonItem(customView: openBarChartButton)
+        //openBarChartButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 25), title: .create, owner: self) as! CancelButton
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 240) )
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(CategoriesViewController.openBarChart(_:)), for: .touchUpInside)
+        let rightBarButton = UIBarButtonItem(customView: button)
         
         navigationItem.rightBarButtonItem = rightBarButton
     }

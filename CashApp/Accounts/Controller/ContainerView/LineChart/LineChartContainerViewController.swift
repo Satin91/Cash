@@ -82,7 +82,7 @@ extension LineChartContainerViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? LineChartCell else {return}
         cell.prepareForReuse()
-        print("DidEndDisplay")
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
