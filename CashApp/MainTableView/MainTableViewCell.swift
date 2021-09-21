@@ -30,7 +30,6 @@ class MainTableViewCell: UITableViewCell {
         primaryLabel.text = schedule.name
         secondaryLabel.text = dateToString(date: schedule.date)
         monetaryImage.image = UIImage(named: schedule.image)
-        
     }
     
     func toHistory(history: AccountsHistory) {

@@ -11,8 +11,8 @@ import Themer
 
 
 class CreateOperationCell: UICollectionViewCell {
+    let colors = AppColors()
     
-    @IBOutlet weak var dashView: UIView!
     static let identifier = "CreateOperationCell"
     static func nib() -> UINib {
         let nib = UINib(nibName: "CreateOperationCell", bundle: nil)
@@ -26,42 +26,54 @@ class CreateOperationCell: UICollectionViewCell {
     }()
     override func layoutSubviews() {
         super.layoutSubviews()
-        //initConstraints(view: dashView, to: self)
-       
-        Themer.shared.register(target: self, action: CreateOperationCell.theme(_:))
+      //  initConstraints(view: dashView, to: self)
+        
+        
         createConstraints()
-      
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        layoutSubviews()
     }
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.colors.loadColors()
         self.contentView.addSubview(imageOfCreate)
-        dashView.backgroundColor = .clear
+        dshView = UIView(frame: self.bounds )
+        self.addSubview(dshView)
+        dshView.translatesAutoresizingMaskIntoConstraints = false
         
+        Themer.shared.register(target: self, action: CreateOperationCell.theme(_:))
     }
+    var dshView: UIView!
     
     func createConstraints() {
         let height = self.bounds.height - 17 - 5 - 2 // 17 - высота лейбла, 5 - констрейнт до лейбла, 2 - толщина линии
         
-        dashView.translatesAutoresizingMaskIntoConstraints = false
+        colors.loadColors()
+        dshView.layer.cornerRadius = 15
+        dshView.backgroundColor = .clear
+        dshView.drawDash(radius: 12, color: colors.borderColor)
         
+ 
         //dashView.topAnchor.constraint(equalTo: topAnchor,constant: -height).isActive = true
-        dashView.bottomAnchor.constraint(equalTo:  bottomAnchor, constant: -2).isActive = true
-        dashView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        dashView.heightAnchor.constraint(equalToConstant: height ).isActive = true
-        dashView.widthAnchor.constraint(equalToConstant: height).isActive = true
+        dshView.bottomAnchor.constraint(equalTo:  bottomAnchor, constant: -2).isActive = true
+        dshView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        dshView.heightAnchor.constraint(equalToConstant: height ).isActive = true
+        dshView.widthAnchor.constraint(equalToConstant: height).isActive = true
         imageOfCreate.translatesAutoresizingMaskIntoConstraints = false
-        imageOfCreate.topAnchor.constraint(equalTo: self.dashView.topAnchor).isActive = true
-        imageOfCreate.bottomAnchor.constraint(equalTo: self.dashView.bottomAnchor).isActive = true
-        imageOfCreate.leadingAnchor.constraint(equalTo: self.dashView.leadingAnchor).isActive = true
-        imageOfCreate.trailingAnchor.constraint(equalTo: self.dashView.trailingAnchor).isActive = true
+        imageOfCreate.topAnchor.constraint(equalTo: dshView.topAnchor).isActive = true
+        imageOfCreate.bottomAnchor.constraint(equalTo: dshView.bottomAnchor).isActive = true
+        imageOfCreate.leadingAnchor.constraint(equalTo: dshView.leadingAnchor).isActive = true
+        imageOfCreate.trailingAnchor.constraint(equalTo: dshView.trailingAnchor).isActive = true
+        
     }
-    
-    
 }
 extension CreateOperationCell {
     func theme(_ theme: MyTheme) {
         imageOfCreate.changePngColorTo(color: theme.settings.titleTextColor)
         backgroundColor = theme.settings.backgroundColor
-        dashView.drawDash(radius: 12, color: theme.settings.borderColor)
+       
     }
 }

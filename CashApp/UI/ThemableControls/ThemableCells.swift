@@ -19,3 +19,22 @@ extension UITableViewCell {
         self.textLabel?.textColor = theme.settings.titleTextColor
     }
 }
+class CellWithCustomSelect: UITableViewCell {
+    let colors = AppColors()
+    func cellAnimate() {
+        colors.loadColors()
+        UIView.animate(withDuration: 0.15) {
+            self.contentView.backgroundColor = self.colors.contrastColor1.withAlphaComponent(0.5)
+        }completion: { _ in
+            UIView.animate(withDuration: 0.15) {
+                self.contentView.backgroundColor = self.colors.secondaryBackgroundColor
+            }
+        }
+    }
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        if self.isSelected {
+        cellAnimate()
+        }
+    }
+}

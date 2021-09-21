@@ -38,7 +38,7 @@ class BarChartCell: UITableViewCell {
     func set(object: BarChartModel){
         categoryImage.image = UIImage(named: object.imageName)
         totalSumLabel.text = object.totalSum.currencyFormatter(ISO: object.ISO)
-     //   setProgressLine(persent: object.persent)
+        setProgressLine(persent: object.persent)
         persentLabel.text = String(Int(object.persent)) + "%"
         visualSettings()
     }

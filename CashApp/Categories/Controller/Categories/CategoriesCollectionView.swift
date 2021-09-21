@@ -29,21 +29,24 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell2: CreateOperationCell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
+        let createCell: CreateOperationCell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OperationCell", for: indexPath) as! OperationCell
         
         // let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
         switch changeValue {
         case true:
             if indexPath.row == expenceObjects.count {
-                return cell2
+                createCell.layoutSubviews() // требуется для того чтобы даш выглядел как надо
+                return createCell
             }else{
                 let object = expenceObjects[indexPath.row]
                 cell.set(object: object)
+
             }
         case false :
             if indexPath.row == incomeObjects.count {
-                return cell2
+                createCell.layoutSubviews() // требуется для того чтобы даш выглядел как надо
+                return createCell
             }else{
                 let object = incomeObjects[indexPath.row]
                 cell.set(object: object)
@@ -56,7 +59,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     private func createNewLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
              
-            let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(5/5), heightDimension: .fractionalHeight(5/5)))
+            let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(5/5), heightDimension: .fractionalHeight(4/5)))
             if self.view.bounds.width > 400 {
             trailingItem.contentInsets = NSDirectionalEdgeInsets(top: 8.0, leading: 8.0, bottom: 8.0, trailing: 8.0)
             }

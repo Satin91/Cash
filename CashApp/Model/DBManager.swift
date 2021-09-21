@@ -9,7 +9,7 @@
 import RealmSwift
 
 
-var realm = try! Realm(configuration: .init( deleteRealmIfMigrationNeeded: true))
+var realm = try! Realm()
 
 var results: Results<MonetaryCategory>!
 
@@ -92,7 +92,7 @@ class DBManager {
         }
         return object
     }
-  
+
     static func clearAll () {
        try! realm.write{
            realm.deleteAll()

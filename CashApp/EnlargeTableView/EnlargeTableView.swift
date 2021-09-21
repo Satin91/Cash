@@ -22,7 +22,7 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     
     
     
-    
+    var histiryObjectProcessing: HistoryObjectProcessing!
     func enlarge(object: IndexPath) {
         ipath = object
         self.performBatchUpdates(nil, completion: nil)
@@ -248,16 +248,17 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.tag == tableView.tag {
+        if tableView.tag != 15888 {
             var cell = EnlargedCell(tag: tableView.tag)
             cell.smallCell.append(indexPath)
             cell.largeCell = ipath
             calculateHeightCell(enlargeCell: cell)
             tableView.performBatchUpdates(nil, completion: nil)
-        }else if tableView.tag == 15888 {
+        }else{
             tableView.performBatchUpdates(nil, completion: nil)
         }
         self.performBatchUpdates(nil, completion: nil)
+        
     }
     
     lazy var enlargedSmallHeight: CGFloat = 120
@@ -299,24 +300,7 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
             return enlargeArray.count
         }
     }
-    func findTheAccountIn(accountID: String, historyObject: AccountsHistory){
-        var account: MonetaryAccount?
-        
-        for i in accountsObjects {
-            if accountID == i.accountID{
-            account = i
-            }
-        }
-        try! realm.write {
-        guard let acc = account else {
-            realm.delete(historyObject)
-            return
-        }
-            acc.balance -= historyObject.sum
-            realm.add(acc,update: .all)
-            realm.delete(historyObject)
-        }
-    }
+    
    
     var indexForDeletedRow: Int? {
         willSet {
@@ -344,7 +328,9 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
             
                 let object = self.enlargeArray[tableView.tag].historyArray[indexPath.row]
                 self.enlargeArray[tableView.tag].historyArray.remove(at: indexPath.row)
-                self.findTheAccountIn(accountID: object.accountID, historyObject: object)
+            self.histiryObjectProcessing = HistoryObjectProcessing(historyObject: object)
+            self.histiryObjectProcessing.removeTransferObject()
+           // self.histiryObjectProcessing.findTheAccountIn(accountID: object.accountID, historyObject: object)
                 tableView.deleteRows(at: [indexPath], with: .left)
             
             self.indexForDeletedRow = tableView.tag
@@ -371,22 +357,18 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         return true
     }
 
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
-            //self.Items.remove(at: indexPath.row)
-            // self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-        deleteAction.backgroundColor = .red
-        return [deleteAction]
-    }
+//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
+//            //self.Items.remove(at: indexPath.row)
+//            // self.tableView.deleteRows(at: [indexPath], with: .automatic)
+//        }
+//        deleteAction.backgroundColor = .red
+//        return [deleteAction]
+//    }
     
     
 }
 
 
-struct EnlargedCell {
-    var largeCell: IndexPath? = nil
-    var smallCell: [IndexPath] = []
-    var tag: Int
-}
+
 

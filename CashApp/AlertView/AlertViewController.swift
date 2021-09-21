@@ -28,8 +28,6 @@ class AlertViewController: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-       
     }
     
     override func awakeFromNib() {
@@ -43,7 +41,7 @@ class AlertViewController: UIView {
 
     func visualSettings() {
         //blur
-        blur.frame = self.bounds
+       // blur.frame = self.bounds
         //labels
         titleLabel.font = .systemFont(ofSize: 26, weight: .medium)
         titleLabel.numberOfLines = 2
@@ -76,11 +74,7 @@ class AlertViewController: UIView {
 //
 //        }
     
-    @IBOutlet var containerView: UIView! {
-        willSet {
-            print(newValue.frame)
-        }
-    }
+    @IBOutlet var containerView: UIView!
    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -97,7 +91,7 @@ class AlertViewController: UIView {
             rightButtonOutlet.setTitle("Cancel", for: .normal)
         }
     }
-    func closeAlert(blur: UIVisualEffectView) {
+    func closeAlert() {
         self.reservedAnimateView(animatedView: self, viewController: controller)
  
     }
@@ -111,7 +105,7 @@ class AlertViewController: UIView {
         self.frame = controller.view.bounds
         controller.view.addSubview(self)
         self.containerView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: .beginFromCurrentState )  {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .beginFromCurrentState )  {
             self.containerView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                 self.alpha = 1
                 self.blur.alpha = 1
@@ -121,7 +115,7 @@ class AlertViewController: UIView {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        blur.frame = controller.view.bounds
     }
 
         // Do any additional setup after loading the view.
@@ -136,12 +130,12 @@ class AlertViewController: UIView {
         completion(succes)
     }
    
-    func method(arg: Bool, completion: (Bool) -> ()) {
-        print("First line of code executed")
-        // do stuff here to determine what you want to "send back".
-        // we are just sending the Boolean value that was sent in "back"
-        completion(arg)
-    }
+//    func method(arg: Bool, completion: (Bool) -> ()) {
+//        print("First line of code executed")
+//        // do stuff here to determine what you want to "send back".
+//        // we are just sending the Boolean value that was sent in "back"
+//        completion(arg)
+//    }
     
     @IBAction func leftButtonAction(_ sender: UIButton) {
         buttomAction(succes: true, completion: alertAction!)
@@ -149,7 +143,7 @@ class AlertViewController: UIView {
     }
     
     @IBAction func rightButtonAction(_ sender: UIButton) {
-        closeAlert(blur: blur)
+        closeAlert()
         buttomAction(succes: false, completion: alertAction!)
         
         //self.view.reservedAnimateView2(animatedView: blur)

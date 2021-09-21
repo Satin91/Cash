@@ -18,31 +18,35 @@ extension AccountsViewController  {
     
     
     
-    func cellTextFieldChanged(_ levelTableViewCell: AccountCollectionViewCell, didEndEditingWithText: String?, textFieldName: String!) {
-        switch textFieldName {
-        case "HeaderIsEditing":
-            
-            try! realm.write {
-                visibleObject!.name = didEndEditingWithText!
-            }
-        case "BalanceIsEditing":
-            
-            try! realm.write {
-                guard let sum = Double(didEndEditingWithText!) else {editableObject?.balance = 0; return} // Убирает nil если текст филд не дает никакого числа
-                visibleObject!.balance = Double(sum)
-            }
-        default:
-            break
-        }
-    }
-    func showImageCollectionView(togle: Bool){
+//    func cellTextFieldChanged(_ levelTableViewCell: AccountCollectionViewCell, didEndEditingWithText: String?, textFieldName: String!) {
+//        switch textFieldName {
+//        case "HeaderIsEditing":
+//            print("HeaderIsEditing")
+//            try! realm.write {
+//                visibleObject!.name = didEndEditingWithText!
+//            }
+//        case "BalanceIsEditing":
+//
+//            try! realm.write {
+//                guard let sum = Double(didEndEditingWithText!) else {editableObject?.balance = 0; return} // Убирает nil если текст филд не дает никакого числа
+//                visibleObject!.balance = Double(sum)
+//            }
+//        default:
+//            break
+//        }
+//    }
+    
+    
+    func whetherToShowImageCollectionView(willShow: Bool){
         
-        if togle {
+        if willShow {
             UIView.animate(withDuration: 0.4) {
+                self.blur.showBlur()
                 self.imageCollectionView.alpha = 1
             }
         }else{
             UIView.animate(withDuration: 0.4) {
+                self.blur.hideBlur()
                 self.imageCollectionView.alpha = 0
             }
         }

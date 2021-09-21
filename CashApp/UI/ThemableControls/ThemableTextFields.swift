@@ -11,6 +11,7 @@ import UIKit
 import Themer
 
 class ThemableTextField: UITextField {
+    var updateTextColor: Bool = true
     
     override func didMoveToWindow() {
         Themer.shared.register(target: self, action: ThemableTextField.defaultTheme(_:))
@@ -20,7 +21,9 @@ class ThemableTextField: UITextField {
     func defaultTheme(_ theme: MyTheme) {
         self.backgroundColor = .clear
         self.layer.borderColor = theme.settings.borderColor.cgColor
-        self.textColor = theme.settings.titleTextColor
+        if updateTextColor == true {
+            self.textColor =  theme.settings.titleTextColor
+        }
         indent(size: 17)
     }
 }
@@ -36,8 +39,8 @@ extension ThemableTextField {
         self.textAlignment = .left
         self.clipsToBounds = true
         self.layer.masksToBounds = false
+        self.layer.setSmallShadow(color: shadowColor)
         let shadowLayer = CAShapeLayer()
-        shadowLayer.setSmallShadow(color: shadowColor)
         shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
         shadowLayer.fillColor = fillColor.cgColor
         shadowLayer.cornerCurve = .continuous

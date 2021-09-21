@@ -226,19 +226,19 @@ extension CALayer {
     
     public func setMiddleShadow(color: UIColor) {
            shadowColor = color.cgColor
-           shadowOffset = CGSize(width: 4, height: 4)
+           shadowOffset = CGSize(width: 0, height: 10)
            shadowPath = UIBezierPath(rect: bounds).cgPath
            // shouldRasterize = true
-           shadowRadius = 30
-           shadowOpacity = 0.3
+           shadowRadius = 40
+           shadowOpacity = 0.03
            //shouldRasterize = true
            //rasterizationScale = UIScreen.main.scale
        }
     public func setSmallShadow(color: UIColor) {
         shadowColor = color.cgColor
-        shadowOffset = CGSize(width: 2, height: 2)
-        shadowRadius = 14
-        shadowOpacity = 0.17
+        shadowOffset = CGSize(width: 2, height: 8)
+        shadowRadius = 20
+        shadowOpacity = 0.03
         shouldRasterize = true
         rasterizationScale = UIScreen.main.scale
     }
@@ -453,7 +453,7 @@ extension UIView {
     func reservedAnimateView(animatedView: UIView, viewController: UIViewController?){
         //start the animation
         viewController!.view.isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
             animatedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             animatedView.alpha = 0}completion: { _ in
                 animatedView.transform = CGAffineTransform.identity

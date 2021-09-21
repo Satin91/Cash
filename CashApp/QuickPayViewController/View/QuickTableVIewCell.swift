@@ -8,17 +8,18 @@
 
 import UIKit
 
-class QuickTableVIewCell: UITableViewCell {
+class QuickTableVIewCell: CellWithCustomSelect {
     
-    @IBOutlet var headerLabel: UILabel!
-    @IBOutlet var sumLabel: UILabel!
+    @IBOutlet var headerLabel: TitleLabel!
+    @IBOutlet var sumLabel: SubTitleLabel!
     @IBOutlet var userImage: UIImageView!
-    let colors = AppColors()
+   // let colors = AppColors()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        colors.loadColors()
+     //   colors.loadColors()
         // Initialization code
+        colors.loadColors()
         visualSettings()
     }
     

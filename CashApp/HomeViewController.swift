@@ -77,14 +77,15 @@ class HomeViewController: UIViewController  {
     func createMenu()-> UIMenu {
         let action = UIAction(title: "Светлая тема" ) { (Action) in
             Themer.shared.theme = .light
-            
         }
         let actionTwo = UIAction(title: "Темная тема") { (action) in
             Themer.shared.theme = .dark
-            
         }
-        let menu = UIMenu(title: "Menu", image: UIImage(named: "AppIcon"), options: .displayInline , children: [action,actionTwo])
+        let actionThree = UIAction(title: "Купить подписку") { (action) in
+        }
         
+        let menu = UIMenu(title: "Menu", image: UIImage(named: "AppIcon"), options: .displayInline , children: [action,actionTwo,actionThree])
+
        return menu
     }
     override func viewDidLoad() {

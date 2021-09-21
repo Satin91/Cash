@@ -13,9 +13,10 @@ class setupNavigationBar {
     let colors = AppColors()
     func theme(_ theme: MyTheme) {
         UINavigationBar.appearance().barTintColor = theme.settings.subtitleTextColor
-        UINavigationBar.appearance().tintColor = theme.settings.contrastColor1
+        UINavigationBar.appearance().tintColor = theme.settings.titleTextColor
         //UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : theme.settings.contrastColor1]
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor : theme.settings.titleTextColor, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular)]
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().prefersLargeTitles = false

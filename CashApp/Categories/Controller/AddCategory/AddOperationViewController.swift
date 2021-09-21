@@ -120,6 +120,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
 }
 extension AddOperationViewController {
      func theme(_ theme: MyTheme) {
+        print("Theme")
         nameTextField.borderedTheme(fillColor: theme.settings.secondaryBackgroundColor, shadowColor: theme.settings.shadowColor)
         
         nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: theme.settings.subtitleTextColor ])

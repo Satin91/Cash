@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Themer
 extension AddScheduleViewController {
   
     func theme(_ theme: MyTheme){
@@ -50,6 +50,21 @@ extension AddScheduleViewController {
         expenceVectorButtonOutlet.layer.cornerRadius = 10
         let isEditingButtonTitle = isEditingScheduler ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
         selectDateButtonOutlet.mainButtonTheme("date_button")
+        
+        let income = UIImage(named: "income.button")
+        let incomeTint = income?.withRenderingMode(.alwaysTemplate)
+        let expence = UIImage(named: "expence.button")
+        let expenceTint = expence?.withRenderingMode(.alwaysTemplate)
+       
+       
+        
+        incomeVectorButtonOutlet.setImage(incomeTint, for: .normal)
+        incomeVectorButtonOutlet.tintColor = Themer.shared.theme == .dark ? .black : .white
+        
+        expenceVectorButtonOutlet.setImage(expenceTint, for: .normal)
+        expenceVectorButtonOutlet.tintColor = Themer.shared.theme == .dark ? .black : .white
+        
+        
         okButtonOutlet.mainButtonTheme(isEditingButtonTitle)
         selectImageButtonOutlet.layer.cornerRadius = 25
         scrollView.backgroundColor = .clear

@@ -26,6 +26,7 @@ class AppColors{
      var borderColor:UIColor = .clear
      var separatorColor:UIColor = .clear
      var shadowColor:UIColor = .clear
+     var whiteColor: UIColor = .clear
     
     private func theme(_ theme: MyTheme) {
         backgroundcolor = theme.settings.backgroundColor
@@ -40,5 +41,6 @@ class AppColors{
         borderColor = theme.settings.borderColor
         separatorColor = theme.settings.separatorColor
         shadowColor = theme.settings.shadowColor
+        whiteColor = UIColor.white
     }
 }

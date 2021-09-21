@@ -340,13 +340,9 @@ extension HeaderView {
         todayBalanceImage.setImageColor(color: theme.settings.titleTextColor)
         view.backgroundColor = theme.settings.secondaryBackgroundColor
         lineView.backgroundColor = theme.settings.separatorColor
-       // self.view.layer.setMiddleShadow(color: theme.settings.shadowColor)
-        self.view.layer.shadowOpacity = 0.20
-        self.view.layer.shadowOffset = CGSize(width: 4, height: 4)
-        self.view.layer.shadowRadius = 15
-        self.view.layer.masksToBounds = false
+        self.view.layer.setMiddleShadow(color: theme.settings.shadowColor)
         chartLineColor = theme.settings.contrastColor2
-        self.view.layer.shadowColor = theme.settings.shadowColor.cgColor
+
     }
     func chartColor(chart: LineChartDataSet,_ theme: MyTheme){
         chart.setColor(theme.settings.contrastColor2)

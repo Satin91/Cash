@@ -21,7 +21,7 @@ import UIKit
 class CancelButton: UIButton {
     private let colors = AppColors()
     private  var buttonTitle: CancelButtonType!
-    private var ownerViewController: UIViewController!
+    weak var ownerViewController: UIViewController!
     
   
     init(frame: CGRect, title: CancelButtonType, owner: UIViewController) {
@@ -45,11 +45,11 @@ class CancelButton: UIButton {
         view.insertSubview(self, at: 10)
     }
    private func setup() {
-        self.backgroundColor = colors.titleTextColor
+    self.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
         self.setTitle(buttonTitle.description, for: .normal)
-        self.setTitleColor(colors.backgroundcolor, for: .normal)
+        self.setTitleColor(colors.titleTextColor, for: .normal)
         self.layer.cornerRadius = frame.height / 2
-    self.layer.setMiddleShadow(color: colors.shadowColor)
+    self.layer.setSmallShadow(color: colors.shadowColor)
     self.addTarget(self, action: #selector(CancelButton.closeVC(_:)), for: .touchUpInside)
     }
 
@@ -74,7 +74,7 @@ class CancelButton: UIButton {
         super.init(coder: coder)
         colors.loadColors()
         self.setTitle("TITLE", for: .normal)
-        self.backgroundColor = colors.titleTextColor
+        
         //setup()
     }
     

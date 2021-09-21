@@ -19,8 +19,9 @@ extension SchedulerViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
         appearance.backgroundColor = UIColor.clear
-        appearance.backgroundEffect = UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark) // or dark
         
+        appearance.backgroundEffect = UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark) // or dark
+        appearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular),NSAttributedString.Key.foregroundColor: colors.titleTextColor]
         let scrollingAppearance = UINavigationBarAppearance()
         
         
@@ -32,7 +33,7 @@ extension SchedulerViewController {
         
         scrollingAppearance.configureWithTransparentBackground()
         scrollingAppearance.backgroundColor = .clear // your view (superview) color
-        
+        scrollingAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular),NSAttributedString.Key.foregroundColor: colors.titleTextColor]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = scrollingAppearance
         navigationController?.navigationBar.compactAppearance = scrollingAppearance

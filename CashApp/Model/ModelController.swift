@@ -22,11 +22,11 @@ import RealmSwift
 ///case operationIncome = 10 /// OperationViewController
 
 let currencyList = CurrencyList()
-
-let accountsObjects =               fetchAccounts(accountType: 1).sorted(byKeyPath: "isMainAccount", ascending: false)//Card = 1
+var mainCurrency =              fetchMainCurrency()
+let accountsObjects =               fetchAccounts(accountType: 1)//.sorted(byKeyPath: "isMainAccount", ascending: false)//Card = 1
 //let savingsObjects =              fetchAccounts(accountType: 2).sorted(byKeyPath: "date", ascending: false)//Cash = 2
 
- 
+
 let oneTimeObjects =            fetchSchedulers(scheduleType: 1).sorted(byKeyPath: "date", ascending: false)//OneTime = 1
 let multiplyObjects =           fetchSchedulers(scheduleType: 2).sorted(byKeyPath: "date", ascending: true)//multiply =2
 let regularObjects =            fetchSchedulers(scheduleType: 3).sorted(byKeyPath: "date", ascending: false)//Regular = 3
@@ -44,13 +44,12 @@ let payPerTimeObjects =         realm.objects(PayPerTime.self).sorted(byKeyPath:
 let currencyObjects =           realm.objects(CurrencyObject.self).sorted(byKeyPath: "ISO", ascending: false)
 var userCurrencyObjects: [CurrencyObject] = []
 var currencyNonPrioritiesObjects: [CurrencyObject] = []
-var mainCurrency =              fetchMainCurrency()
+
 var todayBalanceObject =        fetchTodayBalance()
 ///Меню в OperationViewController сегмент 1
 ///Operation Payment
 var categoryGroup = [expenceObjects,incomeObjects]
 ///Operation Scheduler
-
 var schedulerGroup = [oneTimeObjects,multiplyObjects,regularObjects,goalObjects]
 ///Меню в AccountsViewController
 var accountsGroup = [accountsObjects]
@@ -72,7 +71,7 @@ func getCurrenciesByPriorities(){
             }else if i.ISO == "USD"{
                 currencyNonPriority.insert(i, at: 0)
             }else{
-            currencyNonPriority.append(i)}
+                currencyNonPriority.append(i)}
         }
     }
     
@@ -92,7 +91,7 @@ func containsISO(Iso: String) ->Bool {
 
 
 func addMainCurrencyForPriorityIfNeeded(mainISO: String){
-
+    
     if userCurrencyObjects.contains(where: { Object in
         Object.ISO == mainISO
     }) {
@@ -109,7 +108,7 @@ func addMainCurrencyForPriorityIfNeeded(mainISO: String){
 }
 func fetchTodayBalance()-> TodayBalance? {
     
-
+    
     return Array(realm.objects(TodayBalance.self)).first ?? nil
 }
 
@@ -132,14 +131,14 @@ func fetchMainCurrency() -> MainCurrency? {
             try! realm.write{
                 realm.delete(i)
             }
-        continue
+            continue
         }
     }
     //Если главная валюта вообще есть и она есть в списке
     if object.count != 0 && isPresent {
-    for i in object {
-        mainCurrency = i
-    }
+        for i in object {
+            mainCurrency = i
+        }
         addMainCurrencyForPriorityIfNeeded(mainISO: mainCurrency.ISO)
         return mainCurrency
     }else{
@@ -164,20 +163,46 @@ func removeWrongAccountISO() {
         
         if !currencyList.validISOList.contains(i.currencyISO) {
             try! realm.write {
-            
-            i.currencyISO = currentISO!
+                
+                i.currencyISO = currentISO!
                 realm.add(i,update: .all)
-        }
+            }
             
         }
+    }
+}
+
+func createAccountIfTheyAreMissing(accounts: Results<MonetaryAccount>) {
+    if accounts.count == 0 {
+        let account = MonetaryAccount()
+        account.currencyISO = mainCurrency?.ISO ?? "USD"
+        try! realm.write({
+            realm.add(account)
+        })
+    }
+}
+func makeMainAccountIfNeeded(accounts: Results<MonetaryAccount>) {
+    guard accounts.count > 0 else { return }
+    print("makeMainAccountIfNeeded")
+    if !accounts.contains(where: { account in
+       return account.isMainAccount == true
+    }){
+            try! realm.write {
+                 accounts[0].isMainAccount = true
+                 realm.add(accounts[0],update: .all)
+             }
     }
 }
 
 func fetchAccounts(accountType: Int) ->Results<MonetaryAccount>{
     let IntToString: String = String(accountType)
     removeWrongAccountISO()
-    let object = realm.objects(MonetaryAccount.self).filter("accountType = \(IntToString)")
-    return object
+    let objects = realm.objects(MonetaryAccount.self)
+        .filter("accountType = \(IntToString)")
+        .sorted(byKeyPath: "isMainAccount", ascending: false)
+    createAccountIfTheyAreMissing(accounts: objects )
+    makeMainAccountIfNeeded(accounts: objects)
+    return objects
 }
 
 func fetchCategories(categoryType: Int) ->Results<MonetaryCategory> {

@@ -94,7 +94,6 @@ class MiniAlertView: UIView {
     //MARK: Category
     func showAlertForCategories(textField: UITextField,imageName: String)-> Bool {
         
-       print("CheckData")
         guard textField.text != "" else {
             self.showMiniAlert(message: "Введите название категории", alertStyle: .textFields)
            return false
@@ -132,7 +131,6 @@ class MiniAlertView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        print("coder")
         self.accessibilityIdentifier = "Alert-View" //Идентификатор для распознования представления исключающий повтор
     }
 }

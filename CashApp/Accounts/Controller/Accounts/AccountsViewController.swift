@@ -13,7 +13,7 @@ import FSCalendar
 
 class AccountsViewController: UIViewController, scrollToNewAccount{
     let colors = AppColors()
-
+    lazy var blur = BlurView(frame: self.view.bounds)
     func scrollToNewAccount(account: MonetaryAccount) {
         var indexPathIndex = 0
         accountsCollectionView.reloadData()
@@ -30,49 +30,41 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         visibleIndexPath = IndexPath(row: indexPathIndex, section: 0)
         sendNotification(objectAt: IndexPath(row: indexPathIndex, section: 0))
     }
-//    lazy var bag: UIView = {
-//       var barg = UIView ()
-//        barg.backgroundColor = self.view.backgroundColor
-//        return barg
-//    }()
-    deinit {
-        print("deinit ACC VIEW CONTROLLER", AccountsViewController.self)
-    }
+    var willAccountBeMain: Bool? 
+
     var imageCollectionView = AccountImagesCollectionView()
    // var menu: InstallMenuTableView!
     var menuTableView: MenuTableView!
     var stackViewForEditingButtons = UIStackView()
+    var alertView: AlertViewController!
+    @IBOutlet var sendButtonOutlet: UIButton!
+    @IBAction func sendButtonAction(_ sender: UIButton) {
+        let account = accountsObjects[visibleIndexPath.row]
+        let transferModel = TransferModel(account: account, transferType: .send)
+        goToQuickPayVC(PayObject: transferModel)
+    }
+    
+    @IBOutlet var receiveButtonOutlet: UIButton!
+    @IBAction func receiveButtonAction(_ sender: UIButton) {
+        let account = accountsObjects[visibleIndexPath.row]
+        let transferModel = TransferModel(account: account, transferType: .receive)
+        goToQuickPayVC(PayObject: transferModel)
+    }
     @IBAction func addButton(_ sender: Any) {
-//        editableObject = nil
-//
-//        try! realm.write({
-//            realm.delete(accountsObjects[visibleIndexPath.row] )
-//
-//        })
-//
-//        accountsCollectionView.deleteItems(at: [visibleIndexPath])
-//        showImageCollectionView(togle: false)
-//
-//        accountsCollectionView.isScrollEnabled = true
-//        visibleIndexPath = nil
-//        accountsCollectionView.reloadData()
-
        openAddVC()
     }
     
     @IBOutlet var containerView: UIView!
-    @IBOutlet var blurView: UIVisualEffectView!
+    
     //var blur: Blur!
     //@IBOutlet var topConstreintOfCollectionView: NSLayoutConstraint!
     @IBOutlet var accountsCollectionView: UICollectionView!
     
     //Buttons outlets
     @IBOutlet var backButtonOutlet: UIBarButtonItem!
-    var editingButtons = EditingButtons()
     ///Buttons images
     @IBAction func backButton(_ sender: Any) {
         _ = navigationController?.popViewController(animated: true)
-        
     }
 
     func openAddVC() { // Delegate только так работает
@@ -81,7 +73,6 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         navVC.modalPresentationStyle = .automatic
         present(navVC, animated: true, completion: nil)
         addVC.scrollToNewAccountDelegate = self
-        
     }
     
     // Отправляет уведомления для обновления графика
@@ -99,13 +90,12 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         
         visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
         sendNotification(objectAt: visibleIndexPath)
-        
+        //setupMenu()
       //  accountsCollectionView.reloadData() // Обновляем после добавления нового аккаунта
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-       
         self.tabBarController?.tabBar.hideTabBar()
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -116,39 +106,39 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     @objc func openAddController(_ sender: UIButton){
         
     }
-    var alertView: AlertViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         colors.loadColors()
         self.setColors()
+     
+        //accountsObjects = accountsObjects.sorted(byKeyPath: "isMainAccount", ascending: false)//Card = 1
         
+        menuTableView = MenuTableView(frame: .zero , style: .plain, controller: self)
+        menuTableView.tappedDelegate = self
         alertView = AlertViewController.loadFromNib()
         alertView.controller = self
-        setupMenu()
+        
         accountsLayout()
         //menu = InstallMenuTableView(owner: self, collectionView: accountsCollectionView)
         backButtonOutlet.title = NSLocalizedString("back_button", comment: "")
         setupAccountCollectionView()
+        
         let nib = UINib(nibName: "AccountCollectionViewCell", bundle: nil)
         accountsCollectionView.register(nib, forCellWithReuseIdentifier: AccountCollectionViewCell().identifier)
-        blurView.frame = self.view.bounds
-        
-        
-        self.view.insertSubview(self.blurView, at: 9)
+
+        self.view.insertSubview(self.blur, aboveSubview: self.sendButtonOutlet)
         self.view.bringSubviewToFront(accountsCollectionView)
-        blurView.layer.opacity = 0
         setupImageCollectionView()
-        
     }
     
     func setupImageCollectionView() {
         imageCollectionView = AccountImagesCollectionView(frame: .zero)
-      //  imageCollectionView.delegate = self
         self.view.addSubview(imageCollectionView)
         imageCollectionView.alpha = 0
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         imageCollectionView.topAnchor.constraint(equalTo: accountsCollectionView.bottomAnchor,constant: 26).isActive = true
-        imageCollectionView.heightAnchor.constraint(equalToConstant: accountsCollectionView.bounds.height + 60).isActive = true
+        imageCollectionView.heightAnchor.constraint(equalToConstant: containerView.bounds.height /*accountsCollectionView.bounds.height + 60*/).isActive = true
         imageCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26).isActive = true
         imageCollectionView.leadingAnchor.constraint(equalTo: accountsCollectionView.leadingAnchor,constant: 26).isActive = true
     }
@@ -156,19 +146,9 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         navigationController?.navigationItem.leftBarButtonItem?.isEnabled = false
         navigationController?.navigationItem.rightBarButtonItem?.isEnabled = false
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "addAccountSegue" {
-//            if let nextViewController = segue.destination as? AddAccountViewController {
-//                nextViewController.scrollToNewAccountDelegate = self
-//            }
-//        }
-//    }
-    
     func setupAccountCollectionView() {
         accountsCollectionView.delegate = self
         accountsCollectionView.dataSource = self
-        
         accountsCollectionView.isPagingEnabled = true
     }
     
@@ -192,7 +172,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     var visibleIndexPath:  IndexPath!
     var selectedIndexPath: IndexPath!
     var editableObject:    MonetaryAccount?
-    var toggle = false //Нажата ли кнопка
+    var editMode = false //Нажата ли кнопка
     
 
     }
@@ -210,10 +190,9 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountCollectionViewCell().identifier, for: indexPath) as! AccountCollectionViewCell
-
-        cell.toggle = self.toggle
         let object = accountsObjects[indexPath.row]
             cell.setAccount(account: object)
+           
             cell.closure = { [weak self] (success) in
                 guard let self = self else { return}
                                if success {
@@ -222,7 +201,8 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
                                 self.closeMenu()
                                }
             }
-
+        cell.editMode = self.editMode // Нужно для того, чтобы ячейка не теряла режим редактирования после обновления коллекции
+          
             return cell
         }
         
@@ -233,10 +213,7 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //accountsCollectionView.reloadData()
-        
-        
-        accountsCollectionView.reloadData()
-        menuTableView.reloadData()
+        //menuTableView.reloadData()
         let visibleRect = CGRect(origin: accountsCollectionView.contentOffset, size: accountsCollectionView.bounds.size)
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         let visibleIndexPath2 = accountsCollectionView.indexPathForItem(at: visiblePoint)
@@ -245,14 +222,13 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
         }
         if visibleIndexPath != visibleIndexPath2{ // Проверка на изменения ячейки
             visibleIndexPath = visibleIndexPath2
-            
-            guard editableObject == nil else {return} // Запрещает отправлять уведомления когда выбран объект для редактирования
             sendNotification(objectAt: visibleIndexPath)
         }
 
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
        //Классная функция. Применяется когда скрол останавливается
+    
     }
         
 }
@@ -263,15 +239,3 @@ extension AccountsViewController: UIPopoverPresentationControllerDelegate {
         return .none
     }
 }
-
-
-
-//extension AccountsViewController: ActionsWithAccount {
-//    func actionsWithAccount() {
-//
-//        self.accountsCollectionView.reloadData()
-//    }
-    
-    
-    
-//}

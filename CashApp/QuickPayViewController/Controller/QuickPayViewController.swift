@@ -15,40 +15,32 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var tableView = QuickTableView()
     let colors = AppColors()
     @IBOutlet var scrollView: UIScrollView!
-    
     @IBOutlet var okButtonOutlet: UIButton!
     @IBOutlet var cancelButtomOutlet: UIButton!
     let theme = ThemeManager2.currentTheme()
     var payObjectNameLabel: TitleLabel = {
         var label = TitleLabel()
-        
         label.text = "ObjectNameError"
         label.font = .systemFont(ofSize: 26,weight: .regular)
         return label
     }()
     var accountLabel: TitleLabel = {
         var label = TitleLabel()
-        
         label.text = "AccountNameError"
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
     }()
     var dateLabel: TitleLabel = {
         var label = TitleLabel()
-        
         label.text = NSLocalizedString("day_is_today", comment: "")
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
     }()
-    
-    
     var convertedSumLabel: SubTitleLabel = {
         let label = SubTitleLabel()
         label.text = ""
         label.textAlignment = .right
         label.font = .systemFont(ofSize: 26, weight: .regular)
-        
-        
         return label
     }()
     var sumTextField: NumberTextField = {
@@ -56,14 +48,13 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         tf.borderStyle = .none
         tf.backgroundColor = .clear
         tf.textAlignment = .right
-        
         tf.addTarget(self, action: #selector(observeConvertedSum), for: .editingChanged)
         tf.font = .systemFont(ofSize: 54, weight: .regular)
-        
         tf.minimumFontSize = 26
         tf.adjustsFontSizeToFitWidth = true
         return tf
     }()
+    let transfer = Transfer()
     var numpadView = NumpadView()
   
     
@@ -95,14 +86,13 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         return account
     }()
     var historyObject = AccountsHistory()
-    //var payObject: MonetaryCategory?
+    
     var payObject: Any! {
-        
         willSet{
             switch newValue {
-            case is MonetaryAccount:
-                let object = newValue as! MonetaryAccount
-                monetaryPaymentISO = object.currencyISO
+            case is TransferModel:
+                let object = newValue as! TransferModel
+                monetaryPaymentISO = object.account.currencyISO
             case is MonetaryCategory:
                 let object = newValue as! MonetaryCategory
                 monetaryPaymentISO = object.currencyISO
@@ -483,7 +473,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     func saveHistorySum(vector: Bool){
         
         if vector {
-            
             historyObject.sum = Double(sumTextField.enteredSum)!
             guard let iso = self.monetaryPaymentISO else {return}
             historyObject.currencyISO = iso
@@ -547,7 +536,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         if payObject is MonetaryCategory {
             let object = payObject as! MonetaryCategory
             saveHistorySum(vector: object.vector)
-            
             saveCategory(convertedSum: convertedEnteredSum)
         }else if payObject is PayPerTime {
             let object = payObject as! PayPerTime
@@ -557,12 +545,23 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             let object = payObject as! MonetaryScheduler
             saveHistorySum(vector: object.vector)
             saveScheduler()
+        }else if payObject is TransferModel {
+            let object = payObject as! TransferModel
+            saveHistorySum(vector: object.transferType == .receive ? true : false)
+
+            let cooperatingAccount = selectedAccountObject == nil ? withoutAccountObject : selectedAccountObject!
+            
+            transfer.saveTransfer(transferredObject: object, cooperatingAccount: cooperatingAccount, enteredSum: Double(sumTextField.enteredSum)!, historyObject: historyObject)
+            
+            return // Выходит из функции чтобы не идти дальше и не создать объект истории как при оплате планировщика или категории
         }
+        
         guard selectedAccountObject != nil else{
             DBManager.addHistoryObject(object: historyObject)
             return}
         //Если счет выбран
         historyObject.accountID = selectedAccountObject!.accountID
+        historyObject.accountName = selectedAccountObject!.name
         try! realm.write {
             if convertedEnteredSum != 0 {
                 
@@ -579,6 +578,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             }
             let balance = selectedAccountObject?.balance.removeHundredthsFromEnd()
             selectedAccountObject?.balance = balance!
+            
             realm.add(selectedAccountObject!,update: .all)
         }
         DBManager.addHistoryObject(object: historyObject)
@@ -705,10 +705,11 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
         let object = privateAccounts()[indexPath.row]
         guard object != privateAccounts().last else {
             selectedAccountObject = nil
+            convertedSumLabel.isHidden = true // Скрывает конвертер чтобы не показывал ненужную конвертацию ( по умолчанию у withoutObject стоит ISO USD)
             ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
             return}
         
-        
+        convertedSumLabel.isHidden = false //Возвращает видение если то было выключено
         selectedAccountObject = object
         accountLabel.text = object.name
         ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
@@ -764,14 +765,7 @@ extension QuickPayViewController: TappedNumbers {
             
         }else {
         }
-        
-        
-        
-        //sumTextField.deleteBackward()
-        
-        
-//        sumTextField.textFieldChanged()
-//        self.observeConvertedSum()
+
     }
     
     
