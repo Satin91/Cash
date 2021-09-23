@@ -11,21 +11,26 @@ import RealmSwift
 import IQKeyboardManagerSwift
 import UserNotifications
 import Themer
-
+import Purchases
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let notifications = Notifications()
     let navBar = setupNavigationBar()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        Purchases.configure(withAPIKey: "HEYSketqpvpcIaiqZPyywaOdrTKmtVzE")
+        Purchases.logLevel = .debug
         IQKeyboardManager.shared.enable = true
+
         Themer.shared.theme = .light
         navBar.setColors()
         notifications.requestAutorization()
         notifications.notificationCenter.delegate = notifications
+        
         
         let schemaVersion: UInt64 = 0
         let config = Realm.Configuration(
@@ -63,10 +68,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-    
-    
-   
 }
 
-
+#if DEBUG
+    let certificate = "StoreKitTestCertificate"
+#else
+    let certificate = "AppleIncRootCertificate"
+#endif

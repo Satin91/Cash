@@ -42,10 +42,11 @@ class SecondTableViewCell: UITableViewCell  {
         return label
     }()
     
-    var sendButton: UIButton = {
+    var editButton: UIButton = {
         var button = UIButton()
+        button.layer.cornerRadius = 4
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
+        
         return button
     }()
     
@@ -107,12 +108,10 @@ class SecondTableViewCell: UITableViewCell  {
         Themer.shared.register(target: self, action: SecondTableViewCell.theme(_:))
         self.backgroundColor = .clear
         contentView.backgroundColor = .clear
-        sendButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
         createConstraints()
     }
-    
-    @objc func pressed() {
-    }
+ 
     func drawDottedLine(start p0: CGPoint, end p1: CGPoint, view: UIView) {
         let shapeLayer = CAShapeLayer()
         shapeLayer.strokeColor = UIColor.lightGray.cgColor
@@ -124,13 +123,20 @@ class SecondTableViewCell: UITableViewCell  {
         shapeLayer.path = path
         view.layer.addSublayer(shapeLayer)
     }
+    var closure: (() -> Void)?
+    func editHistoryButtonTapped(action: () -> Void) {
+        
+    }
     
+    @objc func pressed() {
+        editHistoryButtonTapped(action: closure!)
+    }
     func createConstraints() {
         
         self.contentView.addSubview(titleLabel)
         self.addSubview(subTitleLabel)
         self.contentView.addSubview(lineView)
-        self.contentView.addSubview(sendButton)
+        self.contentView.addSubview(editButton)
         self.contentView.addSubview(sumLabel)
         self.contentView.addSubview(image)
         
@@ -166,10 +172,10 @@ class SecondTableViewCell: UITableViewCell  {
         //        lineView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         //        lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         //        lineView.heightAnchor.constraint(equalToConstant: 3).isActive = true
-        sendButton.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -50).isActive = true
-        sendButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        sendButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        sendButton.isHidden = true
+        editButton.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -12).isActive = true
+        editButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        editButton.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        editButton.isHidden = true
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -188,6 +194,8 @@ extension SecondTableViewCell {
         //titleLabel.textColor = theme.settings.titleTextColor
         //subTitleLabel.textColor = theme.settings.subtitleTextColor
         //image.setImageColor(color: theme.settings.titleTextColor)
+        editButton.backgroundColor = theme.settings.titleTextColor.withAlphaComponent(0.4)
+        editButton.setImage(UIImage(named: "edit") , for: .normal)
         image.changePngColorTo(color: theme.settings.titleTextColor)
         lineView.backgroundColor = theme.settings.separatorColor
         

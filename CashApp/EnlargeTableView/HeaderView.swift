@@ -342,6 +342,18 @@ extension HeaderView {
         lineView.backgroundColor = theme.settings.separatorColor
         self.view.layer.setMiddleShadow(color: theme.settings.shadowColor)
         chartLineColor = theme.settings.contrastColor2
+        
+//        let CAL = CALayer()
+//        CAL.shadowColor = theme.settings.shadowColor.cgColor
+//        CAL.shadowOffset = CGSize(width: 0, height: 10)
+//       // CAL.shadowPath = UIBezierPath(rect: self.view.bounds).cgPath
+//        // shouldRasterize = true
+//        CAL.shadowRadius = 40
+//        CAL.shadowOpacity = 0.10
+//        CAL.shouldRasterize = true
+//        CAL.rasterizationScale = UIScreen.main.scale
+//        self.view.layer.insertSublayer(CAL, at: 0)
+        
 
     }
     func chartColor(chart: LineChartDataSet,_ theme: MyTheme){

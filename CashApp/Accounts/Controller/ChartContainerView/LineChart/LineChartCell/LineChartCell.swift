@@ -80,6 +80,7 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
        let view = UIView()
         view.layer.cornerRadius = 12
         view.alpha = 0
+        view.isUserInteractionEnabled = false
         return view
     }()
     var entryLabel: UILabel = {

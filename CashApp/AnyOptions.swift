@@ -222,35 +222,7 @@ extension Numeric {
     ///func for tableviews change animations
 }
 
-extension CALayer {
-    
-    public func setMiddleShadow(color: UIColor) {
-           shadowColor = color.cgColor
-           shadowOffset = CGSize(width: 0, height: 10)
-           shadowPath = UIBezierPath(rect: bounds).cgPath
-           // shouldRasterize = true
-           shadowRadius = 40
-           shadowOpacity = 0.03
-           //shouldRasterize = true
-           //rasterizationScale = UIScreen.main.scale
-       }
-    public func setSmallShadow(color: UIColor) {
-        shadowColor = color.cgColor
-        shadowOffset = CGSize(width: 2, height: 8)
-        shadowRadius = 20
-        shadowOpacity = 0.03
-        shouldRasterize = true
-        rasterizationScale = UIScreen.main.scale
-    }
-    public func setCircleShadow(color: UIColor) {
-        shadowColor = color.cgColor
-        shadowOffset = CGSize(width: 0, height: 0)
-        shadowRadius = 5
-        shadowOpacity = 0.4
-        shouldRasterize = true
-        rasterizationScale = UIScreen.main.scale
-    }
-}
+
 
 
 

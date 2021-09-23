@@ -1,0 +1,89 @@
+{
+  "identifier" : "F9762CCF",
+  "nonRenewingSubscriptions" : [
+    {
+      "displayPrice" : "6.99",
+      "familyShareable" : false,
+      "internalID" : "E4229685",
+      "localizations" : [
+        {
+          "description" : "Get a one-year subscription at great prices",
+          "displayName" : "Annual subscription",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Holen Sie sich ein Jahresabo zu günstigen Pre",
+          "displayName" : "Jahresabonnement",
+          "locale" : "de"
+        },
+        {
+          "description" : "Приобретите годовую подписку по выгодной цен",
+          "displayName" : "Годовая подписка",
+          "locale" : "ru"
+        }
+      ],
+      "productID" : "cashApp.annual.subscription",
+      "referenceName" : "Annual subscription",
+      "type" : "NonRenewingSubscription"
+    }
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_billingIssuesEnabled" : false,
+    "_locale" : "ru",
+    "_timeRate" : 6
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "8BED3398",
+      "localizations" : [
+
+      ],
+      "name" : "Monthly",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "6A335F1D",
+          "introductoryOffer" : {
+            "internalID" : "744C4B90",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "Get a monthly subscription at great prices",
+              "displayName" : "Monthly subscription",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "Приобретите месячную подписку по выгодной цен",
+              "displayName" : "Месячная подписка",
+              "locale" : "ru"
+            },
+            {
+              "description" : "Holen Sie sich ein monatliches Abonnement zu ",
+              "displayName" : "Monatliches Abo",
+              "locale" : "de"
+            }
+          ],
+          "productID" : "cashApp.month.subscription",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly subscription ",
+          "subscriptionGroupID" : "8BED3398",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 1,
+    "minor" : 1
+  }
+}

@@ -45,7 +45,8 @@ class TodayBalanceViewController: UIViewController {
     }()
     var schedulerSwitchs: [AIFlatSwitch] = []
     
-    var EXPSchedulerArray: [SchedulersForTableView] = []
+    var tableViewSchedulers: [SchedulersForTableView] = []
+    let calculatePayPerTimeParts = CalculatePayPerTimeParts()
     let theme = ThemeManager2.currentTheme()
     var todayBalance: TodayBalance? 
     var endDate: Date? {
@@ -136,57 +137,15 @@ class TodayBalanceViewController: UIViewController {
                 }
             }
         }
-        var scheduleID: String?// Местная переменная для исключения повторов
-        
-        struct payPerSumAndID {
-            var schID: String
-            var schlPaySum: Double
-            var date: Date
-        }
-        
-        var totalPayPerSum: [payPerSumAndID] = [] // переменная для подсчета общей суммы разовых платежей
-        var counter = 0
-        //подсчет суммы для разовых платежей
-        for i in payPerTimeObjects {
-            if i.scheduleID != scheduleID{
-                counter += 1
-                totalPayPerSum.append(payPerSumAndID(schID: i.scheduleID , schlPaySum: i.target, date: i.date))
-                scheduleID = i.scheduleID
-            }else{
-                if i.date <= todayBalance.endDate {
-                    totalPayPerSum[counter - 1].schlPaySum += i.target
-                    totalPayPerSum[counter - 1].date = i.date
-                }
-            }
-        }
-        //Рассчет дневной суммы для корректировки бюджета
-        counter = 0
-        for i in totalPayPerSum {
-            totalPayPerSum[counter].schlPaySum = i.schlPaySum / Double(divider)
-            counter += 1
-        }
-        counter = 0
-        scheduleID = nil
-        for i in payPerTimeObjects.sorted(byKeyPath: "scheduleID") { //Сортировка обязательна, иначе он беспорядочно добавить миллион ячеек
-            if i.date <= todayBalance.endDate {
-                for scheduler in EnumeratedSchedulers(object: schedulerGroup) {
-                    if i.scheduleID == scheduler.scheduleID && i.scheduleID != scheduleID {
-                        sschedulerArray.append(SchedulersForTableView(scheduler: scheduler, todaySum: totalPayPerSum[counter].schlPaySum) )
-                        counter += 1
-                        scheduleID = scheduler.scheduleID
-                    }else{
-                        continue
-                    }
-                }
-            }
-        }
+        sschedulerArray += calculatePayPerTimeParts.getParts(endDate: todayBalance.endDate, divider: divider)
+     
         schedulerSwitchs = []
         for i in sschedulerArray {
             let switchs = AIFlatSwitch()
             switchs.isSelected = i.scheduler.isUseForTudayBalance
             schedulerSwitchs.append(switchs)
         }
-        self.EXPSchedulerArray = sschedulerArray
+        self.tableViewSchedulers = sschedulerArray
         tableView.reloadData()
     }
     
@@ -262,6 +221,7 @@ class TodayBalanceViewController: UIViewController {
                 usedAccauntArray.append(a)
             }
         }
+       
         try! realm.write {
             todayBalanceObject?.commonBalance = commonSum.removeHundredthsFromEnd()
             todayBalanceObject?.currentBalance = (commonSum + subtrahend).removeHundredthsFromEnd()
@@ -291,7 +251,7 @@ class TodayBalanceViewController: UIViewController {
 extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return changeValue ? EXPSchedulerArray.count : accountsObjects.count
+        return changeValue ? tableViewSchedulers.count : accountsObjects.count
     }
     
     func insertSwitchInCell(_ AISwitch:AIFlatSwitch, cell: UITableViewCell) {
@@ -306,7 +266,7 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
         case true:
             
             let switchs = schedulerSwitchs[indexPath.row]
-            let object = EXPSchedulerArray[indexPath.row]
+            let object = tableViewSchedulers[indexPath.row]
             switchs.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
             switchs.isSelected = object.scheduler.isUseForTudayBalance
             switchs.strokeColor = colors.titleTextColor
@@ -339,7 +299,7 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if changeValue {
-            let SHObject = EXPSchedulerArray[indexPath.row].scheduler
+            let SHObject = tableViewSchedulers[indexPath.row].scheduler
             
             let swit = schedulerSwitchs[indexPath.row]
             

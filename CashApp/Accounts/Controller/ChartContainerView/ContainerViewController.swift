@@ -15,7 +15,7 @@ class ContainerViewController: UIViewController {
     @IBOutlet var lineChartContainer: UIView!
     @IBOutlet var savingsContainer: UIView!
     
-    var monetaryAccount: MonetaryAccount?
+    //var monetaryAccount: MonetaryAccount?
     
     func animateContainer(object: MonetaryAccount) {
         UIView.animate(withDuration: 0.1) {
@@ -46,8 +46,7 @@ class ContainerViewController: UIViewController {
         lineChartContainer.alpha = 0
         
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "MonetaryAccount"), object: nil)
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }

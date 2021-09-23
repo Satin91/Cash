@@ -12,4 +12,5 @@ target 'CashApp' do
   pod 'Charts'
   pod 'SwiftReorder', '~> 7.2'
   pod 'SwipeCellKit'
+  pod 'Purchases'
 end

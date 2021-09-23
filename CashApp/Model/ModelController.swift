@@ -183,7 +183,6 @@ func createAccountIfTheyAreMissing(accounts: Results<MonetaryAccount>) {
 }
 func makeMainAccountIfNeeded(accounts: Results<MonetaryAccount>) {
     guard accounts.count > 0 else { return }
-    print("makeMainAccountIfNeeded")
     if !accounts.contains(where: { account in
        return account.isMainAccount == true
     }){

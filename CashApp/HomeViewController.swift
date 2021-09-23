@@ -82,6 +82,8 @@ class HomeViewController: UIViewController  {
             Themer.shared.theme = .dark
         }
         let actionThree = UIAction(title: "Купить подписку") { (action) in
+            let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionsManager", toViewController: SubscriptionsManagerViewController())
+            open.makeTheTransition()
         }
         
         let menu = UIMenu(title: "Menu", image: UIImage(named: "AppIcon"), options: .displayInline , children: [action,actionTwo,actionThree])

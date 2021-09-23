@@ -97,11 +97,11 @@ class CircleView: UIView {
       
      let quotient = quotient()
         if currentlyBalance > commonBalance {
-            progressLayer.strokeColor = colors.contrastColor1.cgColor
-            progressLayer.setCircleShadow(color: colors.contrastColor1)
+            progressLayer.strokeColor = colors.greenColor.cgColor
+            progressLayer.setCircleShadow(color: colors.greenColor)
         }else{
-            progressLayer.strokeColor = colors.contrastColor2.cgColor
-            progressLayer.setCircleShadow(color: colors.contrastColor2)
+            progressLayer.strokeColor = colors.redColor.cgColor
+            progressLayer.setCircleShadow(color: colors.redColor)
         }
         let circleValue = quotient > 0 ? quotient / 100 : (quotient - (quotient * 2)) / 100
       return (Double(quotient),circleValue)
