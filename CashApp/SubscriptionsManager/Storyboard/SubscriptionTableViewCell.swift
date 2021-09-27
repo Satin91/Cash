@@ -11,9 +11,10 @@ import UIKit
 class SubscriptionTableViewCell: UITableViewCell {
 
     
-    
+    let colors = AppColors()
     override func awakeFromNib() {
         super.awakeFromNib()
+        colors.loadColors()
         // Initialization code
     }
 

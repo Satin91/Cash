@@ -10,7 +10,7 @@ import UIKit
 
 class OpenNextController {
     
-     var storyBoardID: String!
+    var storyBoardID: String!
     var fromViewController: UIViewController!
     var toViewControllerID: String!
     var toViewController: UIViewController!
@@ -22,7 +22,6 @@ class OpenNextController {
         self.fromViewController = fromViewController
         self.toViewController = toViewController
         self.toViewControllerID = toViewControllerID
-        
     }
     
     func makeTheTransition() {
@@ -32,9 +31,5 @@ class OpenNextController {
         let vc = UINavigationController(rootViewController: viewController)
         vc.modalPresentationStyle = .pageSheet
         fromViewController.present(vc, animated: true, completion: nil)
-        
-        
-        
-        //fromViewController.present(viewController, animated: true, completion: nil)
     }
 }

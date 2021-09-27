@@ -68,7 +68,6 @@ class TodayBalanceViewController: UIViewController {
         sender.changeSegmentWithAnimation(tableView: tableView, collectionView: nil, ChangeValue: &changeValue)
     }
     @IBAction func calendarButtonAction(_ sender: Any) {
-        print("Button pressed")
         calendarContainerView.center = self.view.center
         calendar.center = calendarContainerView.center
         

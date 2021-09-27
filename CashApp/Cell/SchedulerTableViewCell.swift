@@ -18,7 +18,7 @@ protocol SendScheduleObjectToEdit {
 
 class SchedulerTableViewCell: SwipeTableViewCell {
     
-    //Labels
+    let colors = AppColors()
     var sendSchedulerDelegate: SendScheduleObjectToEdit!
     
     @IBOutlet var roundedBackground: UIView!
@@ -46,9 +46,11 @@ class SchedulerTableViewCell: SwipeTableViewCell {
     }
     
     var object: MonetaryScheduler!
-
+    var lock = LockView(frame: .zero)
     
     func set(object: MonetaryScheduler) {
+        lock.addLock(to: roundedBackground, withRadius: 25)
+        
         fillTheDataForLabels(object: object, pptObject: getPPTObject(object: object))
         Themer.shared.register(target: self, action: SchedulerTableViewCell.theme(_:))
     }

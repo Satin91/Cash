@@ -14,15 +14,21 @@ enum ActionsWithCurrency: String {
     case edit = "Edit"
 }
 class CurrencyViewController: UIViewController {
-    
+    let subscriptionManager = SubscriptionManager()
     let currencyList = CurrencyList()
     let colors = AppColors()
     @IBOutlet var currencyConverterLabel: UILabel!
     @IBOutlet var currencyConverterTextField: NumberTextField!
     @IBOutlet var tableView: UITableView!
     @IBAction func addButton(_ sender: Any) {
-        guard currencyObjects.isEmpty == false else{return}
-        openTableViewController(action: .add, object: nil)
+        guard currencyObjects.isEmpty == false else{return} // ЗАЧЕМ ЭТО ТУТ??
+        
+        if userCurrencyObjects.count >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .currencies) {
+            self.showSubscriptionViewController()
+        } else {
+            openTableViewController(action: .add, object: nil)
+        }
+       
         //self.navigationController?.pushViewController(navController, animated: true)
         //self.navigationController?.present(addCurrencyVC, animated: true, completion: nil)
         // self.navigationController?.pushViewController(addCurrencyVC, animated: true)

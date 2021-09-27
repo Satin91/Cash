@@ -1,31 +1,7 @@
 {
   "identifier" : "F9762CCF",
   "nonRenewingSubscriptions" : [
-    {
-      "displayPrice" : "6.99",
-      "familyShareable" : false,
-      "internalID" : "E4229685",
-      "localizations" : [
-        {
-          "description" : "Get a one-year subscription at great prices",
-          "displayName" : "Annual subscription",
-          "locale" : "en_US"
-        },
-        {
-          "description" : "Holen Sie sich ein Jahresabo zu günstigen Pre",
-          "displayName" : "Jahresabonnement",
-          "locale" : "de"
-        },
-        {
-          "description" : "Приобретите годовую подписку по выгодной цен",
-          "displayName" : "Годовая подписка",
-          "locale" : "ru"
-        }
-      ],
-      "productID" : "cashApp.annual.subscription",
-      "referenceName" : "Annual subscription",
-      "type" : "NonRenewingSubscription"
-    }
+
   ],
   "products" : [
 
@@ -33,6 +9,7 @@
   "settings" : {
     "_billingIssuesEnabled" : false,
     "_locale" : "ru",
+    "_storefront" : "USA",
     "_timeRate" : 6
   },
   "subscriptionGroups" : [
@@ -41,20 +18,20 @@
       "localizations" : [
 
       ],
-      "name" : "Monthly",
+      "name" : "Subscription to all functions",
       "subscriptions" : [
         {
           "adHocOffers" : [
 
           ],
-          "displayPrice" : "0.99",
+          "displayPrice" : "1720002421.52",
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "6A335F1D",
           "introductoryOffer" : {
             "internalID" : "744C4B90",
             "paymentMode" : "free",
-            "subscriptionPeriod" : "P3D"
+            "subscriptionPeriod" : "P1W"
           },
           "localizations" : [
             {
@@ -75,7 +52,33 @@
           ],
           "productID" : "cashApp.month.subscription",
           "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "Monthly subscription ",
+          "referenceName" : "Month subscription",
+          "subscriptionGroupID" : "8BED3398",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "6.55",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "1FAA2584",
+          "introductoryOffer" : {
+            "internalID" : "B69ADE7F",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "by.cashApp.annual.subscription",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Annual subscription",
           "subscriptionGroupID" : "8BED3398",
           "type" : "RecurringSubscription"
         }

@@ -11,7 +11,7 @@ import Themer
 
 class OperationCell: UICollectionViewCell {
     
-    
+    let colors = AppColors()
     let label: SubTitleLabel = {
         let label = SubTitleLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -21,10 +21,24 @@ class OperationCell: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
-    
+    lazy var lockView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray.withAlphaComponent(0.4)
+        view.frame = .zero
+        view.isHidden = true
+        view.layer.cornerRadius = 12
+        view.layer.cornerCurve = .continuous
+        let image = UIImageView()
+        image.image = UIImage(named: "subscribe.lock")
+        image.setImageColor(color: .black)
+        image.frame = view.bounds
+        view.addSubview(image)
+        return view
+    }()
     let roundedRect: ThemableSecondaryView = {
         let rect = ThemableSecondaryView()
         rect.layer.cornerRadius = 12
+        rect.layer.cornerCurve = .continuous
         //rect.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         rect.translatesAutoresizingMaskIntoConstraints = false
         //rect.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
@@ -36,6 +50,9 @@ class OperationCell: UICollectionViewCell {
         
     }()
     
+    func lock(_ isLock: Bool) {
+        self.lockView.isHidden = isLock
+    }
     fileprivate func visualSettings() {
        // categoryImage.image = UIImage(named: "AppIcon")
        // categoryImage.changePngColorTo(color: ThemeManager2.currentTheme().titleTextColor)
@@ -49,6 +66,7 @@ class OperationCell: UICollectionViewCell {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.colors.loadColors()
         self.backgroundColor = .clear
         createConstraints()
         visualSettings()
@@ -63,8 +81,11 @@ class OperationCell: UICollectionViewCell {
         super.layoutSubviews()
         categoryImage.widthAnchor.constraint(equalToConstant: roundedRect.bounds.width * 0.6).isActive = true
         categoryImage.heightAnchor.constraint(equalToConstant: roundedRect.bounds.height * 0.6).isActive = true
+        lockView.frame = roundedRect.bounds
+        roundedRect.addSubview(lockView)
         
     }
+    
     func createConstraints() {
         self.addSubview(label)
         self.addSubview(roundedRect)

@@ -33,7 +33,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     var willAccountBeMain: Bool? 
 
     var imageCollectionView = AccountImagesCollectionView()
-   // var menu: InstallMenuTableView!
+    let subscriptionManager = SubscriptionManager()
     var menuTableView: MenuTableView!
     var stackViewForEditingButtons = UIStackView()
     var alertView: AlertViewController!
@@ -51,7 +51,12 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         goToQuickPayVC(PayObject: transferModel)
     }
     @IBAction func addButton(_ sender: Any) {
+        //View subscription view controller if needed
+        if accountsObjects.count >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .accounts) {
+            self.showSubscriptionViewController()
+        } else {
        openAddVC()
+        }
     }
     
     @IBOutlet var containerView: UIView!

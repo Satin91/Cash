@@ -730,6 +730,12 @@ func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], s
 
 extension UIViewController {
 
+    func showSubscriptionViewController() {
+        
+        let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionsManager", toViewController: SubscriptionsManagerViewController())
+        open.makeTheTransition()
+    }
+    
     func showMiniAlert(message: String, alertStyle: MiniAlertStyle) {
         
         var miniAlert: MiniAlertView!

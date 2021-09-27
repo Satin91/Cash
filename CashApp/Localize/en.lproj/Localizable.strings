@@ -8,50 +8,68 @@
 //MARK: - Home View Controller
 "home_navigation_title" = "Home";
 //HeaderView
-"header_accounts" = "Accounts";
-"header_budgetToday" = "Budget today";
+"header_accounts" = "My accounts";
+"header_budgetToday" = "Daily budget";
 
 //MARK: - Categories View Controller
 "categories_navigation_title" = "Categories";
-"segmented_control_0" = "Expence";
-"segmented_control_1" = "Income";
+"segmented_control_0" = "Expenses";
+"segmented_control_1" = "Incomes";
 
+// Add new category??
 //MARK: - Scheduler View Controller
-"scheduler_navigation_title" = "Scheduler";
+"scheduler_navigation_title" = "Plans";
 //MARK: - Select new schedule type View Controller
-"select_one_time_title" = "One-time payment";
+"select_one_time_title" = "Single paymentt";
 "select_multiply_title" = "Multiple payment";
 "select_regular_title" = "Regular payment";
 "select_goal_title" = "Goal";
 
-"select_one_time_description" = "Plan any payments within the same amount.";
-"select_multiply_description" = "Create loans, installments, specify payment intervals.";
-"select_regular_description" = "Create payments or disbursements on a permanent basis.";
-"select_goal_description" = "Save up for something? - Excellent! Enter the date and amount and the planner will calculate your daily budget.";
+"select_one_time_description" = "Plan any payments within one sum.";
+"select_multiply_description" = "Create credits, installments, specify payment intervals.";
+"select_regular_description" = "Create payments or payoffs on the permanent basis.";
+"select_goal_description" = "Do you save on anything? - Great! Specify the date and sum, and the planner will calculate your daily budget.";
 
-//MARK: - Add Scheduler View Controller
+//MARK: - Add/Edit Scheduler View Controller
 
-"add_one_time_title" = "Add one-time payment to plans";
-"add_multiply_title" = "Add multiple payment";
-"add_regular_title" = "Add recurring payment";
-"add_goal_title" = "Add a new goal to plans";
+"add_one_time_title" = "Add a single payment in plans";
+"add_multiply_title" = "Add a multiple payment";
+"add_regular_title" = "Add a regular payment";
+"add_goal_title" = "Add a new goal in plans";
+//Edit
+"edit_one_time_title" = "Edit a single payment";
+"edit_multiply_title" = "Edit a multiple payment";
+"edit_regular_title" = "Edit a regular payment";
+"edit_goal_title" = "Edit current goal";
 
-"add_one_time_description" = "Fill in the data and select the direction of the one-time payment";
-"add_multiply_description" = "Fill in the data and select the direction of the multiple payment";
-"add_regular_description" = "Fill in the data for regular payment";
-"add_goal_description" = "Fill in the details for your purpose";
+"add_one_time_description" = "Fill in data and select a single payment direction";
+"add_multiply_description" = "Fill in data and select a multiple payment direction";
+"add_regular_description" = "Fill in data for a regular payment";
+"add_goal_description" = "Fill in data for your goal";
 //Text fields
 "name_text_field" = "Name";
 "total_sum_text_field" = "Total sum";
-"sum_per_time_text_field" = "Amount of payment";
-"available_sum" = "Available now";
+"sum_per_time_text_field" = "Payment per time";
+"available_sum" = "Available";
 "date_button" = "Date";
-
+//repeatTalbeView
+"repeat_every_month" = "Repeat every month";
+"repeat_every_week" = "Repeat every week";
+"repeat_every_day" = "Repeat every day";
 
 //MARK: - Currency View Controller
-
 "currency_converter_label" = "Currency converter";
+"main_currency_label" = "Main currency";
+"additional_currency" = "Additional currency";
 
+//MARK: - TodayBalanceViewController
+"date_not_selected_label" = "Date wasn’t selected";
+"dayly_budget_label" = "Daily budget";
+"date_not_selected_label" = "Calculated up to";
+"impact_on_balance_label" = "Plans impact on the daily budget";
+"segmented_control_plans" = "Plans";
+"segmented_control_accounts" = "Accounts";
+"empty_accounts" = "Accounts are missing";
 
 ///MARK: - Date Format
 "year_does_not_coincide" = "MMMM, d, Y";
@@ -59,6 +77,30 @@
 "day_is_today" = "Today";
 "day_was_yestereday" = "Yestereday";
 "small_date" = "MMM dd" ;
+
+//MARK: - Общие переводы
+"name_text_field" = "Name";
+"date_button" = "Date";
+"create_button" = "Create";
+"save_button" = "Save changes";
+
+//MARK: - Accounts View Controller
+"back_button" = "Назад";
+
+//MARK: - Line Chart Cell
+//TextView messages
+"no_transactions" = "No entries on this account this month";
+"need_at_least_one" = "One more entry is required to display the graph";
+
+//MARK: - AddAccount View Controller
+"heading_label_text" = "Add a new account";
+"name_text_field_placeholder" = "Name";
+"balance_text_field_placeholder" = "Balance";
+"save_button" = "Create";
+
+//MARK: - Pop Up Table View
+"pop_edit_name_label" = "Change";
+"pop_delete_name_label" = "Delete";
 
 //MARK: - Currency
 

@@ -15,6 +15,7 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
     
 
     private var popViewController: UIViewController! // Child View Controller
+    let subscriptionManager = SubscriptionManager()
     var changeValue = true
     var pressedIndexPath: IndexPath?
     ///             Outlets:
@@ -33,7 +34,6 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         collectionView.reloadData()
-        //collectionView.layoutSubviews()
         self.tabBarController?.tabBar.showTabBar()
         
         
@@ -45,11 +45,9 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
     func createRightBarButton() {
         //openBarChartButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 25), title: .create, owner: self) as! CancelButton
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 240) )
-       
         let image = UIImage(named: "linear.chart")
         let tintedColor = image?.withRenderingMode(.alwaysTemplate)
         button.setImage(tintedColor, for: .normal)
-        
         button.tintColor = Themer.shared.theme == .dark ? .white : .black
         button.addTarget(self, action: #selector(CategoriesViewController.openBarChart(_:)), for: .touchUpInside)
         let rightBarButton = UIBarButtonItem(customView: button)

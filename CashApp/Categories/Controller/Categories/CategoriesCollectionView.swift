@@ -32,7 +32,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         let createCell: CreateOperationCell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OperationCell", for: indexPath) as! OperationCell
         
-        // let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
+         
         switch changeValue {
         case true:
             if indexPath.row == expenceObjects.count {
@@ -41,7 +41,8 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
             }else{
                 let object = expenceObjects[indexPath.row]
                 cell.set(object: object)
-
+                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories) ? cell.lock(false) : cell.lock(true)
+ 
             }
         case false :
             if indexPath.row == incomeObjects.count {
@@ -50,6 +51,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
             }else{
                 let object = incomeObjects[indexPath.row]
                 cell.set(object: object)
+                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories) ? cell.lock(false) : cell.lock(true)
                 return cell
             }
         }
@@ -83,12 +85,17 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //View subscription view controller if needed
+        if indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories) {
+            self.showSubscriptionViewController()
+        }
         switch changeValue {
         case true:
             if indexPath.row != expenceObjects.count {
                 let object =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
                 goToQuickPayVC(PayObject: object)
             }else{
+                
                 goToAddVC(object: nil, isEditing: false)
             }
         case false:

@@ -28,6 +28,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     
     var deleteColor: UIColor = .clear
     var editColor: UIColor = .clear
+    let subscriptionManager = SubscriptionManager()
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     func dismissVC(goingTo: String, typeIdentifier: String) {
         let addScheduleVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
@@ -234,6 +235,9 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         cell.sendSchedulerDelegate = self
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         cell.set(object: object)
+            indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .plans)
+            ? cell.lock.lock(true)
+            : cell.lock.lock(false)
         cell.selectionStyle = .blue
         return cell
         }
@@ -258,12 +262,16 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        if indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .plans) {
+            self.showSubscriptionViewController()
+        }
         
         if indexPath.row != EnumeratedSchedulers(object: schedulerGroup).count {
             showQuickPayDashboard(indexPath: indexPath)
         }else{
             goToSelectScheduleType()
         }
+        
     }
     func goToSelectScheduleType() {
         let selectScheduleType = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "selectSchedulerType") as! SelectSchedulerTypeViewController

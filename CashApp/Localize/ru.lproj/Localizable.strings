@@ -54,6 +54,7 @@
 
 
 //Text fields
+"name_text_field" = "Название";
 "total_sum_text_field" = "Общая сумма";
 "sum_per_time_text_field" = "Сумма платежа";
 "available_sum" = "Имеется в данный момент";
@@ -66,6 +67,8 @@
 
 //MARK: - Currency View Controller
 "currency_converter_label" = "Конвертер валют";
+"main_currency_label" = "Главная валюта";
+"additional_currency" = "Дополнительная валюта";
 
 //MARK: - TodayBalanceViewController
 "date_not_selected_label" = "Дата не выбрана";

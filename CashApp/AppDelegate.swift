@@ -18,14 +18,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let notifications = Notifications()
     let navBar = setupNavigationBar()
-    
+    let subscriptionManager = SubscriptionManager()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         Purchases.configure(withAPIKey: "HEYSketqpvpcIaiqZPyywaOdrTKmtVzE")
         Purchases.logLevel = .debug
+        subscriptionManager.checkActiveEntitlement()
         IQKeyboardManager.shared.enable = true
-
+         
         Themer.shared.theme = .light
         navBar.setColors()
         notifications.requestAutorization()
