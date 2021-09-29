@@ -262,6 +262,7 @@ func EnumeratedSchedulers(object: [Results<MonetaryScheduler>]) -> [MonetarySche
     for (_, index) in object.enumerated() {
         monetaryArray.append(contentsOf: index)
     }
+    monetaryArray = monetaryArray.sorted(by: {$0.dateOfCreation < $1.dateOfCreation})
     return monetaryArray
 }
 func enumeratedALL<T: Comparable>(object:Results<T>) -> [T] {
@@ -472,21 +473,31 @@ extension UIView {
         view.layer.addSublayer(gradientLayer)
         
     }
-    
-    func drawDash(radius: CGFloat, color: UIColor) {
+    func drawDash(radius: CGFloat, layer: CAShapeLayer) {
         //Нужно чтобы слой не повторялся
         self.layer.sublayers?.removeAll()
-        let border = CAShapeLayer()
-        border.removeFromSuperlayer()
-        border.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
-        //border.path = UIBezierPath(roundedRect:dashView.bounds, cornerRadius:10.0).cgPath
-        border.frame = self.bounds
-        border.fillColor = nil
-        border.strokeColor = color.cgColor
-        border.lineWidth = 3 // doubled since half will be clipped
-        border.lineDashPattern = [15.0,4]
-        self.layer.addSublayer(border)
+      
+        layer.removeFromSuperlayer()
+        layer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
+        layer.frame = self.bounds
+        layer.fillColor = nil
+        layer.lineWidth = 3 // doubled since half will be clipped
+        layer.lineDashPattern = [15.0,4]
+        self.layer.addSublayer(layer)
     }
+//    func drawDash(radius: CGFloat, color: UIColor) {
+//        //Нужно чтобы слой не повторялся
+//        self.layer.sublayers?.removeAll()
+//        let border = CAShapeLayer()
+//        border.removeFromSuperlayer()
+//        border.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
+//        border.frame = self.bounds
+//        border.fillColor = nil
+//        border.strokeColor = color.cgColor
+//        border.lineWidth = 3 // doubled since half will be clipped
+//        border.lineDashPattern = [15.0,4]
+//        self.layer.addSublayer(border)
+//    }
 }
 
 //MARK:     Extension for hide keyboard

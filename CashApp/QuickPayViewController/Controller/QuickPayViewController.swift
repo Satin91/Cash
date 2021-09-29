@@ -56,16 +56,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }()
     let transfer = Transfer()
     var numpadView = NumpadView()
-  
-    
-    //    var accountIdentifier = ""
-    //    //var dropTableView = DropDownTableView()
-    //    var dropIndexPath: Int?
-    //    var dropDownHeight = NSLayoutConstraint() //переменная для хранения значения констрейнта
-    //    var dropDownIsOpen = false
-    //    var changeValue = true
-    //    var commaIsPressed = false // Запятая
-    var calendar = FSCalendarView()
+
+    var calendar: FSCalendarView!
     var date = Date()
     //Аккаунт для того чтобы поставить его первым
     var withoutAccountObject: MonetaryAccount = {
@@ -173,7 +165,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         self.setColors()
         createCancelButton()
         payObjectNameLabel.textAlignment = .left
-        tableView = QuickTableView(frame: .zero) // Аналогично
+        tableView = QuickTableView(frame: .zero)
+        calendar = FSCalendarView(frame: self.view.bounds)
         calendar.delegate = self
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
@@ -230,6 +223,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
         containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
         calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge)
+        calendar.layer.cornerCurve = .continuous
+        calendar.layer.cornerRadius = 22
         isOffsetUsed = true
         scrollView.contentSize.height = 1 // Disable vertical scroll
     }

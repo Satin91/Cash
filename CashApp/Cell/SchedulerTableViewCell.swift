@@ -44,17 +44,18 @@ class SchedulerTableViewCell: SwipeTableViewCell {
         let nib = UINib(nibName: "SchedulerTableViewCell", bundle: nil)
         return nib
     }
-    
-    var object: MonetaryScheduler!
-    var lock = LockView(frame: .zero)
-    
+    weak var object: MonetaryScheduler!
+    var lockView: LockView!
+
+    func lock(_ isLock: Bool) {
+        lockView.isHidden = !isLock
+    }
     func set(object: MonetaryScheduler) {
-        lock.addLock(to: roundedBackground, withRadius: 25)
         
         fillTheDataForLabels(object: object, pptObject: getPPTObject(object: object))
         Themer.shared.register(target: self, action: SchedulerTableViewCell.theme(_:))
     }
-    
+
     func fillTheDataForLabels(object: MonetaryScheduler, pptObject: PayPerTime?) {
         titleLabel.text = object.name
         
@@ -137,16 +138,22 @@ class SchedulerTableViewCell: SwipeTableViewCell {
         self.backgroundColor = .clear
         
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        //self.lockView = LockView(frame: .zero)
+        self.lockView.addLock(to: roundedBackground, lockSize: .plan)
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         visualSettings()
+        
         self.layer.masksToBounds = false
         self.contentView.layer.masksToBounds = false
         self.roundedBackground.layer.masksToBounds = false
-        
+        self.lockView = LockView(frame: .zero)
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         

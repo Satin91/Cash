@@ -24,7 +24,7 @@
           "adHocOffers" : [
 
           ],
-          "displayPrice" : "1720002421.52",
+          "displayPrice" : "1.55",
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "6A335F1D",
@@ -61,7 +61,7 @@
 
           ],
           "displayPrice" : "6.55",
-          "familyShareable" : false,
+          "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "1FAA2584",
           "introductoryOffer" : {

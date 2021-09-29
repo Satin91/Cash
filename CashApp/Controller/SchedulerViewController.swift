@@ -52,7 +52,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
         navVC.modalPresentationStyle = .automatic
         present(navVC, animated: true, completion: nil)
     }
-    
+  
     @objc func createTransition(_ sender: Any) {
         print("ANY")
         //let vc = CalendarSchedulerViewController()
@@ -100,9 +100,11 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         setupNavBar()
+        tableView.reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         Themer.shared.register(target: self, action: SchedulerViewController.theme(_:))
         colors.loadColors()
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -227,6 +229,9 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         
         if  indexPath.row == EnumeratedSchedulers(object: schedulerGroup).count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CreateIdentifier", for: indexPath) as! CreateScheduleCell
+            indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .plans)
+            ? cell.lock(true)
+            : cell.lock(false)
             cell.selectionStyle = .none
             return cell
         }else{
@@ -236,8 +241,8 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         cell.set(object: object)
             indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .plans)
-            ? cell.lock.lock(true)
-            : cell.lock.lock(false)
+            ? cell.lock(true)
+            : cell.lock(false)
         cell.selectionStyle = .blue
         return cell
         }

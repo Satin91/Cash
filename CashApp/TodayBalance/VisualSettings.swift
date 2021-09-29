@@ -27,8 +27,8 @@ extension TodayBalanceViewController {
         tableView.register(TodayBalanceTableViewCell.nib(), forCellReuseIdentifier: TodayBalanceTableViewCell.identifier)
     }
     func installCalendar(){
-        calendar.delegate = self
-        calendar.dataSource = self
+      //  calendar.delegate = self
+      // calendar.dataSource = self
         
         
         //updateTotalBalanceSum(animated: true)
@@ -42,8 +42,8 @@ extension TodayBalanceViewController {
         calendarButtonOutlet.setTitle("", for: .normal)
         calendarButtonOutlet.setImageTintColor(colors.backgroundcolor, imageName: "calendarForButton")
         blur.frame = self.view.bounds
-        calendar.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.6)
-        calendarContainerView.frame = calendar.frame
+     //   calendar.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.8, height: self.view.bounds.height * 0.6)
+       // calendarContainerView.frame = calendar.frame
        
         //labels font weight and size
         dailyBudgetLabel.font = .systemFont(ofSize: 19, weight: .medium)

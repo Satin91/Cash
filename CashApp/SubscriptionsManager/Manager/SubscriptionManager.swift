@@ -34,7 +34,7 @@ class SubscriptionManager: NSObject  {
     
     func allowedNumberOfCells(objectsCountFor: MonetaryObjectType) -> Int {
         // check value from userDefalts and set its to UserDefaults
-        checkActiveEntitlement()
+    //    checkActiveEntitlement()
         
         let isActive = UserDefaults.standard.bool(forKey: "isAvailable")
         if isActive == true {
@@ -44,6 +44,7 @@ class SubscriptionManager: NSObject  {
         }
     }
     
+    
     func checkActiveEntitlement(){
         // Проверка на валидность подписки
         Purchases.shared.purchaserInfo { [weak self]info, error in
@@ -51,13 +52,12 @@ class SubscriptionManager: NSObject  {
             guard let info = info, error == nil else { return }
             if info.entitlements.all["Standart"]?.isActive == true {
                 Subscription.isAvailable = true
-                print("subscription ifs true")
+                //print("subscription ifs true")
                 
             } else {
                 Subscription.isAvailable = false
-                print("subscription is false")
+                //print("subscription is false")
                 DispatchQueue.main.async {
-
                 }
             }
         }
@@ -84,6 +84,7 @@ class SubscriptionManager: NSObject  {
                   !userCancelled else {
                 return
             }
+            checkBlockedSchedulers() // Блокировка или разблокировка планов
             self.checkActiveEntitlement()
         }
     }

@@ -154,6 +154,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     func setupAccountCollectionView() {
         accountsCollectionView.delegate = self
         accountsCollectionView.dataSource = self
+        accountsCollectionView.clipsToBounds = false
         accountsCollectionView.isPagingEnabled = true
     }
     
@@ -197,7 +198,7 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountCollectionViewCell().identifier, for: indexPath) as! AccountCollectionViewCell
         let object = accountsObjects[indexPath.row]
             cell.setAccount(account: object)
-           
+            cell.lock(object.isBlock)
             cell.closure = { [weak self] (success) in
                 guard let self = self else { return}
                                if success {

@@ -18,7 +18,7 @@ class MainButton: UIButton {
         self.clipsToBounds = true
         self.contentHorizontalAlignment = .center
         self.setTitle(NSLocalizedString(withTitle, comment: ""), for: .normal)
-        self.setTitleColor(ThemeManager2.currentTheme().backgroundColor, for: .normal)
+        //self.setTitleColor(ThemeManager2.currentTheme().backgroundColor, for: .normal)
         Themer.shared.register(target: self, action: MainButton.theme(_:))
     }
     func theme(_ theme: MyTheme) {

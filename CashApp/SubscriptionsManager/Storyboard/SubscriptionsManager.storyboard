@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XMl-oW-m0Q">
-                                <rect key="frame" x="26" y="84" width="362" height="752"/>
+                                <rect key="frame" x="26" y="70" width="362" height="766"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="Hai-5t-v3d">
-                                        <rect key="frame" x="22" y="588" width="318" height="142"/>
+                                        <rect key="frame" x="22" y="602" width="318" height="142"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eiC-An-y1v">
                                                 <rect key="frame" x="0.0" y="0.0" width="318" height="60"/>
@@ -115,7 +115,7 @@
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="XMl-oW-m0Q" secondAttribute="trailing" constant="26" id="AgC-YL-49w"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="XMl-oW-m0Q" secondAttribute="bottom" constant="26" id="SDQ-k2-ggc"/>
-                            <constraint firstItem="XMl-oW-m0Q" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="40" id="TVd-lw-peJ"/>
+                            <constraint firstItem="XMl-oW-m0Q" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="26" id="TVd-lw-peJ"/>
                             <constraint firstItem="XMl-oW-m0Q" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="26" id="e0t-Xi-gLN"/>
                         </constraints>
                     </view>

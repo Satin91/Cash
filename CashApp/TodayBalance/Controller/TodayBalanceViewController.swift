@@ -20,7 +20,7 @@ class TodayBalanceViewController: UIViewController {
     let colors = AppColors()
     //MARK: Элементы интерфейса
     private let currencyModelController = CurrencyModelController()
-    let calendar = FSCalendarView()
+   // let calendar = FSCalendarView()
     var calendarContainerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 26
@@ -67,13 +67,15 @@ class TodayBalanceViewController: UIViewController {
     @IBAction func segmentedControl(_ sender: HBSegmentedControl) {
         sender.changeSegmentWithAnimation(tableView: tableView, collectionView: nil, ChangeValue: &changeValue)
     }
+    var calendar: TodayBalanceCalendarViewController!
     @IBAction func calendarButtonAction(_ sender: Any) {
-        calendarContainerView.center = self.view.center
-        calendar.center = calendarContainerView.center
         
-        self.view.animateView(animatedView: blur, parentView: self.view)
-        self.view.animateView(animatedView: calendarContainerView, parentView: self.view)
-        self.view.animateView(animatedView: calendar, parentView: self.view)
+     //   calendarContainerView.center = self.view.center
+     //   calendar.center = calendarContainerView.center
+        
+       // self.view.animateView(animatedView: blur, parentView: self.view)
+        //self.view.animateView(animatedView: calendarContainerView, parentView: self.view)
+       // self.view.animateView(animatedView: calendar, parentView: self.view)
     }
     @IBOutlet var circleBarContainerView: UIView!
     @IBOutlet var circleBar: CircleView!
@@ -123,12 +125,12 @@ class TodayBalanceViewController: UIViewController {
         guard let todayBalance = todayBalanceObject else {return}
         let divider = getDivider()
         for i in oneTimeObjects {
-            if i.date <= todayBalance.endDate {
+            if i.date <= todayBalance.endDate && i.isBlock == false {
                 sschedulerArray.append(SchedulersForTableView(scheduler: i, todaySum: (i.target - i.available) / Double(divider)))
             }
         }
-        for i in goalObjects {
-            if i.date <= todayBalance.endDate {
+        for i in goalObjects  {
+            if i.date <= todayBalance.endDate && i.isBlock == false{
                 if  divider == 0 {
                     sschedulerArray.append(SchedulersForTableView(scheduler: i, todaySum: (i.target - i.available)))
                 }else{
@@ -197,18 +199,18 @@ class TodayBalanceViewController: UIViewController {
         guard let endDate = todayBalanceObject?.endDate else {return}
         for i in payPerTimeObjects{
             for schedulers in EnumeratedSchedulers(object: schedulerGroup) {
-                if i.scheduleID == schedulers.scheduleID && schedulers.isUseForTudayBalance && i.date <= endDate {
+                if i.scheduleID == schedulers.scheduleID && schedulers.isUseForTudayBalance && i.date <= endDate && schedulers.isBlock == false{
                     subtrahend += currencyModelController.convert(i.vector ? +i.target : -i.target, inputCurrency: i.currencyISO, outputCurrency: mainCurrency?.ISO)!
                 }
             }
         }
         for x in Array(oneTimeObjects) {
-            if x.isUseForTudayBalance && x.date <= endDate {
+            if x.isUseForTudayBalance && x.date <= endDate && x.isBlock == false{
                 subtrahend += currencyModelController.convert(x.vector ? +x.target : -x.target, inputCurrency: x.currencyISO, outputCurrency: mainCurrency?.ISO)!
             }
         }
         for y in Array(goalObjects) {
-            if y.isUseForTudayBalance && y.date <= endDate {
+            if y.isUseForTudayBalance && y.date <= endDate && y.isBlock == false{
                 subtrahend += currencyModelController.convert(y.vector ? +y.target : -y.target, inputCurrency: y.currencyISO, outputCurrency: mainCurrency?.ISO)!
             }
         }
@@ -235,15 +237,15 @@ class TodayBalanceViewController: UIViewController {
         setTodayBalanceData(animated: animated)
         circleBar.progressAnimation(currentlyBalance: todayBalanceObject!.currentBalance, commonBalance: todayBalanceObject!.commonBalance)
     }
-    
-    @objc func calendarButtonPressed(_ button: UIButton) {
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "toCalendar" else { return }
+        guard let destination = segue.destination as? TodayBalanceCalendarViewController else { return }
+        destination.endDate = todayBalanceObject?.endDate
     }
-    
-    
-    
-    
-    
+    @IBAction func unwindToTodayBalanceVC(segue: UIStoryboardSegue) {
+        self.updateTotalBalanceSum(animated: true)
+        }
+ 
 }
 
 

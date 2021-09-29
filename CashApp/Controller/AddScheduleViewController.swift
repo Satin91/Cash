@@ -76,19 +76,19 @@ class AddScheduleViewController: UIViewController {
     var calendarComponent: Calendar.Component = .weekOfMonth
     var date: Date!
     var miniAlertView: MiniAlertView!
-    var calendar: FSCalendarView = {
-       let calendar = FSCalendarView()
-        calendar.translatesAutoresizingMaskIntoConstraints = false
-        calendar.layer.cornerRadius = 18
-        calendar.alpha = 0
-        return calendar
-    }()
+    var calendar: FSCalendarView!
+//    = {
+//       let calendar = FSCalendarView()
+//        calendar.translatesAutoresizingMaskIntoConstraints = false
+//        calendar.layer.cornerRadius = 18
+//        calendar.alpha = 0
+//        return calendar
+//    }()
     var tableView: UITableView = {
        let tableView = UITableView()
         tableView.backgroundColor = .clear
         tableView.alpha = 0
         tableView.layer.cornerRadius = 18
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
@@ -492,16 +492,18 @@ class AddScheduleViewController: UIViewController {
     }
 
     func constraintsForTableViewAndCalendar() {
+        
         self.view.addSubview(calendar)
         self.view.addSubview(tableView)
-        
+        self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.calendar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             calendar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
             calendar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
             calendar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 26),
             //
             tableView.heightAnchor.constraint(equalToConstant: 60 * 3),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60),
             tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
             tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
         ])
@@ -516,9 +518,13 @@ class AddScheduleViewController: UIViewController {
     }
 
     func setupCalendarAndTableView() {
+        self.calendar = FSCalendarView(frame: self.view.bounds)
+        self.calendar.alpha = 0
+        self.calendar.layer.cornerRadius = 22
+        self.calendar.layer.cornerCurve = .continuous
         constraintsForTableViewAndCalendar()
-        
         calendar.delegate = self
+        calendar.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DateRhythmCell")
@@ -628,6 +634,12 @@ extension AddScheduleViewController {
 
 extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
     
+    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+
+        let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
+        cell.setStyle(cellStyle: .DIYCalendar)
+        return cell
+    }
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.date = date
         

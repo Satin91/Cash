@@ -21,22 +21,18 @@ class CurrencyTableViewCell: UITableViewCell {
     }()
     let currencyModelController = CurrencyModelController()
     
-    override func prepareForReuse() {
+    override func prepareForReuse() {  // Конвертирует валюту в ту, которая в нулевом индексе(first)
         super.prepareForReuse()
         guard let object = userCurrencyObjects.first else {return}
         mainCurrency = object
     }
-    
     func visualSettings() {
         ISOLabel.font = .systemFont(ofSize: 14, weight: .regular)
         isMainCurrencyLabel.font = .systemFont(ofSize: 17, weight: .regular)
         currencyDescriptionLabel.font = .systemFont(ofSize: 21, weight: .regular)
-        
-        currencyImage.layer.cornerRadius = 5
-        currencyImage.layer.borderWidth = 1.5
-        
-        
-        
+        //currencyImage.layer.cornerRadius = 5
+        //currencyImage.layer.borderWidth = 1.5
+        currencyImage.layer.setMiddleShadow(color: colors.shadowColor)
     }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -48,12 +44,6 @@ class CurrencyTableViewCell: UITableViewCell {
         getCurrenciesByPriorities()
         visualSettings()
         currencyImage.image = UIImage(named: currencyObject.ISO)
-        isMainCurrencyLabel.text = currencyObject.ISO == mainCurrency?.ISO ?
-              NSLocalizedString("main_currency_cell", comment: "")
-            : NSLocalizedString("additional_currency_cell", comment: "")
-        isMainCurrencyLabel.textColor = currencyObject.ISO == mainCurrency?.ISO ?
-            colors.contrastColor1
-            :colors.subtitleTextColor
         ISOLabel.text = currencyObject.ISO
         currencyDescriptionLabel.text = CurrencyList.CurrencyName(rawValue: currencyObject.ISO)?.getRaw
         self.setCellColors()
@@ -63,6 +53,7 @@ class CurrencyTableViewCell: UITableViewCell {
         ISOLabel.text = currencyObject.ISO
         let convertedSum = currencyModelController.convert(enteredSum, inputCurrency: mainCurrency?.ISO, outputCurrency: currencyObject.ISO)?.formattedWithSeparator
         currencyDescriptionLabel.text = convertedSum
+        self.setCellColors()
     }
     
     override func layoutSubviews() {

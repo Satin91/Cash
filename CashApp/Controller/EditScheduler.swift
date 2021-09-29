@@ -69,7 +69,7 @@ extension AddScheduleViewController {
                 account = i
             }
         }
-        account = account ?? MonetaryAccount(name: "QSGHNDHDSGHJ", balance: 0, targetSum: 0, date: nil, imageForAccount: "account1", imageForCell: "account1", accountType: .none, currencyISO: mainCurrency!.ISO, isMainAccount: false, isUseForTudayBalance: false)
+        account = account ?? MonetaryAccount(name: "QSGHNDHDSGHJ", balance: 0, targetSum: 0, date: nil, imageForAccount: "account1", imageForCell: "account1", accountType: .none, currencyISO: mainCurrency!.ISO, isMainAccount: false, isUseForTudayBalance: false, isBlock: false)
         for i in EnumeratedSchedulers(object: schedulerGroup) {
             if i.scheduleID == newScheduleObject.scheduleID {
                 try! realm.write {

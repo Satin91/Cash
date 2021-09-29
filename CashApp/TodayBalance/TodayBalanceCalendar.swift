@@ -51,9 +51,9 @@ extension TodayBalanceViewController: FSCalendarDelegateAppearance,FSCalendarDel
         }
         endDate = date
         updateTotalBalanceSum(animated: true)
-        self.view.reservedAnimateView2(animatedView: blur)
-        self.view.reservedAnimateView2(animatedView: calendarContainerView)
-        self.view.reservedAnimateView2(animatedView: self.calendar)
+       // self.view.reservedAnimateView2(animatedView: blur)
+      //  self.view.reservedAnimateView2(animatedView: calendarContainerView)
+     //   self.view.reservedAnimateView2(animatedView: self.calendar)
     }
     
     

@@ -23,7 +23,7 @@ import RealmSwift
 
 let currencyList = CurrencyList()
 var mainCurrency =              fetchMainCurrency()
-let accountsObjects =               fetchAccounts(accountType: 1)//.sorted(byKeyPath: "isMainAccount", ascending: false)//Card = 1
+let accountsObjects =               fetchAccounts(accountType: 1)//.sorted(byKeyPath: "dateOfCreate", ascending: false)//Card = 1
 //let savingsObjects =              fetchAccounts(accountType: 2).sorted(byKeyPath: "date", ascending: false)//Cash = 2
 
 
@@ -54,14 +54,39 @@ var schedulerGroup = [oneTimeObjects,multiplyObjects,regularObjects,goalObjects]
 ///Меню в AccountsViewController
 var accountsGroup = [accountsObjects]
 
-func fetchPayPerTime() {
-    
+let manager = SubscriptionManager()
+func checkBlockedSchedulers() {
+    for (index,value) in EnumeratedSchedulers(object: schedulerGroup).enumerated() {
+        try! realm.write({
+            if index >=  manager.allowedNumberOfCells(objectsCountFor: .plans) {
+                value.isBlock = true
+                realm.add(value,update: .all)
+            } else {
+                value.isBlock = false
+                realm.add(value,update: .all)
+            }
+        })
+    }
+}
+func checkBlockedAccounts() {
+    for (index,value) in EnumeratedAccounts(array: accountsGroup).enumerated() {
+        try! realm.write({
+            if index >= manager.allowedNumberOfCells(objectsCountFor: .accounts) {
+                value.isBlock = true
+                realm.add(value,update: .all)
+            } else {
+                value.isBlock = false
+                realm.add(value,update: .all)
+            }
+        })
+    }
 }
 
+let oper = CurrencyOperations()
 func getCurrenciesByPriorities(){
     var currencySortedArray: [CurrencyObject] = []
     var currencyNonPriority: [CurrencyObject] = []
-    
+    oper.checkPRO()
     for i in currencyObjects {
         if i.ISOPriority != 15888 { // 15888 это дефолтное значение
             currencySortedArray.append(i)
@@ -77,7 +102,6 @@ func getCurrenciesByPriorities(){
     
     currencyNonPrioritiesObjects = currencyNonPriority //.sorted(by: { $0.ISO < $1.ISO })
     userCurrencyObjects    = currencySortedArray.sorted(by: { $0.ISOPriority < $1.ISOPriority })
-    
 }
 func containsISO(Iso: String) ->Bool {
     if currencyObjects.contains(where: { Object in
@@ -107,8 +131,6 @@ func addMainCurrencyForPriorityIfNeeded(mainISO: String){
     }
 }
 func fetchTodayBalance()-> TodayBalance? {
-    
-    
     return Array(realm.objects(TodayBalance.self)).first ?? nil
 }
 

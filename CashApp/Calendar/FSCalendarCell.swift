@@ -54,7 +54,7 @@ class DIYFSCalendarCell: FSCalendarCell{
         self.eventView.backgroundColor = contrastColor
         //createEventView(toView: contentView)
         self.backgroundView = contentView
-        self.backgroundView?.addSubview(eventView)
+        self.backgroundView?.insertSubview(eventView, at: 10)
     }
     
     func setStyle(cellStyle: CellStyle) {
@@ -85,20 +85,23 @@ class DIYFSCalendarCell: FSCalendarCell{
         super.layoutSubviews()
         
        
-        self.selectionLayer.frame = self.bounds.inset(by: UIEdgeInsets(top: self.bounds.height / 5, left: 0, bottom:  self.bounds.height / 5, right: 0) )
+        
         //self.eventView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height / 5)
         self.backgroundView?.frame = self.bounds.inset(by: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4))
         createEventView(toView: self.backgroundView!)
-        
+        self.selectionLayer.frame = self.bounds.inset(by: UIEdgeInsets(top: 4, left: 0, bottom:  4, right: 0) )
+        let leftFrame =             self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 4, bottom:  0, right: 0))
+        let rightFrame =            self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 4))
+        //self.bounds.inset(by: UIEdgeInsets(top: self.bounds.height / 5, left: 0, bottom:  self.bounds.height / 5, right: 0) )
         
         if selectionType == .middle {
             self.selectionLayer.path = UIBezierPath(rect: self.selectionLayer.bounds).cgPath
         }
         else if selectionType == .leftBorder {
-            self.selectionLayer.path = UIBezierPath(roundedRect: self.selectionLayer.bounds, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: self.selectionLayer.frame.width / 2, height: self.selectionLayer.frame.width / 2)).cgPath
+            self.selectionLayer.path = UIBezierPath(roundedRect: leftFrame, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: 5, height: 5)).cgPath
         }
         else if selectionType == .rightBorder {
-            self.selectionLayer.path = UIBezierPath(roundedRect: self.selectionLayer.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: self.selectionLayer.frame.width / 2, height: self.selectionLayer.frame.width / 2)).cgPath
+            self.selectionLayer.path = UIBezierPath(roundedRect: rightFrame, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 5, height: 5)).cgPath
         }
         else if selectionType == .single {
             let diameter: CGFloat = min(self.selectionLayer.frame.height, self.selectionLayer.frame.width)
@@ -123,7 +126,7 @@ class DIYFSCalendarCell: FSCalendarCell{
 extension DIYFSCalendarCell {
     func theme(_ theme: MyTheme) {
         self.themeBackgroundColor = theme.settings.backgroundColor
-        self.selectionBackgroundColor = theme.settings.borderColor
+        self.selectionBackgroundColor = theme.settings.backgroundColor
         self.themeSecondaryBackgroundColor = theme.settings.secondaryBackgroundColor
         self.contrastColor = theme.settings.contrastColor1
         self.borderColor = theme.settings.borderColor

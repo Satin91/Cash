@@ -31,6 +31,11 @@ extension PurchaseProductViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SubscriptionTableViewCell", for: indexPath) as! SubscriptionTableViewCell
         cell.selectionStyle = .blue
+        if indexPath.row == 0 {
+            cell.textLabel?.text = "Месяц"
+        } else if indexPath.row == 1 {
+            cell.textLabel?.text = "Год"
+        }
         cell.textLabel?.font = .systemFont(ofSize: 26, weight: .medium)
         return cell
     }

@@ -71,12 +71,21 @@ class CalculatePayPerTimeParts {
         var scheduleID: String
         var totalSum: Double
     }
-    
+    func isBlockScheduler(id: String) -> Bool {
+        
+        var plan = MonetaryScheduler()
+        
+        for i in EnumeratedSchedulers(object: schedulerGroup) {
+            if i.scheduleID == id {
+                plan = i
+            }
+        }
+        return plan.isBlock
+    }
     func getUniq(endDate: Date,divider: Int) -> [String]{
-    //
         var uniqSchedulerIDs: [String] = []
-        //запись все
-        for i in payPerTimeObjects where i.date <= endDate{
+        // Получение уникальных элементов
+        for i in payPerTimeObjects where i.date <= endDate && isBlockScheduler(id: i.scheduleID) == false{
             if !uniqSchedulerIDs.contains(where: { id in
                 id == i.scheduleID
             }) {

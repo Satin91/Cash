@@ -67,8 +67,8 @@
 
 //MARK: - Currency View Controller
 "currency_converter_label" = "Конвертер валют";
-"main_currency_label" = "Главная валюта";
-"additional_currency" = "Дополнительная валюта";
+"main_currency_cell" = "Главная валюта";
+"additional_currency_cell" = "Дополнительная валюта";
 
 //MARK: - TodayBalanceViewController
 "date_not_selected_label" = "Дата не выбрана";
@@ -108,10 +108,6 @@
 "create_button" = "Создать";
 "save_button" = "Сохранить";
 
-
-//MARK: - Currency View Controller
-"main_currency_cell" = "Главная валюта";
-"additional_currency_cell" = "Дополнительная валюта";
 
 //MARK: - Pop Up Table View
 "pop_edit_name_label" = "Изменить";

@@ -19,10 +19,18 @@ class CreateScheduleCell: UITableViewCell {
         let nib = UINib(nibName: "CreateScheduleCell", bundle: nil)
         return nib
     }
+    var lockView: LockView!
+    var border =  CAShapeLayer()
+    
+    func lock(_ isLock: Bool) {
+        lockView.lock(!isLock)
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.dashView.backgroundColor = .clear
+        lockView = LockView(frame: self.bounds)
+        
         createScheduleLabel.text = "Добавить"
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -38,17 +46,21 @@ class CreateScheduleCell: UITableViewCell {
         self.createScheduleLabel.font = .systemFont(ofSize: 26, weight: .regular)
         
     }
+  
     override func layoutSubviews() {
         super.layoutSubviews()
         Themer.shared.register(target: self, action: CreateScheduleCell.theme(_:))
         dashView.center = self.contentView.center
         createScheduleLabel.center = self.contentView.center
         visualSettings()
+        lockView.addLock(to: self, lockSize: .plan)
     }
 }
+
 extension CreateScheduleCell {
     private func theme(_ theme: MyTheme) {
         self.contentView.backgroundColor = theme.settings.backgroundColor
-        dashView.drawDash(radius: 25, color: theme.settings.borderColor)
+        self.border.strokeColor = theme.settings.borderColor.cgColor
+        dashView.drawDash(radius: 25,layer: self.border)
     }
 }

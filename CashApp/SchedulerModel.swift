@@ -25,6 +25,7 @@ class MonetaryScheduler: Object, Comparable {
     @objc dynamic var image: String = "card"
     @objc dynamic var currencyISO = "USD"
     @objc dynamic var isUseForTudayBalance = true
+    @objc dynamic var isBlock = false
     @objc dynamic var vector = false
     @objc dynamic var scheduleType: Int = ScheduleType.oneTime.rawValue
     @objc dynamic var scheduleID = NSUUID.init().uuidString
@@ -39,7 +40,7 @@ class MonetaryScheduler: Object, Comparable {
     override static func primaryKey() -> String? {
         return "scheduleID"
     }
-    convenience init(name: String,target: Double,available:Double,sumPerTime:Double,date:Date,dateOfCreation: Date,dateRhytm:Int?,image: String,currencyISO: String,isUseForTudayBalance: Bool,scheduleType:ScheduleType,dateRhythm: DateRhythm, vector: Bool) {
+    convenience init(name: String,target: Double,available:Double,sumPerTime:Double,date:Date,dateOfCreation: Date,dateRhytm:Int?,image: String,currencyISO: String,isUseForTudayBalance: Bool,isBlock: Bool,  scheduleType:ScheduleType,dateRhythm: DateRhythm, vector: Bool) {
         self.init()
         self.name = name
         self.target = target
@@ -52,6 +53,7 @@ class MonetaryScheduler: Object, Comparable {
         self.vector = vector
         self.currencyISO = currencyISO
         self.isUseForTudayBalance = isUseForTudayBalance
+        self.isBlock = isBlock
         self.scheduleType = scheduleType.rawValue
         
     }

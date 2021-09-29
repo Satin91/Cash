@@ -23,6 +23,7 @@ class CalendarSchedulerViewController: UIViewController {
     @IBAction func closeButtonAction(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+   
     var cancelButton: CancelButton!
     var datesArray = [Date]()
     var quickPayVC: UIViewController!
@@ -80,7 +81,6 @@ class CalendarSchedulerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createCancelButton()
-
         calendarView.reloadData()
         calendarView.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
         calendarView.delegate = self
@@ -119,9 +119,7 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
     
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
         configureVisibleCells()
-        //configureVisibleCells()
     }
    
     

@@ -21,27 +21,12 @@ class OperationCell: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
-    lazy var lockView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray.withAlphaComponent(0.4)
-        view.frame = .zero
-        view.isHidden = true
-        view.layer.cornerRadius = 12
-        view.layer.cornerCurve = .continuous
-        let image = UIImageView()
-        image.image = UIImage(named: "subscribe.lock")
-        image.setImageColor(color: .black)
-        image.frame = view.bounds
-        view.addSubview(image)
-        return view
-    }()
+
     let roundedRect: ThemableSecondaryView = {
         let rect = ThemableSecondaryView()
         rect.layer.cornerRadius = 12
         rect.layer.cornerCurve = .continuous
-        //rect.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         rect.translatesAutoresizingMaskIntoConstraints = false
-        //rect.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
         return rect
     }()
     let categoryImage: UIImageView = {
@@ -49,10 +34,11 @@ class OperationCell: UICollectionViewCell {
         return image
         
     }()
-    
+    lazy var lockView = LockView(frame: self.bounds)
     func lock(_ isLock: Bool) {
-        self.lockView.isHidden = isLock
+        lockView.lock(!isLock)
     }
+    
     fileprivate func visualSettings() {
        // categoryImage.image = UIImage(named: "AppIcon")
        // categoryImage.changePngColorTo(color: ThemeManager2.currentTheme().titleTextColor)
@@ -76,13 +62,13 @@ class OperationCell: UICollectionViewCell {
         let nib = UINib(nibName: "OperationCell", bundle: nil)
         return nib
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         categoryImage.widthAnchor.constraint(equalToConstant: roundedRect.bounds.width * 0.6).isActive = true
         categoryImage.heightAnchor.constraint(equalToConstant: roundedRect.bounds.height * 0.6).isActive = true
-        lockView.frame = roundedRect.bounds
-        roundedRect.addSubview(lockView)
+        lockView.addLock(to: roundedRect, lockSize: .category)
+      //  createLockView()
         
     }
     
@@ -94,8 +80,6 @@ class OperationCell: UICollectionViewCell {
         label.topAnchor.constraint(equalTo: topAnchor).isActive = true
         label.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         label.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        //roundedRect.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        //roundedRect.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         roundedRect.topAnchor.constraint(equalTo: label.bottomAnchor,constant: 5).isActive = true
         roundedRect.bottomAnchor.constraint(equalTo:  bottomAnchor).isActive = true
         roundedRect.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

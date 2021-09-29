@@ -29,7 +29,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let createCell: CreateOperationCell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
+        let createCell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OperationCell", for: indexPath) as! OperationCell
         
          
@@ -37,21 +37,33 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         case true:
             if indexPath.row == expenceObjects.count {
                 createCell.layoutSubviews() // требуется для того чтобы даш выглядел как надо
+                //createCell.lock(true)
+                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories)
+                ? createCell.lock(true)
+                : createCell.lock(false)
+                
                 return createCell
             }else{
                 let object = expenceObjects[indexPath.row]
                 cell.set(object: object)
-                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories) ? cell.lock(false) : cell.lock(true)
+                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories)
+                ? cell.lock(true)
+                : cell.lock(false)
  
             }
         case false :
             if indexPath.row == incomeObjects.count {
                 createCell.layoutSubviews() // требуется для того чтобы даш выглядел как надо
+                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories)
+                ? createCell.lock(true)
+                : createCell.lock(false)
                 return createCell
             }else{
                 let object = incomeObjects[indexPath.row]
                 cell.set(object: object)
-                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories) ? cell.lock(false) : cell.lock(true)
+                indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories)
+                ? cell.lock(true)
+                : cell.lock(false)
                 return cell
             }
         }
@@ -61,9 +73,12 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     private func createNewLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
              
-            let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(5/5), heightDimension: .fractionalHeight(4/5)))
-            if self.view.bounds.width > 400 {
-            trailingItem.contentInsets = NSDirectionalEdgeInsets(top: 8.0, leading: 8.0, bottom: 8.0, trailing: 8.0)
+            var trailingItem: NSCollectionLayoutItem!
+            print(self.view.bounds.width)
+            if self.view.bounds.width > 380 {
+                trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(5/5), heightDimension: .fractionalHeight(4/5)))
+            } else {
+                trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
             }
             
             let subGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(2/5)), subitem: trailingItem, count: 3)
@@ -133,7 +148,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func setupCollectionView() {
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressGesture(_:)))
-        
+        collectionView.clipsToBounds = false
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInsetAdjustmentBehavior = .never
@@ -142,7 +157,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         collectionView.addGestureRecognizer(gesture)
         collectionView.register(OperationCell.nib(), forCellWithReuseIdentifier: "OperationCell")
         collectionView.register(CreateOperationCell.nib(), forCellWithReuseIdentifier: CreateOperationCell.identifier)
-        
+        collectionView.isScrollEnabled = false // Изза compositional layout, отменить вертикальный скроллинг можно только так
     }
     
 }

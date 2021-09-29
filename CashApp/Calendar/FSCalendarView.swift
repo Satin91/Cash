@@ -16,12 +16,13 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
     override init(frame: CGRect) {
         super.init(frame: frame)
         calendarSettings()
-        
+    }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        calendarSettings()
     }
     
     func calendarSettings() {
-        
-        
 //        calendarView.appearance.headerDateFormat = DateFormatter.dateFormat(fromTemplate: "D", options: 0, locale: .current)
 //        self.appearance.titleTodayColor = whiteThemeBackground
 //        self.appearance.titleDefaultColor = ThemeManager2.currentTheme().titleTextColor
@@ -38,18 +39,10 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
         self.headerHeight = self.bounds.height / 5
         self.appearance.headerTitleFont = .systemFont(ofSize: 56, weight: .medium)
         self.appearance.headerMinimumDissolvedAlpha = 0
-        //self.placeholderType = .none
+        self.placeholderType = .none
         let label = UILabel()
         label.backgroundColor = .black
-        
-        
-        
-        
-        
-        
-        
         self.appearance.headerDateFormat = "LLLL"
-        
         
             //self.calendarWeekdayView.bounds.inset(by: UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 26) )
         
@@ -57,12 +50,7 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
         //self.appearance.headerTitleOffset = .init(x: 26, y: 0)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        calendarSettings()
-      
-      //  fatalError("init(coder:) has not been implemented")
-    }
+   
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderRadiusFor date: Date) -> CGFloat {
         return 0.5
     }

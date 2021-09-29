@@ -43,12 +43,13 @@ class AccountCollectionViewCell: UICollectionViewCell {
         }
         // delegate.tapped(tapped: true)
     }
-    
+    var lockView: LockView!
     func buttomAction( succes: Bool, completion: (Bool) -> Void)  {
         completion(succes)
     }
   
     func setAccount(account: MonetaryAccount) {
+        
         nameTextField.text = account.name
         balanceTextField.text =  String(account.balance.currencyFormatter(ISO: account.currencyISO))
         accountsImageView.image = UIImage(named: account.imageForAccount)
@@ -57,6 +58,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
         // advancedMethods.disableUnderLine(textField: balanceTextField)
         accountObject = account
         advancedMethods.setIsMainAccount(account: account)
+        
     }
     
     func setForDisableEditing() {
@@ -72,6 +74,9 @@ class AccountCollectionViewCell: UICollectionViewCell {
         advancedMethods.enableUnderLine(textField: balanceTextField)
         editButtonOutlet.backgroundColor = colors.contrastColor1
     }
+    func lock(_ isLock: Bool) {
+        lockView.lock(!isLock)
+    }
     func editButtomChangeValue(toggle: Bool) {
         switch toggle {
         case true:
@@ -84,9 +89,9 @@ class AccountCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
+        self.lockView = LockView(frame: .zero)
         colors.loadColors()
-        self.setColors()
+        
         visualSettings()
         constraintsForSeparator()
         cellBackground.insertSubview(accountsImageView, at: 0)
@@ -127,21 +132,38 @@ class AccountCollectionViewCell: UICollectionViewCell {
         self.layer.setMiddleShadow(color: colors.shadowColor)
         balanceTextField.textColor = .white
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.lockView.addLock(to: self, lockSize: .plan)
+    }
+    
     func visualSettings() {
+        self.setColors()
+       
         balanceTextField.updateTextColor = false
         changeTFPropherties(textField: nameTextField)
         changeTFPropherties(textField: balanceTextField)
         editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
         editButtonOutlet.layer.cornerRadius = 12
         editButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
-        self.layer.cornerRadius = 25
-        self.layer.cornerCurve = .continuous
+       
+       
+        //accountsImageView.layer.masksToBounds = false
         accountsImageView = UIImageView(frame: self.bounds)
-        self.clipsToBounds = true
+        accountsImageView.layer.cornerRadius = 35
+        accountsImageView.clipsToBounds = false
         balanceTextField.font = UIFont(name: "Ubuntu-Bold",size: 34)
-        //buttonHasChanged(toggle: toggle)
-        isMainAccountLabel.text = "● Главный счет"
-        isMainAccountLabel.textColor = colors.whiteColor
+        self.isMainAccountLabel.text = "● Главный счет"
+        self.isMainAccountLabel.textColor = colors.whiteColor
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .clear
+        self.cellBackground.backgroundColor = .clear
+        self.cellBackground.clipsToBounds = false
+        self.cellBackground.layer.masksToBounds = false
+        self.clipsToBounds = false
+        self.layer.masksToBounds = false
+        self.contentView.clipsToBounds = false
+        self.contentView.layer.masksToBounds = false
     }
     
     func changeTFPropherties(textField: UITextField) {

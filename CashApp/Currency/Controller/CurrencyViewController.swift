@@ -16,6 +16,7 @@ enum ActionsWithCurrency: String {
 class CurrencyViewController: UIViewController {
     let subscriptionManager = SubscriptionManager()
     let currencyList = CurrencyList()
+    let operations = CurrencyOperations()
     let colors = AppColors()
     @IBOutlet var currencyConverterLabel: UILabel!
     @IBOutlet var currencyConverterTextField: NumberTextField!
@@ -72,7 +73,7 @@ class CurrencyViewController: UIViewController {
         super.viewDidLoad()
         colors.loadColors()
         self.setColors()
-        getCurrenciesByPriorities()
+        //getCurrenciesByPriorities()
         tabBarController?.tabBar.hideTabBar()
         visualSettings()
         tableView.register(UINib(nibName: "CurrencyTableViewCell", bundle: nil), forCellReuseIdentifier: "currencyCell")
@@ -134,43 +135,11 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
    
     
     
-    //Delete row by swipe
-    func updateDataAfterRemove(indexPath: IndexPath) {
-        
-        for (index,value) in userCurrencyObjects.enumerated() {
-            if index == indexPath.row {
-                userCurrencyObjects.remove(at: indexPath.row)
-                try! realm.write {
-                    value.ISOPriority = 15888
-                    realm.add(value,update: .all)
-            }
-                continue
-        }
-            for (index,value) in userCurrencyObjects.enumerated() {
-                try! realm.write {
-                value.ISOPriority = index
-                    realm.add(value,update: .all)
-                }
-            }
-        }
-    }
+  
   
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if (editingStyle == UITableViewCell.EditingStyle.insert) {
-//        }
-//
-//        if (editingStyle == UITableViewCell.EditingStyle.delete) {
-//            // delete data and row
-//
-//            updateDataAfterRemove(indexPath: indexPath)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//    }
-
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         userCurrencyObjects.count
@@ -180,7 +149,7 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
         
         let object = userCurrencyObjects[indexPath.row]
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.updateDataAfterRemove(indexPath: indexPath)
+            self.operations.updateDataAfterRemove(indexPath: indexPath)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         
@@ -220,28 +189,21 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let spacer = tableView.reorder.spacerCell(for: indexPath) {
+        if let spacer = tableView.reorder.spacerCell(for: indexPath) { // Штука из плагина
                return spacer
            }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyTableViewCell
+        cell.selectionStyle = .none
         let object = userCurrencyObjects[indexPath.row]
         if self.currencyConverterTextField.text?.isEmpty == false {
             cell.converterSet(currencyObject: object, enteredSum: Double(currencyConverterTextField.enteredSum)!)
-//            cell.ISOLabel.textColor = ThemeManager2.currentTheme().subtitleTextColor
             cell.currencyImage.image = UIImage(named: object.ISO)
-            cell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO ? .systemFont(ofSize: 17, weight: .medium) : .systemFont(ofSize: 17, weight: .regular)
-            cell.isMainCurrencyLabel.text = object.ISO == mainCurrency?.ISO ? "Main cyrrency" : "Additional currency"
-            cell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? colors.titleTextColor : colors.subtitleTextColor
-            
-            return cell
         }else{
             cell.defaultSet(currencyObject: object)
-            cell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO ? .systemFont(ofSize: 17, weight: .medium) : .systemFont(ofSize: 17, weight: .regular)
-            cell.isMainCurrencyLabel.text = object.ISO == mainCurrency?.ISO ? "Main cyrrency" : "Additional currency"
-            cell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? colors.titleTextColor : colors.subtitleTextColor
         }
-        cell.selectionStyle = .none
+        self.setCurrencyCellProperties(currencyCell: cell, object: object)
+        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -250,7 +212,12 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
-    
+    func setCurrencyCellProperties(currencyCell: CurrencyTableViewCell, object: CurrencyObject) {
+        
+        currencyCell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO ? .systemFont(ofSize: 17, weight: .medium) : .systemFont(ofSize: 17, weight: .regular)
+        currencyCell.isMainCurrencyLabel.text = object.ISO == mainCurrency?.ISO ? NSLocalizedString("main_currency_cell", comment: "") : NSLocalizedString("additional_currency_cell", comment: "")
+        currencyCell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? colors.titleTextColor : colors.subtitleTextColor
+    }
 }
 
 

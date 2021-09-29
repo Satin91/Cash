@@ -24,16 +24,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Purchases.configure(withAPIKey: "HEYSketqpvpcIaiqZPyywaOdrTKmtVzE")
         Purchases.logLevel = .debug
-        subscriptionManager.checkActiveEntitlement()
+        
+        self.subscriptionManager.checkActiveEntitlement() // Проверка на активность подписки
+        getCurrenciesByPriorities() // Удаление валют, если подписка не активна
+        checkBlockedSchedulers() // Блокировка или разблокировка планов
+        checkBlockedAccounts() // Блокировка или разблокировка счетов
         IQKeyboardManager.shared.enable = true
-         
+        
         Themer.shared.theme = .light
         navBar.setColors()
         notifications.requestAutorization()
         notifications.notificationCenter.delegate = notifications
         
         
-        let schemaVersion: UInt64 = 0
+        
+        NetworkMonitor.shared.startMonitoring()
+        
+        return true
+    }
+    
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        let schemaVersion: UInt64 = 2
         let config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
@@ -48,22 +59,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Realm will automatically detect new properties and removed properties
                     // And will update the schema on disk automatically
                 }
-        })
+            })
         // Tell Realm to use this new configuration object for the default Realm
         Realm.Configuration.defaultConfiguration = config
-        NetworkMonitor.shared.startMonitoring()
-
+        
         return true
     }
-
+    
     // MARK: UISceneSession Lifecycle
-
+    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-
+    
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
@@ -72,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 #if DEBUG
-    let certificate = "StoreKitTestCertificate"
+let certificate = "StoreKitTestCertificate"
 #else
-    let certificate = "AppleIncRootCertificate"
+let certificate = "AppleIncRootCertificate"
 #endif

@@ -58,8 +58,8 @@
 
 //MARK: - Currency View Controller
 "currency_converter_label" = "Währungsrechner";
-"main_currency_label" = "Hauptwährung";
-"additional_currency" = "Zusätzliche Währung";
+"main_currency_cell" = "Hauptwährung";
+"additional_currency_cell" = "Zusätzliche Währung";
 
 //MARK: - TodayBalanceViewController
 "date_not_selected_label" = "Datum wurde nicht ausgewählt";
