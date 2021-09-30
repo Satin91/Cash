@@ -25,6 +25,10 @@ class AccountsHistory: Object {
     @objc dynamic var date: Date!
     @objc dynamic var currencyISO = "USD"
     @objc dynamic var image: String?
+    @objc dynamic var historyID = NSUUID.init().uuidString
+    override static func primaryKey() -> String? {
+        return "historyID"
+    }
     convenience init (name: String,
                       accountName: String,
                       secondAccountName: String,

@@ -10,11 +10,12 @@ import UIKit
 
 class HistoryObjectProcessing {
     
-    var historyObject: AccountsHistory!
+    weak var historyObject: AccountsHistory!
     init(historyObject: AccountsHistory) {
         self.historyObject = historyObject
     }
     
+    //MARK: - RemoveOperation
     func findTheAccountIn(accountID: String, historyObject: AccountsHistory){
         var account: MonetaryAccount?
         
@@ -33,11 +34,10 @@ class HistoryObjectProcessing {
             realm.delete(historyObject)
         }
     }
-    
-    //MARK: RemoveData
+
+    //MARK: TransferOperations
     typealias TransferAccounts = (transferObject: MonetaryAccount?,cooperatingAccount: MonetaryAccount?)
-    
-    private func findOutAccounts() -> ((TransferAccounts),(Bool)) {
+    func findOutAccounts() -> ((TransferAccounts),(Bool)) {
         var transferObject: MonetaryAccount? // может отсутствовать если был удален
         var cooperatingAccount: MonetaryAccount? // может отсутствовать при выборе "без счета"
         
@@ -55,9 +55,8 @@ class HistoryObjectProcessing {
         }
     }
     
-    
-    func removeTransferObject() {
-        //Если оба объекта отсутствуют - просто удалить объект истории
+    func removeTransferObject(withHistory: Bool) {
+        // Если оба объекта отсутствуют - просто удалить объект истории
         guard findOutAccounts().1 == true else {
             try! realm.write({
                 realm.delete(self.historyObject)
@@ -72,6 +71,8 @@ class HistoryObjectProcessing {
             if transferObjects.cooperatingAccount != nil {
                 recoverCooperatingAccount(transferObjects.cooperatingAccount!)
             }
+            // Блок для того чтобы этот метод можно было использовать в изменении истории
+            guard withHistory == true else { return }
             realm.delete(self.historyObject)
         })
     }
@@ -81,7 +82,6 @@ class HistoryObjectProcessing {
         let sumWithoutHundredthsAtTheEnd = (transferObject.balance - self.historyObject.sum).removeHundredthsFromEnd()
         transferObject.balance = sumWithoutHundredthsAtTheEnd
         realm.add(transferObject,update: .all)
-        
     }
     //Метод запускается в режиме записи рилма
     private func recoverCooperatingAccount(_ cooperatingAccount: MonetaryAccount) {
@@ -89,12 +89,8 @@ class HistoryObjectProcessing {
             ? cooperatingAccount.balance + historyObject.sum
             : cooperatingAccount.balance + historyObject.convertedSum
         cooperatingAccount.balance = sumWithoutHundredthsAtTheEnd.removeHundredthsFromEnd()
-//        
-//        if historyObject.convertedSum == 0 {
-//            cooperatingAccount.balance += historyObject.sum.removeHundredthsFromEnd()
-//        } else {
-//            cooperatingAccount.balance += historyObject.convertedSum.removeHundredthsFromEnd()
-//        }
         realm.add(cooperatingAccount, update: .all)
     }
+    
+    
 }

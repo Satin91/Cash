@@ -103,10 +103,10 @@ class HomeViewController: UIViewController  {
         
         //self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         //totalBalanceButtom.mainButtonTheme()
-        tableView.clipsToBounds = true
+       setupTableView()
         networking.getCurrenciesFromJSON(from: .URL)
        // setTotalBalance()
-        tableView.separatorStyle = .none
+       
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
         
 //        if NetworkMonitor.shared.isConnected {
@@ -115,7 +115,11 @@ class HomeViewController: UIViewController  {
 //            print("You're nnot connected")
 //        }
     }
-    
+    func setupTableView() {
+        tableView.clipsToBounds = true
+        tableView.separatorStyle = .none
+        tableView.editHistoryObjectDelegate = self
+    }
     @objc func changeSizeForHeightBgConstraint(notification: Notification) {
         let object = notification.object as! CGPoint
         
@@ -164,16 +168,33 @@ class HomeViewController: UIViewController  {
     }
  
 }
+//MARK: - Theme
 extension HomeViewController {
     func theme(_ theme: MyTheme) {
-        
         view.backgroundColor = theme.settings.backgroundColor
     }
 }
 
+//MARK: - Push account / today balance View Controller
 extension HomeViewController: prepareForMainViewControllers {
     func prepareFor(viewController: UIViewController) {
         navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+//MARK: - EditHistoryObject
+extension HomeViewController: EditHistoryObject, ReloadParentTableView {
+    
+    func reloadData() {
+        self.tableView.reloadData()
+    }
+    func editObject(historyObject: AccountsHistory) {
+        if accountsObjects.contains(where: { account in
+            historyObject.accountID == account.accountID || historyObject.categoryID.isEmpty == false || historyObject.scheduleID.isEmpty == false
+        }) {
+            self.goToQuickPayVC(reloadDelegate: self, PayObject: historyObject)
+        } else {
+            self.miniAlert.showMiniAlert(message: "Счет отсутствует", alertStyle: .error)
+        }
     }
 }
 extension HomeViewController: UIViewControllerTransitioningDelegate {

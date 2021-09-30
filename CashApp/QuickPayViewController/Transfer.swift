@@ -14,10 +14,11 @@ class Transfer {
     private let currencyController = CurrencyModelController()
     
     
-    //Описание функции: Переданный счет выраженный структурой transfer model в любом случае работает с sumTextField, по этому в сторону сотрудничающего счета конвертируется введенная сумма. Пополнение или отправка не имеет значения. В конце поставил оператор guard чтобы не произвелась запись временного счета ( without account object ) который имеет accountID "NO ACCOUNT"
-    func saveTransfer(transferredObject: TransferModel,cooperatingAccount: MonetaryAccount, enteredSum: Double, historyObject: AccountsHistory) {
+    //Описание функции: Переданный счет выраженный структурой transfer model в любом случае работает с sumTextField, по этому в сторону сотрудничающего счета конвертируется введенная сумма. Пополнение или отправка не имеет значения. В конце поставил оператор guard чтобы не произвелась запись временного счета ( without account object ) который имеет идентификатор "NO ACCOUNT"
+    func saveTransfer(transferredObject: TransferModel,cooperatingAccount: MonetaryAccount, enteredSum: Double, historyObject: AccountsHistory, createHistory: Bool) {
         
         let convertedSum = currencyController.convert(enteredSum, inputCurrency: transferredObject.account.currencyISO , outputCurrency: cooperatingAccount.currencyISO)
+        print("Converted Sum is \(convertedSum)")
         try! realm.write({
             switch transferredObject.transferType {
             case .receive:
@@ -29,7 +30,10 @@ class Transfer {
             }
             realm.add(transferredObject.account,update: .all)
             
-            saveTransferHistory(transferObject: transferredObject, cooperatingAccount: cooperatingAccount, enteredSum: enteredSum, historyObject: historyObject)
+            if createHistory == true { // Этот метод так же используется в методе изменения истории, где повторно создавтать объект истории не требуется
+                saveTransferHistory(transferObject: transferredObject, cooperatingAccount: cooperatingAccount, enteredSum: enteredSum, historyObject: historyObject)
+            }
+          
             
             guard cooperatingAccount.accountID != "NO ACCOUNT" else { return }
             realm.add(cooperatingAccount,update: .all)
@@ -37,7 +41,7 @@ class Transfer {
         
         
     }
-    func saveTransferHistory(transferObject: TransferModel,cooperatingAccount: MonetaryAccount,enteredSum: Double, historyObject: AccountsHistory){
+    private func saveTransferHistory(transferObject: TransferModel,cooperatingAccount: MonetaryAccount,enteredSum: Double, historyObject: AccountsHistory){
         
         historyObject.name = transferObject.account.name
         historyObject.accountID = transferObject.account.accountID

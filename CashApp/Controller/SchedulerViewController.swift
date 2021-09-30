@@ -310,21 +310,21 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         switch object.stringScheduleType {
         case .goal:
             QuiclPayVC.payObject = object
-            self.goToQuickPayVC(PayObject: object)
+            self.goToQuickPayVC(reloadDelegate: self, PayObject: object)
          //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         case .oneTime:
             
-            self.goToQuickPayVC(PayObject: object)
+            self.goToQuickPayVC(reloadDelegate: self, PayObject: object)
          //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         case .multiply:
             guard pptObject != nil else {return}
             
-            self.goToQuickPayVC(PayObject: pptObject)
+            self.goToQuickPayVC(reloadDelegate: self, PayObject: pptObject)
          //   goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         case .regular:
             guard pptObject != nil else {return}
             QuiclPayVC.payObject = pptObject
-            self.goToQuickPayVC(PayObject: pptObject)
+            self.goToQuickPayVC(reloadDelegate: self, PayObject: pptObject)
             
            // goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: pptObject!)
         }

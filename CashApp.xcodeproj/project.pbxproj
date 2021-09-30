@@ -152,6 +152,7 @@
 		75BA488326EF76570018CE78 /* QuickPayConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA488226EF76560018CE78 /* QuickPayConstraints.swift */; };
 		75BA488526EF76C20018CE78 /* ReturnToCenterOfScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75BA488426EF76C20018CE78 /* ReturnToCenterOfScrollView.swift */; };
 		75C328F72571A12100E9CAD4 /* QuickTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75C328F52571A12100E9CAD4 /* QuickTableViewCell.xib */; };
+		75C87D4F270585760067904B /* ChangeHistoryObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C87D4E270585760067904B /* ChangeHistoryObject.swift */; };
 		75CB207A2509E26800152EFF /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CB20792509E26800152EFF /* SegmentedControl.swift */; };
 		75CB7A9E255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7A9B255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf */; };
 		75CB7A9F255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75CB7A9C255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf */; };
@@ -337,6 +338,7 @@
 		75BA488226EF76560018CE78 /* QuickPayConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPayConstraints.swift; sourceTree = "<group>"; };
 		75BA488426EF76C20018CE78 /* ReturnToCenterOfScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnToCenterOfScrollView.swift; sourceTree = "<group>"; };
 		75C328F52571A12100E9CAD4 /* QuickTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuickTableViewCell.xib; sourceTree = "<group>"; };
+		75C87D4E270585760067904B /* ChangeHistoryObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeHistoryObject.swift; sourceTree = "<group>"; };
 		75CB20792509E26800152EFF /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		75CB7A9B255D4E6000451F1D /* SF-Pro-Rounded-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Medium.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Rounded-Medium.otf"; sourceTree = "<group>"; };
 		75CB7A9C255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-Pro-Rounded-Regular.otf"; path = "../../../../../../Library/Fonts/SF-Pro-Rounded-Regular.otf"; sourceTree = "<group>"; };
@@ -669,7 +671,6 @@
 				757B99532689549D005FB908 /* HeaderView.swift */,
 				75FF12F726B98C7F002E1321 /* ChartView.swift */,
 				754F15ED2667A9F8002250BB /* EnlargeTableView.swift */,
-				7591287D26F8441F0028239D /* HistoryObjectProcessing.swift */,
 				7591287B26F843710028239D /* EnlargeCellModel.swift */,
 				754F15F02667AA3C002250BB /* EnlargeTableViewCell.swift */,
 				754F15F226681A44002250BB /* EnlargeSecondTableViewCell.swift */,
@@ -871,6 +872,8 @@
 			children = (
 				757E4B5E25E0042100D8A7F7 /* View */,
 				757E4B5F25E0042800D8A7F7 /* Controller */,
+				75C87D4E270585760067904B /* ChangeHistoryObject.swift */,
+				7591287D26F8441F0028239D /* HistoryObjectProcessing.swift */,
 				75CCCE6826F669310067279C /* TransferModel.swift */,
 				75CCCE6A26F669530067279C /* Transfer.swift */,
 			);
@@ -1396,6 +1399,7 @@
 				7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */,
 				75635D9C26EBD59E00742FCA /* SchedulerVisualSettings.swift in Sources */,
 				7560D034259482E700E496B0 /* QuickPayViewController.swift in Sources */,
+				75C87D4F270585760067904B /* ChangeHistoryObject.swift in Sources */,
 				75CCCE6926F669310067279C /* TransferModel.swift in Sources */,
 				75309CF526ED47150093AFF3 /* TodayBalanceTheme.swift in Sources */,
 				75309CEC26ED33F20093AFF3 /* ThemableLabels.swift in Sources */,

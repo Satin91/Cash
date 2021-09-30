@@ -41,14 +41,15 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     @IBAction func sendButtonAction(_ sender: UIButton) {
         let account = accountsObjects[visibleIndexPath.row]
         let transferModel = TransferModel(account: account, transferType: .send)
-        goToQuickPayVC(PayObject: transferModel)
+        goToQuickPayVC(reloadDelegate: self, PayObject: transferModel)
+   
     }
     
     @IBOutlet var receiveButtonOutlet: UIButton!
     @IBAction func receiveButtonAction(_ sender: UIButton) {
         let account = accountsObjects[visibleIndexPath.row]
         let transferModel = TransferModel(account: account, transferType: .receive)
-        goToQuickPayVC(PayObject: transferModel)
+        goToQuickPayVC(reloadDelegate: self, PayObject: transferModel)
     }
     @IBAction func addButton(_ sender: Any) {
         //View subscription view controller if needed
@@ -243,5 +244,11 @@ extension AccountsViewController: UIPopoverPresentationControllerDelegate {
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
+    }
+}
+//MARK: ReloadAfterTransfer
+extension AccountsViewController: ReloadParentTableView {
+    func reloadData() {
+        self.accountsCollectionView.reloadData()
     }
 }

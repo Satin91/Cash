@@ -11,7 +11,11 @@ import UIKit
 
 struct EnlargeHistoryModel{
     var date: Date
-    var historyArray: [AccountsHistory]    
+    var historyArray: [AccountsHistory]
+}
+
+protocol EditHistoryObject {
+    func editObject(historyObject: AccountsHistory)
 }
 
 class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate, SendEnlargeIndex {
@@ -21,8 +25,9 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     
     
     
-    
     var histiryObjectProcessing: HistoryObjectProcessing!
+    var editHistoryObjectDelegate: EditHistoryObject!
+    let colors = AppColors()
     func enlarge(object: IndexPath) {
         ipath = object
         self.performBatchUpdates(nil, completion: nil)
@@ -69,33 +74,33 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     }
     
     var enlargeArray: [EnlargeHistoryModel] = []
-//        willSet {
-//            guard indexForDeletedRow != nil else {return}
-//            print("CHTOTO")
-//            if self.tag == 15888{
-//            self.performBatchUpdates {
-//                print(enlargeArray)
-//                if self.enlargeArray[self.indexForDeletedRow!].historyArray == []{
-//                    self.enlargeArray.remove(at: self.indexForDeletedRow!)
-//                    self.deleteRows(at: [IndexPath(row: 0, section: 0) ], with: .fade)
-//                    self.numberOfRows(inSection: enlargeArray.count)
-//                    self.rowHeight = 0
-//                }else{
-//                guard enlargeArray[indexForDeletedRow!].historyArray.count != 0 else {return}
-//                let object = enlargeArray[indexForDeletedRow!].historyArray.count * Int(smallCellHeight) + 50
-//                for i in pairedCells {
-//                    if i.largeCell == IndexPath(row: indexForDeletedRow!, section: 0) {
-//                            self.rowHeight = CGFloat(object + i.smallCell.count * Int(enlargedSmallHeight - smallCellHeight))
-//                    }
-//                }
-//                }
-//            }completion: { (isTrue) in
-//                print("reloadddada")
-//                self.reloadData()
-//            }
-//            }
-//        }
-//    }
+    //        willSet {
+    //            guard indexForDeletedRow != nil else {return}
+    //            print("CHTOTO")
+    //            if self.tag == 15888{
+    //            self.performBatchUpdates {
+    //                print(enlargeArray)
+    //                if self.enlargeArray[self.indexForDeletedRow!].historyArray == []{
+    //                    self.enlargeArray.remove(at: self.indexForDeletedRow!)
+    //                    self.deleteRows(at: [IndexPath(row: 0, section: 0) ], with: .fade)
+    //                    self.numberOfRows(inSection: enlargeArray.count)
+    //                    self.rowHeight = 0
+    //                }else{
+    //                guard enlargeArray[indexForDeletedRow!].historyArray.count != 0 else {return}
+    //                let object = enlargeArray[indexForDeletedRow!].historyArray.count * Int(smallCellHeight) + 50
+    //                for i in pairedCells {
+    //                    if i.largeCell == IndexPath(row: indexForDeletedRow!, section: 0) {
+    //                            self.rowHeight = CGFloat(object + i.smallCell.count * Int(enlargedSmallHeight - smallCellHeight))
+    //                    }
+    //                }
+    //                }
+    //            }completion: { (isTrue) in
+    //                print("reloadddada")
+    //                self.reloadData()
+    //            }
+    //            }
+    //        }
+    //    }
     var header: HeaderView? = nil
     var topBarHeight: CGFloat!
     let contentViewHeight: CGFloat = 254
@@ -117,10 +122,10 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
             //фильтрация массива по дате итеративного объекта, чтобы в дальнейшем можно было отменять добовление по количеству одинаковых дат
             let dateCount = historyObjects.filter({ (history) in
                 let components = Calendar.current.dateComponents([.day,.month,.year], from: history.date)
-               return components == component
+                return components == component
             }).count
             //Добавляет дату в массив дат но пока не записывает его в большую ячейку
-                historyArray.append(value)
+            historyArray.append(value)
             if counter == dateCount{
                 //Записывает в большой массив дат и в последующем обнуляет счетчик и массив для следующей большой ячейки
                 enlargeObject = EnlargeHistoryModel(date: value.date, historyArray: historyArray)
@@ -132,9 +137,9 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
                 }else {
                     date = obj[index + 1 ].date
                 }
-                    counter = 0
-                    historyArray = []
-                }
+                counter = 0
+                historyArray = []
+            }
         }
         self.enlargeArray = enlargeArray
         self.reloadData()
@@ -148,6 +153,7 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     //MARK:                                      REQ INIT
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.colors.loadColors()
         self.tag = 15888
         self.register(EnlargeTableViewCell.self, forCellReuseIdentifier: "EnlargeTableViewCell")
         self.tableFooterView = UIView()
@@ -235,7 +241,6 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         if tableView.tag != 15888{
             
         }
-        
     }
     
     
@@ -301,70 +306,74 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         }
     }
     
-   
+    
     var indexForDeletedRow: Int? {
         willSet {
             guard let nV = newValue else {return}
             if self.tag == 15888{
                 self.performBatchUpdates {
                     if enlargeArray[nV].historyArray.isEmpty == true {
-                    self.enlargeArray.remove(at: nV )
-                    //self.numberOfRows(inSection: 0)
-                    self.deleteRows(at: [IndexPath(row: nV, section: 0)], with: .bottom)
+                        self.enlargeArray.remove(at: nV )
+                        //self.numberOfRows(inSection: 0)
+                        self.deleteRows(at: [IndexPath(row: nV, section: 0)], with: .bottom)
                     }
                 } completion: { _ in
                     self.reloadData()
                 }
-                }
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
+        
         //Запрещает использовать иной tableView
         if tableView.tag != 15888 {
-            
-        let deleteAction = UIContextualAction(style: .normal, title: "Delete") { _, _, complete in
-            
-                let object = self.enlargeArray[tableView.tag].historyArray[indexPath.row]
+            let object = self.enlargeArray[tableView.tag].historyArray[indexPath.row]
+            let deleteAction = UIContextualAction(style: .normal, title: "Delete") {[weak self] _, _, complete in
+                guard let self = self else { return }
                 self.enlargeArray[tableView.tag].historyArray.remove(at: indexPath.row)
-            self.histiryObjectProcessing = HistoryObjectProcessing(historyObject: object)
-            self.histiryObjectProcessing.removeTransferObject()
-           // self.histiryObjectProcessing.findTheAccountIn(accountID: object.accountID, historyObject: object)
+                self.histiryObjectProcessing = HistoryObjectProcessing(historyObject: object)
+                self.histiryObjectProcessing.removeTransferObject(withHistory: true)
+                // self.histiryObjectProcessing.findTheAccountIn(accountID: object.accountID, historyObject: object)
                 tableView.deleteRows(at: [indexPath], with: .left)
+                self.indexForDeletedRow = tableView.tag
+                complete(true)
+            }
+            let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] _, _, complete in
+                guard let self = self else { return }
+                self.editHistoryObjectDelegate.editObject(historyObject: object)
+                tableView.isEditing = false
+            }
             
-            self.indexForDeletedRow = tableView.tag
+            deleteAction.backgroundColor = colors.redColor
+            editAction.backgroundColor = colors.contrastColor1
             
+            let image = UIImageView()
+            image.image = UIImage(systemName: "trash")
+            image.tintColor = ThemeManager2.currentTheme().titleTextColor
+            deleteAction.image = image.image
             
-            complete(true)
-        }
-        deleteAction.backgroundColor = ThemeManager2.currentTheme().contrastColor2
-        let image = UIImageView()
-        image.image = UIImage(systemName: "trash")
-        image.tintColor = ThemeManager2.currentTheme().titleTextColor
-        deleteAction.image = image.image
-      
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = false
-
-        return configuration
+            let configuration = UISwipeActionsConfiguration(actions: [deleteAction,editAction])
+            configuration.performsFirstActionWithFullSwipe = false
+            
+            return configuration
         }else {
             return nil
         }
     }
-
+    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
-//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
-//            //self.Items.remove(at: indexPath.row)
-//            // self.tableView.deleteRows(at: [indexPath], with: .automatic)
-//        }
-//        deleteAction.backgroundColor = .red
-//        return [deleteAction]
-//    }
+    
+    //    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    //        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, _ in
+    //            //self.Items.remove(at: indexPath.row)
+    //            // self.tableView.deleteRows(at: [indexPath], with: .automatic)
+    //        }
+    //        deleteAction.backgroundColor = .red
+    //        return [deleteAction]
+    //    }
     
     
 }

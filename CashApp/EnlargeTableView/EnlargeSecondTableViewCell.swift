@@ -73,21 +73,24 @@ class SecondTableViewCell: UITableViewCell  {
         
     }
     
-    func checkTheAccount(accountID: String) -> String {
-        var accountIdentifier: String?
-        for i in accountsObjects {
-            if accountID == i.accountID {
-                accountIdentifier = i.name
+
+    
+    func getAccountName(accountID: String) -> String{
+        
+        for account in accountsObjects {
+            if account.accountID == accountID {
+                return account.name
             }
         }
-        return accountIdentifier ?? "Без счета"
+        return NSLocalizedString("without_Account", comment: "")
     }
-    
     func set(object: AccountsHistory, isLast: Bool) {
         titleLabel.text = object.name
+        
+        // Проверка на присутствие второго счета ( в случае с трансфером)
         subTitleLabel.text = !object.secondAccountName.isEmpty
-            ? object.secondAccountName
-            : object.accountName
+            ? getAccountName(accountID: object.secondAccountID)
+            : getAccountName(accountID: object.accountID)
         //checkTheAccount(accountID: object.accountID)
         sumLabel.text = String(object.sum.currencyFormatter(ISO: object.currencyISO))
         

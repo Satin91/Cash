@@ -742,7 +742,6 @@ func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], s
 extension UIViewController {
 
     func showSubscriptionViewController() {
-        
         let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionsManager", toViewController: SubscriptionsManagerViewController())
         open.makeTheTransition()
     }
@@ -830,12 +829,13 @@ extension UITextField {
 }
 extension UIViewController {
     
-    func goToQuickPayVC(PayObject: Any) {
+    func goToQuickPayVC(reloadDelegate: UIViewController?, PayObject: Any) {
         let storyboard = UIStoryboard(name: "QuickPay", bundle: nil)
         let QuicklPayVC = storyboard.instantiateViewController(withIdentifier: "QuickPayVC") as! QuickPayViewController
         QuicklPayVC.payObject = PayObject
         let vc = UINavigationController(rootViewController: QuicklPayVC)
         vc.modalPresentationStyle = .pageSheet
+        QuicklPayVC.reloadParentTableViewDelegate = reloadDelegate as? ReloadParentTableView
         present(vc, animated: true, completion: nil)
     }
 }

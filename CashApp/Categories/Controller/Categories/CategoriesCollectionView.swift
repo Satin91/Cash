@@ -108,7 +108,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         case true:
             if indexPath.row != expenceObjects.count {
                 let object =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
-                goToQuickPayVC(PayObject: object)
+                goToQuickPayVC(reloadDelegate: nil, PayObject: object)
             }else{
                 
                 goToAddVC(object: nil, isEditing: false)
@@ -116,7 +116,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         case false:
             if indexPath.row != incomeObjects.count {
                 let object =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
-                goToQuickPayVC(PayObject: object)
+                goToQuickPayVC(reloadDelegate: nil, PayObject: object)
             }else{
                 goToAddVC(object: nil, isEditing: false)
             }
