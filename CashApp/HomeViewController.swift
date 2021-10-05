@@ -12,7 +12,7 @@ import Themer
 
 
 
-class HomeViewController: UIViewController  {
+class HomeViewController: UIViewController, UIPopoverPresentationControllerDelegate  {
     
     var miniAlert: MiniAlertView!
     let transition = SideInTransition()
@@ -31,14 +31,9 @@ class HomeViewController: UIViewController  {
         //ThemeManager.theme = DarkTheme()
         //ThemeManager.applyTheme(theme: .dark)
       
-        toggle.toggle()
-       
-//        guard let sideMenu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SideMenuVC") as? SideMenuViewController else { return}
-//
-//        sideMenu.modalPresentationStyle = .overCurrentContext
-//        sideMenu.transitioningDelegate = self
-//        present(sideMenu, animated: true, completion: nil)
-//
+       // toggle.toggle()
+   
+
     }
     
     let colors = AppColors()
@@ -73,29 +68,33 @@ class HomeViewController: UIViewController  {
         
     }
     
-    //MARK: SCROLL EFFECT
-    func createMenu()-> UIMenu {
-        let action = UIAction(title: "Светлая тема" ) { (Action) in
-            Themer.shared.theme = .light
-        }
-        let actionTwo = UIAction(title: "Темная тема") { (action) in
-            Themer.shared.theme = .dark
-        }
-        let actionThree = UIAction(title: "Купить подписку") { (action) in
-            let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionsManager", toViewController: SubscriptionsManagerViewController())
-            open.makeTheTransition()
-        }
+//    //MARK: SCROLL EFFECT
+//    func createMenu()-> UIMenu {
+//        let action = UIAction(title: "Светлая тема" ) { (Action) in
+//            Themer.shared.theme = .light
+//        }
+//        let actionTwo = UIAction(title: "Темная тема") { (action) in
+//            Themer.shared.theme = .dark
+//        }
+//        let actionThree = UIAction(title: "Купить подписку") { (action) in
+//            let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionsManager", toViewController: SubscriptionsManagerViewController())
+//            open.makeTheTransition()
+//        }
+//
+//        let menu = UIMenu(title: "Menu", image: UIImage(named: "AppIcon"), options: .displayInline , children: [action,actionTwo,actionThree])
+//       return menu
+//    }
+//    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+//        return .popover
+//    }
+    
+    func createMenuFromViewController() {
         
-        let menu = UIMenu(title: "Menu", image: UIImage(named: "AppIcon"), options: .displayInline , children: [action,actionTwo,actionThree])
-
-       return menu
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let barButton = UIBarButtonItem(title: "", image: UIImage(named: "AppIcon"), primaryAction: nil, menu: createMenu())
-        navigationItem.leftBarButtonItem = barButton
+       
         Themer.shared.register(target: self, action: HomeViewController.theme(_:))
-        
         notifications.sendTodayNotifications()
         installBackgroundView()
         setRightBarButton()
@@ -103,8 +102,8 @@ class HomeViewController: UIViewController  {
         
         //self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
         //totalBalanceButtom.mainButtonTheme()
-       setupTableView()
-        networking.getCurrenciesFromJSON(from: .URL)
+        setupTableView()
+      //  networking.getCurrenciesFromJSON(from: .URL)
        // setTotalBalance()
        
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
@@ -135,10 +134,33 @@ class HomeViewController: UIViewController  {
         //backgroundView.bounds.size.height = newobj
         //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
     }
-    
+    @objc func leftBarButtonTapped(_ gesture: UITapGestureRecognizer) {
+         guard let sideMenu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SideMenuVC") as? SideMenuViewController else { return }
+
+         sideMenu.modalPresentationStyle = .custom
+        sideMenu.transitioningDelegate = self
+        
+//        let popVC = sideMenu.popoverPresentationController
+//        popVC?.delegate = self
+//        popVC?.sourceRect = self.navigationItem.leftBarButtonItem!.customView!.bounds
+//        popVC?.sourceView = self.navigationItem.leftBarButtonItem!.customView
+        sideMenu.preferredContentSize = CGSize(width: 150, height: 150)
+        
+         present(sideMenu, animated: true, completion: nil)
+    }
     func setLeftBarButtn() {
+       
         let image = UIImageView(image: UIImage(named: "navigationBarSettings"))
-        self.navigationItem.leftBarButtonItem!.image = image.image
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(leftBarButtonTapped(_:)))
+        
+        image.addGestureRecognizer(gesture)
+        let barButton = UIBarButtonItem(customView: image)
+        
+        navigationItem.leftBarButtonItem = barButton
+        
+        
+        //self.navigationItem.leftBarButtonItem!.image = image.image
         
         //self.navigationItem.leftBarButtonItem?.isEnabled = false
     }

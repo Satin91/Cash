@@ -17,19 +17,20 @@ extension AddScheduleViewController {
         nameTextField.text = newScheduleObject.name
         sumPerTimeTextField.text = newScheduleObject.sumPerTime.formattedWithSeparator
         totalSumTextField.text = (newScheduleObject.target - newScheduleObject.available).formattedWithSeparator
-        
+        headingTextLabel.numberOfLines = 3
         selectImageButtonOutlet.setImage(UIImage(named: newScheduleObject.image), for: .normal)
         date = newScheduleObject.date
         vector = newScheduleObject.vector
         dateRhythm = newScheduleObject.stringDateRhythm
         selectedImageName = newScheduleObject.image
         currency = newScheduleObject.currencyISO
+        // Buttons colors
         if vector {
-            incomeVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().titleTextColor
-            expenceVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().borderColor
+            incomeVectorButtonOutlet.backgroundColor = colors.titleTextColor
+            expenceVectorButtonOutlet.backgroundColor = colors.borderColor
         }else{
-            expenceVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().titleTextColor
-            incomeVectorButtonOutlet.backgroundColor = ThemeManager2.currentTheme().borderColor
+            expenceVectorButtonOutlet.backgroundColor = colors.titleTextColor
+            incomeVectorButtonOutlet.backgroundColor = colors.borderColor
         }
         
         if newScheduleObject.stringScheduleType == .regular || newScheduleObject.stringScheduleType == .multiply {

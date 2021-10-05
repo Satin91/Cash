@@ -73,7 +73,7 @@
 //MARK: - TodayBalanceViewController
 "date_not_selected_label" = "Дата не выбрана";
 "dayly_budget_label" = "Дневной бюджет";
-"date_not_selected_label" = "Рассчитано до";
+"date_is_selected_label" = "Рассчитано до";
 "impact_on_balance_label" = "Влияние планов на дневной бюджет";
 "segmented_control_plans" = "Планы";
 "segmented_control_accounts" = "Счета";

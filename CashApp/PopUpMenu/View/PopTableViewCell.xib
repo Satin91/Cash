@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Text-Regular.otf">
+            <string>SFProText-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PopTableViewCell" rowHeight="88" id="KGk-i7-Jjw" customClass="PopTableViewCell" customModule="CashApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="325" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="325" height="88"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xFe-xL-mfZ">
+                        <rect key="frame" x="8" y="24" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="27w-CA-UL6"/>
+                            <constraint firstAttribute="width" constant="40" id="B9a-hK-scs"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VOp-uj-PW0">
+                        <rect key="frame" x="60" y="21.5" width="253" height="45.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gq-jJ-blK" customClass="TitleLabel" customModule="CashApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="253" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vg9-lB-XE1" customClass="SubTitleLabel" customModule="CashApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28.5" width="253" height="17"/>
+                                <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Vg9-lB-XE1" firstAttribute="leading" secondItem="VOp-uj-PW0" secondAttribute="leading" id="DQX-Fr-8CN"/>
+                            <constraint firstAttribute="trailing" secondItem="4gq-jJ-blK" secondAttribute="trailing" id="IV6-ml-EK9"/>
+                            <constraint firstItem="4gq-jJ-blK" firstAttribute="leading" secondItem="VOp-uj-PW0" secondAttribute="leading" id="uu0-YW-0d7"/>
+                            <constraint firstAttribute="trailing" secondItem="Vg9-lB-XE1" secondAttribute="trailing" id="ykh-Hr-8sZ"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="VOp-uj-PW0" secondAttribute="trailing" constant="12" id="CJa-U0-433"/>
+                    <constraint firstItem="xFe-xL-mfZ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="VeH-El-NPd"/>
+                    <constraint firstItem="xFe-xL-mfZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="bDm-zS-31E"/>
+                    <constraint firstItem="VOp-uj-PW0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="kTa-Wh-n4s"/>
+                    <constraint firstItem="VOp-uj-PW0" firstAttribute="leading" secondItem="xFe-xL-mfZ" secondAttribute="trailing" constant="12" id="nmG-RQ-0bv"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="nameLabel" destination="4gq-jJ-blK" id="1pp-rv-L8X"/>
+                <outlet property="popCellImage" destination="xFe-xL-mfZ" id="cyK-4Z-Lfk"/>
+                <outlet property="sumLabel" destination="Vg9-lB-XE1" id="gYt-3s-FIc"/>
+            </connections>
+            <point key="canvasLocation" x="134.05797101449275" y="91.071428571428569"/>
+        </tableViewCell>
+    </objects>
+</document>

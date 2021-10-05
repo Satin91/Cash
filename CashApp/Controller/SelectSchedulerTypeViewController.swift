@@ -12,6 +12,7 @@ import Themer
 extension SelectSchedulerTypeViewController {
     private func theme(_ theme: MyTheme) {
         self.backgroundView.backgroundColor = theme.settings.backgroundColor
+        self.roundedLine.backgroundColor = theme.settings.borderColor
         labelsColors(headerColor: theme.settings.titleTextColor,
                      descriptionColor: theme.settings.subtitleTextColor,
                      containerColor: theme.settings.secondaryBackgroundColor,
@@ -66,7 +67,6 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
             description.textColor = descriptionColor
         }
         for container in containerView {
-            
             container.layer.cornerRadius = 20
             container.backgroundColor = containerColor
             container.layer.setMiddleShadow(color: shadowColor)
@@ -144,7 +144,6 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
         addSchedulerVC.newScheduleObject = object
         addSchedulerVC.view.frame = self.view.bounds
         addSchedulerVC.closeDelegate = self
-        
         self.addChild(vc)
         self.isModalInPresentation = true
         self.view.addSubview(vc.view)

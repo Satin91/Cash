@@ -161,7 +161,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         createCancelButton()
         payObjectNameLabel.textAlignment = .left
         tableView = QuickTableView(frame: .zero)
-        calendar = FSCalendarView(frame: self.view.bounds)
+        calendar = FSCalendarView(frame: self.view.bounds, calendarType: .mini)
+        self.isModalInPresentation = true
         calendar.delegate = self
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
@@ -217,9 +218,10 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
         
         containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
-        calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge)
+        calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge * 6)
         calendar.layer.cornerCurve = .continuous
         calendar.layer.cornerRadius = 22
+        calendar.layoutSubviews()
         isOffsetUsed = true
         scrollView.contentSize.height = 1 // Disable vertical scroll
     }

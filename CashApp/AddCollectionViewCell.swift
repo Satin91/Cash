@@ -26,6 +26,7 @@ class AddCollectionViewCell: UICollectionViewCell {
     }
     func set(image: UIImage) {
         imageView.image = image
+        imageView.contentMode = .scaleAspectFit
         Themer.shared.register(target: self, action: AddCollectionViewCell.theme(_:))
     }
     

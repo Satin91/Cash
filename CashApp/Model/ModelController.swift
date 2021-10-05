@@ -37,8 +37,8 @@ let goalObjects  =              fetchSchedulers(scheduleType: 4).sorted(byKeyPat
 //let debtObjects =              fetchEntity(accountType: 3).sorted(byKeyPath: "date", ascending: false)//Debt = 3
 
 //let historyObjects =           outstanding(accountType: 8).sorted(byKeyPath: "date", ascending: false)//History = 8
-var expenceObjects =            fetchCategories(categoryType: 1).sorted(byKeyPath: "position", ascending: false)//OperExpence
-var incomeObjects =             fetchCategories(categoryType: 2).sorted(byKeyPath: "position", ascending: false)//OperIncome
+var expenceObjects =            fetchCategories(categoryType: 1).sorted(byKeyPath: "position", ascending: true)//OperExpence
+var incomeObjects =             fetchCategories(categoryType: 2).sorted(byKeyPath: "position", ascending: true)//OperIncome
 let historyObjects =            realm.objects(AccountsHistory.self).sorted(byKeyPath: "date", ascending: false)
 let payPerTimeObjects =         realm.objects(PayPerTime.self).sorted(byKeyPath: "date", ascending: true)
 let currencyObjects =           realm.objects(CurrencyObject.self).sorted(byKeyPath: "ISO", ascending: false)

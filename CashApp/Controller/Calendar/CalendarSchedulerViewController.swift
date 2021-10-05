@@ -23,12 +23,33 @@ class CalendarSchedulerViewController: UIViewController {
     @IBAction func closeButtonAction(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-   
+    
     var cancelButton: CancelButton!
     var datesArray = [Date]()
     var quickPayVC: UIViewController!
     fileprivate let gregorian = Calendar(identifier: .gregorian)
     var DIYDatesArray: [DateComponents] = []
+ 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        navigationController!.navigationBar.backgroundColor = .clear
+        navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        createCancelButton()
+        self.calendarView.calendarType = .regular
+        calendarView.reloadData()
+        calendarView.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
+        calendarView.delegate = self
+        calendarView.dataSource = self
+        //calendarView.appearance.headerTitleOffset
+        calendarView.layer.cornerRadius = 22
+        datesArray = updateDatesArray()
+        Themer.shared.register(target: self, action: CalendarSchedulerViewController.theme(_:))
+        // Do any additional setup after loading the view.
+    }
+    
     func updateDatesArray() ->[Date]  {
         let datesArray: [Date] = {
             var dates = [Date]()
@@ -47,10 +68,9 @@ class CalendarSchedulerViewController: UIViewController {
         return datesArray
     }
     
-    func createCalendar(){
-        
-        
-        calendarView.register(FSCalendarCell.self, forCellReuseIdentifier: "Cell")
+    func createCancelButton() {
+        cancelButton = CancelButton(frame: self.view.bounds, title: .cancel, owner: self)
+        cancelButton.addToParentView(view: self.view)
     }
     
     func createObjectsArray(date: Date) -> [Any] {
@@ -72,36 +92,11 @@ class CalendarSchedulerViewController: UIViewController {
         }
         return objectsArray
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        navigationController!.navigationBar.backgroundColor = .clear
-        navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
-    }
-  
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        createCancelButton()
-        calendarView.reloadData()
-        calendarView.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
-        calendarView.delegate = self
-        calendarView.dataSource = self
-        
-        //calendarView.appearance.headerTitleOffset
-        calendarView.layer.cornerRadius = 22
-        datesArray = updateDatesArray()
-        Themer.shared.register(target: self, action: CalendarSchedulerViewController.theme(_:))
-        // Do any additional setup after loading the view.
-    }
-    
  
-    func createCancelButton() {
-        cancelButton = CancelButton(frame: self.view.bounds, title: .cancel, owner: self)
-        cancelButton.addToParentView(view: self.view)
-    }
 }
 
 //MARK: CalendarDelegateDataSource / appearance
-extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSource,FSCalendarDelegateAppearance {
+extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSource,FSCalendarDelegateAppearance, FSCalendarCollectionViewInternalDelegate{
     
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition)   -> Bool {
         return monthPosition == .current
@@ -120,63 +115,22 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
         configureVisibleCells()
+        
     }
    
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        setDIYDates(startDate: Date(), endDate: date)
         configureVisibleCells()
+        let cell = self.calendar(calendar, cellFor: date, at: monthPosition) as! DIYFSCalendarCell
         let anyArray = createObjectsArray(date: date) // Воспользовался функцией сверху (тут разовый, регулярный платеж и платеж в раз)
-       
         guard !anyArray.isEmpty else {return}
         for i in datesArray {
             if date == i {
-                goToPopUpTableView(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!)
+                goToPopUpTableView(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!, type: .inCalendar)
             }
-            
         }
     }
-    
-//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//        let a = uniq(source: datesArray)
-//        if a.contains(date) {
-//            return a.count + 1
-//        }else{
-//            return 0
-//        }
-//    }
-    
-//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
-//        let diyCell = calendar.cell(for: date, at: .current)
-//        for i in self.datesArray {
-//            if date == i {
-//                diyCell?.backgroundView?.backgroundColor = .blue
-//                return .systemPink
-//            }
-//        }
-//        return nil
-//    }
-    
-//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderRadiusFor date: Date) -> CGFloat {
-//
-//
-//        if datesArray.contains(date) {
-//            return 0.5
-//        }
-//        return 0.5
-//    }
-//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-//        for i in self.datesArray {
-//            if date == i {
-//                return .white
-//            }
-//        }
-//        return nil
-//    }
-//    func calendar(_ calendar: FSCalendar, didDeselect date: Date) {
-//        //  print("did deselect date \(self.formatter.string(from: date))")
-//        self.convigureVisibleCells()
-//    }
+
     
     private func configureVisibleCells() {
         calendarView.visibleCells().forEach { (cell) in
@@ -256,12 +210,13 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
     
 }
 extension CalendarSchedulerViewController : UIPopoverPresentationControllerDelegate{
-    
+
+
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
-}
 
+}
 
 //Закрывает поп ап меню, обновляет данные, закрывает анимацию
 extension CalendarSchedulerViewController: ClosePopUpTableViewProtocol{
@@ -284,10 +239,6 @@ extension CalendarSchedulerViewController: ClosePopUpTableViewProtocol{
         calendarView.collectionView.reloadData()
         calendarView.reloadData()
     }
-    
-    
-    
-    
 }
 
 extension Date: Strideable {

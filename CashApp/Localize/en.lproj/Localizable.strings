@@ -65,7 +65,7 @@
 //MARK: - TodayBalanceViewController
 "date_not_selected_label" = "Date wasn’t selected";
 "dayly_budget_label" = "Daily budget";
-"date_not_selected_label" = "Calculated up to";
+"date_is_selected_label" = "Calculated up to";
 "impact_on_balance_label" = "Plans impact on the daily budget";
 "segmented_control_plans" = "Plans";
 "segmented_control_accounts" = "Accounts";

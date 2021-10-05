@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Network
 
 
 //MARK: Collectiom view delegate dataSource
@@ -70,7 +71,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         return cell
     }
     
-    private func createNewLayout() -> UICollectionViewLayout{
+    private func compositionLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
              
             var trailingItem: NSCollectionLayoutItem!
@@ -127,34 +128,90 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         return CGSize(width: 5, height: 5)
     }
     
-    @objc func longPressGesture(_ gesture: UILongPressGestureRecognizer) {
-        let press = gesture.location(in: self.collectionView)
-        if let indexPath = self.collectionView.indexPathForItem(at: press) {
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        switch changeValue {
+        case true :
+            guard indexPath.row != expenceObjects.count else { return nil }
+        case false:
+            guard indexPath.row != incomeObjects.count else { return nil }
+        }
+        // create cell identifier in configuration
+        let index = indexPath.row
+        let identifier = "\(index)" as NSString
+        //let object = expenceObjects[indexPath.row]
+        let categoryObject = changeValue ? expenceObjects[index] : incomeObjects[index]
+        let provider = CategoryPreviewViewController().self
+        provider.fillTheDate(imageName: categoryObject.image, labelName: categoryObject.name)
+        return UIContextMenuConfiguration(identifier: identifier, previewProvider: {
+           
+            return provider
+        }) { suggestedActions in
+            let editAction =
+                       UIAction(title: NSLocalizedString("pop_edit_name_label", comment: ""),
+                                image: UIImage(systemName: "square.and.pencil")) { action in
+                           
+                                       DispatchQueue.main.async {
+                                           self.goToAddVC(object: categoryObject, isEditing: true)
+                                       }
+                       }
+                   let deleteAction =
+                       UIAction(title: NSLocalizedString("pop_delete_name_label", comment: ""),
+                                image: UIImage(systemName: "trash"),
+                                attributes: .destructive ) { action in
+                                       try! realm.write({
+                                           realm.delete(categoryObject)
+                                       })
+                                       collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+                                       collectionView.reloadData()
+                       }
             
-           //отмена нажатия если нажата кнопка "добавить новую категорию"
-            switch changeValue {
-            case true:
-                guard indexPath.row != expenceObjects.count else {return}
-            case false:
-                guard indexPath.row != incomeObjects.count else {return}
-            }
-            if gesture.state == .began {
-                let cell = collectionView.cellForItem(at: indexPath)
-                pressedIndexPath = indexPath
-                goToPopUpTableView(delegateController: self, payObject: [indexPath], sourseView: cell!)
-            }
+            let menu = UIMenu(title: "",options: .displayInline , children: [editAction, deleteAction])
+            return menu
         }
     }
-    
+    func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+            guard
+                //receive identifier from configuration
+                let identifier = configuration.identifier as? String,
+                let index = Int(identifier),
+                let cell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? OperationCell
+                  else {
+                    return nil
+                }
+        
+     //   return UITargetedPreview(view: cell.roundedRect, parameters: UIPreviewParameters. , target: <#T##UIPreviewTarget#>)
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.shadowPath = .none
+        parameters.visiblePath = .none
+        
+        return UITargetedPreview(view: cell.roundedRect ,parameters: parameters)
+        }
+
+    func collectionView(_ collectionView: UICollectionView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard
+            //receive identifier from configuration
+            let identifier = configuration.identifier as? String,
+            let index = Int(identifier),
+            let cell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? OperationCell
+              else {
+                return nil
+            }
+    let parameters = UIPreviewParameters()
+        parameters.shadowPath = .none
+    parameters.backgroundColor = .clear
+        return UITargetedPreview(view: cell.roundedRect,parameters: parameters)
+    }
+
     func setupCollectionView() {
-        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressGesture(_:)))
+      //  let gesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressGesture(_:)))
         collectionView.clipsToBounds = false
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.backgroundColor = .clear
-        collectionView.collectionViewLayout = createNewLayout()
-        collectionView.addGestureRecognizer(gesture)
+        collectionView.collectionViewLayout = self.compositionLayout()
+        //collectionView.addGestureRecognizer(gesture)
         collectionView.register(OperationCell.nib(), forCellWithReuseIdentifier: "OperationCell")
         collectionView.register(CreateOperationCell.nib(), forCellWithReuseIdentifier: CreateOperationCell.identifier)
         collectionView.isScrollEnabled = false // Изза compositional layout, отменить вертикальный скроллинг можно только так

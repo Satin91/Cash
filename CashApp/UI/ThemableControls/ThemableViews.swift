@@ -33,6 +33,8 @@ class ThemableImageView: UIImageView {
     }
 }
 
+
+
 extension FSCalendarView {
     
     func theme(_ theme:MyTheme){
@@ -42,7 +44,7 @@ extension FSCalendarView {
         self.appearance.titleWeekendColor = theme.settings.contrastColor1
         self.appearance.headerTitleColor = theme.settings.titleTextColor
         self.appearance.weekdayTextColor = theme.settings.subtitleTextColor
-        
+        self.appearance.selectionColor = theme.settings.redColor
         
         self.backgroundColor = theme.settings.secondaryBackgroundColor
         // self.layer.setMiddleShadow(color: theme.settings.shadowColor)

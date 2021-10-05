@@ -104,21 +104,13 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         Themer.shared.register(target: self, action: SchedulerViewController.theme(_:))
         colors.loadColors()
         navigationController?.navigationBar.prefersLargeTitles = true
-       
-        
- 
-        
         setupRightButton()
         addBlur()
         installTableView()
-        
         visualSettings()
-        
-
     }
   
    
@@ -179,10 +171,13 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         let edit = SwipeAction(style: .default, title: "Edit") { action, indexPath in
             
             let editVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
+            let navVC = UINavigationController(rootViewController: editVC)
             editVC.isEditingScheduler = true
             editVC.reloadParentTableViewDelegate = self
             editVC.newScheduleObject = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
-            self.present(editVC, animated: true, completion: nil)
+            navVC.modalPresentationStyle = .pageSheet
+            self.present(navVC, animated: true, completion: nil)
+            //self.present(editVC, animated: true, completion: nil)
         }
         
         delete.backgroundColor = deleteColor //ThemeManager2.currentTheme().contrastColor2

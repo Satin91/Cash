@@ -46,7 +46,8 @@ class OperationCell: UICollectionViewCell {
     }
     
     func set(object: MonetaryCategory) {
-        categoryImage.image = UIImage(named: object.image)
+        categoryImage.image = UIImage().myImageList(systemName: object.image)
+        categoryImage.contentMode = .scaleAspectFit
         label.text = object.name
         Themer.shared.register(target: self, action: OperationCell.theme(_:))
     }

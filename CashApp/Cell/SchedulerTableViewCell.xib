@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,19 +34,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJl-LD-Z5P">
-                                <rect key="frame" x="222" y="8" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="38A-Ji-C1A"/>
-                                    <constraint firstAttribute="height" constant="30" id="9Uu-Zx-isl"/>
-                                </constraints>
-                                <state key="normal" title="Button">
-                                    <imageReference key="image" image="pencil" catalog="system" symbolScale="large"/>
-                                </state>
-                                <connections>
-                                    <action selector="editButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="nGR-QQ-Oux"/>
-                                </connections>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wsi-Fu-aSu">
                                 <rect key="frame" x="102.00000000000001" y="44.333333333333343" width="244.33333333333337" height="77"/>
                                 <subviews>
@@ -111,9 +97,7 @@
                             <constraint firstItem="0Cg-gM-aqv" firstAttribute="top" secondItem="jVq-ah-91Y" secondAttribute="top" constant="12" id="Loc-gZ-orT"/>
                             <constraint firstItem="Lcz-zf-kkZ" firstAttribute="leading" secondItem="jVq-ah-91Y" secondAttribute="leading" constant="15" id="RMt-YR-9QJ"/>
                             <constraint firstItem="0Cg-gM-aqv" firstAttribute="leading" secondItem="Lcz-zf-kkZ" secondAttribute="trailing" constant="15" id="dzq-WB-frA"/>
-                            <constraint firstAttribute="trailing" secondItem="BJl-LD-Z5P" secondAttribute="trailing" id="nhJ-nK-g5i"/>
                             <constraint firstItem="wsi-Fu-aSu" firstAttribute="leading" secondItem="Lcz-zf-kkZ" secondAttribute="trailing" constant="15" id="peK-md-UOP"/>
-                            <constraint firstItem="BJl-LD-Z5P" firstAttribute="top" secondItem="jVq-ah-91Y" secondAttribute="top" constant="8" id="psv-Sg-GpD"/>
                             <constraint firstItem="Lcz-zf-kkZ" firstAttribute="top" secondItem="jVq-ah-91Y" secondAttribute="top" constant="12" id="qaT-fY-4Rt"/>
                         </constraints>
                     </view>
@@ -127,7 +111,6 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="editButtonOutlet" destination="BJl-LD-Z5P" id="c3b-QH-AgO"/>
                 <outlet property="nextPayDate" destination="ZsM-Hp-QDS" id="6ok-ur-6na"/>
                 <outlet property="nextPayLabelText" destination="px1-vb-kEW" id="Oqk-uc-4UQ"/>
                 <outlet property="remainingSum" destination="oli-gS-Cub" id="aQg-Oj-Umu"/>
@@ -142,7 +125,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="pencil" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

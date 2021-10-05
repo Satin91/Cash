@@ -13,6 +13,7 @@ class SideMenuViewController: UIViewController {
     
     @IBOutlet var headerView: UIView!
     @IBOutlet var tableView: UITableView!
+    let colors = AppColors()
     var sideMenuSwitch: UISwitch = {
        let sw = UISwitch()
         sw.onTintColor = ThemeManager2.currentTheme().contrastColor1
@@ -23,17 +24,19 @@ class SideMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.colors.loadColors()
+        title = "Settings"
         visualSettings()
         setupTableView()
-        
         // Do any additional setup after loading the view.
     }
     func visualSettings() {
-        self.view.backgroundColor = ThemeManager2.currentTheme().backgroundColor
-        self.headerView.backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
+        self.view.backgroundColor = colors.backgroundcolor
+        self.headerView.backgroundColor = colors.backgroundcolor
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    let tableViewItemsArray = ["Dark theme","Notifications"]
+    let tableViewItemsArray = ["Dark theme","Отправлять уведомления за день"]
     
     func setupTableView() {
         tableView.backgroundColor = .clear
@@ -52,21 +55,14 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-           // ThemeManager.applyTheme(theme: .white)
-        }else{
-          //  ThemeManager.applyTheme(theme: .dark)
-        }
-        
-        self.reloadInputViews()
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SideMenuCell",for: indexPath)
         let object = tableViewItemsArray[indexPath.row]
         cell.backgroundColor = .clear
-        cell.contentView.backgroundColor = ThemeManager2.currentTheme().backgroundColor
+        //cell.contentView.backgroundColor =
         sideMenuSwitch = UISwitch(frame: CGRect(x: 0, y: 0, width: 50, height: 50) )
         cell.accessoryView = sideMenuSwitch
         cell.selectionStyle = .none
@@ -84,6 +80,13 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
+
+extension SideMenuViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
 class SideInTransition: NSObject, UIViewControllerAnimatedTransitioning {
     var isPresent: Bool = false
     
@@ -98,14 +101,23 @@ class SideInTransition: NSObject, UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         
         let finalWidth = toViewController.view.bounds.width * 0.7
-        let finalHeight = toViewController.view.bounds.height
+        let finalHeight = toViewController.view.bounds.height * 0.5
         if isPresent {
             containerView.addSubview(toViewController.view)
-            toViewController.view.frame = CGRect(x: -finalWidth, y: 0  , width: finalWidth, height: finalHeight)
+            toViewController.view.frame = CGRect(x: 50, y: 50  , width: 15 , height: 15 )
             
-        }
+        } 
+        
+//    animations: {
+//        self.button.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+//    },
+//    completion: { _ in
+//        UIView.animate(withDuration: 0.6) {
+//            self.button.transform = CGAffineTransform.identity
+//        }
+        
         let transform = {
-            toViewController.view.transform = CGAffineTransform(translationX: finalWidth, y: 0)
+            toViewController.view.frame.size = CGSize(width: 150, height: 150)
         }
         let identity = {
             fromViewController.view.transform = .identity

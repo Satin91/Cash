@@ -112,8 +112,8 @@ class NumpadView: UIView {
             btn.setTitleColor(ThemeManager2.currentTheme().subtitleTextColor, for: .normal)
             btn.titleLabel?.font = .systemFont(ofSize: 26, weight: .regular)
             btn.backgroundColor = colors.secondaryBackgroundColor
-            btn.layer.borderWidth = 1
-            btn.layer.borderColor = colors.borderColor.cgColor
+          //  btn.layer.borderWidth = 1
+           // btn.layer.borderColor = colors.borderColor.cgColor
          
             switch btn.tag {
             case 21:

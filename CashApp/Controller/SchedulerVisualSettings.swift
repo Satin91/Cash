@@ -11,6 +11,7 @@ import UIKit
 import Themer
 extension AddScheduleViewController {
   
+    // set the selected colors (after release change this shit to COLORS.LOADCOLORS)
     func theme(_ theme: MyTheme){
         self.titleTextColor = theme.settings.titleTextColor
         self.borderColor = theme.settings.borderColor
@@ -27,14 +28,15 @@ extension AddScheduleViewController {
         sumPerTimeTextField.borderedTheme(fillColor: theme.settings.secondaryBackgroundColor, shadowColor: theme.settings.shadowColor)
     }
     
+    // Set colors and image for image button
+    
     func setColors(backgroundColor: UIColor,titleColor: UIColor,borderColor:UIColor,subtitleColor: UIColor,shadowColor: UIColor) {
         self.view.backgroundColor = backgroundColor
         self.headingTextLabel.textColor = titleColor
         self.descriptionTextLabel.textColor = subtitleColor
         incomeVectorButtonOutlet.setTitleColor(borderColor, for: .normal)
         expenceVectorButtonOutlet.setTitleColor(borderColor, for: .normal)
-        selectImageButtonOutlet.setImage(UIImage(named: selectedImageName), for: .normal)
-        selectImageButtonOutlet.setImageTintColor(titleColor, imageName: selectedImageName)
+        selectImageButtonOutlet.setImageView(imageName: selectedImageName, color: titleColor)
         selectImageButtonOutlet.layer.setMiddleShadow(color: shadowColor)
         scrollView.backgroundColor = .clear
         setupButtonsAndFields(subTitleColor: subtitleColor)
@@ -48,7 +50,7 @@ extension AddScheduleViewController {
         descriptionTextLabel.numberOfLines = 0
         incomeVectorButtonOutlet.layer.cornerRadius = 10
         expenceVectorButtonOutlet.layer.cornerRadius = 10
-        let isEditingButtonTitle = isEditingScheduler ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
+       
         selectDateButtonOutlet.mainButtonTheme("date_button")
         
         let income = UIImage(named: "income.button")
@@ -64,7 +66,7 @@ extension AddScheduleViewController {
         expenceVectorButtonOutlet.setImage(expenceTint, for: .normal)
         expenceVectorButtonOutlet.tintColor = Themer.shared.theme == .dark ? .black : .white
         
-        
+        let isEditingButtonTitle = isEditingScheduler ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
         okButtonOutlet.mainButtonTheme(isEditingButtonTitle)
         selectImageButtonOutlet.layer.cornerRadius = 25
         scrollView.backgroundColor = .clear
@@ -75,10 +77,6 @@ extension AddScheduleViewController {
         let sumPerTimeText = newScheduleObject.stringScheduleType == .goal ? NSLocalizedString("available_sum", comment: "") : NSLocalizedString("sum_per_time_text_field", comment: "")
         totalSumTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("total_sum_text_field", comment: ""), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular),NSAttributedString.Key.foregroundColor: subTitleColor])
         sumPerTimeTextField.attributedPlaceholder = NSAttributedString(string: sumPerTimeText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .regular), NSAttributedString.Key.foregroundColor: subTitleColor])
-        
-//        nameTextField.changeVisualDesigh()
-//        totalSumTextField.changeVisualDesigh()
-//        sumPerTimeTextField.changeVisualDesigh()
         let title = isEditingScheduler ? newScheduleObject.currencyISO : mainCurrency!.ISO
         rightViewTextFieldButtonFor(title: title)
     }

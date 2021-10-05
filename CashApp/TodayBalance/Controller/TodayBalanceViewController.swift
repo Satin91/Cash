@@ -171,13 +171,16 @@ class TodayBalanceViewController: UIViewController {
     func setTodayBalanceData(animated: Bool) {
         guard let mainCurrency = mainCurrency?.ISO else {return}
         guard let balance = todayBalanceObject else {
+            print("balance is nil")
+            dailyBudgetLabel.text = NSLocalizedString("dayly_budget_label", comment: "")
             dailyBudgetBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: 0, additionalText: nil)
             calculatedUntilDateLabel.text = NSLocalizedString("date_not_selected_label", comment: "")
+           
             return}
         //endDate = todayBalanceObject?.endDate
         let formatter = DateFormatter()
         formatter.dateFormat = NSLocalizedString("small_date", comment: "")
-        calculatedUntilDateLabel.text = NSLocalizedString("date_not_selected_label", comment: "") + " \(formatter.string(from: balance.endDate))"
+        calculatedUntilDateLabel.text = NSLocalizedString("date_is_selected_label", comment: "") + " \(formatter.string(from: balance.endDate))"
         dailyBudgetLabel.text = NSLocalizedString("dayly_budget_label", comment: "")
         var currentBalance: Double = 0
         let divider = getDivider()
@@ -244,6 +247,7 @@ class TodayBalanceViewController: UIViewController {
     }
     @IBAction func unwindToTodayBalanceVC(segue: UIStoryboardSegue) {
         self.updateTotalBalanceSum(animated: true)
+        self.getSchedulersToTableView()
         }
  
 }
@@ -322,6 +326,9 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
         }
         updateTotalBalanceSum(animated: true)
     }
-    
-    
+}
+extension TodayBalanceViewController: ReloadParentTableView {
+    func reloadData() {
+        self.tableView.reloadData()
+    }
 }

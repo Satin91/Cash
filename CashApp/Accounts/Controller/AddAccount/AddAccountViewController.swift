@@ -101,7 +101,7 @@ class AddAccountViewController: UIViewController  {
     }
 
     @objc func changeISO(_ sender: UIButton) {
-        goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender)
+        goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender, type: .currency)
     }
     func setTextForViewElements() {
         nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field_placeholder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: colors.subtitleTextColor ])

@@ -13,7 +13,7 @@ import Themer
 
 class CategoriesViewController: UIViewController, UITextFieldDelegate {
     
-
+    let colors = AppColors()
     private var popViewController: UIViewController! // Child View Controller
     let subscriptionManager = SubscriptionManager()
     var changeValue = true
@@ -26,6 +26,9 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
     @IBAction func actionSegmentedControl(_ sender: HBSegmentedControl) {
         sender.changeSegmentWithAnimation(tableView: nil, collectionView: collectionView, ChangeValue: &changeValue)
     }
+
+    
+    
     ///             POPUP VIEW
     @IBOutlet var blurView: UIVisualEffectView! // не используется влом удалять пока
     ///             ACTIONS
@@ -57,13 +60,9 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        colors.loadColors()
         self.navigationController?.navigationBar.prefersLargeTitles = true
-
         Themer.shared.register(target: self, action: CategoriesViewController.theme(_:))
-       
-        
-//        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 16, weight: .regular), .paragraphStyle: paragraphStyle  ]
-       
         createRightBarButton()
         openBarChartController = OpenNextController(storyBoardID: "BarChart", fromViewController: self, toViewControllerID: "BarChartID", toViewController: BarChartViewController())
         
@@ -76,27 +75,11 @@ class CategoriesViewController: UIViewController, UITextFieldDelegate {
 
     //MARK: Add/Delete Child View Controller
   
-    
-    func closeChildViewController() {
-        self.view.reservedAnimateView(animatedView: popViewController.view, viewController: popViewController)
-        popViewController = nil // Это нужно для того, чтобы снова его открыть. Потому что в открытии стоит условие
-        self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
-        
-    }
-    
-}
-
-
-
-
-extension CategoriesViewController: ReloadParentTableView {
-    func reloadData() {
-        collectionView.reloadData()
-    }
-}
-
-extension CategoriesViewController: ClosePopUpTableViewProtocol {
-    
+//    func closeChildViewController() {
+//        self.view.reservedAnimateView(animatedView: popViewController.view, viewController: popViewController)
+//        popViewController = nil // Это нужно для того, чтобы снова его открыть. Потому что в открытии стоит условие
+//        self.view.reservedAnimateView(animatedView: blurView, viewController: nil)
+//    }
     enum isEditing{
         case edit
         case create
@@ -118,57 +101,44 @@ extension CategoriesViewController: ClosePopUpTableViewProtocol {
        
         present(vc, animated: true, completion: nil)
     }
-    
-    func closeTableView(object: Any) {
-        guard let object = object as? [String: IndexPath] else {return}
-        let index = object.values.first
-        let categoryObject = changeValue ? expenceObjects[index!.row] : incomeObjects[index!.row]
-        switch object.keys.first {
-        case "Edit":
-            //Нужно делать запуск контроллера в фоновом потоке так как он открывается не дождавшись выгрузки поп менюшки
-            DispatchQueue.main.async {
-                self.goToAddVC(object: categoryObject, isEditing: true)
+
+}
+
+
+
+
+extension CategoriesViewController: ReloadParentTableView {
+    func reloadData() {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500) , execute: {
+            print("done")
+            
+            self.collectionView.performBatchUpdates {
+                switch self.changeValue {
+                case true:
+                    self.collectionView.insertItems(at: [IndexPath(row: expenceObjects.count - 1, section: 0)])
+                case false:
+                    self.collectionView.insertItems(at: [IndexPath(row: incomeObjects.count - 1, section: 0)])
+                }   
             }
-        case "Delete":
-            try! realm.write({
-                realm.delete(categoryObject)
-            })
-            collectionView.deleteItems(at: [index!])
-            collectionView.reloadData()
-        default:
-            break
-        }
-        
-        
+        })
     }
+}
+
 
     
-}
+   
 
 extension CategoriesViewController: UIPopoverPresentationControllerDelegate{
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
-    
-
-//    override func presentationTransitionWillBegin() {
-//        chromeView.frame = self.containerView.bounds
-//        chromeView.alpha = 0.0
-//        containerView.insertSubview(chromeView, atIndex:0)
-//        let coordinator = presentedViewController.transitionCoordinator()
-//        if (coordinator != nil) {
-//            coordinator!.animateAlongsideTransition({
-//                (context:UIViewControllerTransitionCoordinatorContext!) -> Void in
-//                    self.chromeView.alpha = 1.0
-//            }, completion:nil)
-//        } else {
-//            chromeView.alpha = 1.0
-//        }
-//    }
 }
 extension CategoriesViewController {
     private func theme(_ theme: MyTheme ) {
+        
+        
         view.backgroundColor = theme.settings.backgroundColor
     }
 }

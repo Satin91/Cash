@@ -27,7 +27,7 @@ class SecondTableViewCell: UITableViewCell  {
     var subTitleLabel: SubTitleLabel = {
         let label = SubTitleLabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: 17, weight: .regular)
         
         return label
     }()
@@ -36,7 +36,7 @@ class SecondTableViewCell: UITableViewCell  {
     var sumLabel: TitleLabel = {
         let label = TitleLabel(frame: .zero)
         label.textAlignment = .right
-        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.font = .systemFont(ofSize: 17, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -98,7 +98,8 @@ class SecondTableViewCell: UITableViewCell  {
             lineView.isHidden = true
         }
         guard let image = object.image else {return}
-        self.image.image = UIImage(named: image)
+        //self.image.image = UIImage(named: image)
+        self.image.image = UIImage().myImageList(systemName: image)
         //        drawDottedLine(start: CGPoint(x: lineView.bounds.minX, y: lineView.bounds.minY), end: CGPoint(x: lineView.bounds.maxX, y: lineView.bounds.minY), view: lineView)
         Themer.shared.register(target: self, action: SecondTableViewCell.theme(_:))
         
@@ -148,22 +149,23 @@ class SecondTableViewCell: UITableViewCell  {
         
         sumLabel.setContentHuggingPriority(labelPriority, for: .horizontal)
         
-        image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true  //80 (Общая высота ячейки) - 48 (высота изображения) / 2 = 16
-        image.heightAnchor.constraint(equalToConstant: 48).isActive = true
-        image.widthAnchor.constraint(equalToConstant: 48).isActive = true
+        image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
+        image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 17).isActive = true  //80 (Общая высота ячейки) - 40 (высота изображения) / 2 = 20
+        image.heightAnchor.constraint(equalToConstant: 46).isActive = true
+        image.widthAnchor.constraint(equalToConstant: 46).isActive = true
         
-        titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 12).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
         
-        sumLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -26).isActive = true
-        sumLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16).isActive = true
-        sumLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
-        
-        subTitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 12).isActive = true
-        subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4).isActive = true
+        //sumLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -26).isActive = true
+      
+        subTitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10).isActive = true
+        subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
         subTitleLabel.trailingAnchor.constraint(equalTo: sumLabel.leadingAnchor).isActive = true
         
+        sumLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16).isActive = true
+        sumLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 65).isActive = true
+        sumLabel.centerYAnchor.constraint(equalTo: subTitleLabel.centerYAnchor).isActive = true
         
         
         //  subTitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16).isActive = true

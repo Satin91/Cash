@@ -481,7 +481,7 @@ extension UIView {
         layer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
         layer.frame = self.bounds
         layer.fillColor = nil
-        layer.lineWidth = 3 // doubled since half will be clipped
+        layer.lineWidth = 2.5 // doubled since half will be clipped
         layer.lineDashPattern = [15.0,4]
         self.layer.addSublayer(layer)
     }
@@ -556,8 +556,9 @@ extension UIImageView {
 extension UIButton{
     
     func setImageTintColor(_ color: UIColor, imageName: String) {
-        let image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
-        self.setImage(image, for: .normal)
+        let image = UIImage().myImageList(systemName: imageName)?.withRenderingMode(.alwaysTemplate)
+        
+        self.setImage( image, for: .normal)
         self.tintColor = color
     }
     
@@ -708,33 +709,42 @@ func goToQuickPayVC(delegateController: UIViewController, classViewController: i
 //        classViewController!.didMove(toParent: delegateController)
 //    }
 }
-enum PopUpType {
-    case menu
-    case tableView
+enum PopTableViewType: CGFloat {
+    case inCalendar
+    case currency
+
+    func getRaw(view: UIView) -> CGFloat {
+        switch self {
+        case .inCalendar:
+            return view.bounds.width * 0.6
+        case .currency:
+            return 120
+        }
+    }
+    
 }
-func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], sourseView: UIView) {
+func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], sourseView: UIView, type: PopTableViewType) {
     let popTableView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PopUpTableView") as! PopTableViewController
     // let selectDateVC = UIViewController(nibName: "SelectDateViewControllerXib", bundle: nil) as! SelectDateCalendarPopUpViewController
     popTableView.closeSelectDateDelegate = delegateController as? ClosePopUpTableViewProtocol
     popTableView.payObject = payObject
-    let navVC = UINavigationController(rootViewController: popTableView)
-    navVC.modalPresentationStyle = .popover
-    let popVC = navVC.popoverPresentationController
     
+    
+    //let navVC = UINavigationController(rootViewController: popTableView)
+    //navVC.modalPresentationStyle = .popover
+    popTableView.modalPresentationStyle = .popover
+    let popVC = popTableView.popoverPresentationController
     popVC?.delegate = delegateController as? UIPopoverPresentationControllerDelegate
-    //let barButtonView = delegateController.navigationItem.rightBarButtonItem?.value(forKey: "view") as? UIView
     popVC?.sourceView = sourseView
     popVC?.sourceRect = sourseView.bounds
     popVC?.permittedArrowDirections = .down
+    popVC?.backgroundColor = .clear
+
+    let width = type.getRaw(view: delegateController.view)
+    let height = CGFloat(payObject is [IndexPath] ? 2 *  Int(popTableView.cellHeight): payObject.count * Int(popTableView.cellHeight))
+    popTableView.preferredContentSize = CGSize(width: width, height: height )
     
-    
-    navVC.view.alpha = 0
-    
-    
-    let navBarHeight = 44
-    let height = payObject is [IndexPath] ? 2 *  Int(popTableView.cellHeight): payObject.count * Int(popTableView.cellHeight)
-    popTableView.preferredContentSize = CGSize(width: 150, height: (height) - navBarHeight )
-    delegateController.present(navVC, animated: true, completion: nil)
+        delegateController.present(popTableView, animated: false)
 }
 
 ///MARK: Alert controller
@@ -787,7 +797,14 @@ extension UIViewController {
     
 
 }
-
+//MARK: Extension scrollView
+extension UIScrollView {
+    
+    func adjustTheSizeOfThe(view: UIView) {
+        let heightSize = view.frame.origin.y + 60 + 420
+        self.contentSize.height = heightSize
+    }
+}
 //MARK: Extension textField
 extension UITextField {
     func removeAllExceptNumbers()->Double {

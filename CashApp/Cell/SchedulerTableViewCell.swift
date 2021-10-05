@@ -38,7 +38,6 @@ class SchedulerTableViewCell: SwipeTableViewCell {
     @IBAction func editButtonAction(_ sender: UIButton) {
         guard let object = self.object else {return}
         sendSchedulerDelegate.sendObject(object: object)
-        
     }
     static func nib() -> UINib {
         let nib = UINib(nibName: "SchedulerTableViewCell", bundle: nil)
@@ -59,7 +58,7 @@ class SchedulerTableViewCell: SwipeTableViewCell {
     func fillTheDataForLabels(object: MonetaryScheduler, pptObject: PayPerTime?) {
         titleLabel.text = object.name
         
-        scheduleImage.image = UIImage(named: object.image)
+        scheduleImage.image = UIImage().myImageList(systemName: object.image)
         self.object = object
         switch object.stringScheduleType {
         case .goal:

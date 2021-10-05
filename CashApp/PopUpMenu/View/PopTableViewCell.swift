@@ -10,8 +10,8 @@ import UIKit
 
 class PopTableViewCell: UITableViewCell {
     
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var sumLabel: UILabel!
+    @IBOutlet var nameLabel: TitleLabel!
+    @IBOutlet var sumLabel: SubTitleLabel!
    
     let colors = AppColors()
     var lineView: UIView = {
@@ -62,32 +62,16 @@ class PopTableViewCell: UITableViewCell {
         }else if object is CurrencyObject {
             let obj = object as! CurrencyObject
             setCurrency(object: obj)
-        }else if object is String {
-            let obj = object as! String
-            setAction(object: obj)
         }
     }
-    func setAction(object: String) {
-        //nameLabel.text = object
-        sumLabel.isHidden = true
-        popCellImage.isHidden = true
-        if object == "Edit" {
-            nameLabel.text = NSLocalizedString("pop_edit_name_label", comment: "")
-            nameLabel.textColor = colors.titleTextColor
-            nameLabel.sizeToFit()
-        }else{
-            nameLabel.text = NSLocalizedString("pop_delete_name_label", comment: "")
-            nameLabel.sizeToFit()
-            nameLabel.textColor = colors.contrastColor2
-        }
-    }
+  
     
     
     
     func setCurrency(object: CurrencyObject) {
         nameLabel.text = object.ISO
         sumLabel.isHidden = true
-        popCellImage.image = UIImage(named: object.ISO)
+        popCellImage.image = UIImage().myImageList(systemName: object.ISO)
     }
     
     func setSchedule(scheduleObject: MonetaryScheduler){
@@ -96,7 +80,8 @@ class PopTableViewCell: UITableViewCell {
         sumLabel.textAlignment = .left
         let totalSum = scheduleObject.target - scheduleObject.available
         sumLabel.text = String(totalSum.currencyFormatter(ISO: scheduleObject.currencyISO))
-        popCellImage.image = UIImage(named: scheduleObject.image)
+        popCellImage.image = UIImage().myImageList(systemName: scheduleObject.image)
+        popCellImage.setImageColor(color: colors.titleTextColor)
     }
     func setPayPerTime(payPerTime: PayPerTime) {
         nameLabel.text = payPerTime.scheduleName
@@ -104,7 +89,8 @@ class PopTableViewCell: UITableViewCell {
         for i in EnumeratedSchedulers(object: schedulerGroup) {
             if i.scheduleID == payPerTime.scheduleID{
                 currency = i.currencyISO
-                popCellImage.image = UIImage(named: i.image)
+                popCellImage.image = UIImage().myImageList(systemName: i.image)
+                popCellImage.setImageColor(color: colors.titleTextColor)
             }
         }
         let totalSum = payPerTime.target

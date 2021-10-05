@@ -17,6 +17,7 @@ class AddScheduleViewController: UIViewController {
     
    
     var closeDelegate: closeScheduler!
+    let colors = AppColors()
     var reloadParentTableViewDelegate: ReloadParentTableView!
     @IBOutlet var topAnchorConstraint: NSLayoutConstraint!
     // @IBOutlet var nameTextField: NumberTextField!
@@ -50,8 +51,9 @@ class AddScheduleViewController: UIViewController {
         self.vector = false
         expenceVectorButtonOutlet.scaleButtonAnimation()
         UIView.animate(withDuration: 0.15) { [weak self] in
-            self!.incomeVectorButtonOutlet.backgroundColor = self!.borderColor
-            self!.expenceVectorButtonOutlet.backgroundColor = self!.titleTextColor
+            guard let self = self else { return }
+            self.incomeVectorButtonOutlet.backgroundColor = self.borderColor
+            self.expenceVectorButtonOutlet.backgroundColor = self.titleTextColor
         }
         
     }
@@ -60,35 +62,34 @@ class AddScheduleViewController: UIViewController {
         self.vector = true
         incomeVectorButtonOutlet.scaleButtonAnimation()
         UIView.animate(withDuration: 0.15) { [weak self] in
-            self!.expenceVectorButtonOutlet.backgroundColor = self!.borderColor
-            self!.incomeVectorButtonOutlet.backgroundColor = self!.titleTextColor
+            guard let self = self else { return }
+            self.expenceVectorButtonOutlet.backgroundColor = self.borderColor
+            self.incomeVectorButtonOutlet.backgroundColor = self.titleTextColor
         }
     }
-    
-    ///ПЕРЕМЕННЫЕ
-    var imageForSelectButtonImage: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "home")
-        image.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
-        return image
-    }()
+    @IBAction func selectImageButtonAction(_ sender: Any) {
+        
+        self.present(iconsCollectionView, animated: true, completion: nil)
+        iconsCollectionView.sendImageDelegate = self
+    }
+ 
+    @IBAction func selectDateButtonAction(_ sender: Any) {
+        
+        self.view.animateView(animatedView: blurView, parentView: self.view)
+        self.view.animateView(animatedView: self.calendar, parentView: self.view)
+        calendar.select(date, scrollToDate: true)
+        guard newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular else {return}
+        self.view.animateView(animatedView: tableView, parentView: self.view)
+    }
     
     var calendarComponent: Calendar.Component = .weekOfMonth
     var date: Date!
     var miniAlertView: MiniAlertView!
     var calendar: FSCalendarView!
-//    = {
-//       let calendar = FSCalendarView()
-//        calendar.translatesAutoresizingMaskIntoConstraints = false
-//        calendar.layer.cornerRadius = 18
-//        calendar.alpha = 0
-//        return calendar
-//    }()
     var tableView: UITableView = {
        let tableView = UITableView()
         tableView.backgroundColor = .clear
         tableView.alpha = 0
-        tableView.layer.cornerRadius = 18
         return tableView
     }()
     let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
@@ -115,20 +116,7 @@ class AddScheduleViewController: UIViewController {
    
 
     
-    @IBAction func selectImageButtonAction(_ sender: Any) {
-        
-        self.present(iconsCollectionView, animated: true, completion: nil)
-        iconsCollectionView.sendImageDelegate = self
-    }
- 
-    @IBAction func selectDateButtonAction(_ sender: Any) {
-        self.view.animateView(animatedView: blurView, parentView: self.view)
-        self.view.animateView(animatedView: calendar, parentView: self.view)
-        calendar.select(date, scrollToDate: true)
-        guard newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular else {return}
-        self.view.animateView(animatedView: tableView, parentView: self.view)
-        
-    }
+   
     @IBOutlet var stackView: UIStackView! //для редактирования расстояния для четчайшести
     
     @IBOutlet var doneButtonOutlet: UIBarButtonItem!
@@ -152,11 +140,13 @@ class AddScheduleViewController: UIViewController {
         UIView.animate(withDuration: 0.2) {
             self.view.alpha = 1
         }
-        
+        scrollView.adjustTheSizeOfThe(view: okButtonOutlet)
+       
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.colors.loadColors()
         let cancel = CancelButton(frame: .zero, title: .cancel, owner: self)
         cancel.addToScrollView(view: self.scrollView)
         visualSettings()
@@ -165,15 +155,22 @@ class AddScheduleViewController: UIViewController {
         miniAlertView = MiniAlertView.loadFromNib()
         miniAlertView.controller = self
         checkScheduleType()
-        setupCalendarAndTableView()
         stackViewSettings()
         //setupNavigationController(self.navigationController)
-        self.isModalInPresentation = false
-        
+        self.isModalInPresentation = true
+        setupCalendarAndTableView()
+      //  createCalendar()
         //setupButtonsAndFields()
-        
         guard isEditingScheduler else {return}
         setDataFromEditableObject()
+        
+    }
+    func createCalendar() {
+        
+        self.calendar = FSCalendarView(frame: self.view.bounds, calendarType: .regular)
+        self.calendarFrame(self.calendar)
+        self.calendar.alpha = 0
+        self.view.addSubview(calendar)
     }
     func stackViewSettings() {
         if self.view.bounds.height < 600 {
@@ -497,34 +494,64 @@ class AddScheduleViewController: UIViewController {
         self.view.addSubview(tableView)
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
         self.calendar.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            calendar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
-            calendar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
-            calendar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 26),
-            //
-            tableView.heightAnchor.constraint(equalToConstant: 60 * 3),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
-        ])
         if newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular {
             
-            calendar.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: -26).isActive = true
-           
+            NSLayoutConstraint.activate([
+                calendar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
+                calendar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
+                calendar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 26),
+                //
+                tableView.heightAnchor.constraint(equalToConstant: 60 * 3),
+                tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
+                tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
+              //  tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -80),
+                calendar.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: -26)
+            ])
         }else{
-            calendar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26).isActive = true
+            let calendarHeight = self.view.bounds.height / 1.5
+            //self.calendar.headerHeight = calendarHeight / 10
+            calendar.heightAnchor.constraint(equalToConstant: calendarHeight).isActive = true
+            //calendar.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            calendar.topAnchor.constraint(equalTo: self.view.topAnchor,
+                                          constant: (self.view.bounds.height - calendarHeight) / 2 - 40).isActive = true
+            calendar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26).isActive = true
+            calendar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26).isActive = true
         }
         
+        switch descriptionTextLabel.isHidden {
+        case true:
+            NSLayoutConstraint.activate([
+                tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26),
+            ])
+        case false:
+            NSLayoutConstraint.activate([
+                tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26)
+            ])
+            
+        }
     }
-
+    func calendarFrame(_ calendar: UIView) {
+        let height = self.view.bounds.height * 0.8
+        let width = self.view.bounds.width - (26 * 2)
+        let x: CGFloat = 26
+        let centerY = self.view.center.y
+        let rect = CGRect(x: x, y: 0, width: width, height: height)
+        calendar.frame = rect
+        calendar.center.y = centerY
+    }
     func setupCalendarAndTableView() {
-        self.calendar = FSCalendarView(frame: self.view.bounds)
+        self.calendar = FSCalendarView(frame: self.view.bounds,calendarType: .mini)
+        //self.calendarFrame(calendar)
+      //  self.calendar.alpha = 1
+        self.view.addSubview(self.calendar)
+        constraintsForTableViewAndCalendar()
         self.calendar.alpha = 0
         self.calendar.layer.cornerRadius = 22
         self.calendar.layer.cornerCurve = .continuous
-        constraintsForTableViewAndCalendar()
+        self.tableView.layer.cornerRadius = 22
+        self.tableView.layer.cornerCurve = .continuous
         calendar.delegate = self
-        calendar.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
+        //calendar.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DateRhythmCell")
@@ -555,7 +582,7 @@ extension AddScheduleViewController: ClosePopUpTableViewProtocol{
     }
     
     @objc func changeISO(_ sender: UIButton) {
-        goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender)
+        goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender, type: .currency)
     }
 }
 
@@ -632,14 +659,14 @@ extension AddScheduleViewController {
     }
 }
 
-extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
+extension AddScheduleViewController: FSCalendarDelegate {
     
-    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-
-        let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
-        cell.setStyle(cellStyle: .DIYCalendar)
-        return cell
-    }
+//    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+//
+//        let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
+//        cell.setStyle(cellStyle: .DIYCalendar)
+//        return cell
+//    }
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.date = date
         
@@ -653,7 +680,7 @@ extension AddScheduleViewController: FSCalendarDelegate,FSCalendarDataSource {
 extension AddScheduleViewController: SendIconToParentViewController {
     func sendIconName(name: String) {
         selectedImageName = name
-        
+        selectImageButtonOutlet.setImageView(imageName: name, color: colors.titleTextColor)
     }
     
     

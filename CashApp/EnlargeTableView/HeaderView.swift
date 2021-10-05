@@ -33,7 +33,7 @@ final class HeaderView: UIViewController {
         label.backgroundColor = .clear
         label.text = "Date"
         label.font = .boldSystemFont(ofSize: 34)
-        label.textColor = ThemeManager2.currentTheme().titleTextColor
+       // label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.frame = .zero
         label.layer.opacity = 0
         return label
@@ -50,14 +50,14 @@ final class HeaderView: UIViewController {
     var accountsLabel: TitleLabel = {
         let label = TitleLabel()
         label.font = .systemFont(ofSize: 23, weight: .medium)
-        label.textColor = ThemeManager2.currentTheme().titleTextColor
+      //  label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.text = NSLocalizedString("header_accounts", comment: "")
         return label
         
     }()
     var totalBalanceLabel: TitleLabel = {
         let label = TitleLabel()
-        label.font = .systemFont(ofSize: 34, weight: .medium)
+        label.font = .systemFont(ofSize: 34, weight: .regular)
         //label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
@@ -76,15 +76,15 @@ final class HeaderView: UIViewController {
     var todayBalanceLabel: TitleLabel = {
         let label = TitleLabel()
         label.font = .systemFont(ofSize: 19, weight: .medium)
-        label.textColor = ThemeManager2.currentTheme().titleTextColor
+      //  label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.text = NSLocalizedString("header_budgetToday", comment: "")
         return label
     }()
     
     var todayBalanceSumLabel: TitleLabel = {
         let label = TitleLabel()
-        label.font = .systemFont(ofSize: 26, weight: .medium)
-        label.textColor = ThemeManager2.currentTheme().titleTextColor
+        label.font = .systemFont(ofSize: 26, weight: .regular)
+     //   label.textColor = ThemeManager2.currentTheme().titleTextColor
         label.text = "0"
         return label
     }()
@@ -92,14 +92,14 @@ final class HeaderView: UIViewController {
     var accountsImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "wallet")
-        imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
+       // imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return imageView
     }()
     
     var todayBalanceImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "todayBalance")
-        imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
+      //  imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return imageView
     }()
     

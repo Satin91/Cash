@@ -14,9 +14,16 @@ import IQKeyboardManagerSwift
 
 
 class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIconToParentViewController{
+    let colors = AppColors()
+    
+    
     
     func sendIconName(name: String) {
         selectedImageName = name
+       
+        selectImageButton.setImageView(imageName: name, color: colors.titleTextColor)
+        //selectImageButton. = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
     }
     
     @IBOutlet var scrollView: UIScrollView!//нужен только для того, чтобы выключить скрол(до следующих обновлений с лимитом)
@@ -65,6 +72,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     var selectedImageName = "emptyImage" {
         didSet{
             Themer.shared.register(target: self, action: AddOperationViewController.theme(_:))
+           
         }
     }
     var iconsCollectionView = IconsCollectionView()
@@ -77,6 +85,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: AddOperationViewController.theme(_:))
+        colors.loadColors()
         createCancelButton()
         miniAlertView = MiniAlertView.loadFromNib()
         scrollView.isScrollEnabled = false
@@ -100,11 +109,14 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         headingTextLabel.numberOfLines = 2
         headingTextLabel.font = .systemFont(ofSize: 34, weight: .bold)
         selectImageButton.layer.cornerRadius = 25
+        
+        
         let saveButtomTitle = isEditingCategory ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
         saveButtonOutlet.mainButtonTheme(saveButtomTitle)
         descriptionLabel.font = .systemFont(ofSize: 17, weight: .regular)
         isEditingCategory == true ? setDataForEditableControls() : setDataForСreatingControls()
         Themer.shared.register(target: self, action: AddOperationViewController.theme(_:))
+        
     }
     
     
@@ -127,6 +139,21 @@ extension AddOperationViewController {
         view.backgroundColor = theme.settings.backgroundColor
         selectImageButton.layer.setMiddleShadow(color: theme.settings.shadowColor)
         selectImageButton.backgroundColor = theme.settings.secondaryBackgroundColor
-        selectImageButton.setImageTintColor(theme.settings.titleTextColor, imageName: selectedImageName)
+         selectImageButton.setImageView(imageName: selectedImageName, color: theme.settings.titleTextColor)
+         
+    }
+}
+extension UIButton {
+    func setImageView(imageName: String, color: UIColor) {
+        for i in self.subviews {
+            i.removeFromSuperview()
+        }
+        let buttonImage = UIImageView(frame: self.bounds)
+        buttonImage.image = UIImage().myImageList(systemName: imageName)
+        buttonImage.contentMode = .scaleAspectFit
+        buttonImage.tintColor = color
+        buttonImage.frame = buttonImage.bounds.inset(by: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18))
+        self.addSubview(buttonImage)
+        
     }
 }

@@ -51,10 +51,8 @@ class CreateOperationCell: UICollectionViewCell {
         self.clipsToBounds = false
         dashView = UIView(frame: .zero )
         self.addSubview(dashView)
-        
-       
-      
-      //  self.addSubview(someView)
+//        self.backgroundColor = . clear
+//        self.contentView.backgroundColor = .clear
     }
     var dashView: UIView!
     var border =  CAShapeLayer()
@@ -97,7 +95,7 @@ class CreateOperationCell: UICollectionViewCell {
 extension CreateOperationCell {
     func theme(_ theme: MyTheme) {
         imageOfCreate.changePngColorTo(color: theme.settings.titleTextColor)
-        backgroundColor = theme.settings.backgroundColor
+        backgroundColor = .clear
         self.dashColor = theme.settings.borderColor
         self.border.strokeColor = theme.settings.borderColor.cgColor
         

@@ -55,13 +55,27 @@ extension AddOperationViewController {
             
     }
     
-    
+    func sortedElements() {
+            try! realm.write({
+                for (index,expence) in expenceObjects.enumerated() {
+                    expence.position = index
+                    realm.add(expence,update: .all)
+                }
+            })
+        
+            try! realm.write({
+                for (index,income) in incomeObjects.enumerated() {
+                    income.position = index
+                    realm.add(income,update: .all)
+                }
+            })
+    }
     func createElement() -> Bool{
         
         guard checkEnteredData() else {return false}
         newCategoryObject.name = nameTextField.text!
         newCategoryObject.image = selectedImageName
-        
+        sortedElements()
         switch newCategoryObject.stringEntityType {
         case .expence:
             newCategoryObject.position = expenceObjects.count

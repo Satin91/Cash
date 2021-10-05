@@ -32,11 +32,12 @@ class SeparatorView {
     func createLineViewWithConstraints()->UIView{
         let separatorView = UIView(frame: cell.bounds)
         cell.addSubview(separatorView)
+        let height: CGFloat = 2
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         separatorView.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
         separatorView.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
         separatorView.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
-        separatorView.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: height).isActive = true
         self.separatorView = separatorView
         return self.separatorView
     }
