@@ -15,12 +15,13 @@ class TitleLabel: UILabel {
         Themer.shared.register(target: self, action: TitleLabel.theme(_:))
         super.didMoveToWindow()
     }
+    
+        func theme(_ theme: MyTheme) {
+            textColor = theme.settings.titleTextColor
+        }
 }
-extension TitleLabel {
-    func theme(_ theme: MyTheme) {
-        textColor = theme.settings.titleTextColor
-    }
-}
+
+
 
 class SubTitleLabel: UILabel {
     override func didMoveToWindow() {

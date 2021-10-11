@@ -13,7 +13,7 @@ import UserNotifications
 class Notifications: NSObject, UNUserNotificationCenterDelegate {
     
     let notificationCenter = UNUserNotificationCenter.current()
-    let properties = NotificationProperties()
+    let notificationTime = NotificationTime()
     let data = NotificationData()
     func requestAutorization() {
         notificationCenter.requestAuthorization(options: [.alert,.sound]) { (granted, error) in
@@ -23,19 +23,28 @@ class Notifications: NSObject, UNUserNotificationCenterDelegate {
     }
 
    
-    func sendTodayNotifications(){
-        scheduleNotification(trigger: data.tommorowNotification())
+    func sendNotifications(){
         scheduleNotification(trigger: data.todayNotification())
-    
+        print("sendNotifications")
+        guard NotificationsTheDayBeforeEvent.isOn == true else { return }
+        print("tommorowNotification")
+        scheduleNotification(trigger: data.tommorowNotification())
     }
     
     func contentForNotificationRequest(moment: NotificationMoment) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
-        content.title = moment == .today ?  properties.titleForTodayNotifications : properties.titleForTommorrowNotifications
-        content.body = moment == .today ?  properties.bodyForTodayNotifications : properties.bodyForTommorrowNotifications
+        content.title = moment == .today ?  notificationTime.titleForTodayNotifications : notificationTime.titleForTommorrowNotifications
+        content.body = moment == .today ?  notificationTime.bodyForTodayNotifications : notificationTime.bodyForTommorrowNotifications
         content.badge = 0
         content.sound = UNNotificationSound.default
         return content
+    }
+    func componentsForNotificationTrigger(moment: NotificationMoment, components: DateComponents) -> DateComponents{
+        var components = components
+        components.day = components.day!
+        components.hour! = moment == .today ?  notificationTime.todayHour : notificationTime.tomorrowHour
+        components.minute  = moment == .today ? notificationTime.todayMinute : notificationTime.tomorrowMinute
+        return components
     }
     func generateIDFrom(components: DateComponents) -> String {
         let formatter = DateFormatter()
@@ -43,13 +52,6 @@ class Notifications: NSObject, UNUserNotificationCenterDelegate {
         let date = Calendar.current.date(from: components)
         let id = formatter.string(from: date!)
         return id
-    }
-    func componentsForNotificationTrigger(moment: NotificationMoment, components: DateComponents) -> DateComponents{
-        var components = components
-        components.day = components.day!
-        components.hour! = moment == .today ?  properties.todayHour : properties.tomorrowHour
-        components.minute  = moment == .today ? properties.todayMinute : properties.tomorrowMinute
-        return components
     }
     func scheduleNotification(trigger: Trigger){
         notificationCenter.removeAllDeliveredNotifications()
@@ -72,10 +74,10 @@ class Notifications: NSObject, UNUserNotificationCenterDelegate {
     }
     
     
-    
+
     //MARK: - Notification center delegate(Действия при нажатии на уведомление)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert,.badge,.sound ])
+        completionHandler([.badge,.sound ])
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         if response.notification.request.identifier == "Local notification" {

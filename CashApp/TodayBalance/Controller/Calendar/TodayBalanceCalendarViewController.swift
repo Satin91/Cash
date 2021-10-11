@@ -12,6 +12,7 @@ import FSCalendar
 
 class TodayBalanceCalendarViewController: UIViewController {
 
+    @IBOutlet var containerView: UIView!
     @IBOutlet var doneButton: ContrastButton!
     @IBOutlet var calendar: FSCalendarView!
     fileprivate let gregorian = Calendar(identifier: .gregorian)
@@ -23,8 +24,10 @@ class TodayBalanceCalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.colors.loadColors()
-        
-        self.view.backgroundColor = colors.secondaryBackgroundColor
+        self.containerView.backgroundColor = colors.secondaryBackgroundColor
+        self.containerView.layer.cornerRadius = 22
+        self.containerView.layer.cornerCurve = .continuous
+        self.view.backgroundColor = .clear
         calendarSettings()
         buttonsSettings()
     }
@@ -32,6 +35,7 @@ class TodayBalanceCalendarViewController: UIViewController {
         super.viewDidAppear(animated)
         guard let endDate = endDate else { return }
         self.calendar.select(endDate, scrollToDate: true)
+        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -40,14 +44,13 @@ class TodayBalanceCalendarViewController: UIViewController {
     func calendarSettings() {
         calendar.delegate = self
         calendar.dataSource = self
-        calendar.calendarType = .regular
-        
+        calendar.calendarType = .mini
         calendar.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
         
     }
     func buttonsSettings() {
-        cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
-        cancelButton.addToParentView(view: self.view)
+        cancelButton = CancelButton(frame: .zero, title: .close, owner: self)
+        cancelButton.addToParentView(view: self.containerView)
         doneButton.mainButtonTheme("save_button")
     }
  // Выход назначен в сториборде
@@ -72,9 +75,22 @@ class TodayBalanceCalendarViewController: UIViewController {
 //       super.init(coder: aDecoder)
 //    }
 }
-extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
+extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
-    
+
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        print(DIYDatesArray)
+        var diyArray = [Date]()
+        for i in DIYDatesArray {
+            let date = Calendar.current.date(from: i)
+            diyArray.append(date!)
+        }
+        if diyArray.contains(date) {
+            return colors.contrastColor1
+        }
+        
+        return nil
+    }
     
 //    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition)   -> Bool {
 //        return monthPosition == .current
@@ -86,9 +102,8 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
         if date == endDate {
-            cell.endDateReserveAnimations()
         }
-        cell.setStyle(cellStyle: .DIYCalendar)
+        cell.setStyle(cellStyle: .defaultCalendar)
         return cell
     }
     
@@ -97,10 +112,9 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
         guard let endDate = self.endDate else { return }
         if date == endDate {
             let cell = self.calendar(calendar, cellFor: date, at: monthPosition) as! DIYFSCalendarCell
-            cell.endDateReserveAnimations()
             
         }
-        //setDIYDates(startDate: Date(), endDate: endDate)
+        setDIYDates(startDate: Date(), endDate: endDate)
         
     }
     
@@ -110,21 +124,21 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
         self.endDate = date
         configureVisibleCells()
         let anyArray = createObjectsArray(date: date) // Воспользовался функцией сверху (тут разовый, регулярный платеж и платеж в раз)
-       
-        guard !anyArray.isEmpty else {return}
-        for i in datesArray {
-            if date == i {
-                goToPopUpTableView(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!, type: .inCalendar)
-            }
-            
-        }
+        calendar.reloadData()
+     //   guard !anyArray.isEmpty else {return}
+//        for i in datesArray {
+//            if date == i {
+//                goToPopUpTableView(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!, type: .inCalendar)
+//            }
+//
+//        }
     }
     
     private func configureVisibleCells() {
         calendar.visibleCells().forEach { (cell) in
             let date = calendar.date(for: cell)
             let position = calendar.monthPosition(for: cell)
-         //   self.configureDIY(cell: cell, for: date!, at: position)
+            self.configureDIY(cell: cell, for: date!, at: position)
             self.configureEvent(cell: cell, for: date!, at: position)
             configureToday(cell: cell, for: date!, at: position)
         }
@@ -221,10 +235,4 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
         }
     }
 }
-
-extension TodayBalanceCalendarViewController: FSCalendarDelegateAppearance {
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
-        return .clear
-    }
     
-}

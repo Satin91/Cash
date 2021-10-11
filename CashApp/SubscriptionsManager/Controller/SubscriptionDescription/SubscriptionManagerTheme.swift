@@ -13,19 +13,28 @@ extension SubscriptionsManagerViewController {
     
     
     func setColors() {
+        let imageColor = colors.redColor
+        let labelsColor = colors.titleTextColor
+        let descriptionsColor = colors.subtitleTextColor
         self.colors.loadColors()
         self.view.backgroundColor = colors.backgroundcolor
-        
+        // Images
+        self.unlimitImageView.setImageColor(color: imageColor)
+        self.notificationImageView.setImageColor(color: imageColor)
+        self.familyImageView.setImageColor(color: imageColor)
+        // Button
         self.subscriptionButton.backgroundColor = colors.redColor
         self.subscriptionButton.setTitleColor(colors.secondaryBackgroundColor, for: .normal)
-        self.restoreButtonOutlet.backgroundColor = .clear
-        self.restoreButtonOutlet.setTitleColor(colors.contrastColor1, for: .normal)
-        self.unlimitImageView.setImageColor(color: colors.redColor)
-        self.notificationImageView.setImageColor(color: colors.redColor)
-        self.unlimitLabel.textColor = colors.titleTextColor
-        self.notificationLabel.textColor = colors.titleTextColor
-        self.notificationDescription.textColor = colors.subtitleTextColor
-        self.unlimitDescription.textColor = colors.subtitleTextColor
+        
+        
+        // Labels
+        self.unlimitLabel.textColor = labelsColor
+        self.notificationLabel.textColor = labelsColor
+        self.familyLabel.textColor = labelsColor
+        self.notificationDescription.textColor = descriptionsColor
+        self.unlimitDescription.textColor = descriptionsColor
+        self.familyDescription.textColor = descriptionsColor
+        // background
         self.containerView.backgroundColor = colors.secondaryBackgroundColor.withAlphaComponent(0.8)
     }
     func visualSettings() {

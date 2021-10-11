@@ -1229,9 +1229,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vnq-l4-R0z">
+                                <rect key="frame" x="0.0" y="109" width="375" height="538"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kD9-mW-fz9" customClass="FSCalendarView" customModule="CashApp" customModuleProvider="target">
-                                <rect key="frame" x="26" y="0.0" width="323" height="539"/>
+                                <rect key="frame" x="26" y="179" width="323" height="360"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="360" id="J78-Xl-yg1"/>
+                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ReI-J6-d2L" customClass="ContrastButton" customModule="CashApp" customModuleProvider="target">
                                 <rect key="frame" x="26" y="561" width="323" height="60"/>
@@ -1249,27 +1256,31 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YOl-Yo-F6M"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="kD9-mW-fz9" firstAttribute="leading" secondItem="YOl-Yo-F6M" secondAttribute="leading" constant="26" id="8tA-OM-hvb"/>
                             <constraint firstItem="YOl-Yo-F6M" firstAttribute="bottom" secondItem="ReI-J6-d2L" secondAttribute="bottom" constant="26" id="AM0-rg-8Oy"/>
                             <constraint firstItem="YOl-Yo-F6M" firstAttribute="trailing" secondItem="ReI-J6-d2L" secondAttribute="trailing" constant="26" id="Etm-oW-kAX"/>
                             <constraint firstItem="YOl-Yo-F6M" firstAttribute="trailing" secondItem="kD9-mW-fz9" secondAttribute="trailing" constant="26" id="Otd-FU-Z1e"/>
-                            <constraint firstItem="ReI-J6-d2L" firstAttribute="top" secondItem="kD9-mW-fz9" secondAttribute="bottom" constant="22" id="jOT-Kd-qC5"/>
+                            <constraint firstItem="Vnq-l4-R0z" firstAttribute="top" secondItem="kD9-mW-fz9" secondAttribute="top" constant="-70" id="gCQ-nS-eOm"/>
+                            <constraint firstItem="Vnq-l4-R0z" firstAttribute="leading" secondItem="YOl-Yo-F6M" secondAttribute="leading" id="jDf-ES-iGE"/>
+                            <constraint firstItem="ReI-J6-d2L" firstAttribute="top" secondItem="kD9-mW-fz9" secondAttribute="bottom" priority="999" constant="22" id="jOT-Kd-qC5"/>
+                            <constraint firstItem="Vnq-l4-R0z" firstAttribute="trailing" secondItem="YOl-Yo-F6M" secondAttribute="trailing" id="ow8-IU-izQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Vnq-l4-R0z" secondAttribute="bottom" id="r2F-av-493"/>
                             <constraint firstItem="ReI-J6-d2L" firstAttribute="leading" secondItem="YOl-Yo-F6M" secondAttribute="leading" constant="26" id="rt0-fr-6Le"/>
-                            <constraint firstItem="kD9-mW-fz9" firstAttribute="top" secondItem="YOl-Yo-F6M" secondAttribute="top" id="ydN-h3-HYE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="i8s-sk-aiE"/>
                     <connections>
                         <outlet property="calendar" destination="kD9-mW-fz9" id="fxB-5p-EbM"/>
+                        <outlet property="containerView" destination="Vnq-l4-R0z" id="ldm-J7-Au3"/>
                         <outlet property="doneButton" destination="ReI-J6-d2L" id="Rhl-Ig-OWU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ix3-jL-sF4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="FOa-Eg-rAM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-914" y="1789"/>
+            <point key="canvasLocation" x="-914.01869158878503" y="1788.9848812095033"/>
         </scene>
         <!--Pick Type Pop Up Table View Controller-->
         <scene sceneID="xRb-UI-kyN">

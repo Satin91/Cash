@@ -7,52 +7,66 @@
 
 import UIKit
 
- enum CancelButtonType: String {
- 
+enum CancelButtonType: String {
+    
     case cancel = "Cancel"
     case create = "Create"
+    case close = "X"
     
     var description: String {
         return self.rawValue
-        }
     }
+}
 
 
 class CancelButton: UIButton {
     private let colors = AppColors()
     private  var buttonTitle: CancelButtonType!
     weak var ownerViewController: UIViewController!
+    let y: CGFloat = 26
     
-  
     init(frame: CGRect, title: CancelButtonType, owner: UIViewController) {
         super.init(frame: frame)
         colors.loadColors()
         self.buttonTitle = title
         self.ownerViewController = owner
-       
+        
         ownerViewController.navigationController?.navigationBar.isUserInteractionEnabled = false
         
-       // addToView()
+        // addToView()
     }
-    let y: CGFloat = 26
-     func addToParentView(view: UIView){
-        let width: CGFloat = 80
+    
+    func addToParentView(view: UIView){
+        var width: CGFloat = 0
         let height: CGFloat = 34
+        switch buttonTitle {
+        case .cancel:
+            width = 80
+        case .create:
+            width = 80
+        case .close:
+            width = height
+        case .none:
+            break
+        }
+        
+        
         let x = ownerViewController.view.bounds.width - 26 - width
         let y :CGFloat = self.y
         self.frame = CGRect(x: x, y: y, width: width, height: height)
-         setup()
+        setup()
         view.insertSubview(self, at: 10)
     }
-   private func setup() {
-    self.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
+    
+    private func setup() {
+        self.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
         self.setTitle(buttonTitle.description, for: .normal)
         self.setTitleColor(colors.titleTextColor, for: .normal)
         self.layer.cornerRadius = frame.height / 2
-    self.layer.setSmallShadow(color: colors.shadowColor)
-    self.addTarget(self, action: #selector(CancelButton.closeVC(_:)), for: .touchUpInside)
+        self.layer.setSmallShadow(color: colors.shadowColor)
+        self.addTarget(self, action: #selector(CancelButton.closeVC(_:)), for: .touchUpInside)
     }
-
+    
     
     func addToScrollView(view: UIView) {
         let width: CGFloat = 80
@@ -60,7 +74,7 @@ class CancelButton: UIButton {
         let x = ownerViewController.view.bounds.width - 26 - width
         let y :CGFloat = ownerViewController.view.frame.origin.y - height
         self.frame = CGRect(x: x, y: y, width: width, height: height)
-         setup()
+        setup()
         view.insertSubview(self, at: 10)
     }
     @objc private func closeVC(_ sender: UIButton) {

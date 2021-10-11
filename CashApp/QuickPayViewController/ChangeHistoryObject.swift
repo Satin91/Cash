@@ -95,7 +95,8 @@ class ChangeHistoryObject {
     // Находится в области видимостри Try realm
     func replaceOldHistory(old: AccountsHistory, new: AccountsHistory) {
         try! realm.write({
-            
+        
+        old.currencyISO = new.currencyISO
         old.accountID = new.accountID
         old.sum = new.sum
         old.accountName = new.accountName

@@ -15,10 +15,10 @@ protocol closeScheduler {
 }
 class AddScheduleViewController: UIViewController {
     
-   
     var closeDelegate: closeScheduler!
     let colors = AppColors()
     var reloadParentTableViewDelegate: ReloadParentTableView!
+    let notifications = Notifications() // Применяется для отправки уведомления после создания / изменения плана
     @IBOutlet var topAnchorConstraint: NSLayoutConstraint!
     // @IBOutlet var nameTextField: NumberTextField!
     @IBOutlet var headingTextLabel: UILabel!
@@ -38,6 +38,7 @@ class AddScheduleViewController: UIViewController {
     
     @IBAction func okButtonAction(_ sender: Any) {
         guard saveScheduleElement() else {return}
+        notifications.sendNotifications()
         if isEditingScheduler == false {
             closeDelegate.close()
             self.removeFromParent()
@@ -143,7 +144,7 @@ class AddScheduleViewController: UIViewController {
         scrollView.adjustTheSizeOfThe(view: okButtonOutlet)
        
     }
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         self.colors.loadColors()
@@ -161,6 +162,7 @@ class AddScheduleViewController: UIViewController {
         setupCalendarAndTableView()
       //  createCalendar()
         //setupButtonsAndFields()
+        
         guard isEditingScheduler else {return}
         setDataFromEditableObject()
         
@@ -188,14 +190,11 @@ class AddScheduleViewController: UIViewController {
     }
     func saveScheduleElement()-> Bool {
         
-        
         if isEditingScheduler == false {
             newScheduleObject.dateOfCreation = Date()
             newScheduleObject.image = selectedImageName
             newScheduleObject.currencyISO = currency
-            
         }
-        
         
         switch newScheduleObject.stringScheduleType {
         case .oneTime:

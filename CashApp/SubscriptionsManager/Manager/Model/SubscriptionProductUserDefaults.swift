@@ -9,7 +9,7 @@
 import Foundation
 import Purchases
 
-final class Subscription {
+final class IsAvailableSubscription {
     
     private enum subscriptionKeys: String {
         case isAvailable = "isAvailable"
@@ -29,6 +29,4 @@ final class Subscription {
             }
         }
     }
-     
-    
 }

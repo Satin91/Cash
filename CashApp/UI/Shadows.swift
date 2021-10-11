@@ -21,7 +21,7 @@ extension CALayer {
            shouldRasterize = true
            rasterizationScale = UIScreen.main.scale
        }
-    public func setSmallShadow(color: UIColor) {
+    func setSmallShadow(color: UIColor) {
         shadowColor = color.cgColor
         shadowOffset = CGSize(width: 2, height: 8)
         shadowRadius = 20
@@ -29,7 +29,7 @@ extension CALayer {
         shouldRasterize = true
         rasterizationScale = UIScreen.main.scale
     }
-    public func setCircleShadow(color: UIColor) {
+    func setCircleShadow(color: UIColor) {
         shadowColor = color.cgColor
         shadowOffset = CGSize(width: 0, height: 0)
         shadowRadius = 5

@@ -91,7 +91,6 @@ class AccountCollectionViewCell: UICollectionViewCell {
         
         self.lockView = LockView(frame: .zero)
         colors.loadColors()
-        
         visualSettings()
         constraintsForSeparator()
         cellBackground.insertSubview(accountsImageView, at: 0)
@@ -104,6 +103,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     }
     func constraintsForSeparator() {
         self.addSubview(separatorView)
+        
         self.separatorView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.separatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -150,8 +150,9 @@ class AccountCollectionViewCell: UICollectionViewCell {
        
         //accountsImageView.layer.masksToBounds = false
         accountsImageView = UIImageView(frame: self.bounds)
-        accountsImageView.layer.cornerRadius = 35
-        accountsImageView.clipsToBounds = false
+        self.layer.cornerRadius = 22
+        self.layer.cornerCurve = .continuous
+        
         balanceTextField.font = UIFont(name: "Ubuntu-Bold",size: 34)
         self.isMainAccountLabel.text = "● Главный счет"
         self.isMainAccountLabel.textColor = colors.whiteColor
@@ -160,8 +161,8 @@ class AccountCollectionViewCell: UICollectionViewCell {
         self.cellBackground.backgroundColor = .clear
         self.cellBackground.clipsToBounds = false
         self.cellBackground.layer.masksToBounds = false
-        self.clipsToBounds = false
-        self.layer.masksToBounds = false
+        self.clipsToBounds = true
+        self.layer.masksToBounds = true
         self.contentView.clipsToBounds = false
         self.contentView.layer.masksToBounds = false
     }

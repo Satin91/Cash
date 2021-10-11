@@ -51,11 +51,13 @@ class SubscriptionManager: NSObject  {
             //guard let self = self else { return }
             guard let info = info, error == nil else { return }
             if info.entitlements.all["Standart"]?.isActive == true {
-                Subscription.isAvailable = true
+                IsAvailableSubscription.isAvailable = true
+                
                 //print("subscription ifs true")
                 
             } else {
-                Subscription.isAvailable = false
+                IsAvailableSubscription.isAvailable = false
+                NotificationsTheDayBeforeEvent.isOn = false // Выключить уведомления за день до события
                 //print("subscription is false")
                 DispatchQueue.main.async {
                 }

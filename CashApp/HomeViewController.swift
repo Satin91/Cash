@@ -12,32 +12,21 @@ import Themer
 
 
 
-class HomeViewController: UIViewController, UIPopoverPresentationControllerDelegate  {
+class HomeViewController: UIViewController  {
     
     var miniAlert: MiniAlertView!
-    let transition = SideInTransition()
-    var alertView: MiniAlertView!
     let navBar = setupNavigationBar()
-    var toggle: Bool = false {
-        didSet {
-            UIView.animate(withDuration: 0.2) {
-                Themer.shared.theme = self.toggle ? .dark : .light
-                self.navBar.setColors()
-            }
-        }
-    }
+    var settingsMenu: SettingsMenu!
+    
+    var blur = UIVisualEffectView(effect: UIBlurEffect(style: Themer.shared.theme == .dark ? .systemThinMaterialDark : .systemUltraThinMaterialLight))
     @IBAction func settingsButtonAction(_ sender: UIBarButtonItem) {
         miniAlert.showMiniAlert(message: "Тема поменялась", alertStyle: .success)
-        //ThemeManager.theme = DarkTheme()
-        //ThemeManager.applyTheme(theme: .dark)
-      
-       // toggle.toggle()
-   
-
     }
+    
     
     let colors = AppColors()
     let notifications = Notifications()
+    let controller = CurrencyModelController()
     //label который сверху (бывш. Total balance)
     @IBOutlet var primaryLabel: UILabel!
     //собсна баланс
@@ -47,7 +36,7 @@ class HomeViewController: UIViewController, UIPopoverPresentationControllerDeleg
     @IBOutlet var tableView: EnlargeTableView!
     
     @IBOutlet var testLabel: UILabel!
-    let networking = Networking()
+    let networking = CurrencyNetworking()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -56,113 +45,70 @@ class HomeViewController: UIViewController, UIPopoverPresentationControllerDeleg
         miniAlert.controller = self
         
         getCurrenciesByPriorities()//Обновить данные об изменении главной валюты
-       // setTotalBalance() //Назначить сумму
+        // setTotalBalance() //Назначить сумму
         setRightBarButton()
         tableView.enterHistoryData() // Обновление данных истории
         tableView.reloadData()
         self.reloadInputViews()
     }
-  
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
     }
     
-//    //MARK: SCROLL EFFECT
-//    func createMenu()-> UIMenu {
-//        let action = UIAction(title: "Светлая тема" ) { (Action) in
-//            Themer.shared.theme = .light
-//        }
-//        let actionTwo = UIAction(title: "Темная тема") { (action) in
-//            Themer.shared.theme = .dark
-//        }
-//        let actionThree = UIAction(title: "Купить подписку") { (action) in
-//            let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionsManager", toViewController: SubscriptionsManagerViewController())
-//            open.makeTheTransition()
-//        }
-//
-//        let menu = UIMenu(title: "Menu", image: UIImage(named: "AppIcon"), options: .displayInline , children: [action,actionTwo,actionThree])
-//       return menu
-//    }
-//    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-//        return .popover
-//    }
-    
-    func createMenuFromViewController() {
-        
+    func installmenu() {
+        let menuPoint = CGPoint(x: 40, y: topBarHeight)
+        settingsMenu = SettingsMenu(frame: .zero, parentView: self.view, originPoint: menuPoint)
+        settingsMenu.subscriptionDelegate = self // Делегат, который открывает экран подписки при нажатии на 3 строку TBView
+        settingsMenu.isHidden = true
+        settingsMenu.layer.setSmallShadow(color: colors.shadowColor)
+        self.view.addSubview(settingsMenu)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         Themer.shared.register(target: self, action: HomeViewController.theme(_:))
-        notifications.sendTodayNotifications()
-        installBackgroundView()
+        //notifications.sendNotifications()
+        installHeaderView()
         setRightBarButton()
         setLeftBarButtn()
-        
-        //self.view.backgroundColor = ThemeManager.currentTheme().backgroundColor
-        //totalBalanceButtom.mainButtonTheme()
+        installmenu()
         setupTableView()
-      //  networking.getCurrenciesFromJSON(from: .URL)
-       // setTotalBalance()
-       
-        NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
         
-//        if NetworkMonitor.shared.isConnected {
-//            print("You'r on wifi")
-//        }else{
-//            print("You're nnot connected")
-//        }
+        // setTotalBalance()
+        
+      //  NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
+        
+   
     }
     func setupTableView() {
         tableView.clipsToBounds = true
         tableView.separatorStyle = .none
         tableView.editHistoryObjectDelegate = self
     }
-    @objc func changeSizeForHeightBgConstraint(notification: Notification) {
-        let object = notification.object as! CGPoint
+    func addmenuToView() {
         
-        let heightRange = 120...300
-        let sideDistanceRange = 0...26
-        let newobj = -object.y
-        let sideDistance: CGFloat = 0.26
-        let persent =  CGFloat(Int(newobj * 100) / heightRange.max()! )
-        let sidePosition = sideDistance * persent
-        if sideDistanceRange.contains(Int(sidePosition)) {
-           
-        }
-        //backgroundView.bounds.size.height = newobj
-        //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
     }
+    var isTappedMenuAnyTime: Bool = false
+ 
     @objc func leftBarButtonTapped(_ gesture: UITapGestureRecognizer) {
-         guard let sideMenu = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SideMenuVC") as? SideMenuViewController else { return }
-
-         sideMenu.modalPresentationStyle = .custom
-        sideMenu.transitioningDelegate = self
+        guard let view = gesture.view else { return }
         
-//        let popVC = sideMenu.popoverPresentationController
-//        popVC?.delegate = self
-//        popVC?.sourceRect = self.navigationItem.leftBarButtonItem!.customView!.bounds
-//        popVC?.sourceView = self.navigationItem.leftBarButtonItem!.customView
-        sideMenu.preferredContentSize = CGSize(width: 150, height: 150)
+        self.settingsMenu.openOrCloseSettingsMenu(isTappedMenuAnyTime: &isTappedMenuAnyTime)
         
-         present(sideMenu, animated: true, completion: nil)
     }
+    
     func setLeftBarButtn() {
-       
+        
         let image = UIImageView(image: UIImage(named: "navigationBarSettings"))
         let gesture = UITapGestureRecognizer()
         gesture.addTarget(self, action: #selector(leftBarButtonTapped(_:)))
-        
         image.addGestureRecognizer(gesture)
         let barButton = UIBarButtonItem(customView: image)
         
         navigationItem.leftBarButtonItem = barButton
         
-        
-        //self.navigationItem.leftBarButtonItem!.image = image.image
-        
-        //self.navigationItem.leftBarButtonItem?.isEnabled = false
     }
     
     func setRightBarButton() {
@@ -178,7 +124,7 @@ class HomeViewController: UIViewController, UIPopoverPresentationControllerDeleg
     }
     
     var header: HeaderView!
-    func installBackgroundView() {
+    func installHeaderView() {
         header = HeaderView()
         
         header.delegate = self
@@ -188,7 +134,26 @@ class HomeViewController: UIViewController, UIPopoverPresentationControllerDeleg
         //top bar extension described in anyOption
         tableView.topBarHeight = topBarHeight
     }
- 
+    
+    
+    
+    
+    // ПРОВЕРИТЬ НА ИСПОЛЬЗОВАНИЕ
+    @objc func changeSizeForHeightBgConstraint(notification: Notification) {
+        let object = notification.object as! CGPoint
+        
+        let heightRange = 120...300
+        let sideDistanceRange = 0...26
+        let newobj = -object.y
+        let sideDistance: CGFloat = 0.26
+        let persent =  CGFloat(Int(newobj * 100) / heightRange.max()! )
+        let sidePosition = sideDistance * persent
+        if sideDistanceRange.contains(Int(sidePosition)) {
+            
+        }
+        //backgroundView.bounds.size.height = newobj
+        //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
+    }
 }
 //MARK: - Theme
 extension HomeViewController {
@@ -219,14 +184,23 @@ extension HomeViewController: EditHistoryObject, ReloadParentTableView {
         }
     }
 }
-extension HomeViewController: UIViewControllerTransitioningDelegate {
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresent = true
-        return transition
-    }
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        transition.isPresent = false
-        return transition
+
+extension HomeViewController: OpenSubscriptionManagerController {
+    func openSubscriptionManager() {
+        
+        if IsAvailableSubscription.isAvailable {
+           
+            self.miniAlert.showMiniAlert(message: "Подписка активна", alertStyle: .success)
+           
+        } else {
+            // Close settings menu
+            self.settingsMenu.openOrCloseSettingsMenu(isTappedMenuAnyTime: &isTappedMenuAnyTime)
+            
+            // Open SubscriptionManager
+            self.showSubscriptionViewController()
+        }
+        
+        
+      
     }
 }

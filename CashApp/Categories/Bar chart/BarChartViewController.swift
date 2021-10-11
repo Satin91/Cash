@@ -14,12 +14,13 @@ import Charts
 class BarChartViewController: UIViewController{
     let colors = AppColors()
     let barChartModelController = BarChartModelController()
-    
+    var barChartPersents: [Double]!
     var cancelButton: CancelButton!
     @IBOutlet var segmentedControl: HBSegmentedControl!
     
     @IBAction func segmentedControlAction(_ sender: HBSegmentedControl) {
         sender.changeSegmentWithAnimation(tableView: tableView, collectionView: nil, ChangeValue: &changeValue)
+        
     }
     lazy var changeValue: Bool = false
     func setupTableView() {
@@ -53,6 +54,9 @@ class BarChartViewController: UIViewController{
         tableView.dataSource = self
         setupTableView()
         
+        
+        title = "Chart"
+        
         segmentedControl.changeValuesForCashApp(segmentOne:NSLocalizedString("segmented_control_0", comment: ""), segmentTwo: NSLocalizedString("segmented_control_1", comment: ""))
     }
     
@@ -62,18 +66,16 @@ extension BarChartViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let categoryType: CategoryType = changeValue ? .income : .expence
-        
-        return barChartModelController.getBarChartItems(categoryType: categoryType).count
+        let items = barChartModelController.getBarChartItems(categoryType: categoryType)
+        return items.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let categoryType : CategoryType = changeValue ? .income : .expence
         let object = barChartModelController.getBarChartItems(categoryType: categoryType)[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "barChartCell", for: indexPath) as! BarChartCell
+        cell.set(object: object)
         
-        
-        cell.set(object: object )
         
         return cell
     }

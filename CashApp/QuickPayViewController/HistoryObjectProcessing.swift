@@ -14,7 +14,6 @@ class HistoryObjectProcessing {
     init(historyObject: AccountsHistory) {
         self.historyObject = historyObject
     }
-    
     //MARK: - RemoveOperation
     func findTheAccountIn(accountID: String, historyObject: AccountsHistory){
         var account: MonetaryAccount?

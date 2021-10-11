@@ -80,9 +80,10 @@
 
 //MARK: - Общие переводы
 "name_text_field" = "Name";
-"date_button" = "Date";
-"create_button" = "Create";
-"save_button" = "Save changes";
+"date_button"     = "Date";
+"create_button"   = "Create";
+"save_button"     = "Save changes";
+"my_account"      = "My account";
 
 //MARK: - Accounts View Controller
 "back_button" = "Назад";
@@ -101,6 +102,14 @@
 //MARK: - Pop Up Table View
 "pop_edit_name_label" = "Change";
 "pop_delete_name_label" = "Delete";
+
+//MARK: - Settings menu
+"dark_theme_style" = "Dark theme";
+"light_theme_style" = "Light theme";
+"notify_about_the_plan_one_day_before" = "Notify the plan the day before";
+"pro_version" = "PRO Version";
+"pro_is_active" = "Active";
+"pro_is_not_active" = "Not active";
 
 //MARK: - Currency
 

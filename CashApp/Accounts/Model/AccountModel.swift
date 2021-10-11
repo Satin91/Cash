@@ -13,7 +13,7 @@ class MonetaryAccount: Object, Comparable {
     static func < (lhs: MonetaryAccount, rhs: MonetaryAccount) -> Bool {
         return lhs.name > rhs.name
     }
-    @objc dynamic var name: String = "My account"
+    @objc dynamic var name: String = NSLocalizedString("my_account", comment: "")
     @objc dynamic var balance: Double = 0
     @objc dynamic var targetSum: Double = 0 // не используется в данной версии
     @objc dynamic var date: Date?

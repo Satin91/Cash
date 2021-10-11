@@ -16,10 +16,12 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var tableView = QuickTableView()
     let colors = AppColors()
     var reloadParentTableViewDelegate: ReloadParentTableView!
+    let notifications = Notifications() // Так как после оплаты плана база может измениться, этот экземпляр
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var okButtonOutlet: UIButton!
     @IBOutlet var cancelButtomOutlet: UIButton!
     let theme = ThemeManager2.currentTheme()
+    let saveCategory = SaveCategory()
     var payObjectNameLabel: TitleLabel = {
         var label = TitleLabel()
         label.text = "ObjectNameError"
@@ -212,11 +214,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         let viewWidth = self.view.bounds.width
         let scrollViewHeight = scrollView.bounds.height
         tableView.frame = CGRect(x: 0, y: 12, width: self.view.bounds.width, height: self.view.bounds.height)
-        
-        
         scrollOffset = self.view.bounds.width
         scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
-        
         containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
         calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge * 6)
         calendar.layer.cornerCurve = .continuous
@@ -231,6 +230,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         switch payObject {
         case is MonetaryCategory:
             let object = payObject as! MonetaryCategory
+            //self.convertedSumLabel.alpha = 0 // Пришлось скрыть таким образом, чтобы в tableView did select row он опять показывается
             payObjectNameLabel.text = object.name
         case is MonetaryScheduler:
             let object = payObject as! MonetaryScheduler
@@ -486,21 +486,17 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }
     
     func saveHistorySum(vector: Bool){
-        
         if vector {
             historyObject.sum = Double(sumTextField.enteredSum)!
             guard let iso = self.monetaryPaymentISO else {return}
             historyObject.currencyISO = iso
-            
         }else {
             historyObject.sum = -Double(sumTextField.enteredSum)!
             guard let iso = self.monetaryPaymentISO else {return}
             historyObject.currencyISO = iso
         }
         guard convertedEnteredSum != 0 else {return}
-        historyObject.convertedSum = vector == true ? convertedEnteredSum : -convertedEnteredSum
-        
-        
+            historyObject.convertedSum = vector == true ? convertedEnteredSum : -convertedEnteredSum
     }
     func saveCategory(convertedSum: Double) {
         let category = payObject as! MonetaryCategory
@@ -549,8 +545,13 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
         if payObject is MonetaryCategory {
             let object = payObject as! MonetaryCategory
+            monetaryPaymentISO = selectedAccountObject!.currencyISO
             saveHistorySum(vector: object.vector)
             saveCategory(convertedSum: convertedEnteredSum)
+            saveCategory.saveHistoryForCategory(selectedAccountObject: selectedAccountObject!,
+                                                historyObject: historyObject,
+                                                enteredSum: Double(sumTextField.enteredSum)!)
+            return
         } else if payObject is PayPerTime {
             let object = payObject as! PayPerTime
             saveHistorySum(vector: object.vector)
@@ -559,6 +560,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             let object = payObject as! MonetaryScheduler
             saveHistorySum(vector: object.vector)
             saveScheduler()
+            notifications.sendNotifications()
         } else if payObject is AccountsHistory {
             let object = payObject as! AccountsHistory
            // let enteredSum = Double(sumTextField.enteredSum)!
@@ -573,12 +575,11 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             transfer.saveTransfer(transferredObject: object, cooperatingAccount: cooperatingAccount, enteredSum: Double(sumTextField.enteredSum)!, historyObject: historyObject, createHistory: true)
             return // Выходит из функции чтобы не идти дальше и не создать объект истории как при оплате планировщика или категории
         }
-        
-       
         //Если счет выбран
         historyObject.accountID = selectedAccountObject!.accountID
-        //historyObject.accountName = selectedAccountObject!.name
+        // Если объект редактируется:
         if payObject is AccountsHistory {
+            print("payObject is AccountsHistory")
             historyObject.currencyISO = selectedAccountObject!.currencyISO
             changeHistoryObject.makeHistoryChanges(newHistoryObject: historyObject)
         } else {
@@ -589,6 +590,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         guard selectedAccountObject?.accountID != "NO ACCOUNT" else{
             DBManager.addHistoryObject(object: historyObject)
             return}
+        
         try! realm.write {
             if convertedEnteredSum != 0 {
                 selectedAccountObject!.balance += historyObject.convertedSum

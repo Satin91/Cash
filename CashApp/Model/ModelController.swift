@@ -22,7 +22,7 @@ import RealmSwift
 ///case operationIncome = 10 /// OperationViewController
 
 let currencyList = CurrencyList()
-var mainCurrency =              fetchMainCurrency()
+var mainCurrency =                  fetchMainCurrency()
 let accountsObjects =               fetchAccounts(accountType: 1)//.sorted(byKeyPath: "dateOfCreate", ascending: false)//Card = 1
 //let savingsObjects =              fetchAccounts(accountType: 2).sorted(byKeyPath: "date", ascending: false)//Cash = 2
 
@@ -138,8 +138,6 @@ func fetchTodayBalance()-> TodayBalance? {
 //Функция в любом случае достает основную валюту если та отсутствует, делает ее той которая в локализации и добавляет в список валют
 func fetchMainCurrency() -> MainCurrency? {
     //Поверка на наличие валюты в списке валидных
-    
-    
     let object = realm.objects(MainCurrency.self)
     let locale = Locale.current.currencyCode
     var mainCurrency = MainCurrency() // USD by defauld

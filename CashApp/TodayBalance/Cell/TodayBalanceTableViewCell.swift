@@ -31,21 +31,15 @@ class TodayBalanceTableViewCell: UITableViewCell {
     }
     func setConstraintsForUnderLine(){
         separatorView = SeparatorView(cell: self).createLineViewWithConstraints()
-        separatorView.backgroundColor = colors.separatorColor
     }
     
     func visualSettings() {
-    
-        
         titleLabel.font = .systemFont(ofSize: 19, weight: .regular)
-        
         subTitleLabel.font = .systemFont(ofSize: 16, weight: .regular)
         monetaryImage.contentMode = .scaleAspectFill
         monetaryImage.layer.cornerRadius = 10
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
-        
-       // insertSwitchInCell()
     }
     
     
@@ -53,7 +47,6 @@ class TodayBalanceTableViewCell: UITableViewCell {
     var switchTogle: Bool = false
     override func prepareForReuse() {
         super.prepareForReuse()
-        
     }
  
     func set(object: Any) {
@@ -62,7 +55,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
             titleLabel.text = object.scheduler.name
             let text = object.todaySum.currencyFormatter(ISO: object.scheduler.currencyISO)
             subTitleLabel.text = object.scheduler.vector ? "+" + text : "-" + text
-            monetaryImage.image = UIImage(named: object.scheduler.image)
+            monetaryImage.image = UIImage().myImageList(systemName: object.scheduler.image)
             monetaryImage.changePngColorTo(color: colors.titleTextColor)
         }else if object is PayPerTime{
             let object = object as! PayPerTime
@@ -71,7 +64,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
             
             for i in EnumeratedSchedulers(object: schedulerGroup) {
                 if i.scheduleID == object.scheduleID {
-                    monetaryImage.image = UIImage(named: i.image)
+                    monetaryImage.image = UIImage().myImageList(systemName: i.image)
                     monetaryImage.changePngColorTo(color: colors.titleTextColor)
                 }
             }

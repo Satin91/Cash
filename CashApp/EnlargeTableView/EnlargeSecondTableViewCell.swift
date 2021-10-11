@@ -156,9 +156,7 @@ class SecondTableViewCell: UITableViewCell  {
         
         titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10).isActive = true
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
-        
-        //sumLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -26).isActive = true
-      
+
         subTitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10).isActive = true
         subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
         subTitleLabel.trailingAnchor.constraint(equalTo: sumLabel.leadingAnchor).isActive = true
@@ -166,17 +164,7 @@ class SecondTableViewCell: UITableViewCell  {
         sumLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16).isActive = true
         sumLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 65).isActive = true
         sumLabel.centerYAnchor.constraint(equalTo: subTitleLabel.centerYAnchor).isActive = true
-        
-        
-        //  subTitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16).isActive = true
-        //        var priorityObject = subTitleLabel.trailingAnchor.constraint(equalTo: sumLabel.leadingAnchor)
-        
-        
-        
-        //        lineView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        //        lineView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        //        lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        //        lineView.heightAnchor.constraint(equalToConstant: 3).isActive = true
+
         editButton.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -12).isActive = true
         editButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         editButton.widthAnchor.constraint(equalToConstant: 34).isActive = true
@@ -196,12 +184,11 @@ class SecondTableViewCell: UITableViewCell  {
 
 extension SecondTableViewCell {
     func theme(_ theme: MyTheme) {
-        //titleLabel.textColor = theme.settings.titleTextColor
-        //subTitleLabel.textColor = theme.settings.subtitleTextColor
-        //image.setImageColor(color: theme.settings.titleTextColor)
+
         editButton.backgroundColor = theme.settings.titleTextColor.withAlphaComponent(0.4)
         editButton.setImage(UIImage(named: "edit") , for: .normal)
         image.changePngColorTo(color: theme.settings.titleTextColor)
+        titleLabel.textColor = theme.settings.titleTextColor
         lineView.backgroundColor = theme.settings.separatorColor
         
     }

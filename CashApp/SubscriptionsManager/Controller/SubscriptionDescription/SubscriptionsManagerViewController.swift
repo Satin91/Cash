@@ -21,25 +21,24 @@ class SubscriptionsManagerViewController: UIViewController {
     @IBAction func subscriptionButtonAction(_ sender: UIButton) {
 
     }
-    @IBOutlet var restoreButtonOutlet: UIButton!
-    @IBAction func restoreButtonAction(_ sender: UIButton) {
-        purchases.restorePurchases()
-    }
-    
+    // purchases.restorePurchases()
     @IBOutlet var containerView: UIView!
+    
     @IBOutlet var unlimitLabel: UILabel!
     @IBOutlet var unlimitDescription: UILabel!
     @IBOutlet var unlimitImageView: UIImageView!
     
     @IBOutlet var notificationLabel: UILabel!
     @IBOutlet var notificationDescription: UILabel!
-    
     @IBOutlet var notificationImageView: UIImageView!
-
-  
+    
+    @IBOutlet var familyImageView: UIImageView!
+    @IBOutlet var familyLabel: UILabel!
+    @IBOutlet var familyDescription: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.colors.loadColors()
         setColors()
         createCancelButton()
         visualSettings()

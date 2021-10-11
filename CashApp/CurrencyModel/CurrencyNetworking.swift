@@ -9,23 +9,33 @@
 import Foundation
 import UIKit
 
-enum FileType {
-    case URL
-    case defaultData
-}
 
-class Networking {
+
+class CurrencyNetworking {
+    
+    enum FileType {
+        case URL
+        case defaultData
+    }
     
     let deleteUnnecessary = DeleteUnnecessary()
     let url               = "https://pastebin.com/raw/7XZ5v19y"
     let storageUrl        = Bundle.main.url(forResource: "DefaultCurrencies", withExtension: "json")
     var fetchedCurrencyObject: Rates?
     let currencyList      = CurrencyList()
+    
     struct Rates: Codable {
         let rates: [String:Double]
     }
-    
-    public func getCurrenciesFromJSON(from :FileType ){
+    func loadCurrencies() {
+        // Загрузить данные из
+        if NetworkMonitor.shared.isConnected == false && currencyObjects.count == 0 {
+            self.getCurrenciesFromJSON(from: .defaultData)
+        }else{
+            self.getCurrenciesFromJSON(from: .URL)
+        }
+    }
+    private func getCurrenciesFromJSON(from :FileType ){
         let url = URL(string: self.url)
         let data = from == .URL ? url : self.storageUrl
         var results: Rates?
@@ -82,7 +92,7 @@ class Networking {
         }
     }
     
-   
+    
     
     public func makeCurrency(ISO : String?, rate : Double?) -> CurrencySample? {
         guard let ISO = ISO else { return nil }
@@ -96,7 +106,7 @@ class CurrencySample {
     var ISO: String = ""
     var exchangeRate: Double = 0
     //var currencyOperations = CurrencyOperations()
-   
+    
     init(ISO: String,exchangeRate: Double) {
         self.ISO = ISO
         self.exchangeRate = exchangeRate

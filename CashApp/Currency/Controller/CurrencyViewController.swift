@@ -73,7 +73,6 @@ class CurrencyViewController: UIViewController {
         super.viewDidLoad()
         colors.loadColors()
         self.setColors()
-        //getCurrenciesByPriorities()
         tabBarController?.tabBar.hideTabBar()
         visualSettings()
         tableView.register(UINib(nibName: "CurrencyTableViewCell", bundle: nil), forCellReuseIdentifier: "currencyCell")

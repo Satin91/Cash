@@ -30,6 +30,7 @@ class DIYFSCalendarCell: FSCalendarCell{
     weak var borderColor: UIColor!
     weak var contrastColor: UIColor!
      var eventView: UIView!
+    
     var selectionType: SelectionType = .none {
         didSet {
             setNeedsLayout()
@@ -45,7 +46,7 @@ class DIYFSCalendarCell: FSCalendarCell{
         super.init(frame: frame)
         Themer.shared.register(target: self, action: DIYFSCalendarCell.theme(_:))
         let selectionLayer = CAShapeLayer()
-        selectionLayer.fillColor = self.selectionBackgroundColor.withAlphaComponent(0.4).cgColor
+        selectionLayer.fillColor = self.selectionBackgroundColor.withAlphaComponent(0.2).cgColor
         selectionLayer.isHidden = true
         self.contentView.layer.insertSublayer(selectionLayer, below: self.titleLabel!.layer)
         self.selectionLayer = selectionLayer
@@ -72,16 +73,9 @@ class DIYFSCalendarCell: FSCalendarCell{
         }
     }
     let duration = 1
-    func endDateReserveAnimations() {
-        UIView.animate(withDuration: 2, delay: 0, options: [.repeat, .autoreverse], animations: {
 
-            self.backgroundView!.backgroundColor = .red
-            print("asdasd")
-
-        }, completion: nil)
-    }
     func createEventView(toView: UIView){
-        let side: CGFloat = 6
+        let side: CGFloat = 4
         let width = toView.bounds.width - side * 2
         let height = toView.bounds.height / 15
         
@@ -95,12 +89,12 @@ class DIYFSCalendarCell: FSCalendarCell{
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let inset: CGFloat = 14
-        
+        let selectionInset: CGFloat = 6
+        let radius: CGFloat = 16
         //self.eventView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height / 5)
-        self.backgroundView?.frame = self.bounds.inset(by: UIEdgeInsets(top: inset, left: 4, bottom: 4, right: 4))
+        self.backgroundView?.frame = self.bounds.inset(by: UIEdgeInsets(top: selectionInset, left: 4, bottom: 4, right: 4))
         
-        self.selectionLayer.frame = self.bounds.inset(by: UIEdgeInsets(top: inset, left: 0, bottom:  inset, right: 0) )
+        self.selectionLayer.frame = self.bounds.inset(by: UIEdgeInsets(top: selectionInset, left: 0, bottom:  selectionInset, right: 0) )
         let leftFrame =             self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 4, bottom:  0, right: 0))
         let rightFrame =            self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 4))
         //self.bounds.inset(by: UIEdgeInsets(top: self.bounds.height / 5, left: 0, bottom:  self.bounds.height / 5, right: 0) )
@@ -109,10 +103,10 @@ class DIYFSCalendarCell: FSCalendarCell{
             self.selectionLayer.path = UIBezierPath(rect: self.selectionLayer.bounds).cgPath
         }
         else if selectionType == .leftBorder {
-            self.selectionLayer.path = UIBezierPath(roundedRect: leftFrame, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: 8, height: 8)).cgPath
+            self.selectionLayer.path = UIBezierPath(roundedRect: leftFrame, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: radius, height: radius)).cgPath
         }
         else if selectionType == .rightBorder {
-            self.selectionLayer.path = UIBezierPath(roundedRect: rightFrame, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 8, height: 8)).cgPath
+            self.selectionLayer.path = UIBezierPath(roundedRect: rightFrame, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: radius, height: radius)).cgPath
         }
         else if selectionType == .single {
             let diameter: CGFloat = min(self.selectionLayer.frame.height, self.selectionLayer.frame.width)
@@ -136,7 +130,7 @@ class DIYFSCalendarCell: FSCalendarCell{
 extension DIYFSCalendarCell {
     func theme(_ theme: MyTheme) {
         self.themeBackgroundColor = theme.settings.backgroundColor
-        self.selectionBackgroundColor = theme.settings.borderColor
+        self.selectionBackgroundColor = theme.settings.contrastColor1
         self.themeSecondaryBackgroundColor = theme.settings.secondaryBackgroundColor
         self.contrastColor = theme.settings.contrastColor1
         self.borderColor = theme.settings.borderColor

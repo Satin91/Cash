@@ -104,15 +104,21 @@
 
 //MARK: - Общие переводы
 "name_text_field" = "Имя";
-"date_button" = "Дата";
-"create_button" = "Создать";
-"save_button" = "Сохранить";
-
+"date_button"     = "Дата";
+"create_button"   = "Создать";
+"save_button"     = "Сохранить";
+"my_account"      = "Мой счет";
 
 //MARK: - Pop Up Table View
 "pop_edit_name_label" = "Изменить";
 "pop_delete_name_label" = "Удалить";
 
+"dark_theme_style" = "Темная тема";
+"light_theme_style" = "Светлая тема";
+"notify_about_the_plan_one_day_before" = "Уведомлять о планах за день";
+"pro_version" = "PRO Версия";
+"pro_is_active" = "Активна";
+"pro_is_not_active" = "Не активна";
 
 //MARK: - Currency
 "USD" = "Доллар США" ;

@@ -25,7 +25,7 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     func reloadData() {
         tableView.reloadData()
     }
-    
+    let notification = Notifications()
     var deleteColor: UIColor = .clear
     var editColor: UIColor = .clear
     let subscriptionManager = SubscriptionManager()
@@ -165,7 +165,8 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
                 self.updateDataAfterRemove(indexPath: indexPath)
                 a.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
-            } completion: { tr in
+            } completion: { _ in
+                self.notification.sendNotifications()
             }
         }
         let edit = SwipeAction(style: .default, title: "Edit") { action, indexPath in

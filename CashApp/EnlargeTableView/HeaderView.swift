@@ -169,24 +169,22 @@ final class HeaderView: UIViewController {
         totalBalanceLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency, Balance: totalBalance , additionalText: nil)
     }
     func setTodayBalance() {
-        var todayExpences: Double = 0
+        var todayExpenses: Double = 0
         guard let mainCurrency = mainCurrency else {
             todayBalanceLabel.text = "0"
             return}
-        let today = Calendar.current.dateComponents([.day,.year,.month], from: Date())
         
+        let today = Calendar.current.dateComponents([.day,.year,.month], from: Date())
         for i in historyObjects {
             let day = Calendar.current.dateComponents([.day,.year,.month], from: i.date)
             if day == today && i.accountID != "NO ACCOUNT"{
-                
-                todayExpences += currencyModelController.convert(i.sum, inputCurrency: i.currencyISO, outputCurrency: mainCurrency.ISO)!
-                
+                todayExpenses += currencyModelController.convert(i.sum, inputCurrency: i.currencyISO, outputCurrency: mainCurrency.ISO) ?? 0
             }
         }
-        let addNumber = todayExpences != 0 ? "(\(todayExpences.fromNumberToString()))" : ""
+        let addNumber = todayExpenses != 0 ? "(\(todayExpenses.fromNumberToString()))" : ""
         //
-        let additionalText = (addNumber ,todayExpences > 0 ? ThemeManager2.currentTheme().contrastColor1: ThemeManager2.currentTheme().contrastColor2)
-        todayBalanceSumLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency.ISO, Balance: getTodayBalance() + todayExpences, additionalText: additionalText)
+        let additionalText = (addNumber ,todayExpenses > 0 ? ThemeManager2.currentTheme().contrastColor1: ThemeManager2.currentTheme().contrastColor2)
+        todayBalanceSumLabel.changeTextAttributeForFirstLiteralsISO(ISO: mainCurrency.ISO, Balance: getTodayBalance() + todayExpenses, additionalText: additionalText)
     }
 
     
