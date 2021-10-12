@@ -14,6 +14,16 @@ extension AddScheduleViewController {
     
     func setDataFromEditableObject(){
         
+        switch newScheduleObject.dateRhythm {
+        case 1:
+            calendarComponent = .month
+        case 2:
+            calendarComponent = .weekOfMonth
+        case 3:
+            calendarComponent = .day
+        default:
+            break
+        }
         nameTextField.text = newScheduleObject.name
         sumPerTimeTextField.text = newScheduleObject.sumPerTime.formattedWithSeparator
         totalSumTextField.text = (newScheduleObject.target - newScheduleObject.available).formattedWithSeparator

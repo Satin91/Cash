@@ -14,6 +14,9 @@ class NumberTextField: ThemableTextField,UITextFieldDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
+        
+        
+        
     }
     var button = UIButton(type: .custom)
     
@@ -88,8 +91,6 @@ class NumberTextField: ThemableTextField,UITextFieldDelegate {
     @objc func textFieldChanged() {
         guard self.text?.isEmpty == false else {
             enteredSum = "0"; return}
-        
-       
         if self.text!.last == "," {
             let newtext = self.text?.replacingOccurrences(of: ",", with: ".")
             self.text = newtext
@@ -148,8 +149,6 @@ class NumberTextField: ThemableTextField,UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var allowedCharacters = CharacterSet(charactersIn: "0123456789")
         let length = !string.isEmpty ? textField.text!.count + 1 : textField.text!.count - 1
-        
-        
         if availableDirection == true {
             
              allowedCharacters = CharacterSet(charactersIn: "0123456789")

@@ -12,10 +12,10 @@ import Themer
 extension QuickPayViewController {
     func setColors(){
         colors.loadColors()
-        self.accountLabel.textColor = colors.titleTextColor
+        //self.accountLabel.textColor = colors.subtitleTextColor
         self.sumTextField.attributedPlaceholder = NSAttributedString(string: "0", attributes: [NSAttributedString.Key.foregroundColor: colors.borderColor ])
         self.view.backgroundColor = colors.backgroundcolor
-        containerView.backgroundColor = colors.secondaryBackgroundColor
+        containerView.backgroundColor = .clear
         containerView.layer.setSmallShadow(color: colors.shadowColor)
         
        // Themer.shared.register(target: self, action: QuickPayViewController.theme(_:))

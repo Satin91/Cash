@@ -36,14 +36,16 @@ import UIKit
         }
         func setBackgroundColor( alertStyle: MiniAlertStyle) -> UIColor {
             let color: UIColor
-            let promptBackground = ThemeManager2.currentTheme().titleTextColor
+            let colors = AppColors()
+            colors.loadColors()
+            let promptBackground = colors.titleTextColor
             switch alertStyle {
             case .success:
-                color = ThemeManager2.currentTheme().greenColor
+                color = colors.greenColor
             case .warning:
-                color = ThemeManager2.currentTheme().yellowColor
+                color = colors.yellowColor
             case .error:
-                color = ThemeManager2.currentTheme().redColor
+                color = colors.redColor
             case .date:
                 color = promptBackground
             case .textFields:
@@ -56,8 +58,6 @@ import UIKit
             }
             return color
         }
-        
-        
     }
     
     

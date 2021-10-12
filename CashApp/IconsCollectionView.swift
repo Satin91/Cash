@@ -144,6 +144,7 @@ extension UIImage {
     func myImageList(systemName: String) -> UIImage? {
         guard let image = UIImage(systemName: systemName, withConfiguration: UIImage.SymbolConfiguration(weight: .thin )) else {
             let image = UIImage(named: systemName)
+            
             return image}
         return image
     }

@@ -25,17 +25,18 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     var payObjectNameLabel: TitleLabel = {
         var label = TitleLabel()
         label.text = "ObjectNameError"
-        label.font = .systemFont(ofSize: 26,weight: .regular)
+        label.font = .systemFont(ofSize: 34,weight: .bold)
+        label.textAlignment = .left
         return label
     }()
-    var accountLabel: TitleLabel = {
-        var label = TitleLabel()
+    var accountLabel: SubTitleLabel = {
+        var label = SubTitleLabel()
         label.text = "AccountNameError"
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
     }()
-    var dateLabel: TitleLabel = {
-        var label = TitleLabel()
+    var dateLabel: SubTitleLabel = {
+        var label = SubTitleLabel()
         label.text = NSLocalizedString("day_is_today", comment: "")
         label.font = .systemFont(ofSize: 17,weight: .regular)
         return label
@@ -128,6 +129,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }
     
     @objc func observeConvertedSum(){
+        sumTextField.textFieldChanged()
+        
         var currencyCarrier: String = mainCurrency!.ISO
         if selectedAccountObject != nil {
             currencyCarrier = selectedAccountObject!.currencyISO
@@ -157,11 +160,12 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
         
     }
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setColors()
         createCancelButton()
-        payObjectNameLabel.textAlignment = .left
+        
         tableView = QuickTableView(frame: .zero)
         calendar = FSCalendarView(frame: self.view.bounds, calendarType: .mini)
         self.isModalInPresentation = true
@@ -170,15 +174,34 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         tableView.tableView.dataSource = self
         tableView.layer.masksToBounds = false
         tableView.clipsToBounds = false
-        sumTextField.isEnabled = false
+        setupSumTextField()
         setupContainerView()
         setupScrollView()
         checkPayObjectAndSetItsValue()
-        
         UIApplication.shared.reloadInputViews()
-        
         //registerForNotifications()
         //addDoneButtonOnKeyboard()
+    }
+    func setupSumTextField() {
+        sumTextField.isEnabled = true
+        sumTextField.tintColor = .clear
+        sumTextField.becomeFirstResponder()
+        sumTextField.inputView = UIView()
+        sumTextField.inputAccessoryView = UIView()
+        
+        sumTextField.addTarget(self, action: #selector(didTappedTextField(_:)), for: .touchDown)
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let position = touch.location(in: self.sumTextField)
+            print(position)
+        }
+    }
+    
+    @objc func didTappedTextField(_ textField: UITextField) {
+        print(#function)
+        textField.tintColor = colors.contrastColor1
+        //sumTextField.tintColor = colors.contrastColor1
     }
     
     func setupScrollView() {
@@ -193,7 +216,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         scrollView.addSubview(tableView)
         scrollView.addSubview(calendar)
         scrollView.addSubview(containerView)
-        scrollView.addSubview(numpadView)
+        scrollView.addSubview(numpadView.view)
         numpadView.delegate = self
         numpadView.delegateAction = self
         containerView.addSubview(convertedSumLabel)
@@ -746,7 +769,8 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-extension QuickPayViewController: TappedNumbers {
+extension QuickPayViewController: TappedNumbers{
+  
     
     func checkComma(text: String, comma: inout Bool) {
         for i in text {
@@ -756,40 +780,45 @@ extension QuickPayViewController: TappedNumbers {
         }
     }
     func sendNumber(number: String) {
-        var comma = false
+        //var comma = false
         
-        sumTextField.inputView = numpadView
-        comma = sumTextField.checkComma(string: sumTextField.text!)
+//        if sumTextField.text?.isEmpty == true && number == "," {
+//            return
+//        }
         
-        if number != "Save" {
-        if sumTextField.text?.isEmpty == true && number != "," {
-            sumTextField.text?.append(number)
-            sumTextField.textFieldChanged()
-            self.observeConvertedSum()
-
-        }else if sumTextField.text?.isEmpty == false && number == ","  && comma == false {
-            sumTextField.text?.append(number)
-            sumTextField.textFieldChanged()
-            self.observeConvertedSum()
-        }else if sumTextField.text?.isEmpty == false && number != "," {
-            sumTextField.text?.append(number)
-            sumTextField.textFieldChanged()
-            self.observeConvertedSum()
-        }
-        }
-        //sumTextField.insertText(number)
-        if number == "Save" {
-            let doubleEnteredSum = Double(sumTextField.enteredSum)
-            guard doubleEnteredSum! > 0 else {return}
-            save()
-            dismiss(animated: true) {
-                guard let reload = self.reloadParentTableViewDelegate else { return }
-                reload.reloadData()
-            }
-
-        }else {
-        }
-
+        
+        
+//
+//        
+//        sumTextField.insertText(number)
+//        self.observeConvertedSum()
+//
+//
+        
+        
+        
+      //  sumTextField.inputView = numpadView
+        //comma = sumTextField.checkComma(string: sumTextField.text!)
+        
+        
+//        sumTextField.text?.append(number)
+       // sumTextField.textFieldChanged()
+       
+        
+//        if sumTextField.text?.isEmpty == true && number != "," {
+//            sumTextField.text?.append(number)
+//            sumTextField.textFieldChanged()
+//            self.observeConvertedSum()
+//
+//        }else if sumTextField.text?.isEmpty == false && number == ","  && comma == false {
+//            sumTextField.text?.append(number)
+//            sumTextField.textFieldChanged()
+//            self.observeConvertedSum()
+//        }else if sumTextField.text?.isEmpty == false && number != "," {
+//            sumTextField.text?.append(number)
+//            sumTextField.textFieldChanged()
+//            self.observeConvertedSum()
+//        }
     }
     
     
@@ -800,9 +829,18 @@ extension QuickPayViewController:  tappedButtons{
         switch action {
         case "Backspace":
             guard sumTextField.text != "" else {return}
-            sumTextField.text?.removeLast()
-            sumTextField.textFieldChanged()
+          //  sumTextField.text?.removeLast()
+            sumTextField.deleteBackward()
+            //textFieldChanged()
         observeConvertedSum()
+        case "Save":
+                let doubleEnteredSum = Double(sumTextField.enteredSum)
+                guard doubleEnteredSum! > 0 else {return}
+                save()
+                dismiss(animated: true) {
+                    guard let reload = self.reloadParentTableViewDelegate else { return }
+                    reload.reloadData()
+                }
         default:
             scrollView.scrollRectToVisible(CGRect(x: x, y: 0, width: self.view.bounds.width / 3, height: self.view.bounds.height) , animated: true)
         }

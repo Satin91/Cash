@@ -91,14 +91,14 @@ final class HeaderView: UIViewController {
     
     var accountsImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "wallet")
+        imageView.image = UIImage(named: "header.wallet")
        // imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return imageView
     }()
     
     var todayBalanceImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "todayBalance")
+        imageView.image = UIImage(named: "header.todayBalance")
       //  imageView.setImageColor(color: ThemeManager2.currentTheme().titleTextColor)
         return imageView
     }()

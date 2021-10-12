@@ -27,14 +27,17 @@ class CurrencyNetworking {
     struct Rates: Codable {
         let rates: [String:Double]
     }
+    
     func loadCurrencies() {
-        // Загрузить данные из
-        if NetworkMonitor.shared.isConnected == false && currencyObjects.count == 0 {
-            self.getCurrenciesFromJSON(from: .defaultData)
-        }else{
-            self.getCurrenciesFromJSON(from: .URL)
+        guard NetworkMonitor.shared.isConnected == true else {
+            if currencyObjects.count == 0 { // Если это первый запуск приложения или произошел какой то сбой
+                self.getCurrenciesFromJSON(from: .defaultData)
+            }
+            return
         }
+        self.getCurrenciesFromJSON(from: .URL)
     }
+    
     private func getCurrenciesFromJSON(from :FileType ){
         let url = URL(string: self.url)
         let data = from == .URL ? url : self.storageUrl

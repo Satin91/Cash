@@ -17,41 +17,42 @@ extension QuickPayViewController {
         accountLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        numpadView.translatesAutoresizingMaskIntoConstraints = false
+        numpadView.view.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        
+        let sideLayout: CGFloat = 20
         NSLayoutConstraint.activate([
+            
             containerView.topAnchor.constraint(equalTo: self.scrollView.topAnchor ,constant: 20),
-            containerView.bottomAnchor.constraint(equalTo: numpadView.topAnchor,constant: 0),
+            containerView.bottomAnchor.constraint(equalTo: numpadView.view.topAnchor,constant: 0),
             containerView.widthAnchor.constraint(equalToConstant: self.view.bounds.width - (26 * 2)),
-
             containerView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: self.view.bounds.width + 26),
-            convertedSumLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -26),
-            convertedSumLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
+            
+            payObjectNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
+            payObjectNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0),
+            payObjectNameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
+            
+            accountLabel.leadingAnchor.constraint(equalTo: payObjectNameLabel.leadingAnchor),
+            accountLabel.topAnchor.constraint(equalTo: payObjectNameLabel.bottomAnchor, constant: 16),
+            
+            dateLabel.leadingAnchor.constraint(equalTo: payObjectNameLabel.leadingAnchor),
+            dateLabel.topAnchor.constraint(equalTo: accountLabel.bottomAnchor, constant: 8),
+            
+            convertedSumLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -sideLayout),
+            convertedSumLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: sideLayout),
             convertedSumLabel.bottomAnchor.constraint(equalTo: sumTextField.topAnchor, constant: -8),
 
             cancelButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
             cancelButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
             cancelButton.widthAnchor.constraint(equalToConstant: self.cancelButton.bounds.width ),
            
-            
-            sumTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -26),
-            sumTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            sumTextField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -26),
-            
-            payObjectNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            payObjectNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 22),
-            
-            accountLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            accountLabel.topAnchor.constraint(equalTo: payObjectNameLabel.bottomAnchor, constant: 8),
-            
-            dateLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 26),
-            dateLabel.topAnchor.constraint(equalTo: accountLabel.bottomAnchor, constant: 8),
-            
-            numpadView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
-            numpadView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
-            numpadView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
-            numpadView.heightAnchor.constraint(equalToConstant: self.view.bounds.height * 0.45)
+            sumTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -sideLayout),
+            sumTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: sideLayout),
+            sumTextField.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -sideLayout),
+
+            numpadView.view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
+            numpadView.view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
+            numpadView.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -16),
+            numpadView.view.heightAnchor.constraint(equalTo: numpadView.view.widthAnchor)
         ])
     }
 }

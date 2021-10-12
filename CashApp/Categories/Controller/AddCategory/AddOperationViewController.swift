@@ -20,7 +20,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     
     func sendIconName(name: String) {
         selectedImageName = name
-       
+        
         selectImageButton.setImageView(imageName: name, color: colors.titleTextColor)
         //selectImageButton. = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
@@ -59,20 +59,20 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         _ = navigationController?.popViewController(animated: true) //Exit если нет
         
     }
-
+    
     @IBOutlet var selectImageButton: UIButton!
-        
+    
     func createCancelButton() {
         cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
         cancelButton.addToParentView(view: self.view)
         self.navigationController?.navigationBar.isUserInteractionEnabled = false
     }
-        
+    
     
     var selectedImageName = "emptyImage" {
         didSet{
             Themer.shared.register(target: self, action: AddOperationViewController.theme(_:))
-           
+            
         }
     }
     var iconsCollectionView = IconsCollectionView()
@@ -90,7 +90,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
         miniAlertView = MiniAlertView.loadFromNib()
         scrollView.isScrollEnabled = false
         miniAlertView.controller = self
-       
+        
         self.isModalInPresentation = true
         visualSettings()
         iconsCollectionView.sendImageDelegate = self
@@ -131,7 +131,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     
 }
 extension AddOperationViewController {
-     func theme(_ theme: MyTheme) {
+    func theme(_ theme: MyTheme) {
         print("Theme")
         nameTextField.borderedTheme(fillColor: theme.settings.secondaryBackgroundColor, shadowColor: theme.settings.shadowColor)
         
@@ -139,8 +139,8 @@ extension AddOperationViewController {
         view.backgroundColor = theme.settings.backgroundColor
         selectImageButton.layer.setMiddleShadow(color: theme.settings.shadowColor)
         selectImageButton.backgroundColor = theme.settings.secondaryBackgroundColor
-         selectImageButton.setImageView(imageName: selectedImageName, color: theme.settings.titleTextColor)
-         
+        selectImageButton.setImageView(imageName: selectedImageName, color: theme.settings.titleTextColor)
+        
     }
 }
 extension UIButton {
@@ -152,8 +152,20 @@ extension UIButton {
         buttonImage.image = UIImage().myImageList(systemName: imageName)
         buttonImage.contentMode = .scaleAspectFit
         buttonImage.tintColor = color
+        // Если иконка кастомная:
+        buttonImage.setImageColor(color: color)
         buttonImage.frame = buttonImage.bounds.inset(by: UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18))
         self.addSubview(buttonImage)
-        
+        if buttonImage.bounds.width < 34 {
+            let sideLayout: CGFloat = 0 // buttonImage.bounds.width / 7
+            buttonImage.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                buttonImage.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: sideLayout),
+                buttonImage.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -sideLayout),
+                buttonImage.topAnchor.constraint(equalTo: self.topAnchor,constant: sideLayout),
+                buttonImage.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: -sideLayout)
+            ])
+ //           initConstraints(view: buttonImage, to: self)
+        }
     }
 }

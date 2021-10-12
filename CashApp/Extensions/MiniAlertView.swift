@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Themer
 
 
 enum MiniAlertStyle {
@@ -27,14 +27,14 @@ enum MiniAlertStyle {
 class MiniAlertView: UIView {
 
     @IBOutlet var alertImage: UIImageView!
-    @IBOutlet var messageLabel: UILabel!
-    
+    @IBOutlet var messageLabel: TitleLabel!
+    let colors = AppColors()
     weak var controller: UIViewController!
     let setVisual = SetAlertViewVisual()
      override init(frame: CGRect) {
         super.init(frame: frame)
      //   visualSettings()
-        
+         
         self.accessibilityIdentifier = "Alert-View"
     }
 
@@ -108,14 +108,14 @@ class MiniAlertView: UIView {
     
     
     func visualSettings() {
-      
-        alertImage.setImageColor(color: ThemeManager2.currentTheme().backgroundColor)
+        colors.loadColors()
+        alertImage.setImageColor(color: colors.backgroundcolor)
         messageLabel.font = .systemFont(ofSize: 22, weight: .regular)
-        messageLabel.textColor = ThemeManager2.currentTheme().backgroundColor
+        messageLabel.textColor = colors.backgroundcolor
         messageLabel.numberOfLines = 1
         messageLabel.adjustsFontSizeToFitWidth = true
         self.layer.cornerRadius = 0
-        self.layer.setSmallShadow(color: ThemeManager2.currentTheme().shadowColor)
+        self.layer.setSmallShadow(color: colors.shadowColor)
         self.alpha = 0.95
         
         
@@ -137,5 +137,10 @@ class MiniAlertView: UIView {
 extension UIView {
     class func loadFromNib<T: UIView>() -> T {
         return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
+    }
+}
+extension MiniAlertView {
+    func theme(_ theme: MyTheme ) {
+        
     }
 }

@@ -567,12 +567,10 @@ extension UIButton{
         UIView.animate(withDuration: duration, delay: 0, options: .allowUserInteraction) {
             self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
         } completion: { _ in
-            UIView.animate(withDuration: duration) {
+            UIView.animate(withDuration: duration, delay: 0, options: .allowUserInteraction) {
                 self.transform = CGAffineTransform.identity
             }
         }
-
-   
     }
 
 }

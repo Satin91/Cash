@@ -207,7 +207,7 @@ class AddScheduleViewController: UIViewController {
             return saveGoal()
         }
     }
-    
+    // MARK: - Рассчет месяцев и деление общей суммы на месяца
     func getNumberOfMontsForMultyplyPayPerTime(targetSum: Double, sumPerTime: Double) -> (Int,Double?) {
         let remainderDivision = targetSum.truncatingRemainder(dividingBy: sumPerTime) //Деление с остатком
         let divisionWithoutRemainder = targetSum / sumPerTime //Деление без остатка
@@ -221,6 +221,7 @@ class AddScheduleViewController: UIViewController {
             return (numberOfMonth, nil)
         }
     }
+    // Получение массива платежей
     func getArrayForMultyplyPayPerTime(numberOfMonth: Int, remainingSum: Double?){
         var iterationDate = date //дата с которой нужно работать в цикле
         let object = newScheduleObject
@@ -235,7 +236,9 @@ class AddScheduleViewController: UIViewController {
                 }
             }else{
                 payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, dateOfCreation: Date(), target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
+                // Создание следующей даты (исходя из ритма даты)
                 let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate!)
+                print(nextMonth)
                 iterationDate = nextMonth
             }
             ///Занести payArray в базу
@@ -250,11 +253,9 @@ class AddScheduleViewController: UIViewController {
     var sumPerTime: Double = 0
     
     func saveMultiplyPayPerTime() {
-
         if isEditingScheduler == true {
             removeAllPayPerTimeFromScheduler()
         }
-        
         let targetSum = target
         let sumPerTime = sumPerTime
         let resultNumbersAndRemainder: (Int, Double?) = getNumberOfMontsForMultyplyPayPerTime(targetSum: targetSum, sumPerTime: sumPerTime)
@@ -726,7 +727,19 @@ extension AddScheduleViewController: UITableViewDelegate, UITableViewDataSource 
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // daterhythm в моделе имеет
         dateRhythm = DateRhythm(rawValue: indexPath.row + 1)!
+        // table view имеет 3 строки: 0 - месяц, 1 - неделя, 2 - день
+        switch indexPath.row {
+        case 0:
+            calendarComponent = .month
+        case 1:
+            calendarComponent = .weekOfMonth
+        case 2:
+            calendarComponent = .day
+        default:
+            break
+        }
         tableView.reloadData()
     }
 }
