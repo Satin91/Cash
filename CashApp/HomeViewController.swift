@@ -49,7 +49,7 @@ class HomeViewController: UIViewController  {
         setRightBarButton()
         tableView.enterHistoryData() // Обновление данных истории
         tableView.reloadData()
-        self.reloadInputViews()
+     //   self.reloadInputViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -93,7 +93,7 @@ class HomeViewController: UIViewController  {
     var isTappedMenuAnyTime: Bool = false
  
     @objc func leftBarButtonTapped(_ gesture: UITapGestureRecognizer) {
-        guard let view = gesture.view else { return }
+        //guard let view = gesture.view else { return }
         
         self.settingsMenu.openOrCloseSettingsMenu(isTappedMenuAnyTime: &isTappedMenuAnyTime)
         

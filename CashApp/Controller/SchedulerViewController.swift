@@ -18,7 +18,7 @@ extension SchedulerViewController {
         editColor = theme.settings.borderColor
     }
 }
-class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView {
+class SchedulerViewController: UIViewController,ReloadParentTableView {
    let colors = AppColors()
     var openCalendar: OpenNextController!
     
@@ -30,28 +30,30 @@ class SchedulerViewController: UIViewController,dismissVC,ReloadParentTableView 
     var editColor: UIColor = .clear
     let subscriptionManager = SubscriptionManager()
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-    func dismissVC(goingTo: String, typeIdentifier: String) {
-        let addScheduleVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
-        if goingTo == "addScheduleVC" {
-            switch typeIdentifier {
-            case "One time":
-                addScheduleVC.newScheduleObject.stringScheduleType = .oneTime
-            case "Multiple":
-                addScheduleVC.newScheduleObject.stringScheduleType = .multiply
-            case "Regular":
-                addScheduleVC.newScheduleObject.stringScheduleType = .regular
-            case "Goal":
-                addScheduleVC.newScheduleObject.stringScheduleType = .goal
-            default:
-                return
-            }
-        }
-        //Назначение делегата на себя
-        //создание попап вьюшки
-        let navVC = UINavigationController(rootViewController: addScheduleVC)
-        navVC.modalPresentationStyle = .automatic
-        present(navVC, animated: true, completion: nil)
-    }
+    
+    //MARK: Удалить если приложение работает после теста без этого участка кода
+//    func dismissVC(goingTo: String, typeIdentifier: String) {
+//        let addScheduleVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
+//        if goingTo == "addScheduleVC" {
+//            switch typeIdentifier {
+//            case "One time":
+//                addScheduleVC.newScheduleObject.stringScheduleType = .oneTime
+//            case "Multiple":
+//                addScheduleVC.newScheduleObject.stringScheduleType = .multiply
+//            case "Regular":
+//                addScheduleVC.newScheduleObject.stringScheduleType = .regular
+//            case "Goal":
+//                addScheduleVC.newScheduleObject.stringScheduleType = .goal
+//            default:
+//                return
+//            }
+//        }
+//        //Назначение делегата на себя
+//        //создание попап вьюшки
+//        let navVC = UINavigationController(rootViewController: addScheduleVC)
+//        navVC.modalPresentationStyle = .automatic
+//        present(navVC, animated: true, completion: nil)
+//    }
   
     @objc func createTransition(_ sender: Any) {
         print("ANY")

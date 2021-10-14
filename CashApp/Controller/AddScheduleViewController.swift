@@ -167,6 +167,11 @@ class AddScheduleViewController: UIViewController {
         setDataFromEditableObject()
         
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        rightViewTextFieldButtonFor(title: currency )
+    }
+    
     func createCalendar() {
         
         self.calendar = FSCalendarView(frame: self.view.bounds, calendarType: .regular)
@@ -238,7 +243,6 @@ class AddScheduleViewController: UIViewController {
                 payArray.append(PayPerTime(scheduleName: object.name, date: iterationDate!, dateOfCreation: Date(), target: object.sumPerTime, currencyISO: object.currencyISO, scheduleID: object.scheduleID, vector: vector))
                 // Создание следующей даты (исходя из ритма даты)
                 let nextMonth = Calendar.current.date(byAdding: calendarComponent, value: 1, to: iterationDate!)
-                print(nextMonth)
                 iterationDate = nextMonth
             }
             ///Занести payArray в базу

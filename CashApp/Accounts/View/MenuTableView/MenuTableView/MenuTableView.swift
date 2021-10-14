@@ -37,7 +37,6 @@ class MenuTableView: UITableView{
         self.controller = controller as! AccountsViewController
         alertView = AlertViewController.loadFromNib()
         alertView.controller = controller
-        //controller = UIViewController as! AccountsViewController
         colors.loadColors()
         setupTableView()
         visualSettings()

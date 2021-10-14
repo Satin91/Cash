@@ -75,14 +75,9 @@ class NumpadView: UIInputViewController {
   
     
     @IBAction func numbers(_ sender: UIButton) {
-        delegate.sendNumber(number: sender.titleLabel!.text!)
-        //sender.backgroundColor =  ThemeManager.currentTheme().borderColor
         let proxy = textDocumentProxy
         proxy.insertText(sender.titleLabel!.text!)
         sender.scaleButtonAnimation()
-//        UIView.animate(withDuration: 0.4, delay: 0, options: .allowUserInteraction ) {
-//            self.allButtons[sender.tag].backgroundColor = ThemeManager.currentTheme().secondaryBackgroundColor
-//        }
     }
    
     
@@ -134,11 +129,11 @@ class NumpadView: UIInputViewController {
                 btn.setImageTintColor(colors.titleTextColor, imageName: "numpad.backspace")
                 btn.contentMode = .scaleAspectFit
             case 22:
-                btn.setImage(accountsImage.image, for: .normal)
-                btn.setImageTintColor(colors.titleTextColor, imageName: "numpad.accounts")
-            case 23:
                 btn.setImage(calendarImage.image, for: .normal)
                 btn.setImageTintColor(colors.titleTextColor, imageName: "numpad.calendar")
+            case 23:
+                btn.setImage(accountsImage.image, for: .normal)
+                btn.setImageTintColor(colors.titleTextColor, imageName: "numpad.accounts")
             case 24:
                 btn.titleLabel?.isHidden = true
                 btn.setImage(checkmarkImage.image, for: .normal)

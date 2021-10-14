@@ -69,9 +69,12 @@ class CancelButton: UIButton {
     
     
     func addToScrollView(view: UIView) {
+        let navBarHeight = UINavigationController().navigationBar.frame.height
+        print(navBarHeight)
         let width: CGFloat = 80
         let height: CGFloat = 34
         let x = ownerViewController.view.bounds.width - 26 - width
+    //    let y: CGFloat = (navBarHeight / 2) + (height / 2)
         let y :CGFloat = ownerViewController.view.frame.origin.y - height
         self.frame = CGRect(x: x, y: y, width: width, height: height)
         setup()

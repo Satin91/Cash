@@ -30,12 +30,11 @@ class QuickTableVIewCell: CellWithCustomSelect {
     
     func visualSettings(){
         labels()
-        
         self.backgroundColor = .clear
         self.contentView.backgroundColor = colors.secondaryBackgroundColor
         self.contentView.sendSubviewToBack(userImage)
         self.contentView.layer.cornerRadius = 20
-        self.contentView.layer.setMiddleShadow(color: colors.borderColor)
+        self.contentView.layer.setMiddleShadow(color: colors.shadowColor)
         self.contentView.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
         self.layer.masksToBounds = false
@@ -45,9 +44,24 @@ class QuickTableVIewCell: CellWithCustomSelect {
         self.userImage.layer.cornerRadius = 8
         self.userImage.clipsToBounds = true
     }
+    func createBorderIfCellSelected(){
+        self.contentView.layer.borderWidth = 1.5
+        self.contentView.layer.borderColor = colors.borderColor.cgColor
+    }
+    func removeBorder() {
+        self.contentView.layer.borderColor = UIColor.clear.cgColor
+    }
+
+    func setBorder(selected: Bool) {
+        if selected == true {
+            createBorderIfCellSelected()
+        } else {
+            removeBorder()
+        }
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+        setBorder(selected: selected)
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -57,7 +71,6 @@ class QuickTableVIewCell: CellWithCustomSelect {
     
     func set(object: MonetaryAccount){
         userImage.image = UIImage(named: object.imageForAccount) ?? UIImage(systemName: "House")
-        
         sumLabel.text = object.balance.currencyFormatter(ISO: object.currencyISO)
         headerLabel.text = object.name
     }

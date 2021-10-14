@@ -23,7 +23,7 @@ import RealmSwift
 
 let currencyList = CurrencyList()
 var mainCurrency =                  fetchMainCurrency()
-let accountsObjects =               fetchAccounts(accountType: 1)//.sorted(byKeyPath: "dateOfCreate", ascending: false)//Card = 1
+let accountsObjects =               fetchAccounts(accountType: 1).sorted(byKeyPath: "date", ascending: false)//Card = 1
 //let savingsObjects =              fetchAccounts(accountType: 2).sorted(byKeyPath: "date", ascending: false)//Cash = 2
 
 

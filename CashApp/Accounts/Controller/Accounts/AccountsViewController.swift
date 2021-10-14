@@ -35,7 +35,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     var imageCollectionView = AccountImagesCollectionView()
     let subscriptionManager = SubscriptionManager()
     var menuTableView: MenuTableView!
-    var stackViewForEditingButtons = UIStackView()
+   // var stackViewForEditingButtons = UIStackView()
     var alertView: AlertViewController!
     @IBOutlet var sendButtonOutlet: UIButton!
     @IBAction func sendButtonAction(_ sender: UIButton) {
@@ -181,7 +181,6 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     var editableObject:    MonetaryAccount?
     var editMode = false //Нажата ли кнопка
     
-
     }
 
 
@@ -189,7 +188,6 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
 extension AccountsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
  
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //(selectedObject != nil) ? accountsImages.count :
         return  accountsObjects.count
     }
     
@@ -219,8 +217,6 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //accountsCollectionView.reloadData()
-        //menuTableView.reloadData()
         let visibleRect = CGRect(origin: accountsCollectionView.contentOffset, size: accountsCollectionView.bounds.size)
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         let visibleIndexPath2 = accountsCollectionView.indexPathForItem(at: visiblePoint)
@@ -233,11 +229,6 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
         }
 
     }
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-       //Классная функция. Применяется когда скрол останавливается
-    
-    }
-        
 }
 //MARK: Popover DELEGATE
 extension AccountsViewController: UIPopoverPresentationControllerDelegate {

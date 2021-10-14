@@ -110,7 +110,7 @@
                                 <button opaque="NO" tag="22" contentMode="scaleAspectFit" semanticContentAttribute="playback" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaF-ti-Fm6">
                                     <rect key="frame" x="325.66666666666669" y="0.0" width="88.333333333333314" height="86.333333333333329"/>
                                     <connections>
-                                        <action selector="accountsButtonAction:" destination="-1" eventType="touchUpInside" id="Vkd-5p-Yqw"/>
+                                        <action selector="calendarButtonAction:" destination="-1" eventType="touchUpInside" id="9yx-jr-fo9"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -145,7 +145,7 @@
                                 <button opaque="NO" tag="23" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RdJ-3q-Uw2">
                                     <rect key="frame" x="325.66666666666669" y="0.0" width="88.333333333333314" height="86"/>
                                     <connections>
-                                        <action selector="calendarButtonAction:" destination="-1" eventType="touchUpInside" id="aEL-Oc-wVf"/>
+                                        <action selector="accountsButtonAction:" destination="-1" eventType="touchUpInside" id="o0O-jb-9MH"/>
                                     </connections>
                                 </button>
                             </subviews>

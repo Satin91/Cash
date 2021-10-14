@@ -23,8 +23,8 @@ class CellWithCustomSelect: UITableViewCell {
     let colors = AppColors()
     func cellAnimate() {
         colors.loadColors()
-        UIView.animate(withDuration: 0.15) {
-            self.contentView.backgroundColor = self.colors.contrastColor1.withAlphaComponent(0.5)
+        UIView.animate(withDuration: 0.02) {
+            self.contentView.backgroundColor = self.colors.borderColor.withAlphaComponent(0.8)
         }completion: { _ in
             UIView.animate(withDuration: 0.15) {
                 self.contentView.backgroundColor = self.colors.secondaryBackgroundColor

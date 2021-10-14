@@ -11,6 +11,9 @@ import UIKit
 class ReturnToCenterOfScrollView {
   
     static func returnToCenter(scrollView: UIScrollView){
-        scrollView.setContentOffset(CGPoint(x:  scrollView.bounds.width, y: scrollView.bounds.origin.y), animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            scrollView.setContentOffset(CGPoint(x:  scrollView.bounds.width, y: scrollView.bounds.origin.y), animated: true)
+        }
+      
     }
 }

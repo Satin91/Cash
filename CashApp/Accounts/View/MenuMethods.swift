@@ -13,7 +13,6 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
     
     
     func setImageForAccount(image: String) {
-        
         try! realm.write({
             let object = accountsObjects[visibleIndexPath.row]
             object.imageForAccount = image
@@ -39,7 +38,7 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
             visibleAccount.isMainAccount = true
             realm.add(visibleAccount,update: .all)
         })
-        let clCell = accountsCollectionView.cellForItem(at: visibleIndexPath) as!AccountCollectionViewCell
+        let clCell = accountsCollectionView.cellForItem(at: visibleIndexPath) as! AccountCollectionViewCell
         clCell.changeIsMainAccountLabelVisibility()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { // 0.3 Это скорость обновления menu table view после удаления ячейки "Сделать счет главным"
@@ -71,7 +70,7 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
         accountsCollectionView.isScrollEnabled = true
  
     }
-    
+    // Назначтить следующий счет главным если тот последний в списке
     func designateTheNextAccountAsMain(deletionAccount: MonetaryAccount) {
         guard accountsObjects.count > 1 else { return }
         for (index,account) in accountsObjects.enumerated() {
@@ -86,8 +85,21 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
             }
         }
     }
+    // Разблокировать счет, если после удаления он входит в счета допустимых
+    
+    func unblockBlockedAccount(){
+        try! realm.write({
+            
+            for (index,value) in accountsObjects.enumerated(){
+                if index > subscriptionManager.allowedNumberOfCells(objectsCountFor: .accounts) - 1{
+                    value.isBlock = false
+                    realm.add(value,update: .all)
+                }
+            }
+        })
+    }
+    
     func deleteAccount(){
-        
         let deletionAccount = accountsObjects[visibleIndexPath.row]
         if deletionAccount.isMainAccount == true {
         designateTheNextAccountAsMain(deletionAccount: deletionAccount)
@@ -96,12 +108,16 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
                 realm.delete(deletionAccount)
             })
         }
+        //self.unblockBlockedAccount()
+        checkBlockedAccounts()
         self.accountsCollectionView.isScrollEnabled = true
         self.accountsCollectionView.performBatchUpdates {
             self.accountsCollectionView.deleteItems(at: [self.visibleIndexPath])
-        } completion: { _ in
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
             self.scrollViewDidScroll(self.accountsCollectionView)//После удаления видимый индекс не обновляется, пришлось вызывать вручную
             self.closeMenu()
+            
             self.accountsCollectionView.reloadData()
         }
         //        toggle = false // Это для того, чтобы кнопка редактирования не была активной у другого счета после удаления (после обновления коллекции метод cellforitem задает у ячейки свойство toggle - toggle этого класса) // В данный момент не работает

@@ -8,7 +8,7 @@
 
 import UIKit
 import FSCalendar
-
+import Themer
 
 
 class QuickPayViewController: UIViewController, UIScrollViewDelegate{
@@ -61,7 +61,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }()
     let transfer = Transfer()
     var numpadView = NumpadView()
-
+    
     var calendar: FSCalendarView!
     var date = Date()
     //Аккаунт для того чтобы поставить его первым
@@ -69,11 +69,13 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         var object = MonetaryAccount()
         object.name = NSLocalizedString("without_Account", comment: "")
         object.balance = 0
+        object.currencyISO = mainCurrency?.ISO ?? "USD"
         object.accountID = "NO ACCOUNT"
         return object
     }()
     var selectedAccountObject: MonetaryAccount? = {
         var account: MonetaryAccount?
+        
         for i in enumeratedALL(object: accountsObjects) {
             if i.isMainAccount == true{
                 account = i
@@ -107,7 +109,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             }
         }
     }
-   
+    
     var convertedEnteredSum = Double(0)
     var monetaryPaymentISO: String?
     let currencyModelController = CurrencyModelController()
@@ -156,31 +158,65 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     func createCancelButton() {
         self.cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
         cancelButton.addToScrollView(view: self.scrollView)
-         
+        
         
         
     }
- 
+    
+    var blurHeader = UIVisualEffectView(effect: UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setColors()
-        createCancelButton()
-        
-        tableView = QuickTableView(frame: .zero)
         calendar = FSCalendarView(frame: self.view.bounds, calendarType: .mini)
         self.isModalInPresentation = true
         calendar.delegate = self
-        tableView.tableView.delegate = self
-        tableView.tableView.dataSource = self
-        tableView.layer.masksToBounds = false
-        tableView.clipsToBounds = false
         setupSumTextField()
         setupContainerView()
+        setupTableView()
         setupScrollView()
+        createCancelButton()
         checkPayObjectAndSetItsValue()
-        UIApplication.shared.reloadInputViews()
-        //registerForNotifications()
-        //addDoneButtonOnKeyboard()
+        createConstraints()
+        
+    }
+    
+//    func setupNavBar() {
+//        let appearance = UINavigationBarAppearance()
+//        appearance.configureWithTransparentBackground()
+//        appearance.backgroundColor = UIColor.clear
+//        appearance.backgroundEffect = UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark) // or dark
+//        let scrollingAppearance = UINavigationBarAppearance()
+//        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+//    }
+//
+    func setupScrollView() {
+        scrollView.contentSize = CGSize(width: 1200, height: 0)
+        scrollView.isScrollEnabled = false
+        scrollView.backgroundColor = .clear
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.delegate = self
+        scrollView.isPagingEnabled = true
+        scrollView.addSubview(tableView)
+        scrollView.addSubview(calendar)
+        scrollView.addSubview(containerView)
+        scrollView.addSubview(numpadView.view)
+        scrollView.addSubview(blurHeader)
+        
+    }
+    func setupTableView() {
+        tableView = QuickTableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    func setupContainerView(){
+        numpadView.delegateAction = self
+        containerView.addSubview(convertedSumLabel)
+        containerView.addSubview(payObjectNameLabel)
+        containerView.addSubview(sumTextField)
+        containerView.addSubview(accountLabel)
+        containerView.addSubview(dateLabel)
     }
     func setupSumTextField() {
         sumTextField.isEnabled = true
@@ -204,41 +240,24 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         //sumTextField.tintColor = colors.contrastColor1
     }
     
-    func setupScrollView() {
-        scrollView.contentSize = CGSize(width: 1200, height: 0)
-        scrollView.isScrollEnabled = true
-        scrollView.backgroundColor = .clear
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.delegate = self
-        scrollView.isPagingEnabled = true
-    }
-    func setupContainerView(){
-        scrollView.addSubview(tableView)
-        scrollView.addSubview(calendar)
-        scrollView.addSubview(containerView)
-        scrollView.addSubview(numpadView.view)
-        numpadView.delegate = self
-        numpadView.delegateAction = self
-        containerView.addSubview(convertedSumLabel)
-        containerView.addSubview(payObjectNameLabel)
-        containerView.addSubview(sumTextField)
-        containerView.addSubview(accountLabel)
-        containerView.addSubview(dateLabel)
-        createConstraints()
-    }
-   
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         //cancelButton.frame.origin.x = self.view.bounds.width + 26
         cancelButton.frame.origin.x += self.view.frame.width / 2
+        let navBarHeight = self.navigationController!.navigationBar.frame.height
         let edge: CGFloat = 22
         let viewWidth = self.view.bounds.width
         let scrollViewHeight = scrollView.bounds.height
-        tableView.frame = CGRect(x: 0, y: 12, width: self.view.bounds.width, height: self.view.bounds.height)
+        let tableViewY: CGFloat = 12
+      
+        tableView.frame = CGRect(x: 0, y: self.view.bounds.origin.y - navBarHeight, width: self.view.bounds.width, height: self.view.frame.height)
+        tableView.contentInset = UIEdgeInsets(top: edge / 2 , left: 0, bottom: 0, right: 0)
         scrollOffset = self.view.bounds.width
         scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
+        self.blurHeader.frame = CGRect(x: 0, y: -navBarHeight, width: viewWidth * 3, height: navBarHeight)
         containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
         calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge * 6)
         calendar.layer.cornerCurve = .continuous
@@ -246,6 +265,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         calendar.layoutSubviews()
         isOffsetUsed = true
         scrollView.contentSize.height = 1 // Disable vertical scroll
+       
     }
     
     //MARK: - CHECK VALUE
@@ -275,27 +295,38 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             monetaryPaymentISO = object.currencyISO
             changeHistoryObject = ChangeHistoryObject(historyObject: object)
             let positiveSum = abs(object.sum)
-
             sumTextField.text = String(positiveSum.formattedWithSeparator)
             sumTextField.enteredSum = String(positiveSum)
-            if  object.accountID == "NO ACCOUNT" {
-                selectedAccountObject = withoutAccountObject
-                accountLabel.text = withoutAccountObject.name
+            if object.secondAccountID != "" {
+                selectedAccountObject = findAccount(byID: object.secondAccountID)
             } else {
-            for i in EnumeratedAccounts(array: accountsGroup) {
-                if i.accountID == object.accountID {
-                    selectedAccountObject = i
+                if object.accountID == "NO ACCOUNT" {
+                    selectedAccountObject = withoutAccountObject
+                    accountLabel.text = withoutAccountObject.name
+                } else {
+                    for i in EnumeratedAccounts(array: accountsGroup) {
+                        if i.accountID == object.accountID {
+                            selectedAccountObject = i
+                        }
+                    }
                 }
             }
-            }
-            
+        case is TransferModel:
+            selectedAccountObject = withoutAccountObject
         default:
             break
         }
         accountLabel.text = selectedAccountObject != nil ? selectedAccountObject?.name : withoutAccountObject.name
     }
     
-    
+    func findAccount(byID: String) -> MonetaryAccount {
+        for i in accountsObjects {
+            if i.accountID == byID {
+                return i
+            }
+        }
+        return withoutAccountObject
+    }
     func updatePPTArray(scheduleObject: MonetaryScheduler) -> [PayPerTime]?{
         var payArray = [PayPerTime]()
         for (_,i) in Array(payPerTimeObjects).enumerated() {
@@ -457,9 +488,9 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         
         
         switch scheduleObject.stringScheduleType {
-        
-        
-        ///MULTIPLY
+            
+            
+            ///MULTIPLY
         case .multiply:
             if enteredSum < payPerTimeObject.target {
                 try! realm.write {
@@ -477,7 +508,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
                 enteredSum == (scheduleObject.target - scheduleObject.available) ? sumEqualTargetOfMultiplyObjects(scheduleObject: scheduleObject) : distributionForMultiplyObjects(scheduleObject: scheduleObject, enteredSum: enteredSum)
             }
             
-        ///REGULAR
+            ///REGULAR
         case .regular:
             if enteredSum < payPerTimeObject.target {
                 try! realm.write {
@@ -519,7 +550,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             historyObject.currencyISO = iso
         }
         guard convertedEnteredSum != 0 else {return}
-            historyObject.convertedSum = vector == true ? convertedEnteredSum : -convertedEnteredSum
+        historyObject.convertedSum = vector == true ? convertedEnteredSum : -convertedEnteredSum
     }
     func saveCategory(convertedSum: Double) {
         let category = payObject as! MonetaryCategory
@@ -586,7 +617,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             notifications.sendNotifications()
         } else if payObject is AccountsHistory {
             let object = payObject as! AccountsHistory
-           // let enteredSum = Double(sumTextField.enteredSum)!
+            // let enteredSum = Double(sumTextField.enteredSum)!
             let vector: Bool = object.sum > 0 ? true : false
             saveHistorySum(vector: vector)
         } else if payObject is TransferModel {
@@ -606,7 +637,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             historyObject.currencyISO = selectedAccountObject!.currencyISO
             changeHistoryObject.makeHistoryChanges(newHistoryObject: historyObject)
         } else {
-         saveHistory()
+            saveHistory()
         }
     }
     func saveHistory(){
@@ -628,7 +659,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             
             realm.add(selectedAccountObject!,update: .all)
         }
-       
+        
         
         DBManager.addHistoryObject(object: historyObject)
     }
@@ -648,199 +679,35 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         sumTextField.resignFirstResponder()
         //popUpTextField.text! += ","
     }
-
+    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         sumTextField.resignFirstResponder()
         return false
     }
-    
-    deinit {
-        
-        removeKeyboardNotifications()
-    }
-    
-    func registerForNotifications () {
-        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    func removeKeyboardNotifications () {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func kbWillShow(_ notification: Notification) {
-        
-        //Дело в том, что виличина непостоянная не принимается свифтом как уверенная и свифт постоянно прибавляет значения после
-        //нажатия на textField. Frame непостоянная, bounds же всегда почемуто извнстна
-        let userInfo = notification.userInfo
-        let keyboardSize = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        //нужно разобраться еще
-        self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.bounds.origin.y + keyboardSize.height / 3)
-    }
-    
-    @objc func kbWillHide (_ notification: Notification) {
-        let userInfo = notification.userInfo
-        let keyboardSize = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        self.view.frame.origin = CGPoint(x: self.view.frame.origin.x, y: self.view.frame.origin.y + keyboardSize.height / 3 )
-        
-    }
+
 }
+
 ///MARK: Table view
-extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func privateAccounts() -> [MonetaryAccount] {
-        var accounts = EnumeratedAccounts(array: accountsGroup) //Кастомная функция для добавления счета в массив
-        if !accounts.isEmpty {
-            accounts.append(withoutAccountObject) //дефолтная функция по добавлению
-        }
-        return accounts
-        
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return privateAccounts().count
-    }
-    
-    func configureBackgroundView(cell: UITableViewCell) {
-        
-        var backg = UIView(frame: cell.bounds)
-        backg.frame = cell.bounds.inset(by: UIEdgeInsets(top: 10, left: 26, bottom: 10, right: 26) )
-        backg.backgroundColor = colors.secondaryBackgroundColor
-        backg.layer.cornerRadius = 20
-        backg.layer.setSmallShadow(color: colors.shadowColor)
-        cell.contentView.addSubview(backg)
-        cell.backgroundColor = .clear
-        cell.contentView.backgroundColor = .clear
-        cell.textLabel?.textColor = colors.titleTextColor
-        cell.textLabel?.font = .systemFont(ofSize: 22, weight: .regular)
-        cell.layer.masksToBounds = false
-        cell.textLabel?.textAlignment = .center
-        
-        
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var appendAccount = enumeratedALL(object: accountsObjects) //EnumeratedAccounts(array: accountsGroup)
-        for i in appendAccount {
-            if i.isMainAccount {
-                selectedAccountObject = i
-            }
-        }
-        appendAccount.append(withoutAccountObject)
-        
-        let object = appendAccount[indexPath.row]
-        //WithoutAccountCell
-        if indexPath.row == appendAccount.count - 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "WithoutAccountCell", for: indexPath)
-            configureBackgroundView(cell: cell)
-            cell.textLabel?.text = object.name
-            cell.selectionStyle = .none
-            //cell.backgroundView!.frame = (cell.backgroundView?.bounds.inset(by: UIEdgeInsets(top: 2, left: 50, bottom: 5, right: 50) ))!
-            return cell
-        }else{
-        let cell = tableView.dequeueReusableCell(withIdentifier: "QuickTableViewCell", for: indexPath) as! QuickTableVIewCell
-            cell.selectionStyle = .none
-        cell.set(object: object)
-        return cell
-        }
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let object = privateAccounts()[indexPath.row]
-        guard object != privateAccounts().last else {
-            selectedAccountObject = withoutAccountObject
-            accountLabel.text = selectedAccountObject?.name
-            convertedSumLabel.isHidden = true // Скрывает конвертер чтобы не показывал ненужную конвертацию ( по умолчанию у withoutObject стоит ISO USD)
-            ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
-            return}
-        
-        convertedSumLabel.isHidden = false //Возвращает видение если то было выключено
-        selectedAccountObject = object
-        accountLabel.text = object.name
-        self.observeConvertedSum()
-        ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
-       
-        
-    }
-    
-}
-extension QuickPayViewController: TappedNumbers{
-  
-    
-    func checkComma(text: String, comma: inout Bool) {
-        for i in text {
-            if i == "," {
-                 comma.toggle()
-            }
-        }
-    }
-    func sendNumber(number: String) {
-        //var comma = false
-        
-//        if sumTextField.text?.isEmpty == true && number == "," {
-//            return
-//        }
-        
-        
-        
-//
-//        
-//        sumTextField.insertText(number)
-//        self.observeConvertedSum()
-//
-//
-        
-        
-        
-      //  sumTextField.inputView = numpadView
-        //comma = sumTextField.checkComma(string: sumTextField.text!)
-        
-        
-//        sumTextField.text?.append(number)
-       // sumTextField.textFieldChanged()
-       
-        
-//        if sumTextField.text?.isEmpty == true && number != "," {
-//            sumTextField.text?.append(number)
-//            sumTextField.textFieldChanged()
-//            self.observeConvertedSum()
-//
-//        }else if sumTextField.text?.isEmpty == false && number == ","  && comma == false {
-//            sumTextField.text?.append(number)
-//            sumTextField.textFieldChanged()
-//            self.observeConvertedSum()
-//        }else if sumTextField.text?.isEmpty == false && number != "," {
-//            sumTextField.text?.append(number)
-//            sumTextField.textFieldChanged()
-//            self.observeConvertedSum()
-//        }
-    }
-    
-    
-}
+
 extension QuickPayViewController:  tappedButtons{
     func scrollAndBackspace(action: String) {
         let x: CGFloat = action == "Accounts" ? 0 : self.view.bounds.width * 2.8
         switch action {
         case "Backspace":
             guard sumTextField.text != "" else {return}
-          //  sumTextField.text?.removeLast()
+            //  sumTextField.text?.removeLast()
             sumTextField.deleteBackward()
             //textFieldChanged()
-        observeConvertedSum()
+            observeConvertedSum()
         case "Save":
-                let doubleEnteredSum = Double(sumTextField.enteredSum)
-                guard doubleEnteredSum! > 0 else {return}
-                save()
-                dismiss(animated: true) {
-                    guard let reload = self.reloadParentTableViewDelegate else { return }
-                    reload.reloadData()
-                }
+            let doubleEnteredSum = Double(sumTextField.enteredSum)
+            guard doubleEnteredSum! > 0 else {return}
+            save()
+            dismiss(animated: true) {
+                guard let reload = self.reloadParentTableViewDelegate else { return }
+                reload.reloadData()
+            }
         default:
             scrollView.scrollRectToVisible(CGRect(x: x, y: 0, width: self.view.bounds.width / 3, height: self.view.bounds.height) , animated: true)
         }

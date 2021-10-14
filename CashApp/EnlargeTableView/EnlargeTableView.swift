@@ -74,33 +74,6 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     }
     
     var enlargeArray: [EnlargeHistoryModel] = []
-    //        willSet {
-    //            guard indexForDeletedRow != nil else {return}
-    //            print("CHTOTO")
-    //            if self.tag == 15888{
-    //            self.performBatchUpdates {
-    //                print(enlargeArray)
-    //                if self.enlargeArray[self.indexForDeletedRow!].historyArray == []{
-    //                    self.enlargeArray.remove(at: self.indexForDeletedRow!)
-    //                    self.deleteRows(at: [IndexPath(row: 0, section: 0) ], with: .fade)
-    //                    self.numberOfRows(inSection: enlargeArray.count)
-    //                    self.rowHeight = 0
-    //                }else{
-    //                guard enlargeArray[indexForDeletedRow!].historyArray.count != 0 else {return}
-    //                let object = enlargeArray[indexForDeletedRow!].historyArray.count * Int(smallCellHeight) + 50
-    //                for i in pairedCells {
-    //                    if i.largeCell == IndexPath(row: indexForDeletedRow!, section: 0) {
-    //                            self.rowHeight = CGFloat(object + i.smallCell.count * Int(enlargedSmallHeight - smallCellHeight))
-    //                    }
-    //                }
-    //                }
-    //            }completion: { (isTrue) in
-    //                print("reloadddada")
-    //                self.reloadData()
-    //            }
-    //            }
-    //        }
-    //    }
     var header: HeaderView? = nil
     var topBarHeight: CGFloat!
     let contentViewHeight: CGFloat = 254

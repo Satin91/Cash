@@ -8,33 +8,24 @@
 
 import UIKit
 
-class QuickTableView: UIView {
+class QuickTableView: UITableView {
     
-    
-   
-    var tableView: UITableView!
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        
-        tableView = UITableView(frame: frame, style: .plain)
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
+    override init(frame: CGRect, style: UITableView.Style) {
+        super.init(frame: frame, style: style)
         self.backgroundColor = .clear
-        self.addSubview(tableView)
-        initConstraints(view: tableView, to: self)
-        self.clipsToBounds = false
-        self.layer.masksToBounds = false
-        tableView.layer.masksToBounds = false
-        tableView.clipsToBounds = false
+        self.separatorStyle = .none
+        self.backgroundColor = .clear
+//        self.clipsToBounds = false
+//        self.layer.masksToBounds = false
+//        self.layer.masksToBounds = false
+     //   self.clipsToBounds = false
         let nibName = UINib(nibName: "QuickTableViewCell", bundle: nil)
-        tableView.register(nibName, forCellReuseIdentifier: "QuickTableViewCell")
+        self.register(nibName, forCellReuseIdentifier: "QuickTableViewCell")
         
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "WithoutAccountCell")
-        
+        self.register(WithoutAccountTableViewCell.self, forCellReuseIdentifier: "WithoutAccountCell")
     }
+  
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
