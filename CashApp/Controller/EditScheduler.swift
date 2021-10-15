@@ -28,7 +28,7 @@ extension AddScheduleViewController {
         sumPerTimeTextField.text = newScheduleObject.sumPerTime.formattedWithSeparator
         totalSumTextField.text = (newScheduleObject.target - newScheduleObject.available).formattedWithSeparator
         headingTextLabel.numberOfLines = 3
-        selectImageButtonOutlet.setImage(UIImage(named: newScheduleObject.image), for: .normal)
+       // selectImageButtonOutlet.setImage(UIImage(named: newScheduleObject.image), for: .normal)
         date = newScheduleObject.date
         vector = newScheduleObject.vector
         dateRhythm = newScheduleObject.stringDateRhythm

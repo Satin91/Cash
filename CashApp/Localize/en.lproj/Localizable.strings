@@ -82,11 +82,11 @@
 "name_text_field" = "Name";
 "date_button"     = "Date";
 "create_button"   = "Create";
+//"save_button"     = "Save";
 "save_button"     = "Save changes";
 "my_account"      = "My account";
-
-//MARK: - Accounts View Controller
-"back_button" = "Назад";
+"back_button"     = "Back";
+"cancel_button"   = "Cancel";
 
 //MARK: - Line Chart Cell
 //TextView messages
@@ -97,7 +97,6 @@
 "heading_label_text" = "Add a new account";
 "name_text_field_placeholder" = "Name";
 "balance_text_field_placeholder" = "Balance";
-"save_button" = "Create";
 
 //MARK: - Pop Up Table View
 "pop_edit_name_label" = "Change";
@@ -106,7 +105,7 @@
 //MARK: - Settings menu
 "dark_theme_style" = "Dark theme";
 "light_theme_style" = "Light theme";
-"notify_about_the_plan_one_day_before" = "Notify the plan the day before";
+"notify_about_the_plan_one_day_before" = "ПЕРЕВЕСТИ";
 "pro_version" = "PRO Version";
 "pro_is_active" = "Active";
 "pro_is_not_active" = "Not active";

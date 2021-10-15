@@ -12,8 +12,9 @@ import Themer
 
 class ThemableTextField: UITextField {
     var updateTextColor: Bool = true
-    
+    let colors = AppColors()
     override func didMoveToWindow() {
+        colors.loadColors()
         Themer.shared.register(target: self, action: ThemableTextField.defaultTheme(_:))
         super.didMoveToWindow()
     }

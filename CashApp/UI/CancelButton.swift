@@ -9,12 +9,12 @@ import UIKit
 
 enum CancelButtonType: String {
     
-    case cancel = "Cancel"
+    case cancel = "cancel_button"
     case create = "Create"
-    case close = "X"
+    case close = ""
     
     var description: String {
-        return self.rawValue
+        return NSLocalizedString(self.rawValue, comment: "")
     }
 }
 
@@ -32,9 +32,8 @@ class CancelButton: UIButton {
         self.ownerViewController = owner
         
         ownerViewController.navigationController?.navigationBar.isUserInteractionEnabled = false
-        
-        // addToView()
     }
+
     
     func addToParentView(view: UIView){
         var width: CGFloat = 0
@@ -45,12 +44,12 @@ class CancelButton: UIButton {
         case .create:
             width = 80
         case .close:
+            self.setImage(UIImage().getNavigationImage(systemName: "xmark", pointSize: 26, weight: .medium), for: .normal)
+            self.tintColor = colors.titleTextColor
             width = height
         case .none:
             break
         }
-        
-        
         let x = ownerViewController.view.bounds.width - 26 - width
         let y :CGFloat = self.y
         self.frame = CGRect(x: x, y: y, width: width, height: height)
@@ -90,9 +89,6 @@ class CancelButton: UIButton {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         colors.loadColors()
-        self.setTitle("TITLE", for: .normal)
-        
-        //setup()
     }
     
     @objc func buttonAction (_sender: UIButton, action:@escaping ()->()) {

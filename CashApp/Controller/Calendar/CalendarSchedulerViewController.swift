@@ -69,7 +69,7 @@ class CalendarSchedulerViewController: UIViewController {
     }
     
     func createCancelButton() {
-        cancelButton = CancelButton(frame: self.view.bounds, title: .cancel, owner: self)
+        cancelButton = CancelButton(frame: self.view.bounds, title: .close, owner: self)
         cancelButton.addToParentView(view: self.view)
     }
     

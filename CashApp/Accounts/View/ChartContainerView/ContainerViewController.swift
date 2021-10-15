@@ -21,9 +21,7 @@ class ContainerViewController: UIViewController {
         UIView.animate(withDuration: 0.1) {
             self.lineChartContainer.alpha = 0
         } completion: { (true) in
-            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ContainerObject"), object: object)
-            
             UIView.animate(withDuration: 0.1) {
                     self.lineChartContainer.alpha = 1
             }

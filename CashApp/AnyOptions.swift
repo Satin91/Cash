@@ -301,78 +301,7 @@ protocol ReloadParentTableView{
     func reloadData()
 }
 
-
-///MARK: Gradient view
-
-class GradientView: UIView {
-    
-    private let gradientLayer = CAGradientLayer()
-    
-    @IBInspectable private var startColor: UIColor? {didSet{setupGradientColors()}}
-    @IBInspectable private var endColor: UIColor? {didSet{setupGradientColors()}}
-    
-    @IBInspectable private var cornerRadius: CGFloat = 0 {
-        didSet{
-            setupCornerRadius()
-        }
-    }
-    @IBInspectable private var startPoint: CGPoint = CGPoint(x: 1, y: 0) {
-        didSet{
-            setupCornerRadius()
-        }
-    }
-    @IBInspectable private var endPoint: CGPoint = CGPoint(x: 0, y: 1) {
-        didSet{
-            setupGradient(startPioint: startPoint, endPoint: endPoint)
-        }
-    }
-    
-    override init(frame: CGRect){
-        super.init(frame: frame)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupGradient(startPioint: startPoint, endPoint: endPoint)
-    }
-    
-    
-    private func setupCornerRadius() {
-        gradientLayer.cornerRadius = cornerRadius
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.autoresizingMask = [.flexibleWidth, . flexibleHeight]
-        gradientLayer.frame = bounds
-    }
-    
-    // Для применения градиента нужно указать клас вьюхи в Сториборде
-    
-    private func setupGradient(startPioint: CGPoint, endPoint: CGPoint) {
-        self.layer.insertSublayer(gradientLayer, at: 0)
-        setupGradientColors()
-        gradientLayer.startPoint = startPoint
-        gradientLayer.endPoint = endPoint
-        
-        
-        
-        setupCornerRadius()
-        
-    }
-    
-    private func setupGradientColors() {
-        guard let startColor = startColor else {return}
-        guard let endColor = endColor else {return}
-        gradientLayer.colors = [startColor.cgColor, endColor.cgColor]
-        self.backgroundColor = .none
-    }
-    
-    
-}
-
 //MARK: NavigationBarSettings
-
 func setupNavigationController(_ controller: UINavigationController?) {
     guard let controller = controller else {
         print("Navigation is nill(setupNavigationController)")
@@ -406,9 +335,55 @@ extension UIImageView{
 }
 
 
-//MARK: Extension UIView (Animate)
+//MARK: - UIView
 extension UIView {
-    ///
+    func setGradient(view: UIView, startColor: UIColor, endColor: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
+        let gradientLayer: CAGradientLayer = {
+            let gradientView = CAGradientLayer()
+            let startColor = startColor
+            let endColor = endColor
+            let startPoint = startPoint
+            let endPoint = endPoint
+            
+            gradientView.colors = [startColor.cgColor,endColor.cgColor]
+            gradientView.backgroundColor = .none
+            gradientView.startPoint = startPoint
+            gradientView.endPoint = endPoint
+            
+            return gradientView
+        }()
+        gradientLayer.frame = view.bounds
+        view.layer.addSublayer(gradientLayer)
+        
+    }
+    func drawDash(radius: CGFloat, layer: CAShapeLayer) {
+        //Нужно чтобы слой не повторялся
+        self.layer.sublayers?.removeAll()
+      
+        layer.removeFromSuperlayer()
+        layer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
+        layer.frame = self.bounds
+        layer.fillColor = nil
+        layer.lineWidth = 2.5 // doubled since half will be clipped
+        layer.lineDashPattern = [15.0,4]
+        self.layer.addSublayer(layer)
+    }
+    func setLayerShadow(view: UIView, layer: CALayer) {
+        
+        layer.shadowOffset = CGSize(width: -2, height: -2)
+        layer.shadowColor = whiteThemeMainText.cgColor
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 6
+        view.layer.insertSublayer(layer, at: 0)
+    }
+    
+    func setShadow (view: UIView, size: CGSize, opacity: Float, radius: CGFloat, color: CGColor){
+        view.layer.shadowOffset = size
+        view.layer.shadowColor = color
+        view.layer.shadowOpacity = opacity
+        view.layer.shadowRadius = radius
+    }
+    // Animations
     func animateView(animatedView: UIView, parentView: UIView) {
         let background = parentView
         background.addSubview(animatedView)
@@ -450,41 +425,6 @@ extension UIView {
         maskLayer.path = path.cgPath
         view.layer.mask = maskLayer
     }
-}
-
-//MARK:     Extension for UIView
-extension UIView {
-    func setGradient(view: UIView, startColor: UIColor, endColor: UIColor, startPoint: CGPoint, endPoint: CGPoint) {
-        let gradientLayer: CAGradientLayer = {
-            let gradientView = CAGradientLayer()
-            let startColor = startColor
-            let endColor = endColor
-            let startPoint = startPoint
-            let endPoint = endPoint
-            
-            gradientView.colors = [startColor.cgColor,endColor.cgColor]
-            gradientView.backgroundColor = .none
-            gradientView.startPoint = startPoint
-            gradientView.endPoint = endPoint
-            
-            return gradientView
-        }()
-        gradientLayer.frame = view.bounds
-        view.layer.addSublayer(gradientLayer)
-        
-    }
-    func drawDash(radius: CGFloat, layer: CAShapeLayer) {
-        //Нужно чтобы слой не повторялся
-        self.layer.sublayers?.removeAll()
-      
-        layer.removeFromSuperlayer()
-        layer.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius).cgPath
-        layer.frame = self.bounds
-        layer.fillColor = nil
-        layer.lineWidth = 2.5 // doubled since half will be clipped
-        layer.lineDashPattern = [15.0,4]
-        self.layer.addSublayer(layer)
-    }
 //    func drawDash(radius: CGFloat, color: UIColor) {
 //        //Нужно чтобы слой не повторялся
 //        self.layer.sublayers?.removeAll()
@@ -509,40 +449,28 @@ extension UIViewController {
 }
 
 
-//MARK:     Color for UIImage
+// MARK: - UIImage
+extension UIImage {
+    func getNavigationImage(systemName: String, pointSize: CGFloat, weight: UIImage.SymbolWeight) -> UIImage {
+         guard let image = UIImage(systemName: systemName, withConfiguration: UIImage.SymbolConfiguration(pointSize: pointSize, weight: weight, scale: UIImage.SymbolScale(rawValue: 1)!)) else { return UIImage() }
+         return image
+     }
+    func myImageList(systemName: String) -> UIImage? {
+        guard let image = UIImage(systemName: systemName, withConfiguration: UIImage.SymbolConfiguration(weight: .thin )) else {
+            let image = UIImage(named: systemName)
+            
+            return image}
+        return image
+    }
+}
 
-//image changeColor
-
+//MARK:     UIImageView
 extension UIImageView {
     func setImageColor(color: UIColor) {
         let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
         self.image = templateImage
         self.tintColor = color
     }
-}
-//MARK:    Shadows
-
-extension UIView{
-    
-    func setLayerShadow(view: UIView, layer: CALayer) {
-        
-        layer.shadowOffset = CGSize(width: -2, height: -2)
-        layer.shadowColor = whiteThemeMainText.cgColor
-        layer.shadowOpacity = 1
-        layer.shadowRadius = 6
-        view.layer.insertSublayer(layer, at: 0)
-    }
-    
-    func setShadow (view: UIView, size: CGSize, opacity: Float, radius: CGFloat, color: CGColor){
-        view.layer.shadowOffset = size
-        view.layer.shadowColor = color
-        view.layer.shadowOpacity = opacity
-        view.layer.shadowRadius = radius
-    }
-}
-
-extension UIImageView {
-    
     func setImageShadow(image: UIImageView) {
         image.layer.shadowColor = whiteThemeMainText.cgColor
         image.layer.shadowRadius = 2.0
@@ -552,6 +480,7 @@ extension UIImageView {
         
     }
 }
+
 //MARK: Button settings
 extension UIButton{
     

@@ -49,7 +49,7 @@ class colors {
     var contrastColor1 = "0071E3"
     var contrastColor2 = "F42D2D"
     var redColor = "F9263D"
-    var greenColor = "02A10E"
+    var greenColor = "00BE7C"
     var yellowColor = "E8C511"
     
     var mainShadowColor = "000000"

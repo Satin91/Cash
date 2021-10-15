@@ -90,14 +90,14 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
             selectedAccountObject = withoutAccountObject
             accountLabel.text = selectedAccountObject?.name
             convertedSumLabel.isHidden = true // Скрывает конвертер чтобы не показывал ненужную конвертацию ( по умолчанию у withoutObject стоит ISO USD если нет главной валюты)
-            ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
+            returnToCenter.returnToCenterWithDelay(scrollView: self.scrollView)
             return}
         
         convertedSumLabel.isHidden = false // Возвращает видение если то было скрыто
         selectedAccountObject = object
         accountLabel.text = object.name
         self.observeConvertedSum()
-        ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
+        returnToCenter.returnToCenterWithDelay(scrollView: self.scrollView)
     }
    
 }

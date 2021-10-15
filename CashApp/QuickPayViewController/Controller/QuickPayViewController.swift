@@ -22,6 +22,9 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     @IBOutlet var cancelButtomOutlet: UIButton!
     let theme = ThemeManager2.currentTheme()
     let saveCategory = SaveCategory()
+    var navigationButtons: NavigationButtons!
+    var blurHeader = UIVisualEffectView(effect: UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark))
+    let returnToCenter = ReturnToCenterOfScrollView()
     var payObjectNameLabel: TitleLabel = {
         var label = TitleLabel()
         label.text = "ObjectNameError"
@@ -155,15 +158,9 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
     }
-    func createCancelButton() {
-        self.cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
-        cancelButton.addToScrollView(view: self.scrollView)
-        
-        
-        
-    }
+  
     
-    var blurHeader = UIVisualEffectView(effect: UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark))
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,10 +172,10 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         setupContainerView()
         setupTableView()
         setupScrollView()
-        createCancelButton()
+        setupCancelButton()
         checkPayObjectAndSetItsValue()
+        setupNavigationsButtons()
         createConstraints()
-        
     }
     
 //    func setupNavBar() {
@@ -190,6 +187,15 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
 //        navigationController?.navigationBar.scrollEdgeAppearance = appearance
 //    }
 //
+    deinit {
+        print("deinit QuickPayNavigationButtons")
+    }
+    func setupNavigationsButtons() {
+        navigationButtons = NavigationButtons(parentView: blurHeader.contentView)
+        navigationButtons.didTapped {
+            self.returnToCenter.returnToCenter(scrollView: self.scrollView)
+        }
+    }
     func setupScrollView() {
         scrollView.contentSize = CGSize(width: 1200, height: 0)
         scrollView.isScrollEnabled = false
@@ -209,7 +215,12 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
+    func setupCancelButton() {
+        self.cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
+        cancelButton.addToScrollView(view: self.scrollView)
+        cancelButton.backgroundColor = .clear
+        cancelButton.contentHorizontalAlignment = .right
+    }
     func setupContainerView(){
         numpadView.delegateAction = self
         containerView.addSubview(convertedSumLabel)
@@ -258,6 +269,8 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         scrollOffset = self.view.bounds.width
         scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
         self.blurHeader.frame = CGRect(x: 0, y: -navBarHeight, width: viewWidth * 3, height: navBarHeight)
+        self.navigationButtons.putOnView(.foward)
+        self.navigationButtons.putOnView(.backward)
         containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
         calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge * 6)
         calendar.layer.cornerCurve = .continuous
@@ -721,7 +734,7 @@ extension QuickPayViewController:  tappedButtons{
 extension QuickPayViewController: FSCalendarDelegate {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        ReturnToCenterOfScrollView.returnToCenter(scrollView: self.scrollView)
+        returnToCenter.returnToCenterWithDelay(scrollView: self.scrollView)
         self.date = date
         dateLabel.text = dateToString(date: date)
     }

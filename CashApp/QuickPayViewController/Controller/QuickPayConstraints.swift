@@ -45,7 +45,7 @@ extension QuickPayViewController {
 
             cancelButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
             cancelButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: heightConstraintForCancelButton),
-            cancelButton.widthAnchor.constraint(equalToConstant: self.cancelButton.bounds.width ),
+            cancelButton.widthAnchor.constraint(equalToConstant: 120 ),
            
             sumTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -sideLayout),
             sumTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: sideLayout),

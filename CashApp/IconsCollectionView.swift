@@ -26,7 +26,7 @@ class IconsCollectionView: UIViewController ,UICollectionViewDelegate,UICollecti
     var selectedImageName = "card"
     
     let cancelButton = UIButton()
-  
+   
 
     
     override func viewDidLoad() {
@@ -37,14 +37,13 @@ class IconsCollectionView: UIViewController ,UICollectionViewDelegate,UICollecti
     }
 
     func setupCollectionView(){
-        collectionView = UICollectionView(frame: self.view.bounds,collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.backgroundColor = .clear
-        
+        collectionView = UICollectionView(frame: .zero,collectionViewLayout: UICollectionViewFlowLayout())
         self.view.addSubview(collectionView)
-        self.view.layer.cornerRadius = 0.5
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        initConstraints(view: self.collectionView, to: self.view)
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
-        self.view.addSubview(collectionView)
         let nib = UINib(nibName: "AddCollectionViewCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "addCell")
     }
@@ -90,18 +89,18 @@ class IconsCollectionView: UIViewController ,UICollectionViewDelegate,UICollecti
     
     //                  UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+        let sideInset: CGFloat = 26
         let itemsPerRow: CGFloat = 4
         let paddingWidth = 10 * (itemsPerRow + 1)
-        let availableWidth = collectionView.frame.width - paddingWidth
+        let availableWidth = collectionView.bounds.width - paddingWidth - (sideInset * 2)
         let widthPerItem = availableWidth / itemsPerRow
         return CGSize(width: widthPerItem, height: widthPerItem)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets{
-        return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        return UIEdgeInsets(top: 20, left: 26, bottom: 20, right: 26)
     }
-    
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
         return 17
@@ -140,12 +139,6 @@ class IconsCollectionView: UIViewController ,UICollectionViewDelegate,UICollecti
         return cell
     }
 }
-extension UIImage {
-    func myImageList(systemName: String) -> UIImage? {
-        guard let image = UIImage(systemName: systemName, withConfiguration: UIImage.SymbolConfiguration(weight: .thin )) else {
-            let image = UIImage(named: systemName)
-            
-            return image}
-        return image
-    }
-}
+
+    
+

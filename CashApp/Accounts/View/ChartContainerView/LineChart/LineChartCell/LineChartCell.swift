@@ -17,29 +17,39 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
     @IBOutlet var textView: UITextView!
     var lineChartView = ChartView()
     
-    
+    @IBOutlet var nextMonthImage: UIImageView!
+    @IBOutlet var previousMonthImage: UIImageView!
+    func setupImages() {
+        nextMonthImage.setImageColor(color: colors.titleTextColor)
+        previousMonthImage.setImageColor(color: colors.titleTextColor)
+    }
     func chartVisualSettings(chartDataSet: LineChartDataSet) {
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.circleRadius = 3
         chartDataSet.drawCircleHoleEnabled = false
         chartDataSet.setCircleColor(colors.contrastColor1)
         chartDataSet.lineWidth = 2.5
-        chartDataSet.setColor(colors.contrastColor2)
+        chartDataSet.setColor(colors.redColor)
         chartDataSet.mode = .cubicBezier
         chartDataSet.drawValuesEnabled = false
         chartDataSet.lineCapType = .square
         chartDataSet.drawHorizontalHighlightIndicatorEnabled = false
-        chartDataSet.highlightLineWidth = 3
-        chartDataSet.highlightColor = colors.subtitleTextColor
+        chartDataSet.highlightLineWidth = 2
+        chartDataSet.highlightColor = colors.borderColor.withAlphaComponent(0.7)
+        //chartDataSet.fillFormatter = .
         //chartDataSet.highlightLineDashPhase = CGFloat(4)
+       // chartDataSet.drawFilledEnabled = true
         chartDataSet.highlightLineDashLengths = [6,6]
     }
-    
+    func showAndHideNavigationImages() {
+        
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         colors.loadColors()
         self.setColors()
+        setupImages()
         chartSize.addSubview(lineChartView)
         //initConstraints(view: lineChartView, to: chartSize)
         chartSize.addSubview(lineChartView)
@@ -63,16 +73,14 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
         super.layoutSubviews()
         createConstraints()
     }
+    
     func setupChartView() {
-        
         lineChartView.rightAxis.enabled = false
         lineChartView.leftAxis.labelFont = .systemFont(ofSize: 17, weight: .light)
         lineChartView.leftAxis.labelCount = 2
         lineChartView.delegate = self
         lineChartView.highlightValue(x: 50, dataSetIndex: 20)
         lineChartView.setScaleEnabled(false)
-        
-        
         let gestureRecognozer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         lineChartView.addGestureRecognizer(gestureRecognozer)
     }
@@ -110,13 +118,9 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
    
     func cellVisualSettings() {
        
-        monthLabel.font = .systemFont(ofSize: 26)
-        
-       
+        monthLabel.font = .systemFont(ofSize: 28, weight: .medium)
         self.layer.cornerRadius = 25
         self.layer.cornerCurve = .continuous
-       
-
         textView.textAlignment = .center
         textView.font = .systemFont(ofSize: 17)
         self.layer.masksToBounds = false
@@ -206,7 +210,7 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
             lineChartView.data = chartData
             lineChartView.legend.enabled = false
             textView.isHidden = true
-            monthLabel.text = formatter.string(from: element.date)
+            monthLabel.text = formatter.string(from: element.date).capitalizingFirstLetter()
          
         }
        
@@ -221,4 +225,12 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
 //        element.lineWidth = 2
 //    }
 }
+extension String {
+    func capitalizingFirstLetter() -> String {
+      return prefix(1).uppercased() + self.lowercased().dropFirst()
+    }
 
+    mutating func capitalizeFirstLetter() {
+      self = self.capitalizingFirstLetter()
+    }
+}

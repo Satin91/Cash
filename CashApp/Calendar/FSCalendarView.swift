@@ -82,7 +82,6 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
          self.scrollDirection = .vertical
         self.setColors() // Устанавливает цвета из расширения в ThemableViews
         self.firstWeekday = 2
-        
         self.appearance.headerMinimumDissolvedAlpha = 0
         self.placeholderType = .none
         
@@ -93,13 +92,4 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
 //    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderRadiusFor date: Date) -> CGFloat {
 //        return 0.1
 //    }
-}
-extension String {
-    func capitalizingFirstLetter() -> String {
-      return prefix(1).uppercased() + self.lowercased().dropFirst()
-    }
-
-    mutating func capitalizeFirstLetter() {
-      self = self.capitalizingFirstLetter()
-    }
 }

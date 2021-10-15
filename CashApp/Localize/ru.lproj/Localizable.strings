@@ -91,7 +91,6 @@
 "heading_label_text" = "Добавить новый счет";
 "name_text_field_placeholder" = "Имя";
 "balance_text_field_placeholder" = "Баланс";
-"save_button" = "Создать";
 
 //MARK: - Quick Pay View Controller
 "without_Account" = "Без счета";
@@ -108,6 +107,8 @@
 "create_button"   = "Создать";
 "save_button"     = "Сохранить";
 "my_account"      = "Мой счет";
+"back_button"     = "Назад";
+"cancel_button"   = "Отмена";
 
 //MARK: - Pop Up Table View
 "pop_edit_name_label" = "Изменить";

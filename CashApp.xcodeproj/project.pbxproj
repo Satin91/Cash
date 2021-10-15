@@ -138,6 +138,7 @@
 		75A7414126E4A03A00A9C586 /* EditingButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7414026E4A03A00A9C586 /* EditingButtons.swift */; };
 		75A7414326E4A64000A9C586 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7414226E4A64000A9C586 /* Blur.swift */; };
 		75A9D8EA26EEA6160074DF03 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A9D8E926EEA6160074DF03 /* BarChartViewController.swift */; };
+		75AD0FA52718D11B00C01870 /* NavigationButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AD0FA42718D11B00C01870 /* NavigationButtons.swift */; };
 		75AD2A082669E72600F6880B /* CurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AD2A072669E72600F6880B /* CurrencyViewController.swift */; };
 		75AD2A0B266A006C00F6880B /* CurrencyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */; };
 		75AE325125239E30004422F4 /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE325025239E30004422F4 /* AccountsViewController.swift */; };
@@ -331,6 +332,7 @@
 		75A7414026E4A03A00A9C586 /* EditingButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingButtons.swift; sourceTree = "<group>"; };
 		75A7414226E4A64000A9C586 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		75A9D8E926EEA6160074DF03 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
+		75AD0FA42718D11B00C01870 /* NavigationButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButtons.swift; sourceTree = "<group>"; };
 		75AD2A072669E72600F6880B /* CurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyViewController.swift; sourceTree = "<group>"; };
 		75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyTableViewCell.xib; sourceTree = "<group>"; };
 		75AE325025239E30004422F4 /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 			isa = PBXGroup;
 			children = (
 				75309CE626ED27EA0093AFF3 /* UIElements */,
+				7586F1AB26F08BE900391615 /* SetupNavigationBar.swift */,
 				7529F98D267493EE00087F46 /* ThemeManager2.swift */,
 				75FD0FD326EB40B300BB0F6B /* ThemeManager.swift */,
 				75309CF226ED38C80093AFF3 /* AppColors.swift */,
@@ -524,8 +527,8 @@
 		75309CE626ED27EA0093AFF3 /* UIElements */ = {
 			isa = PBXGroup;
 			children = (
-				7586F1AB26F08BE900391615 /* SetupNavigationBar.swift */,
 				7553915426EE6BCB00F9C825 /* CancelButton.swift */,
+				75AD0FA42718D11B00C01870 /* NavigationButtons.swift */,
 				75309CE426ED26BD0093AFF3 /* SeparatorView.swift */,
 				754D40A42701D8F4000DAF15 /* LockView.swift */,
 			);
@@ -905,10 +908,7 @@
 		757E4B5E25E0042100D8A7F7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7537E57F25DEF0730019768C /* QuickTableView.swift */,
-				75C328F52571A12100E9CAD4 /* QuickTableViewCell.xib */,
-				757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */,
-				750191D5271746E000B77696 /* WithoutAccountTableViewCell.swift */,
+				75AD0FA62718D12900C01870 /* TableView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1022,6 +1022,17 @@
 				75BA487C26EF31BE0018CE78 /* BarChartModel */,
 			);
 			path = "Bar chart";
+			sourceTree = "<group>";
+		};
+		75AD0FA62718D12900C01870 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				7537E57F25DEF0730019768C /* QuickTableView.swift */,
+				75C328F52571A12100E9CAD4 /* QuickTableViewCell.xib */,
+				757E4B5A25E003E100D8A7F7 /* QuickTableVIewCell.swift */,
+				750191D5271746E000B77696 /* WithoutAccountTableViewCell.swift */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 		75AD2A092669EA5A00F6880B /* Currency */ = {
@@ -1444,6 +1455,7 @@
 				751425B126F253270036C5F8 /* SchedulerNavBarSetup.swift in Sources */,
 				7553914926EE589000F9C825 /* CurrencyTableViewCell.swift in Sources */,
 				75BA487B26EF04A40018CE78 /* BarChartModelController.swift in Sources */,
+				75AD0FA52718D11B00C01870 /* NavigationButtons.swift in Sources */,
 				756821FA26F2A97700AE5ABD /* MenuTableViewSetup.swift in Sources */,
 				753B089D270F0D6100372A35 /* ThemeUserDefaults.swift in Sources */,
 				754EE23C26E00EFC00B66B5A /* NetworkMonitor.swift in Sources */,

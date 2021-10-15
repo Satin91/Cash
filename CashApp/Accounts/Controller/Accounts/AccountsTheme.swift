@@ -13,16 +13,37 @@ extension AccountsViewController {
     func setColors(){
         accountsCollectionView.backgroundColor = .clear
         self.view.backgroundColor = colors.backgroundcolor
-        sendReceiveButtonsSetup(buttons: [receiveButtonOutlet,sendButtonOutlet])
+       // sendReceiveButtonsSetup(buttons: [receiveButtonOutlet,sendButtonOutlet])
+        
+        sendButtonOutlet.setImage(UIImage().getNavigationImage(systemName: "arrowtriangle.up.square.fill", pointSize: 26, weight: .light), for: .normal)
+        sendButtonOutlet.tintColor = colors.titleTextColor
+     
+        
+        receiveButtonColorSettings()
+        sendButtonColorSettings()
+    }
+   private func receiveButtonColorSettings() {
+        
+        receiveButtonOutlet.backgroundColor = colors.contrastColor1
+        receiveButtonOutlet.setTitleColor(colors.secondaryBackgroundColor, for: .normal)
+        receiveButtonOutlet.layer.cornerRadius = 14
+        receiveButtonOutlet.layer.cornerCurve = .continuous
+        receiveButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
+       
+       receiveButtonOutlet.setImage(UIImage().getNavigationImage(systemName: "arrowtriangle.down.square.fill", pointSize: 26, weight: .light), for: .normal)
+       receiveButtonOutlet.tintColor = colors.secondaryBackgroundColor
+    }
+    private func sendButtonColorSettings() {
+        sendButtonOutlet.backgroundColor = colors.secondaryBackgroundColor
+        sendButtonOutlet.setTitleColor(colors.titleTextColor, for: .normal)
+        sendButtonOutlet.layer.cornerRadius = 14
+        sendButtonOutlet.layer.cornerCurve = .continuous
+        sendButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
     }
     
     func sendReceiveButtonsSetup(buttons: [UIButton]) {
         buttons.forEach { button in
-            button.backgroundColor = colors.titleTextColor
-            button.setTitleColor(colors.secondaryBackgroundColor, for: .normal)
-            button.layer.cornerRadius = 14
-            button.layer.cornerCurve = .continuous
-            button.layer.setSmallShadow(color: colors.shadowColor)
+            
         }
         
     }

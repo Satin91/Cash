@@ -9,7 +9,6 @@
 import UIKit
 
 class NumberTextField: ThemableTextField,UITextFieldDelegate {
-
     var enteredSum = "0"
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,14 +20,16 @@ class NumberTextField: ThemableTextField,UITextFieldDelegate {
     var button = UIButton(type: .custom)
     
     func createRightButton(text: String) {
-        button.setImage(UIImage(named: "send.png"), for: .normal)
+        button.setImage(UIImage().getNavigationImage(systemName: "triangle.fill", pointSize: 18, weight: .regular), for: .normal)
+        button.tintColor = colors.subtitleTextColor
+        
         button.setTitle(text, for: .normal)
-        button.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
-        button.setTitleColor(ThemeManager2.currentTheme().borderColor, for: .normal)
+        button.semanticContentAttribute = .forceLeftToRight
+        button.setTitleColor(colors.borderColor, for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -17, bottom: 0, right: 0)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
           
-            button.frame = CGRect(x: CGFloat(super.frame.size.width - 40), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
+        button.frame = CGRect(x: CGFloat(super.frame.size.width - 40), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
         self.rightView = button
         self.rightViewMode = .always
             
