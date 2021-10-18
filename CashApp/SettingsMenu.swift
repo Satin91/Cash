@@ -14,16 +14,16 @@ protocol OpenSubscriptionManagerController {
 class SettingsMenu: UIView {
     let colors = AppColors()
     var tableView: UITableView!
-    let visualEffect = UIVisualEffectView(effect: UIBlurEffect(style:Themer.shared.theme == .dark ? .systemUltraThinMaterialDark : .systemUltraThinMaterialLight ))
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style:Themer.shared.theme == .dark ? .systemUltraThinMaterialDark : .systemUltraThinMaterialLight ))
     let isActiveSubscription = UserDefaults.standard.bool(forKey: "isAvailable") // Проверяет активность подписки
     let notificationsTheDayBeforeIsOn = UserDefaults.standard.bool(forKey: "isOnNotifications") //
     var originPoint: CGPoint!
     weak var parentView: UIView!
     var subscriptionDelegate: OpenSubscriptionManagerController!
-    var toggle: Bool = Themer.shared.theme == .light ? true : false {
+    var themeToggle: Bool = Themer.shared.theme == .light ? true : false {
         didSet {
             UIView.animate(withDuration: 0.1) {
-                Themer.shared.theme = self.toggle ? .light : .dark
+                Themer.shared.theme = self.themeToggle ? .light : .dark
             }
         }
         willSet{
@@ -40,9 +40,10 @@ class SettingsMenu: UIView {
         colors.loadColors()
         self.parentView = parentView
         self.originPoint = originPoint
-        visualEffect.frame = parentView.bounds
-        parentView.addSubview(visualEffect)
-        visualEffect.alpha = 0
+        blurView.frame = parentView.bounds
+        parentView.addSubview(blurView)
+        blurView.alpha = 0
+        
         Themer.shared.register(target: self, action: SettingsMenu.theme(_:))
         tableView = UITableView(frame: self.bounds)
         self.addSubview(tableView)
@@ -52,6 +53,17 @@ class SettingsMenu: UIView {
         self.layer.cornerCurve = .continuous
         self.layer.masksToBounds = false
         self.clipsToBounds = false
+        createGestureToBlur()
+    }
+    func createGestureToBlur() {
+        let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedBlurView))
+        gesture.numberOfTapsRequired = 1
+        self.blurView.isUserInteractionEnabled = true
+        blurView.addGestureRecognizer(gesture)
+    }
+    var isShow = true // Местный тогл который способствует закрытию настроект по тапу на блюр
+    @objc func tappedBlurView() {
+        openOrCloseSettingsMenu(isTappedMenuAnyTime: &isShow)
     }
     
     deinit{
@@ -221,7 +233,7 @@ extension SettingsMenu: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            self.toggle.toggle()
+            self.themeToggle.toggle()
             tableView.reloadData()
         case 1:
             changeNotificationsTheDayBeforeIsOn()

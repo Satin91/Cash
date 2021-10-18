@@ -15,30 +15,30 @@ extension AccountsViewController {
         self.view.backgroundColor = colors.backgroundcolor
        // sendReceiveButtonsSetup(buttons: [receiveButtonOutlet,sendButtonOutlet])
         
-        sendButtonOutlet.setImage(UIImage().getNavigationImage(systemName: "arrowtriangle.up.square.fill", pointSize: 26, weight: .light), for: .normal)
-        sendButtonOutlet.tintColor = colors.titleTextColor
-     
         
+     
+        transferButtonsSetup(buttons: [sendButtonOutlet,receiveButtonOutlet])
         receiveButtonColorSettings()
         sendButtonColorSettings()
     }
+    func transferButtonsSetup(buttons: [UIButton]) {
+        buttons.forEach { btn in
+            btn.backgroundColor = colors.secondaryBackgroundColor
+            btn.setTitleColor(colors.titleTextColor, for: .normal)
+            btn.layer.cornerRadius = (btn.bounds.height * 0.38) * 0.62
+            btn.layer.cornerCurve = .continuous
+            btn.layer.setSmallShadow(color: colors.shadowColor)
+        }
+    }
    private func receiveButtonColorSettings() {
-        
-        receiveButtonOutlet.backgroundColor = colors.contrastColor1
-        receiveButtonOutlet.setTitleColor(colors.secondaryBackgroundColor, for: .normal)
-        receiveButtonOutlet.layer.cornerRadius = 14
-        receiveButtonOutlet.layer.cornerCurve = .continuous
-        receiveButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
-       
-       receiveButtonOutlet.setImage(UIImage().getNavigationImage(systemName: "arrowtriangle.down.square.fill", pointSize: 26, weight: .light), for: .normal)
-       receiveButtonOutlet.tintColor = colors.secondaryBackgroundColor
+       receiveButtonOutlet.setImage(UIImage().getNavigationImage(systemName: "arrow.down.circle.fill", pointSize: 28, weight: .regular), for: .normal)
+       receiveButtonOutlet.setTitle("", for: .normal)
+       receiveButtonOutlet.tintColor = colors.contrastColor1
     }
     private func sendButtonColorSettings() {
-        sendButtonOutlet.backgroundColor = colors.secondaryBackgroundColor
-        sendButtonOutlet.setTitleColor(colors.titleTextColor, for: .normal)
-        sendButtonOutlet.layer.cornerRadius = 14
-        sendButtonOutlet.layer.cornerCurve = .continuous
-        sendButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
+        sendButtonOutlet.setImage(UIImage().getNavigationImage(systemName: "arrow.up.circle.fill", pointSize: 28, weight: .regular), for: .normal)
+        sendButtonOutlet.tintColor = colors.redColor
+        sendButtonOutlet.setTitle(" Отправить", for: .normal)
     }
     
     func sendReceiveButtonsSetup(buttons: [UIButton]) {

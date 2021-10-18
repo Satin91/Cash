@@ -47,4 +47,15 @@ extension ThemableTextField {
         shadowLayer.cornerCurve = .continuous
         self.layer.insertSublayer(shadowLayer, at: 0)
     }
+    func searchTheme(fillColor: UIColor, shadowColor: UIColor) {
+        self.borderStyle = .none
+        self.layer.cornerRadius = 8
+        self.layer.cornerCurve = .continuous
+        //self.layer.borderWidth = 1
+        self.font = .systemFont(ofSize: 17, weight: .regular)
+        self.textAlignment = .left
+        self.clipsToBounds = true
+        self.layer.masksToBounds = false
+        self.backgroundColor = fillColor
+    }
 }

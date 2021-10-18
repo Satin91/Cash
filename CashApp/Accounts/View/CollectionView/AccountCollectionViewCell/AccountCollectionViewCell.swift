@@ -16,6 +16,7 @@ class AccountCollectionViewCell: UICollectionViewCell {
     var separatorView = AccountCellSeparatorView(frame: .zero)
     var closure: ((Bool) -> Void)?
     lazy var advancedMethods = AccountCellAdvanced(label: isMainAccountLabel)
+    var editButtonImage: UIImageView!
     @IBOutlet weak var editButtonOutlet: UIButton!
     @IBOutlet var cellBackground: UIView!
     @IBOutlet var nameTextField: UITextField!
@@ -65,14 +66,16 @@ class AccountCollectionViewCell: UICollectionViewCell {
         balanceTextField.text = accountObject.balance.currencyFormatter(ISO: accountObject.currencyISO)
         advancedMethods.disableUnderLine(textField: nameTextField)
         advancedMethods.disableUnderLine(textField: balanceTextField)
-        editButtonOutlet.backgroundColor = colors.titleTextColor
+     //   editButtonOutlet.backgroundColor = colors.blackColor
+        disableConfiguration()
     }
     func setForEnableEditing() {
         nameTextField.text = accountObject.name
         balanceTextField.text = String(Double(accountObject.balance).formattedWithSeparator.replacingOccurrences(of: ".", with: ","))
         advancedMethods.enableUnderLine(textField: nameTextField)
         advancedMethods.enableUnderLine(textField: balanceTextField)
-        editButtonOutlet.backgroundColor = colors.contrastColor1
+        enableConfiguration()
+      //  editButtonOutlet.backgroundColor = colors.whiteColor.withAlphaComponent(0.5)
     }
     func lock(_ isLock: Bool) {
         lockView.lock(!isLock)
@@ -92,17 +95,15 @@ class AccountCollectionViewCell: UICollectionViewCell {
         self.lockView = LockView(frame: .zero)
         colors.loadColors()
         visualSettings()
+        setupAccountsImageView()
         constraintsForSeparator()
-        cellBackground.insertSubview(accountsImageView, at: 0)
-        initConstraints(view: accountsImageView, to: cellBackground)
         nameTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
         balanceTextField.addTarget(self, action: #selector(didEndEditing(_:)), for: .editingChanged)
         nameTextField.delegate = self
-        
         NotificationCenter.default.addObserver(self, selector: #selector(receive), name: NSNotification.Name(rawValue: "IsEnabledTextField"), object: nil)
     }
     func constraintsForSeparator() {
-        self.addSubview(separatorView)
+        accountsImageView.addSubview(separatorView)
         
         self.separatorView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -111,7 +112,6 @@ class AccountCollectionViewCell: UICollectionViewCell {
             self.separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.separatorView.topAnchor.constraint(equalTo: self.balanceTextField.topAnchor,constant: -8)
         ])
-        
     }
     
     func changeIsMainAccountLabelVisibility() {
@@ -126,34 +126,30 @@ class AccountCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    
     func setColors() {
-        editButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
-        editButtonOutlet.setImageTintColor(colors.backgroundcolor, imageName: "Edit")
-        self.layer.setMiddleShadow(color: colors.shadowColor)
+        
         balanceTextField.textColor = .white
     }
     override func layoutSubviews() {
         super.layoutSubviews()
         self.lockView.addLock(to: self, lockSize: .plan)
     }
-    
+  
+
     func visualSettings() {
         self.setColors()
-       
+        self.layer.setSmallShadow(color: colors.shadowColor)
         balanceTextField.updateTextColor = false
         changeTFPropherties(textField: nameTextField)
         changeTFPropherties(textField: balanceTextField)
-        editButtonOutlet.setImage(UIImage(named: "Edit"), for: .normal)
-        editButtonOutlet.layer.cornerRadius = 12
-        editButtonOutlet.layer.setSmallShadow(color: colors.shadowColor)
-       
-       
-        //accountsImageView.layer.masksToBounds = false
-        accountsImageView = UIImageView(frame: self.bounds)
+        // Button conf
+        baseConfiguration()
         self.layer.cornerRadius = 22
         self.layer.cornerCurve = .continuous
         
-        balanceTextField.font = UIFont(name: "Ubuntu-Bold",size: 34)
+        self.balanceTextField.font = UIFont(name: "Ubuntu-Bold",size: 34)
+        self.nameTextField.font = .systemFont(ofSize: 34, weight: .bold)
         self.isMainAccountLabel.text = "● Главный счет"
         self.isMainAccountLabel.textColor = colors.whiteColor
         self.backgroundColor = .clear
@@ -162,9 +158,16 @@ class AccountCollectionViewCell: UICollectionViewCell {
         self.cellBackground.clipsToBounds = false
         self.cellBackground.layer.masksToBounds = false
         self.clipsToBounds = true
-        self.layer.masksToBounds = true
-        self.contentView.clipsToBounds = false
-        self.contentView.layer.masksToBounds = false
+        self.layer.masksToBounds = false
+        
+    }
+    func setupAccountsImageView() {
+        self.accountsImageView = UIImageView(frame: self.bounds)
+        cellBackground.insertSubview(accountsImageView, at: 0)
+        initConstraints(view: accountsImageView, to: cellBackground)
+        self.accountsImageView.clipsToBounds = true
+        self.accountsImageView.layer.cornerRadius = 22
+        self.accountsImageView.layer.cornerCurve = .continuous
     }
     
     func changeTFPropherties(textField: UITextField) {

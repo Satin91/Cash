@@ -49,7 +49,7 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
         case .regular:
             self.headerHeight = self.bounds.height / 5
             self.appearance.headerTitleAlignment = .left
-            self.appearance.headerTitleFont = .systemFont(ofSize: 54, weight: .semibold)
+            self.appearance.headerTitleFont = .systemFont(ofSize: 46, weight: .semibold)
             self.appearance.titleFont = .systemFont(ofSize: 17, weight: .medium)
             
             

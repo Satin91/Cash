@@ -12,8 +12,7 @@ extension AddCurrencyTableViewController {
     
     
     func setColors(){
-        
-        searchController.searchBar.tintColor = ThemeManager2.currentTheme().borderColor
         tableView.backgroundColor = colors.backgroundcolor
+        
     }
 }

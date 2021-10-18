@@ -51,7 +51,7 @@ class colors {
     var redColor = "F9263D"
     var greenColor = "00BE7C"
     var yellowColor = "E8C511"
-    
+    var blackColor = "272E35"
     var mainShadowColor = "000000"
     var buttonShadowColor = ""
     var separatorColor = "F3F3F6"

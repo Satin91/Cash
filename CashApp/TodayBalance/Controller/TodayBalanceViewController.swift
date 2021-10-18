@@ -117,7 +117,7 @@ class TodayBalanceViewController: UIViewController {
         getSchedulersToTableView()
         createConstraints()
     }
-    
+ 
     //MARK: - GETSCHEDULERS TO TABLE VIEW
     func getSchedulersToTableView(){
         // var schedulerArray: [MonetaryScheduler] = []

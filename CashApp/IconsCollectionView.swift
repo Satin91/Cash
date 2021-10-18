@@ -74,7 +74,7 @@ class IconsCollectionView: UIViewController ,UICollectionViewDelegate,UICollecti
     let workIcons = ["office.c","working.c","workTime.c"]
     
     
-    lazy var totalIconsArray = [transportIcons,healthIcons,electronicsIcons,buildingIcons,gameIcons,knowledgeIcons,billsIcons,musicIcons,repairIcons,entertaimentIcons,restIcons,animalIcons,shoppingIcons,beautyIcons,foodIcons,giftIcons,insuranceIcons]
+    lazy var totalIconsArray = [transportIcons,healthIcons,electronicsIcons,buildingIcons,gameIcons,knowledgeIcons,billsIcons,musicIcons,repairIcons,entertaimentIcons,restIcons,animalIcons,shoppingIcons,clothers,beautyIcons,foodIcons,giftIcons,insuranceIcons,flowersIcons,loveIcons,childrenIcons,encouragementIcons,workIcons]
     private func enumeratedIconsNames(_ array: [[String]]) -> [String] {
         var names: [String] = []
         for values in array {

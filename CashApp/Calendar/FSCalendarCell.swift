@@ -41,6 +41,7 @@ class DIYFSCalendarCell: FSCalendarCell{
         self.backgroundView?.backgroundColor = themeBackgroundColor
        // self.eventView.isHidden = true
         self.selectionLayer.isHidden = true
+        
     }
     override init!(frame: CGRect) {
         super.init(frame: frame)
@@ -58,8 +59,9 @@ class DIYFSCalendarCell: FSCalendarCell{
         //createEventView(toView: contentView)
         self.backgroundView = contentView
         self.backgroundView?.insertSubview(eventView, at: 10)
+        setSelectionLayer()
     }
-    
+ 
     func setStyle(cellStyle: CellStyle) {
         switch cellStyle {
         case .DIYCalendar :
@@ -68,8 +70,6 @@ class DIYFSCalendarCell: FSCalendarCell{
             
         case .defaultCalendar:
             backgroundView?.backgroundColor = self.themeSecondaryBackgroundColor.withAlphaComponent(0.8)
-            
-            
         }
     }
     let duration = 1
@@ -86,8 +86,7 @@ class DIYFSCalendarCell: FSCalendarCell{
         self.eventView.backgroundColor = contrastColor
         
     }
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    func setSelectionLayer() {
         
         let selectionInset: CGFloat = 6
         let radius: CGFloat = 16
@@ -114,6 +113,10 @@ class DIYFSCalendarCell: FSCalendarCell{
         }
         createEventView(toView: self.backgroundView!)
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setSelectionLayer()
+    }
     required init!(coder aDecoder: NSCoder!) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -130,7 +133,7 @@ class DIYFSCalendarCell: FSCalendarCell{
 extension DIYFSCalendarCell {
     func theme(_ theme: MyTheme) {
         self.themeBackgroundColor = theme.settings.backgroundColor
-        self.selectionBackgroundColor = theme.settings.contrastColor1
+        self.selectionBackgroundColor = theme.settings.titleTextColor
         self.themeSecondaryBackgroundColor = theme.settings.secondaryBackgroundColor
         self.contrastColor = theme.settings.contrastColor1
         self.borderColor = theme.settings.borderColor

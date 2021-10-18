@@ -22,7 +22,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     @IBOutlet var cancelButtomOutlet: UIButton!
     let theme = ThemeManager2.currentTheme()
     let saveCategory = SaveCategory()
-    var navigationButtons: NavigationButtons!
+    var navigationButtons: QuickPayNavigationButtons!
     var blurHeader = UIVisualEffectView(effect: UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark))
     let returnToCenter = ReturnToCenterOfScrollView()
     var payObjectNameLabel: TitleLabel = {
@@ -191,7 +191,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         print("deinit QuickPayNavigationButtons")
     }
     func setupNavigationsButtons() {
-        navigationButtons = NavigationButtons(parentView: blurHeader.contentView)
+        navigationButtons = QuickPayNavigationButtons(parentView: blurHeader.contentView)
         navigationButtons.didTapped {
             self.returnToCenter.returnToCenter(scrollView: self.scrollView)
         }
@@ -286,7 +286,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         switch payObject {
         case is MonetaryCategory:
             let object = payObject as! MonetaryCategory
-            //self.convertedSumLabel.alpha = 0 // Пришлось скрыть таким образом, чтобы в tableView did select row он опять показывается
+            self.convertedSumLabel.alpha = 0 // Пришлось скрыть таким образом, чтобы в tableView did select row он опять показывается
             payObjectNameLabel.text = object.name
         case is MonetaryScheduler:
             let object = payObject as! MonetaryScheduler
@@ -316,6 +316,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
                 if object.accountID == "NO ACCOUNT" {
                     selectedAccountObject = withoutAccountObject
                     accountLabel.text = withoutAccountObject.name
+                    
                 } else {
                     for i in EnumeratedAccounts(array: accountsGroup) {
                         if i.accountID == object.accountID {
@@ -325,7 +326,9 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
                 }
             }
         case is TransferModel:
+            let object = payObject as! TransferModel
             selectedAccountObject = withoutAccountObject
+            payObjectNameLabel.text = object.account.name
         default:
             break
         }

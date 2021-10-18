@@ -17,21 +17,22 @@ class AccountCellSeparatorView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         colors.loadColors()
-        self.backgroundColor = colors.whiteColor.withAlphaComponent(0.08)
+        self.backgroundColor = colors.whiteColor.withAlphaComponent(0.25)
         self.lineView = UIView(frame: .zero)
         self.isUserInteractionEnabled = false
         self.lineView.isUserInteractionEnabled = false
         self.addSubview(lineView)
     }
     func createGradient(line: UIView){
-        let leftColor = colors.whiteColor.withAlphaComponent(0.1)
-        let rightColor = colors.whiteColor.withAlphaComponent(0.35)
+        let rightColor = colors.whiteColor.withAlphaComponent(0.1)
+        let leftColor = colors.whiteColor.withAlphaComponent(0.45)
          
         self.gradientLayer = CAGradientLayer()
         self.gradientLayer.type = .axial
-        self.gradientLayer.colors = [leftColor.cgColor,rightColor.cgColor]
-        self.gradientLayer.startPoint = CGPoint(x: 0, y: 1)
-        self.gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        self.gradientLayer.colors = [rightColor.cgColor,leftColor.cgColor]
+        self.gradientLayer.startPoint = CGPoint(x: 1, y: 1)
+        self.gradientLayer.endPoint = CGPoint (x: 0, y: 1)
+       
         self.gradientLayer.frame = line.bounds
         line.layer.addSublayer(gradientLayer)
     }
@@ -44,7 +45,7 @@ class AccountCellSeparatorView: UIView {
             lineView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             lineView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             lineView.topAnchor.constraint(equalTo: self.topAnchor),
-            lineView.heightAnchor.constraint(equalToConstant: 3)
+            lineView.heightAnchor.constraint(equalToConstant: 2)
         ])
         createGradient(line: lineView)
     }

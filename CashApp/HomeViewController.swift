@@ -17,7 +17,7 @@ class HomeViewController: UIViewController  {
     var miniAlert: MiniAlertView!
     let navBar = setupNavigationBar()
     var settingsMenu: SettingsMenu!
-    
+    var navBarItems: NavigationBarButtons!
     var blur = UIVisualEffectView(effect: UIBlurEffect(style: Themer.shared.theme == .dark ? .systemThinMaterialDark : .systemUltraThinMaterialLight))
     @IBAction func settingsButtonAction(_ sender: UIBarButtonItem) {
         miniAlert.showMiniAlert(message: "Тема поменялась", alertStyle: .success)
@@ -40,13 +40,13 @@ class HomeViewController: UIViewController  {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        setupBarButtons()
+
         miniAlert = MiniAlertView.loadFromNib()
         miniAlert.controller = self
         
         getCurrenciesByPriorities()//Обновить данные об изменении главной валюты
         // setTotalBalance() //Назначить сумму
-        setRightBarButton()
         tableView.enterHistoryData() // Обновление данных истории
         tableView.reloadData()
      //   self.reloadInputViews()
@@ -71,17 +71,26 @@ class HomeViewController: UIViewController  {
         Themer.shared.register(target: self, action: HomeViewController.theme(_:))
         //notifications.sendNotifications()
         installHeaderView()
-        setRightBarButton()
-        setLeftBarButtn()
         installmenu()
         setupTableView()
-        
-        // setTotalBalance()
-        
-      //  NotificationCenter.default.addObserver(self, selector: #selector(self.changeSizeForHeightBgConstraint(notification: )), name: Notification.Name("TableViewOffsetChanged"), object: nil)
-        
-   
+        navigationItem.title = NSLocalizedString("home_navigation_title", comment: "")
+
     }
+    func setupBarButtons() {
+        self.navBarItems = NavigationBarButtons(navigationItem: navigationItem, leftButton: .settings, rightButton: .currency)
+        self.navBarItems.setLeftButtonAction { [weak self] in
+            guard let self = self else { return }
+            self.settingsMenu.openOrCloseSettingsMenu(isTappedMenuAnyTime: &self.isTappedMenuAnyTime)
+        }
+        self.navBarItems.setRightButtonAction {
+            self.goToCurrencyVC()
+        }
+    }
+    func goToCurrencyVC() {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "currencyVC") as! CurrencyViewController
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func setupTableView() {
         tableView.clipsToBounds = true
         tableView.separatorStyle = .none
@@ -91,38 +100,6 @@ class HomeViewController: UIViewController  {
         
     }
     var isTappedMenuAnyTime: Bool = false
- 
-    @objc func leftBarButtonTapped(_ gesture: UITapGestureRecognizer) {
-        //guard let view = gesture.view else { return }
-        
-        self.settingsMenu.openOrCloseSettingsMenu(isTappedMenuAnyTime: &isTappedMenuAnyTime)
-        
-    }
-    
-    func setLeftBarButtn() {
-        
-        let image = UIImageView(image: UIImage(named: "navigationBarSettings"))
-        let gesture = UITapGestureRecognizer()
-        gesture.addTarget(self, action: #selector(leftBarButtonTapped(_:)))
-        image.addGestureRecognizer(gesture)
-        let barButton = UIBarButtonItem(customView: image)
-        
-        navigationItem.leftBarButtonItem = barButton
-        
-    }
-    
-    func setRightBarButton() {
-        navigationItem.title = NSLocalizedString("home_navigation_title", comment: "")
-        guard let mainImage = mainCurrency?.ISO else {
-            let imgView = UIImageView(image: UIImage(named: "USD"))
-            self.navigationItem.rightBarButtonItem?.image = imgView.image
-            return
-        }
-        let imgView = UIImageView(image: UIImage(named: mainImage))
-        imgView.image = imgView.image?.withRenderingMode(.alwaysOriginal)
-        self.navigationItem.rightBarButtonItem?.image = imgView.image
-    }
-    
     var header: HeaderView!
     func installHeaderView() {
         header = HeaderView()
@@ -134,26 +111,23 @@ class HomeViewController: UIViewController  {
         //top bar extension described in anyOption
         tableView.topBarHeight = topBarHeight
     }
-    
-    
-    
-    
+
     // ПРОВЕРИТЬ НА ИСПОЛЬЗОВАНИЕ
-    @objc func changeSizeForHeightBgConstraint(notification: Notification) {
-        let object = notification.object as! CGPoint
-        
-        let heightRange = 120...300
-        let sideDistanceRange = 0...26
-        let newobj = -object.y
-        let sideDistance: CGFloat = 0.26
-        let persent =  CGFloat(Int(newobj * 100) / heightRange.max()! )
-        let sidePosition = sideDistance * persent
-        if sideDistanceRange.contains(Int(sidePosition)) {
-            
-        }
-        //backgroundView.bounds.size.height = newobj
-        //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
-    }
+//    @objc func changeSizeForHeightBgConstraint(notification: Notification) {
+//        let object = notification.object as! CGPoint
+//
+//        let heightRange = 120...300
+//        let sideDistanceRange = 0...26
+//        let newobj = -object.y
+//        let sideDistance: CGFloat = 0.26
+//        let persent =  CGFloat(Int(newobj * 100) / heightRange.max()! )
+//        let sidePosition = sideDistance * persent
+//        if sideDistanceRange.contains(Int(sidePosition)) {
+//
+//        }
+//        //backgroundView.bounds.size.height = newobj
+//        //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
+//    }
 }
 //MARK: - Theme
 extension HomeViewController {

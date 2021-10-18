@@ -24,6 +24,7 @@ struct MyThemeSettings: ThemeModelProtocol {
     var borderColor:UIColor
     var separatorColor:UIColor
     var shadowColor:UIColor
+    var blackColor:UIColor
 }
 
 extension MyThemeSettings {
@@ -39,7 +40,10 @@ extension MyThemeSettings {
         yellowColor: UIColor().colorFromHexString(colors().yellowColor),
         borderColor: UIColor().colorFromHexString(colors().borderColor),
         separatorColor: UIColor().colorFromHexString(colors().separatorColor),
-        shadowColor: UIColor().colorFromHexString(colors().mainShadowColor))
+        shadowColor: UIColor().colorFromHexString(colors().mainShadowColor),
+        blackColor: UIColor().colorFromHexString(colors().blackColor)
+    )
+        
     static let darkTheme = MyThemeSettings(
         backgroundColor: UIColor().colorFromHexString(colors().darkBackgroundColor),
         secondaryBackgroundColor: UIColor().colorFromHexString(colors().darkSecondaryBackgroundColor),
@@ -52,7 +56,8 @@ extension MyThemeSettings {
         yellowColor: UIColor().colorFromHexString(colors().yellowColor),
         borderColor: UIColor().colorFromHexString(colors().darkBorderColor),
         separatorColor: UIColor().colorFromHexString(colors().darkSeparatorColor),
-        shadowColor: UIColor().colorFromHexString(colors().darkMainShadowColor)
+        shadowColor: UIColor().colorFromHexString(colors().darkMainShadowColor),
+        blackColor: UIColor().colorFromHexString(colors().blackColor)
     )
 }
 

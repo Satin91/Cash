@@ -452,7 +452,10 @@ extension UIViewController {
 // MARK: - UIImage
 extension UIImage {
     func getNavigationImage(systemName: String, pointSize: CGFloat, weight: UIImage.SymbolWeight) -> UIImage {
-         guard let image = UIImage(systemName: systemName, withConfiguration: UIImage.SymbolConfiguration(pointSize: pointSize, weight: weight, scale: UIImage.SymbolScale(rawValue: 1)!)) else { return UIImage() }
+         guard let image = UIImage(systemName: systemName, withConfiguration: UIImage.SymbolConfiguration(pointSize: pointSize, weight: weight, scale: UIImage.SymbolScale(rawValue: 1)!)) else {
+             let assetsImage = UIImage(named: systemName)
+             
+             return assetsImage! }
          return image
      }
     func myImageList(systemName: String) -> UIImage? {

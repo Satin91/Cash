@@ -34,7 +34,30 @@ class CancelButton: UIButton {
         ownerViewController.navigationController?.navigationBar.isUserInteractionEnabled = false
     }
 
-    
+    func addToNavBar(navBar: UIView) {
+       // guard let navBar = navBarView else { return }
+        
+        let height: CGFloat = 34
+        var width: CGFloat = 0
+       
+        switch buttonTitle {
+        case .cancel:
+            width = 80
+        case .create:
+            width = 80
+        case .close:
+            self.setImage(UIImage().getNavigationImage(systemName: "xmark", pointSize: 26, weight: .medium), for: .normal)
+            self.tintColor = colors.titleTextColor
+            width = height
+        case .none:
+            break
+        }
+        let x: CGFloat = (navBar.bounds.width - 26) - width
+        let y: CGFloat = (navBar.bounds.height - height) / 2
+        self.frame = CGRect(x: x, y: y, width: width, height: height)
+        setup()
+        navBar.addSubview(self)
+    }
     func addToParentView(view: UIView){
         var width: CGFloat = 0
         let height: CGFloat = 34
@@ -58,11 +81,11 @@ class CancelButton: UIButton {
     }
     
     private func setup() {
-        self.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
+        self.backgroundColor = .clear
         self.setTitle(buttonTitle.description, for: .normal)
         self.setTitleColor(colors.titleTextColor, for: .normal)
-        self.layer.cornerRadius = frame.height / 2
-        self.layer.setSmallShadow(color: colors.shadowColor)
+        self.layer.cornerRadius = frame.height / 6
+        //self.layer.setSmallShadow(color: colors.shadowColor)
         self.addTarget(self, action: #selector(CancelButton.closeVC(_:)), for: .touchUpInside)
     }
     

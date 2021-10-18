@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NavigationButtons {
+class QuickPayNavigationButtons {
    private let colors = AppColors()
     enum ButtonType{
         case backward
@@ -64,7 +64,7 @@ class NavigationButtons {
     private lazy var backwardButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle(" " + localizedTitle, for: .normal)
+        button.setTitle("" + localizedTitle, for: .normal)
         button.setTitleColor(colors.titleTextColor, for: .normal)
         button.setImage(UIImage().getNavigationImage(systemName: "chevron.left", pointSize: 26, weight: .medium), for: .normal) // Местный метод по заданию иконки
         button.contentHorizontalAlignment = .left  // сдвигает контнт влево
@@ -78,12 +78,19 @@ class NavigationButtons {
     private lazy var fowardButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle(localizedTitle + " ", for: .normal)
+        button.setTitle("" + localizedTitle, for: .normal)
+       
         button.setTitleColor(colors.titleTextColor, for: .normal)
         button.setImage(UIImage().getNavigationImage(systemName: "chevron.right", pointSize: 26, weight: .medium),for: .normal) // Местный метод по заданию иконки
         button.contentHorizontalAlignment = .right // сдвигает контнт вправо
         button.tintColor = colors.contrastColor1
         button.semanticContentAttribute = .forceRightToLeft
+//        if #available(iOS 15.0, *) {
+//            button.configuration?.titlePadding = 15
+//        } else {
+//            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+//            // Fallback on earlier versions
+//        }
         return button
     }()
     

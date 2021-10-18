@@ -21,7 +21,7 @@ extension SchedulerViewController {
 class SchedulerViewController: UIViewController,ReloadParentTableView {
    let colors = AppColors()
     var openCalendar: OpenNextController!
-    
+    var navBarButtons: NavigationBarButtons!
     func reloadData() {
         tableView.reloadData()
     }
@@ -29,7 +29,7 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
     var deleteColor: UIColor = .clear
     var editColor: UIColor = .clear
     let subscriptionManager = SubscriptionManager()
-    let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+    
     
     //MARK: Удалить если приложение работает после теста без этого участка кода
 //    func dismissVC(goingTo: String, typeIdentifier: String) {
@@ -59,8 +59,7 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
         print("ANY")
         //let vc = CalendarSchedulerViewController()
        // present(vc, animated: true, completion: nil)
-        openCalendar = OpenNextController(storyBoardID: "CalendarStoryboard", fromViewController: self, toViewControllerID: "CalendarScheduler", toViewController: CalendarSchedulerViewController())
-        openCalendar.makeTheTransition()
+       
     }
     
     @IBOutlet var tableView: UITableView!
@@ -72,11 +71,6 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
     }
     
     //Я ее напихал во все обновляющие функции т.к. календарь все время обновляется
-    
-  
- 
-    
-    
     private func uniq<S: Sequence, T: Hashable> (source: S) -> [T] where S.Iterator.Element == T {
         var buffer = [T]() // возвращаемый массив
         var added = Set<T>() // набор - уникальные значения
@@ -94,9 +88,7 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
     
    
     func visualSettings() {
-        
         self.navigationItem.title = NSLocalizedString("scheduler_navigation_title", comment: "")
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,11 +102,17 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
         colors.loadColors()
         navigationController?.navigationBar.prefersLargeTitles = true
         setupRightButton()
-        addBlur()
         installTableView()
         visualSettings()
+        setupNavBarButtons()
     }
-  
+    func setupNavBarButtons() {
+        self.navBarButtons = NavigationBarButtons(navigationItem: navigationItem, leftButton: .none, rightButton: .calendar)
+        self.navBarButtons.setRightButtonAction {
+            self.openCalendar = OpenNextController(storyBoardID: "CalendarStoryboard", fromViewController: self, toViewControllerID: "CalendarScheduler", toViewController: CalendarSchedulerViewController())
+            self.openCalendar.makeTheTransition()
+        }
+    }
    
     func installTableView() {
         //let nib = UINib(nibName: "MainTableViewCell", bundle: nil)
@@ -127,12 +125,7 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
     }
-    func addBlur() {
-        self.blur.frame = self.view.bounds
-        self.blur.alpha = 0
-        self.view.addSubview(blur)
-    }
-   
+  
    
 
 }
@@ -235,7 +228,7 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
         }else{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleIdentifier", for: indexPath) as! SchedulerTableViewCell
         cell.delegate = self
-        cell.sendSchedulerDelegate = self
+        //cell.sendSchedulerDelegate = self
         let object = EnumeratedSchedulers(object: schedulerGroup)[indexPath.row]
         cell.set(object: object)
             indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .plans)
@@ -247,28 +240,10 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
     }
    
     
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        //let object = scheduler
-//
-//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-//            self.updateDataAfterRemove(indexPath: indexPath)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//        let editAction = UIContextualAction(style: .destructive, title: "Edit") { _, _, _ in
-//
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//
-//        let actions = UISwipeActionsConfiguration(actions: [deleteAction])
-//        return actions
-//    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .plans) {
             self.showSubscriptionViewController()
         }
-        
         if indexPath.row != EnumeratedSchedulers(object: schedulerGroup).count {
             showQuickPayDashboard(indexPath: indexPath)
         }else{
@@ -332,32 +307,6 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
     }
 }
 
-
-extension SchedulerViewController: ClosePopUpTableViewProtocol,SendScheduleObjectToEdit {
-   
-    func sendObject(object: MonetaryScheduler) {
-        let editVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
-        editVC.isEditingScheduler = true
-        editVC.newScheduleObject = object
-        editVC.reloadParentTableViewDelegate = self
-        self.present(editVC, animated: true, completion: nil)
-    }
-    
-    func closeTableView(object: Any) {
-        guard blur.alpha != 1 else {return}
-        self.view.animateView(animatedView: blur, parentView: self.view)
-       // goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
-    }
-    
-    func closePopUpMenu() {
-        self.view.reservedAnimateView2(animatedView: blur)
-        self.view.reservedAnimateView(animatedView: quickPayVC.view, viewController: nil)
-     //   self.quickPayVC = nil
-        tableView.reloadData()
-        
-        
-    }
-}
 
 
 

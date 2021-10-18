@@ -20,20 +20,18 @@ class NumberTextField: ThemableTextField,UITextFieldDelegate {
     var button = UIButton(type: .custom)
     
     func createRightButton(text: String) {
-        button.setImage(UIImage().getNavigationImage(systemName: "triangle.fill", pointSize: 18, weight: .regular), for: .normal)
+        button.setImage(UIImage().getNavigationImage(systemName: "triangle.fill", pointSize: 18, weight: .ultraLight), for: .normal)
         button.tintColor = colors.subtitleTextColor
         
         button.setTitle(text, for: .normal)
         button.semanticContentAttribute = .forceLeftToRight
-        button.setTitleColor(colors.borderColor, for: .normal)
+        button.setTitleColor(colors.subtitleTextColor, for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -17, bottom: 0, right: 0)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
           
         button.frame = CGRect(x: CGFloat(super.frame.size.width - 40), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
         self.rightView = button
         self.rightViewMode = .always
-            
-            
         }
 
     

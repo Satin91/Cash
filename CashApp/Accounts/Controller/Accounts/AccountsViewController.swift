@@ -13,6 +13,10 @@ import FSCalendar
 
 class AccountsViewController: UIViewController, scrollToNewAccount{
     let colors = AppColors()
+    
+  
+   
+    var navBarButtons: NavigationBarButtons!
     lazy var blur = BlurView(frame: self.view.bounds)
     func scrollToNewAccount(account: MonetaryAccount) {
         var indexPathIndex = 0
@@ -23,26 +27,30 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
                 accountsCollectionView.scrollToItem(at: IndexPath(row: indexPathIndex, section: 0), at: .centeredHorizontally, animated: true)
                 
             } else {
-            indexPathIndex += 1
+                indexPathIndex += 1
             }
         }
         
         visibleIndexPath = IndexPath(row: indexPathIndex, section: 0)
         sendNotification(objectAt: IndexPath(row: indexPathIndex, section: 0))
     }
-    var willAccountBeMain: Bool? 
-
+    var willAccountBeMain: Bool?
+    
     var imageCollectionView = AccountImagesCollectionView()
     let subscriptionManager = SubscriptionManager()
     var menuTableView: MenuTableView!
-   // var stackViewForEditingButtons = UIStackView()
+    // var stackViewForEditingButtons = UIStackView()
     var alertView: AlertViewController!
+    var goldenRatio: CGFloat {
+        (self.view.bounds.width - (26 * 2)) * 0.62
+    }
+    @IBOutlet var sendButtonWidthConstraint: NSLayoutConstraint!
     @IBOutlet var sendButtonOutlet: UIButton!
     @IBAction func sendButtonAction(_ sender: UIButton) {
         let account = accountsObjects[visibleIndexPath.row]
         let transferModel = TransferModel(account: account, transferType: .send)
         goToQuickPayVC(reloadDelegate: self, PayObject: transferModel)
-   
+        
     }
     
     @IBOutlet var receiveButtonOutlet: UIButton!
@@ -53,12 +61,9 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     }
     @IBAction func addButton(_ sender: Any) {
         //View subscription view controller if needed
-        if accountsObjects.count >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .accounts) {
-            self.showSubscriptionViewController()
-        } else {
-       openAddVC()
-        }
+     
     }
+
     
     @IBOutlet var containerView: UIView!
     
@@ -69,10 +74,8 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     //Buttons outlets
     @IBOutlet var backButtonOutlet: UIBarButtonItem!
     ///Buttons images
-    @IBAction func backButton(_ sender: Any) {
-        _ = navigationController?.popViewController(animated: true)
-    }
 
+    
     func openAddVC() { // Delegate только так работает
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addAccountVC") as! AddAccountViewController
         let navVC = UINavigationController(rootViewController: addVC)
@@ -81,63 +84,71 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         addVC.scrollToNewAccountDelegate = self
     }
     
-    // Отправляет уведомления для обновления графика
-    func sendNotification(objectAt: IndexPath?) {
-        guard let indexPath = objectAt else {return}
-        
-        visibleObject = EnumeratedAccounts(array: accountsGroup)[indexPath.row]
-        
-        guard let object = visibleObject else { return }
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "MonetaryAccount"), object: object)
-    }
+   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         guard !accountsGroup.isEmpty else {return}
-        
         visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
         sendNotification(objectAt: visibleIndexPath)
-        //setupMenu()
-      //  accountsCollectionView.reloadData() // Обновляем после добавления нового аккаунта
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        //sendButtonWidthConstraint.constant
         self.tabBarController?.tabBar.hideTabBar()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         self.tabBarController?.tabBar.showTabBar()
     }
-    
-    @objc func openAddController(_ sender: UIButton){
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         colors.loadColors()
         self.setColors()
-     
-        //accountsObjects = accountsObjects.sorted(byKeyPath: "isMainAccount", ascending: false)//Card = 1
-        
-        menuTableView = MenuTableView(frame: .zero , style: .plain, controller: self)
-        menuTableView.tappedDelegate = self
-        alertView = AlertViewController.loadFromNib()
-        alertView.controller = self
-        
+        setupMenuTableView()
+        setupAlertView()
         accountsLayout()
-        //menu = InstallMenuTableView(owner: self, collectionView: accountsCollectionView)
         backButtonOutlet.title = NSLocalizedString("back_button", comment: "")
         setupAccountCollectionView()
-        
-        let nib = UINib(nibName: "AccountCollectionViewCell", bundle: nil)
-        accountsCollectionView.register(nib, forCellWithReuseIdentifier: AccountCollectionViewCell().identifier)
-
         self.view.insertSubview(self.blur, aboveSubview: self.sendButtonOutlet)
         self.view.bringSubviewToFront(accountsCollectionView)
         setupImageCollectionView()
+        self.sendButtonWidthConstraint.constant = self.goldenRatio
+        title = "Счета"
+        
+        setupNavBarButtons()
+    }
+    func setupNavBarButtons() {
+        navBarButtons = NavigationBarButtons(navigationItem: navigationItem, leftButton: .back, rightButton: .add)
+        navBarButtons.setLeftButtonAction { [weak self] in
+            guard let self = self else { return }
+            self.navigationController?.popViewController(animated: true)
+        }
+        navBarButtons.setRightButtonAction {[weak self] in
+            guard let self = self else { return }
+            if accountsObjects.count >= self.subscriptionManager.allowedNumberOfCells(objectsCountFor: .accounts) {
+                self.showSubscriptionViewController()
+            } else {
+                self.openAddVC()
+            }
+        }
     }
     
+    // Отправляет уведомления для обновления графика
+    func sendNotification(objectAt: IndexPath?) {
+        guard let indexPath = objectAt else {return}
+        visibleObject = EnumeratedAccounts(array: accountsGroup)[indexPath.row]
+        guard let object = visibleObject else { return }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "MonetaryAccount"), object: object)
+    }
+    func setupAlertView(){
+        alertView = AlertViewController.loadFromNib()
+        alertView.controller = self
+    }
+    func setupMenuTableView() {
+        menuTableView = MenuTableView(frame: .zero , style: .plain, controller: self)
+        menuTableView.tappedDelegate = self
+    }
     func setupImageCollectionView() {
         imageCollectionView = AccountImagesCollectionView(frame: .zero)
         self.view.addSubview(imageCollectionView)
@@ -157,6 +168,8 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         accountsCollectionView.dataSource = self
         accountsCollectionView.clipsToBounds = false
         accountsCollectionView.isPagingEnabled = true
+        let nib = UINib(nibName: "AccountCollectionViewCell", bundle: nil)
+        accountsCollectionView.register(nib, forCellWithReuseIdentifier: AccountCollectionViewCell().identifier)
     }
     
     func accountsLayout() {
@@ -171,22 +184,20 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         accountsCollectionView.collectionViewLayout = layout
         
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-
+ 
+    
     var visibleObject:     MonetaryAccount?
     var visibleIndexPath:  IndexPath!
     var selectedIndexPath: IndexPath!
     var editableObject:    MonetaryAccount?
     var editMode = false //Нажата ли кнопка
     
-    }
+}
 
 
 //MARK: Collection View
 extension AccountsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
- 
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return  accountsObjects.count
     }
@@ -196,21 +207,21 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountCollectionViewCell().identifier, for: indexPath) as! AccountCollectionViewCell
         let object = accountsObjects[indexPath.row]
-            cell.setAccount(account: object)
-            cell.lock(object.isBlock)
-            cell.closure = { [weak self] (success) in
-                guard let self = self else { return}
-                               if success {
-                                   self.openMenu()
-                               } else {
-                                self.closeMenu()
-                               }
+        cell.setAccount(account: object)
+        cell.lock(object.isBlock)
+        cell.closure = { [weak self] (success) in
+            guard let self = self else { return}
+            if success {
+                self.openMenu()
+            } else {
+                self.closeMenu()
             }
-        cell.editMode = self.editMode // Нужно для того, чтобы ячейка не теряла режим редактирования после обновления коллекции
-          
-            return cell
         }
+        cell.editMode = self.editMode // Нужно для того, чтобы ячейка не теряла режим редактирования после обновления коллекции
         
+        return cell
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -227,7 +238,7 @@ extension AccountsViewController: UICollectionViewDelegate, UICollectionViewData
             visibleIndexPath = visibleIndexPath2
             sendNotification(objectAt: visibleIndexPath)
         }
-
+        
     }
 }
 //MARK: Popover DELEGATE

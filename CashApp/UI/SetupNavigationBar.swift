@@ -16,7 +16,7 @@ class setupNavigationBar {
         UINavigationBar.appearance().tintColor = theme.settings.titleTextColor
         //UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "SF Pro Text", size: 26)!]
         UINavigationBar.appearance().titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor : theme.settings.titleTextColor, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular)]
+            NSAttributedString.Key.foregroundColor : theme.settings.titleTextColor, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24, weight: .medium)]
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().prefersLargeTitles = false

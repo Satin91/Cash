@@ -22,25 +22,15 @@ class CurrencyViewController: UIViewController {
     @IBOutlet var currencyConverterTextField: NumberTextField!
     @IBOutlet var tableView: UITableView!
     @IBAction func addButton(_ sender: Any) {
-        guard currencyObjects.isEmpty == false else{return} // ЗАЧЕМ ЭТО ТУТ??
-        
-        if userCurrencyObjects.count >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .currencies) {
-            self.showSubscriptionViewController()
-        } else {
-            openTableViewController(action: .add, object: nil)
-        }
-       
-        //self.navigationController?.pushViewController(navController, animated: true)
-        //self.navigationController?.present(addCurrencyVC, animated: true, completion: nil)
-        // self.navigationController?.pushViewController(addCurrencyVC, animated: true)
-        
-        //self.present(addCurrencyVC, animated: true, completion: nil)
         
     }
+    var navBarButtons: NavigationBarButtons!
     func openTableViewController(action: ActionsWithCurrency, object: CurrencyObject?) {
         let addCurrencyVC = AddCurrencyTableViewController()
-        let navController = UINavigationController(rootViewController: addCurrencyVC)
-        addCurrencyVC.modalTransitionStyle = .coverVertical
+      //  let navController = UINavigationController(rootViewController: addCurrencyVC)
+        addCurrencyVC.modalPresentationStyle = .pageSheet
+        //addCurrencyVC.modalTransitionStyle = .flipHorizontal
+        //addCurrencyVC.modalPresentationStyle = .fullScreen
         addCurrencyVC.tableViewReloadDelegate = self
         addCurrencyVC.actionWithCurrency = action
         if action == .edit {
@@ -50,9 +40,10 @@ class CurrencyViewController: UIViewController {
                 }
             }
         }
+        addCurrencyVC.navBar = self.navigationController!.navigationBar // Нужно для получения размеров стандартного NavBara
         addCurrencyVC.classCurrencyObject = object
+        present(addCurrencyVC, animated: true, completion: nil)
         
-        self.navigationController?.present(navController, animated: true, completion: nil)
     }
     var fetch = fetchMainCurrency() //Вызов для обновления валют
     var dragInitialIndexPath: IndexPath?
@@ -78,6 +69,23 @@ class CurrencyViewController: UIViewController {
         tableView.register(UINib(nibName: "CurrencyTableViewCell", bundle: nil), forCellReuseIdentifier: "currencyCell")
         tableViewSettings()
         currencyConverterTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        createNavBarButtons()
+        title = "Валюты"
+    }
+    func createNavBarButtons() {
+        self.navBarButtons = NavigationBarButtons(navigationItem: navigationItem, leftButton: .back, rightButton: .add)
+        self.navBarButtons.setRightButtonAction { [weak self] in
+            guard let self = self else { return }
+            if userCurrencyObjects.count >= self.subscriptionManager.allowedNumberOfCells(objectsCountFor: .currencies) {
+                self.showSubscriptionViewController()
+            } else {
+                self.openTableViewController(action: .add, object: nil)
+            }
+        }
+        self.navBarButtons.setLeftButtonAction { [weak self] in
+            guard let self = self else { return }
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     @objc func textFieldDidChange() {
         tableView.reloadData()
