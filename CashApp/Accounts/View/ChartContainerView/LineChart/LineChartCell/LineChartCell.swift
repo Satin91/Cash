@@ -41,8 +41,27 @@ class LineChartCell: UICollectionViewCell, ChartViewDelegate {
        // chartDataSet.drawFilledEnabled = true
         chartDataSet.highlightLineDashLengths = [6,6]
     }
-    func showAndHideNavigationImages() {
-        
+    enum NavigationImages {
+        case next
+        case previous
+        case all
+        case none
+    }
+    func showAndHideNavigationImages(navigation: NavigationImages) {
+        nextMonthImage.isHidden = true
+        previousMonthImage.isHidden = true
+        switch navigation {
+        case .next:
+            nextMonthImage.isHidden = false
+        case .previous:
+            previousMonthImage.isHidden = false
+        case .all:
+            nextMonthImage.isHidden = false
+            previousMonthImage.isHidden = false
+        case .none:
+            nextMonthImage.isHidden = true
+            previousMonthImage.isHidden = true
+        }
     }
     
     override func awakeFromNib() {

@@ -64,9 +64,6 @@
          identifier = "Moscow, Russia"
          referenceType = "1">
       </LocationScenarioReference>
-      <StoreKitConfigurationFileReference
-         identifier = "../CashApp/SubscriptionsManager/Manager/LocalStoreKit/StoreKitConfiguration.storekit">
-      </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

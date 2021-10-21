@@ -85,7 +85,7 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
         }
         return repeating
     }
-    
+   
    
     func visualSettings() {
         self.navigationItem.title = NSLocalizedString("scheduler_navigation_title", comment: "")
@@ -102,7 +102,7 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
         colors.loadColors()
         navigationController?.navigationBar.prefersLargeTitles = true
         setupRightButton()
-        installTableView()
+        setupTableView()
         visualSettings()
         setupNavBarButtons()
     }
@@ -114,20 +114,16 @@ class SchedulerViewController: UIViewController,ReloadParentTableView {
         }
     }
    
-    func installTableView() {
+    func setupTableView() {
         //let nib = UINib(nibName: "MainTableViewCell", bundle: nil)
         //tableView.register(nib, forCellReuseIdentifier: "MainIdentifier")
         tableView.register(SchedulerTableViewCell.nib(), forCellReuseIdentifier: "ScheduleIdentifier")
         tableView.register(CreateScheduleCell.nib(), forCellReuseIdentifier: "CreateIdentifier")
         tableView.delegate = self
-        
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
     }
-  
-   
-
 }
 
 //MARK: - TableView
@@ -234,7 +230,7 @@ extension SchedulerViewController: UITableViewDelegate,UITableViewDataSource,Swi
             indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .plans)
             ? cell.lock(true)
             : cell.lock(false)
-        cell.selectionStyle = .blue
+        cell.selectionStyle = .none
         return cell
         }
     }

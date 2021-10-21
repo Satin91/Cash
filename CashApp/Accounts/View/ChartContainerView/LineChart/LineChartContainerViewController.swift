@@ -39,11 +39,11 @@ class LineChartContainerViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
         //layout.itemSize = CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 26, bottom: 0, right: 26)
-        layout.minimumInteritemSpacing = 26
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 22, bottom: 0, right: 22)
+        layout.minimumInteritemSpacing = 22
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 26 * 2
-        layout.itemSize = CGSize(width: self.view.bounds.width - 26*2, height: self.collectionView.bounds.height)
+        layout.minimumLineSpacing = 22 * 2
+        layout.itemSize = CGSize(width: self.view.bounds.width - 22*2, height: self.collectionView.bounds.height)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.isPagingEnabled = true
@@ -93,6 +93,19 @@ extension LineChartContainerViewController: UICollectionViewDelegate, UICollecti
         cell.contentView.backgroundColor = .clear
        // let object = chartElement[indexPath.row]
         let object = lineChartDefinition[indexPath.row]
+        if indexPath.row == lineChartDefinition.count - 1 && lineChartDefinition.count > 1 {
+            print("previous")
+            cell.showAndHideNavigationImages(navigation: .previous)
+        } else if indexPath.row == 0 && lineChartDefinition.count > 1 {
+            print("next")
+            cell.showAndHideNavigationImages(navigation: .next)
+        } else if indexPath.row > 0 && indexPath.row < lineChartDefinition.count - 1 {
+            cell.showAndHideNavigationImages(navigation: .all)
+            print("all")
+        } else {
+            print("none")
+            cell.showAndHideNavigationImages(navigation: .none)
+        }
         cell.set(element: object)
        // cell.set(element: [chartElement[indexPath.item]]) // В этой функции есть возможность вывести textView при отсутствии елементов
         return cell

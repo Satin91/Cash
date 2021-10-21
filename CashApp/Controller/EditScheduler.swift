@@ -13,7 +13,9 @@ import UIKit
 extension AddScheduleViewController {
     
     func setDataFromEditableObject(){
+        dateRhythm = newScheduleObject.stringDateRhythm
         
+        // нужен для того, чтобы рассчитать payPerTime
         switch newScheduleObject.dateRhythm {
         case 1:
             calendarComponent = .month
@@ -31,10 +33,10 @@ extension AddScheduleViewController {
        // selectImageButtonOutlet.setImage(UIImage(named: newScheduleObject.image), for: .normal)
         date = newScheduleObject.date
         vector = newScheduleObject.vector
-        dateRhythm = newScheduleObject.stringDateRhythm
         selectedImageName = newScheduleObject.image
         currency = newScheduleObject.currencyISO
         // Buttons colors
+        setupDateRhythmButton()
         if vector {
             incomeVectorButtonOutlet.backgroundColor = colors.titleTextColor
             expenceVectorButtonOutlet.backgroundColor = colors.borderColor
@@ -50,7 +52,8 @@ extension AddScheduleViewController {
                     payArray.append(pay)
                 }
             }
-            payArray.sort(by: {$0.date > $1.date})
+            // ПРОБЛЕМА ЗДЕСЬ
+            payArray.sort(by: {$0.date < $1.date})
             date = payArray.first?.date
         }else if newScheduleObject.stringScheduleType == .goal {
             sumPerTimeTextField.text = newScheduleObject.available.formattedWithSeparator

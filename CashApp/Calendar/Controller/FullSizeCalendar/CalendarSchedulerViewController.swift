@@ -97,7 +97,7 @@ class CalendarSchedulerViewController: UIViewController {
 
 //MARK: CalendarDelegateDataSource / appearance
 extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSource,FSCalendarDelegateAppearance, FSCalendarCollectionViewInternalDelegate{
-    
+   
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition)   -> Bool {
         return monthPosition == .current
     }
@@ -115,7 +115,6 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
         configureVisibleCells()
-        
     }
    
     
@@ -217,27 +216,31 @@ extension CalendarSchedulerViewController : UIPopoverPresentationControllerDeleg
     }
 
 }
-
+extension CalendarSchedulerViewController: ReloadParentTableView {
+    func reloadData() {
+        datesArray = updateDatesArray()
+        //tableView.reloadData()
+        calendarView.collectionView.reloadData()
+        calendarView.reloadData()
+    }
+}
 //Закрывает поп ап меню, обновляет данные, закрывает анимацию
 extension CalendarSchedulerViewController: ClosePopUpTableViewProtocol{
     
-    //close mini table view in calendar and view the blur
+    //close mini table view in calendar
     func closeTableView(object: Any) {
         
-        //        guard blur.alpha != 1 else {return}
-        //        self.view.animateViewWithBlur(animatedView: blur, parentView: self.view)
-        CashApp.goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
+        DispatchQueue.main.async {
+            self.goToQuickPayVC(reloadDelegate: self, PayObject: object)
+        }
+        
+        //CashApp.goToQuickPayVC(delegateController: self, classViewController: &quickPayVC, PayObject: object)
         
     }
     //close quicl pay and reload data in calendar and hide blur
     func closePopUpMenu() {
         // self.view.reservedAnimateView2(animatedView: blur)
-        self.view.reservedAnimateView(animatedView: quickPayVC.view, viewController: nil)
-        self.quickPayVC = nil
-        datesArray = updateDatesArray()
-        //tableView.reloadData()
-        calendarView.collectionView.reloadData()
-        calendarView.reloadData()
+       
     }
 }
 

@@ -33,9 +33,9 @@ class ChangeHistoryObject {
         withoutAccount.accountID = "NO ACCOUNT"
         return account ?? withoutAccount
     }
-
+    
     func changeTransferValues(transferObject: MonetaryAccount, cooperatingObject:MonetaryAccount, newHistory: AccountsHistory) {
-        var sum = abs(newHistory.sum)
+        let sum = abs(newHistory.sum)
         let convSum = currencyController.convert(sum, inputCurrency: transferObject.currencyISO, outputCurrency: cooperatingObject.currencyISO)
         let vector: TransferType = oldhistoryObject.sum > 0 ? .receive : .send
         
@@ -57,6 +57,7 @@ class ChangeHistoryObject {
         })
         
     }
+    // посли этой функции в классе стоит Return что не дает дальше работать с объектом истории
     func makeHistoryChanges(newHistoryObject: AccountsHistory) {
         if oldhistoryObject.secondAccountID.isEmpty == false { // Так мы поняли что имеем дело с трансфером
             processing.removeTransferObject(withHistory: false) // Вернул первоначальные объекты к первоначальному состоянию
@@ -68,48 +69,65 @@ class ChangeHistoryObject {
                 let oldAccount = getAccount(historyObject: oldhistoryObject)
                 let newAccount = getAccount(historyObject: newHistoryObject)
                 if oldAccount.accountID != "NO ACCOUNT" {
-                    oldAccount.balance -= oldhistoryObject.sum
+                    //oldAccount.balance -= oldhistoryObject.sum
+                    oldAccount.balance -= (hasAmountBeenConverded(object: oldhistoryObject) == true) // Проверка: была ли сконвертирована ли сумма
+                    ? oldhistoryObject.convertedSum
+                    : oldhistoryObject.sum
                     realm.add(oldAccount, update: .all)
                 }
                 if newAccount.accountID != "NO ACCOUNT" {
-                    newAccount.balance += newHistoryObject.sum
+                    newAccount.balance += (hasAmountBeenConverded(object: newHistoryObject) == true) // Проверка: была ли сконвертирована ли сумма
+                    ? newHistoryObject.convertedSum
+                    : newHistoryObject.sum
                     realm.add(newAccount,update: .all)
                 }
-                
             })
             replaceOldHistory(old: oldhistoryObject, new: newHistoryObject)
         }
-    
+        
     }
     
     func replaceOldHistoryForTransfer(old: AccountsHistory, new: AccountsHistory) {
         try! realm.write({
             
-        old.sum = new.sum
-        old.convertedSum = new.convertedSum
-        old.secondAccountID = new.accountID // Сделано так, потому что в контроллере можно выбрать только 1 аккаунт и это accountID
-        old.date = new.date
-        realm.add(old,update: .all)
+            old.sum = new.sum
+            old.convertedSum = new.convertedSum
+            old.secondAccountID = new.accountID // Сделано так, потому что в контроллере можно выбрать только 1 аккаунт и это accountID
+            old.date = new.date
+            realm.add(old,update: .all)
         })
     }
     // Находится в области видимостри Try realm
     func replaceOldHistory(old: AccountsHistory, new: AccountsHistory) {
         try! realm.write({
-        
-        old.currencyISO = new.currencyISO
-        old.accountID = new.accountID
-        old.sum = new.sum
-        old.accountName = new.accountName
-        old.convertedSum = new.convertedSum
-        old.date = new.date
-        realm.add(old,update: .all)
+            if old.scheduleID == "" { // Нельзя менять валюту в оъекте плана иначе происходит неверная конвертация
+                old.currencyISO = new.currencyISO
+            }
+            old.accountID = new.accountID
+            old.sum = new.sum
+            old.accountName = new.accountName
+            old.convertedSum = new.convertedSum
+            old.date = new.date
+            realm.add(old,update: .all)
         })
     }
+    // Если сконвертированная сумма не равна 0 вернуть обычную сумму, если нет, вернуть сконвертированнную
+    // If history object is scheduler object
+    // 1 - вернуть сконвертированную сумму счету
+    // 2 - при удалении так же вернуть сконвертированную сумму счета
+    // 3 - Не менять сумму платежа
     
+    func hasAmountBeenConverded(object: AccountsHistory) -> Bool {
+        if object.convertedSum != 0 {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 /*
  Требуется :
-1: Проверка на присутствие счет с которым совершали операции
-2: Сравнить 2 истории и сделать по шаблону
-*/
+ 1: Проверка на присутствие счет с которым совершали операции
+ 2: Сравнить 2 истории и сделать по шаблону
+ */

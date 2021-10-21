@@ -40,8 +40,8 @@ extension AddScheduleViewController {
         selectImageButtonOutlet.layer.setMiddleShadow(color: shadowColor)
         scrollView.backgroundColor = .clear
         setupButtonsAndFields(subTitleColor: subtitleColor)
-        
     }
+
     func visualSettings() {
         self.headingTextLabel.numberOfLines = 2
         self.headingTextLabel.minimumScaleFactor = 0.5
@@ -50,8 +50,17 @@ extension AddScheduleViewController {
         descriptionTextLabel.numberOfLines = 0
         incomeVectorButtonOutlet.layer.cornerRadius = 10
         expenceVectorButtonOutlet.layer.cornerRadius = 10
-       
+        containerForSaveButton.backgroundColor =  .clear //colors.backgroundcolor
         selectDateButtonOutlet.mainButtonTheme("date_button")
+        selectDateButtonOutlet.setImage(UIImage().getNavigationImage(systemName: "calendar.circle.fill", pointSize: 26, weight: .light), for: .normal)
+        selectDateButtonOutlet.tintColor = colors.contrastColor1
+        dateRhythmButton.backgroundColor = colors.secondaryBackgroundColor
+        dateRhythmButton.layer.cornerRadius = 16
+        dateRhythmButton.layer.cornerCurve = .continuous
+        dateRhythmButton.setImage(UIImage().getNavigationImage(systemName: "arrow.2.squarepath", pointSize: 28, weight: .light), for: .normal)
+        dateRhythmButton.setTitle("", for: .normal)
+        dateRhythmButton.tintColor = colors.titleTextColor
+        
         
         let income = UIImage(named: "income.button")
         let incomeTint = income?.withRenderingMode(.alwaysTemplate)
@@ -61,10 +70,10 @@ extension AddScheduleViewController {
        
         
         incomeVectorButtonOutlet.setImage(incomeTint, for: .normal)
-        incomeVectorButtonOutlet.tintColor = Themer.shared.theme == .dark ? .black : .white
+        incomeVectorButtonOutlet.tintColor = colors.backgroundcolor
         
         expenceVectorButtonOutlet.setImage(expenceTint, for: .normal)
-        expenceVectorButtonOutlet.tintColor = Themer.shared.theme == .dark ? .black : .white
+        expenceVectorButtonOutlet.tintColor = colors.backgroundcolor
         
         let isEditingButtonTitle = isEditingScheduler ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
         okButtonOutlet.mainButtonTheme(isEditingButtonTitle)

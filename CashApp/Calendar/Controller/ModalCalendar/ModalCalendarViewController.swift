@@ -10,21 +10,33 @@ import UIKit
 import FSCalendar
 
 
-class TodayBalanceCalendarViewController: UIViewController {
-
+class ModalCalendarViewController: UIViewController {
+    
     @IBOutlet var containerView: UIView!
-    @IBOutlet var doneButton: ContrastButton!
+    @IBOutlet var saveButton: ContrastButton!
     @IBOutlet var calendar: FSCalendarView!
     fileprivate let gregorian = Calendar(identifier: .gregorian)
+    @IBOutlet var cancelButtonOutlet: UIButton!
     var datesArray = [Date]()
     var DIYDatesArray: [DateComponents] = []
-    var cancelButton: CancelButton!
-    var endDate: Date?
+    
+    @IBAction func cancelButtonAction(_ sender: UIButton) {
+        print("Tapped")
+        dismiss(animated: true)
+    }
+    var endDate: Date? {
+        didSet {
+            guard let button = self.saveButton else { return }
+            self.setActivityTo(button)
+        }
+    }
+    var cameFromTodayBalance: Bool = false
     let colors = AppColors()
     var diyDatesArray: [Date] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         self.colors.loadColors()
+        setActivityTo(self.saveButton)
         self.containerView.backgroundColor = colors.secondaryBackgroundColor
         self.containerView.layer.cornerRadius = 22
         self.containerView.layer.cornerCurve = .continuous
@@ -34,31 +46,68 @@ class TodayBalanceCalendarViewController: UIViewController {
         guard let endDate = endDate else { return }
         setDIYDates(startDate: Date(), endDate: endDate)
         getDiyArray()
-       
+        setupCancelButton()
+        datesArray = updateDatesArray()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let endDate = endDate else { return }
         self.calendar.select(endDate, scrollToDate: true)
+        self.calendar.bringSubviewToFront(cancelButtonOutlet)
+    }
+    func setupCancelButton() {
+        let image = UIImage().getNavigationImage(systemName: "xmark", pointSize: 22, weight: .medium)
+        self.cancelButtonOutlet.setImage(image, for: .normal)
+        self.cancelButtonOutlet.setTitle("", for: .normal)
+        self.cancelButtonOutlet.tintColor = colors.titleTextColor
+        self.cancelButtonOutlet.layer.cornerRadius = cancelButtonOutlet.bounds.height / 2
+        self.cancelButtonOutlet.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
+       
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         calendar.layoutSubviews()
     }
+    
     func calendarSettings() {
         calendar.delegate = self
         calendar.dataSource = self
         calendar.calendarType = .mini
+        calendar.backgroundColor = .clear
         calendar.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
+    }
+    func setActivityTo(_ button: UIButton) {
         
+        if endDate == nil {
+            button.isEnabled = false
+        } else {
+            button.isEnabled = true
+        }
     }
     func buttonsSettings() {
-        cancelButton = CancelButton(frame: .zero, title: .close, owner: self)
-        cancelButton.addToParentView(view: self.containerView)
-        doneButton.mainButtonTheme("save_button")
+        saveButton.mainButtonTheme("save_button")
+    }
+    func updateDatesArray() ->[Date]  {
+        let datesArray: [Date] = {
+            var dates = [Date]()
+            for i in payPerTimeObjects{
+                dates.append(i.date)
+                
+            }
+            for x in Array(oneTimeObjects) {
+                dates.append(x.date)
+            }
+            for y in Array(goalObjects) {
+                dates.append(y.date)
+            }
+            return dates
+        }()
+        return datesArray
     }
     
- // Выход назначен в сториборде
+    //MARK: UNWIND - Выход из календаря назначин на несколько контроллеров, через unwind передает данные на AddScheduler, в TodayBalance дата обновляется самостоятельно спомощью unwindSegue
+    // Выход назначен в сториборде
     @IBAction func doneButtonAction(_ sender: UIButton) {
         guard let endDate = self.endDate else {return}
         try! realm.write({
@@ -70,21 +119,22 @@ class TodayBalanceCalendarViewController: UIViewController {
             todayBalanceObject?.endDate = endDate
             realm.add(todayBalanceObject!,update: .all)
         })
-        
     }
-  
-    
-//
-//
-//    required init?(coder aDecoder: NSCoder) {
-//       super.init(coder: aDecoder)
-//    }
+ 
+    // Сегвей, который передает данные в AddScheduler
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard self.endDate     != nil                                               else { return }
+        guard segue.identifier == "unwindFromCalendarSegueID"                       else { return }
+        guard let destination   = segue.destination as? AddScheduleViewController   else { return }
+        destination.date = endDate!
+    }
+ 
 }
-extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension ModalCalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        
+        guard self.cameFromTodayBalance == true else { return nil }
         if diyDatesArray.contains(date) && !date.thisDayisToday() {
             return colors.titleTextColor
         } else if  date.thisDayisToday() {
@@ -95,8 +145,10 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
             return colors.subtitleTextColor.withAlphaComponent(0.6)
         }
     }
-    
-    
+//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+//        <#code#>
+//    }
+//
     func getDiyArray() {
         var diyArray = [Date]()
         for i in DIYDatesArray {
@@ -105,40 +157,35 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
         }
         self.diyDatesArray = diyArray
     }
-
+    
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
- 
+        
         cell.setStyle(cellStyle: .defaultCalendar)
         return cell
     }
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
+        guard self.cameFromTodayBalance == true else { return }
         configureVisibleCells()
-        guard let endDate = self.endDate else { return }
-        if date == endDate {
-          //  let cell = self.calendar(calendar, cellFor: date, at: monthPosition) as! DIYFSCalendarCell
-
-        }
-//        setDIYDates(startDate: Date(), endDate: endDate)
-
+//        guard let endDate = self.endDate else { return }
+//        if date == endDate {
+//            //  let cell = self.calendar(calendar, cellFor: date, at: monthPosition) as! DIYFSCalendarCell
+//
+//        }
+        //        setDIYDates(startDate: Date(), endDate: endDate)
+        
     }
     
-
+    
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         setDIYDates(startDate: Date(), endDate: date)
+        let cell = calendar.cell(for: date, at: monthPosition) as! DIYFSCalendarCell
+     
         self.endDate = date
         configureVisibleCells()
         self.getDiyArray()
-       // let anyArray = createObjectsArray(date: date) // Воспользовался функцией сверху (тут разовый, регулярный платеж и платеж в раз)
         calendar.reloadData()
-     //   guard !anyArray.isEmpty else {return}
-//        for i in datesArray {
-//            if date == i {
-//                goToPopUpTableView(delegateController: self, payObject: anyArray, sourseView: calendar.cell(for: date, at: monthPosition)!, type: .inCalendar)
-//            }
-//
-//        }
     }
     
     private func configureVisibleCells() {
@@ -153,26 +200,7 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
         
     }
     
-    //MARK: - Deprecated now
-    func createObjectsArray(date: Date) -> [Any] {
-        var objectsArray = [Any]()
-        for i in payPerTimeObjects{
-            if i.date == date {
-                objectsArray.append(i)
-            }
-        }
-        for x in Array(oneTimeObjects) {
-            if x.date == date {
-                objectsArray.append(x)
-            }
-        }
-        for y in Array(goalObjects) {
-            if y.date == date{
-                objectsArray.append(y)
-            }
-        }
-        return objectsArray
-    }
+    
     private func setDIYDates(startDate: Date, endDate: Date){
         DIYDatesArray = []
         let dayDurationInSeconds: TimeInterval = 60*60*24
@@ -184,14 +212,12 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
             DIYDatesArray.append(component)
         }
     }
- 
+    
     private func configureEvent(cell: FSCalendarCell, for date: Date, at position: FSCalendarMonthPosition) {
         let diyCell = (cell as! DIYFSCalendarCell)
-        
+        diyCell.eventView.isHidden = true
         if datesArray.contains(date) {
             diyCell.eventView.isHidden = false
-        }else{
-            diyCell.eventView.isHidden = true
         }
     }
     
@@ -243,4 +269,4 @@ extension TodayBalanceCalendarViewController: FSCalendarDelegate, FSCalendarData
         }
     }
 }
-    
+

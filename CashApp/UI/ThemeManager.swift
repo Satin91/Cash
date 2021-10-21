@@ -25,6 +25,7 @@ struct MyThemeSettings: ThemeModelProtocol {
     var separatorColor:UIColor
     var shadowColor:UIColor
     var blackColor:UIColor
+    
 }
 
 extension MyThemeSettings {

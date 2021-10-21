@@ -32,15 +32,15 @@ class PopTableViewCell: UITableViewCell {
     }
     func visualSettings() {
         colors.loadColors()
-        lineView.backgroundColor = colors.borderColor
+        lineView.backgroundColor = colors.borderColor.withAlphaComponent(0.6)
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
     }
     
     func createConstraints() {
         self.contentView.addSubview(lineView)
-        lineView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor,constant: self.contentView.bounds.width / 6).isActive = true
-        lineView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor,constant: -self.contentView.bounds.width / 6).isActive = true
+        lineView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor,constant: self.contentView.bounds.width / 8).isActive = true
+        lineView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor,constant: -self.contentView.bounds.width / 8).isActive = true
         lineView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -1.5).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 1.5).isActive = true
         self.lineView.translatesAutoresizingMaskIntoConstraints = false

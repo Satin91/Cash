@@ -14,7 +14,7 @@ extension MenuTableView: UITableViewDelegate, UITableViewDataSource {
     
     func setupMenu(){
         let y = controller.view.bounds.height + 22
-        let frameTableView = CGRect (x: 26, y: y, width: controller.view.bounds.width - 26 * 2, height: cellHeight * cellCount) // 80 - высота ячейки
+        let frameTableView = CGRect (x: 22, y: y, width: controller.view.bounds.width - 22 * 2, height: cellHeight * cellCount) // 80 - высота ячейки
         self.frame = frameTableView
     }
     

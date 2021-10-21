@@ -27,12 +27,13 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     }
     
     @IBOutlet var scrollView: UIScrollView!//нужен только для того, чтобы выключить скрол(до следующих обновлений с лимитом)
-    var cancelButton: CancelButton!
+    
     //Protocol for reload data to previous table view
     var tableReloadDelegate: ReloadParentTableView!
-    var ImageCollectionView: IconsCollectionView!
+    var ImageCollectionView: IconsViewController!
     var miniAlertView: MiniAlertView!
     @IBOutlet var doneButton: UIBarButtonItem!
+    @IBOutlet var containerForSaveButton: UIView!
     
     var newCategoryObject = MonetaryCategory()
     var changeValue = true
@@ -62,12 +63,7 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     
     @IBOutlet var selectImageButton: UIButton!
     
-    func createCancelButton() {
-        cancelButton = CancelButton(frame: .zero, title: .cancel, owner: self)
-        cancelButton.addToParentView(view: self.view)
-        self.navigationController?.navigationBar.isUserInteractionEnabled = false
-    }
-    
+    var navBarButtons: NavigationBarButtons!
     
     var selectedImageName = "emptyImage" {
         didSet{
@@ -75,28 +71,71 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
             
         }
     }
-    var iconsCollectionView = IconsCollectionView()
+    var iconsCollectionView = IconsViewController()
     @IBAction func selectImageButtonAction(_ sender: Any) {
         present(iconsCollectionView, animated: true) {
             self.iconsCollectionView.sendImageDelegate = self
         }
+    }
+    func setupNavBar() {
+        let colors = AppColors()
+        colors.loadColors()
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = UIColor.clear
+        
+        appearance.backgroundEffect = UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark) // or dark
+        appearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular),NSAttributedString.Key.foregroundColor: colors.titleTextColor]
+        let scrollingAppearance = UINavigationBarAppearance()
+        
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = 26 - 12
+        paragraphStyle.alignment = .left
+        scrollingAppearance.largeTitleTextAttributes = [.font: UIFont.systemFont(ofSize: 46, weight: .medium), .paragraphStyle: paragraphStyle, .foregroundColor: colors.titleTextColor  ]
+        
+        scrollingAppearance.configureWithTransparentBackground()
+        scrollingAppearance.backgroundColor = .clear // your view (superview) color
+        scrollingAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular),NSAttributedString.Key.foregroundColor: colors.titleTextColor]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = scrollingAppearance
+        navigationController?.navigationBar.compactAppearance = appearance
     }
     ///                     View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: AddOperationViewController.theme(_:))
         colors.loadColors()
-        createCancelButton()
-        miniAlertView = MiniAlertView.loadFromNib()
-        scrollView.isScrollEnabled = false
-        miniAlertView.controller = self
         
+        miniAlertView = MiniAlertView.loadFromNib()
+        scrollView.isScrollEnabled = true
+        miniAlertView.controller = self
         self.isModalInPresentation = true
         visualSettings()
+        setupNavBar()
         iconsCollectionView.sendImageDelegate = self
         setupControls()
-        print(isEditingCategory)
-        
+        setupNavBarButtons()
+    }
+    func setupNavBarButtons() {
+        self.navBarButtons = NavigationBarButtons(navigationItem: navigationItem, leftButton: .none, rightButton: .cancel)
+        self.navBarButtons.setRightButtonAction { [weak self] in
+            guard let self = self else { return }
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    // Этот участок обязательно переделать, одна функция запускается 2 раза подряд, но почему то только так можно установить ограничения для скрол вью
+    override func viewDidAppear(_ animated: Bool) {
+        scrollViewContentSize()
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollViewContentSize()
+    }
+    func scrollViewContentSize() {
+        let frame = nameTextField.convert(saveButtonOutlet.frame, from: self.scrollView)
+        let height = abs(frame.origin.y - 60 - 40)
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: height)
     }
     
     
@@ -108,8 +147,10 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     func visualSettings() {
         headingTextLabel.numberOfLines = 2
         headingTextLabel.font = .systemFont(ofSize: 34, weight: .bold)
+        headingTextLabel.minimumScaleFactor = 0.5
+        headingTextLabel.sizeToFit()
         selectImageButton.layer.cornerRadius = 25
-        
+        containerForSaveButton.backgroundColor = colors.backgroundcolor
         
         let saveButtomTitle = isEditingCategory ? NSLocalizedString("save_button", comment: "") : NSLocalizedString("create_button", comment: "")
         saveButtonOutlet.mainButtonTheme(saveButtomTitle)

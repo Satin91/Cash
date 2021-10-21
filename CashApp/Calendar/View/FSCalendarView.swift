@@ -40,7 +40,7 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
     override func layoutSubviews() {
         super.layoutSubviews()
         setHeaderLeftInset()
-        
+        setHeaderHeight()
     }
     
 
@@ -54,7 +54,7 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
             
             
         case .mini:
-            self.headerHeight = self.bounds.height / 8
+            self.headerHeight = self.bounds.height / 7
             self.appearance.headerTitleAlignment = .left
             self.appearance.headerTitleFont = .systemFont(ofSize: 34, weight: .regular)
             self.appearance.titleFont = .systemFont(ofSize: 17, weight: .regular)

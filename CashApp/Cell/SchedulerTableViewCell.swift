@@ -18,7 +18,6 @@ protocol SendScheduleObjectToEdit {
 
 class SchedulerTableViewCell: SwipeTableViewCell {
     
-    let colors = AppColors()
     var sendSchedulerDelegate: SendScheduleObjectToEdit!
     
     @IBOutlet var roundedBackground: UIView!
@@ -50,14 +49,21 @@ class SchedulerTableViewCell: SwipeTableViewCell {
         lockView.isHidden = !isLock
     }
     func set(object: MonetaryScheduler) {
-        
         fillTheDataForLabels(object: object, pptObject: getPPTObject(object: object))
         Themer.shared.register(target: self, action: SchedulerTableViewCell.theme(_:))
     }
-
+    // метод который показывает все, чтобы закрыть только нужное
+    func showAll() {
+        nextPayLabelText.isHidden = false
+        nextPayDate.isHidden = false
+        sumLabelText.isHidden = false
+        sumLabel.isHidden = false
+        remainingSum.isHidden = false
+        remainingSumLabelText.isHidden = false
+    }
     func fillTheDataForLabels(object: MonetaryScheduler, pptObject: PayPerTime?) {
+        showAll()
         titleLabel.text = object.name
-        
         scheduleImage.image = UIImage().myImageList(systemName: object.image)
         self.object = object
         switch object.stringScheduleType {

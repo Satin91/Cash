@@ -27,7 +27,7 @@ class CurrencySearchBar: ThemableTextField {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.searchTheme(fillColor: colors.titleTextColor.withAlphaComponent(0.15), shadowColor: colors.shadowColor)
+        self.searchTheme(fillColor: colors.secondaryBackgroundColor, shadowColor: colors.shadowColor)
     }
     
     required init?(coder: NSCoder) {
@@ -50,7 +50,7 @@ class CurrencySearchBar: ThemableTextField {
         self.placeholder = "Search"
         let font: UIFont = .systemFont(ofSize: 16, weight: .regular)
         self.font = font
-        self.attributedPlaceholder = NSAttributedString(string: self.placeholder!, attributes: [NSAttributedString.Key.font : font])
+         self.attributedPlaceholder = NSAttributedString(string: self.placeholder!, attributes: [NSAttributedString.Key.font : font, NSAttributedString.Key.foregroundColor: colors.subtitleTextColor])
         //navBar.addSubview(self)
        // createConstraints(toView: navBar, trailingAnchor: cancelButton)
     }

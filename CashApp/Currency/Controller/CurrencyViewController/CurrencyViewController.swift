@@ -199,7 +199,7 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
         if let spacer = tableView.reorder.spacerCell(for: indexPath) { // Штука из плагина
                return spacer
            }
-        
+        print(userCurrencyObjects.count)
         let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as! CurrencyTableViewCell
         cell.selectionStyle = .none
         let object = userCurrencyObjects[indexPath.row]
@@ -221,7 +221,9 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
     }
     func setCurrencyCellProperties(currencyCell: CurrencyTableViewCell, object: CurrencyObject) {
         
-        currencyCell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO ? .systemFont(ofSize: 17, weight: .medium) : .systemFont(ofSize: 17, weight: .regular)
+        currencyCell.isMainCurrencyLabel.font = object.ISO == mainCurrency?.ISO
+        ? .systemFont(ofSize: 14, weight: .regular)
+        : .systemFont(ofSize: 14, weight: .regular)
         currencyCell.isMainCurrencyLabel.text = object.ISO == mainCurrency?.ISO ? NSLocalizedString("main_currency_cell", comment: "") : NSLocalizedString("additional_currency_cell", comment: "")
         currencyCell.isMainCurrencyLabel.textColor = object.ISO == mainCurrency?.ISO ? colors.titleTextColor : colors.subtitleTextColor
     }
@@ -233,8 +235,10 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
 
 extension CurrencyViewController: ReloadParentTableView {
     func reloadData() {
-        getCurrenciesByPriorities()
+            getCurrenciesByPriorities()
+        
         tableView.reloadData()
+        print("Reload data")
     }
     
 }

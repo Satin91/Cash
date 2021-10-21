@@ -149,12 +149,12 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
         //200 это инсет у тейбл вью
         let const: CGFloat = 200 - heightInCollapse
         persent = (height - heightInCollapse)/const
-        let sidePoint: CGFloat = 0.26
-        let radiusPoint: CGFloat = 0.35
+        let sidePoint: CGFloat = 0.22
+        let radiusPoint: CGFloat = 0.28
         //расстоянние до стенок
         var sideDistance = Layout.side
         var radius: CGFloat = 35
-        if persent * sidePoint*100 <= 26 {
+        if persent * sidePoint*100 <= 22 {
             sideDistance = persent * sidePoint*100
         }
         if persent * radiusPoint*100 <= 35 {
@@ -299,7 +299,7 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        //Запрещает использовать иной tableView
+        // позволяет использовать только маленькую ячейку
         if tableView.tag != 15888 {
             let object = self.enlargeArray[tableView.tag].historyArray[indexPath.row]
             let deleteAction = UIContextualAction(style: .normal, title: "Delete") {[weak self] _, _, complete in

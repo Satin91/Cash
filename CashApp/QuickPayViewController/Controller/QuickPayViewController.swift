@@ -62,6 +62,24 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         tf.adjustsFontSizeToFitWidth = true
         return tf
     }()
+    var currencyImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 6
+        imageView.layer.cornerCurve = .continuous
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    var transferPrimaryImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    var transferSecondaryImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
     let transfer = Transfer()
     var numpadView = NumpadView()
     
@@ -89,6 +107,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }()
     var historyObject = AccountsHistory()
     var changeHistoryObject: ChangeHistoryObject!
+    // Улучшить геттером
     var payObject: Any! {
         willSet{
             switch newValue {
@@ -114,7 +133,13 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }
     
     var convertedEnteredSum = Double(0)
-    var monetaryPaymentISO: String?
+    
+    var monetaryPaymentISO: String? {
+        willSet {
+            guard let newValue = newValue else { return }
+            self.currencyImage.image = UIImage(named: newValue)
+        }
+    }
     let currencyModelController = CurrencyModelController()
     var scrollOffset: CGFloat = 0
     var cancelButton: CancelButton!
@@ -144,6 +169,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         }
         if self.monetaryPaymentISO != currencyCarrier {
             //Конвертация валюты счета в валюту объекта
+            print("Convert sum")
             guard let convertedSum = currencyModelController.convert(Double(sumTextField.enteredSum), inputCurrency: monetaryPaymentISO, outputCurrency: currencyCarrier) else {return}
             
             self.convertedEnteredSum = convertedSum.removeHundredthsFromEnd()
@@ -175,6 +201,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         setupCancelButton()
         checkPayObjectAndSetItsValue()
         setupNavigationsButtons()
+        setupTransferImages()
         createConstraints()
     }
     
@@ -221,13 +248,60 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         cancelButton.backgroundColor = .clear
         cancelButton.contentHorizontalAlignment = .right
     }
+    func setupTransferImages() {
+
+        let pointSize: CGFloat = 5
+        let receiveImage: UIImage = UIImage().getNavigationImage(systemName: "arrow.right", pointSize: pointSize, weight: .regular)
+        let sendImage: UIImage    = UIImage().getNavigationImage(systemName: "arrow.left", pointSize: pointSize, weight: .regular)
+        
+
+        if let payObject = payObject as? AccountsHistory, payObject.secondAccountID != ""  {
+
+            // Если это пополнение
+            if changeHistoryObject.oldhistoryObject.sum > 0 {
+                transferPrimaryImage.image = receiveImage
+                transferSecondaryImage.image = sendImage
+
+
+                transferPrimaryImage.tintColor = colors.contrastColor1
+                transferSecondaryImage.tintColor = colors.redColor
+            // Если это отправление
+            } else {
+                transferPrimaryImage.image = sendImage
+                transferSecondaryImage.image = receiveImage
+
+
+                transferPrimaryImage.tintColor = colors.redColor
+                transferSecondaryImage.tintColor = colors.contrastColor1
+            }
+        } else if let payObject = payObject as? TransferModel {
+            switch payObject.transferType {
+            case .receive:
+                transferPrimaryImage.image = receiveImage
+                transferSecondaryImage.image = sendImage
+                transferPrimaryImage.tintColor = colors.contrastColor1
+                transferSecondaryImage.tintColor = colors.redColor
+            case .send:
+                transferPrimaryImage.image = sendImage
+                transferSecondaryImage.image = receiveImage
+                transferPrimaryImage.tintColor = colors.redColor
+                transferSecondaryImage.tintColor = colors.contrastColor1
+            }
+        } else {
+            transferPrimaryImage.isHidden = true
+            transferSecondaryImage.isHidden = true
+        }
+    }
     func setupContainerView(){
         numpadView.delegateAction = self
+        containerView.addSubview(transferPrimaryImage)
+        containerView.addSubview(transferSecondaryImage)
         containerView.addSubview(convertedSumLabel)
         containerView.addSubview(payObjectNameLabel)
         containerView.addSubview(sumTextField)
         containerView.addSubview(accountLabel)
         containerView.addSubview(dateLabel)
+        containerView.addSubview(currencyImage)
     }
     func setupSumTextField() {
         sumTextField.isEnabled = true
@@ -288,35 +362,43 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
             let object = payObject as! MonetaryCategory
             self.convertedSumLabel.alpha = 0 // Пришлось скрыть таким образом, чтобы в tableView did select row он опять показывается
             payObjectNameLabel.text = object.name
+            monetaryPaymentISO = selectedAccountObject?.currencyISO
         case is MonetaryScheduler:
             let object = payObject as! MonetaryScheduler
             payObjectNameLabel.text = object.name
             if object.stringScheduleType == .oneTime {
                 payObjectNameLabel.text = object.name
-                sumTextField.text = String(object.target - object.available)
+                sumTextField.text = String((object.target - object.available).formattedWithSeparator)
                 sumTextField.enteredSum = String(object.target - object.available)
+                observeConvertedSum()
             }
+
         case is PayPerTime:
             let object = payObject as! PayPerTime
             sumTextField.text = String(object.target.formattedWithSeparator)
             sumTextField.enteredSum = String(object.target)
+            observeConvertedSum()
             payObjectNameLabel.text = object.scheduleName
             
         case is AccountsHistory:
             let object = payObject as! AccountsHistory
+            changeHistoryObject = ChangeHistoryObject(historyObject: object)
             payObjectNameLabel.text = object.name
             monetaryPaymentISO = object.currencyISO
-            changeHistoryObject = ChangeHistoryObject(historyObject: object)
+            // Обязательно нужно вывести все значения в абсолютные иначе происходит неверное присвоение знаков (все операции конвертации происходят с положительными числами, а потом им присваиваются отрицательные)
             let positiveSum = abs(object.sum)
             sumTextField.text = String(positiveSum.formattedWithSeparator)
             sumTextField.enteredSum = String(positiveSum)
+            self.convertedEnteredSum = abs(object.convertedSum)
+            self.date = object.date
+            dateLabel.text = dateToString(date: self.date)
+            
             if object.secondAccountID != "" {
                 selectedAccountObject = findAccount(byID: object.secondAccountID)
             } else {
                 if object.accountID == "NO ACCOUNT" {
                     selectedAccountObject = withoutAccountObject
                     accountLabel.text = withoutAccountObject.name
-                    
                 } else {
                     for i in EnumeratedAccounts(array: accountsGroup) {
                         if i.accountID == object.accountID {
@@ -325,6 +407,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
                     }
                 }
             }
+            observeConvertedSum()
         case is TransferModel:
             let object = payObject as! TransferModel
             selectedAccountObject = withoutAccountObject
@@ -649,7 +732,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         historyObject.accountID = selectedAccountObject!.accountID
         // Если объект редактируется:
         if payObject is AccountsHistory {
-            print("payObject is AccountsHistory")
             historyObject.currencyISO = selectedAccountObject!.currencyISO
             changeHistoryObject.makeHistoryChanges(newHistoryObject: historyObject)
         } else {

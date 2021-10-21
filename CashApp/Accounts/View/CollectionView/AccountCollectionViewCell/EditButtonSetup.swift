@@ -12,11 +12,9 @@ import UIKit
 extension AccountCollectionViewCell {
     // При появлении
     func baseConfiguration() {
-        editButtonImage = UIImageView(image: UIImage(named: "editButton"))
-        editButtonImage.setImageColor(color: colors.whiteColor)
-        editButtonImage.frame = editButtonOutlet.bounds.inset(by: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
-        editButtonImage.contentMode = .scaleAspectFill
-        editButtonOutlet.addSubview(editButtonImage)
+        let image = UIImage().getNavigationImage(systemName: "ellipsis", pointSize: 46, weight: .light)
+        editButtonOutlet.setImage(image, for: .normal)
+        editButtonOutlet.tintColor = colors.whiteColor
         editButtonOutlet.backgroundColor = colors.blackColor
         editButtonOutlet.layer.cornerRadius = 8
         editButtonOutlet.layer.cornerCurve = .continuous
@@ -37,11 +35,6 @@ extension AccountCollectionViewCell {
             self.editButtonOutlet.layer.shadowOpacity = 0
             self.editButtonOutlet.backgroundColor =  self.colors.whiteColor.withAlphaComponent(0.6)
             
-        } completion: { _ in
-            UIView.animate(withDuration: 0.1) { [weak self] in
-                guard let self = self else { return }
-                self.editButtonImage.setImageColor(color:  self.colors.blackColor.withAlphaComponent(0.8))
-            }
         }
     }
     
@@ -51,11 +44,6 @@ extension AccountCollectionViewCell {
             guard let self = self else { return }
             self.editButtonOutlet.layer.shadowOpacity = 0.4
             self.editButtonOutlet.backgroundColor = self.colors.blackColor
-        } completion: { _ in
-            UIView.animate(withDuration: 0.1) { [weak self] in
-                guard let self = self else { return }
-                self.editButtonImage.setImageColor(color:  self.colors.whiteColor)
-            }
         }
     }
 }

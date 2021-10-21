@@ -39,9 +39,8 @@ class DIYFSCalendarCell: FSCalendarCell{
     override func prepareForReuse() {
         super.prepareForReuse()
         self.backgroundView?.backgroundColor = themeBackgroundColor
-       // self.eventView.isHidden = true
+        self.eventView.isHidden = true
         self.selectionLayer.isHidden = true
-        
     }
     override init!(frame: CGRect) {
         super.init(frame: frame)
@@ -59,7 +58,7 @@ class DIYFSCalendarCell: FSCalendarCell{
         //createEventView(toView: contentView)
         self.backgroundView = contentView
         self.backgroundView?.insertSubview(eventView, at: 10)
-        setSelectionLayer()
+      //  setSelectionLayer()
     }
  
     func setStyle(cellStyle: CellStyle) {
@@ -93,24 +92,24 @@ class DIYFSCalendarCell: FSCalendarCell{
         //self.eventView.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height / 5)
         self.backgroundView?.frame = self.bounds.inset(by: UIEdgeInsets(top: selectionInset, left: 4, bottom: 4, right: 4))
         
-        self.selectionLayer.frame = self.bounds.inset(by: UIEdgeInsets(top: selectionInset, left: 0, bottom:  selectionInset, right: 0) )
-        let leftFrame =             self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 4, bottom:  0, right: 0))
-        let rightFrame =            self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 4))
+      //  self.selectionLayer.frame = self.bounds.inset(by: UIEdgeInsets(top: selectionInset, left: 0, bottom:  selectionInset, right: 0) )
+     //   let leftFrame =             self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 4, bottom:  0, right: 0))
+     //   let rightFrame =            self.selectionLayer.bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom:  0, right: 4))
         //self.bounds.inset(by: UIEdgeInsets(top: self.bounds.height / 5, left: 0, bottom:  self.bounds.height / 5, right: 0) )
-        
-        if selectionType == .middle {
-            self.selectionLayer.path = UIBezierPath(rect: self.selectionLayer.bounds).cgPath
-        }
-        else if selectionType == .leftBorder {
-            self.selectionLayer.path = UIBezierPath(roundedRect: leftFrame, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: radius, height: radius)).cgPath
-        }
-        else if selectionType == .rightBorder {
-            self.selectionLayer.path = UIBezierPath(roundedRect: rightFrame, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: radius, height: radius)).cgPath
-        }
-        else if selectionType == .single {
-            let diameter: CGFloat = min(self.selectionLayer.frame.height, self.selectionLayer.frame.width)
-            self.selectionLayer.path = UIBezierPath(ovalIn: CGRect(x: self.contentView.frame.width / 2 - diameter / 2, y: self.contentView.frame.height / 2 - diameter / 2, width: diameter, height: diameter)).cgPath
-        }
+//
+//        if selectionType == .middle {
+//            self.selectionLayer.path = UIBezierPath(rect: self.selectionLayer.bounds).cgPath
+//        }
+//        else if selectionType == .leftBorder {
+//            self.selectionLayer.path = UIBezierPath(roundedRect: leftFrame, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: radius, height: radius)).cgPath
+//        }
+//        else if selectionType == .rightBorder {
+//            self.selectionLayer.path = UIBezierPath(roundedRect: rightFrame, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: radius, height: radius)).cgPath
+//        }
+//        else if selectionType == .single {
+//            let diameter: CGFloat = min(self.selectionLayer.frame.height, self.selectionLayer.frame.width)
+//            self.selectionLayer.path = UIBezierPath(ovalIn: CGRect(x: self.contentView.frame.width / 2 - diameter / 2, y: self.contentView.frame.height / 2 - diameter / 2, width: diameter, height: diameter)).cgPath
+//        }
         createEventView(toView: self.backgroundView!)
     }
     override func layoutSubviews() {

@@ -67,11 +67,12 @@ class HBSegmentedControl: UIControl {
     }
     
     private func setupView() {
-        layer.cornerRadius = frame.height / 2
+        layer.cornerRadius = frame.height / 4
+        layer.cornerCurve = .continuous
         layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
         layer.borderWidth = 2.5
         
-        backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
+        //backgroundColor = ThemeManager2.currentTheme().secondaryBackgroundColor
         setupLabels()
         insertSubview(thumbView, at: 0)
     }
@@ -106,7 +107,8 @@ class HBSegmentedControl: UIControl {
             label.textColor = selectedLabelColor
             thumbView.frame = label.frame
             thumbView.backgroundColor = thumbColor
-            thumbView.layer.cornerRadius = thumbView.frame.height / 2
+            thumbView.layer.cornerRadius = thumbView.frame.height / 3.3
+            thumbView.layer.cornerCurve = .continuous
             displayNewSelectedIndex()
         }
     }

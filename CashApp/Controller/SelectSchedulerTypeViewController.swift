@@ -128,8 +128,8 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
                     self.heightBackgroundViewConstraint.constant = self.view.bounds.height
                     self.view.layoutIfNeeded()
                 }completion: { closeController in
-                    self.addChildViewController(tag: sender.view!.tag)
-                    
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                        self.addChildViewController(tag: sender.view!.tag)
                 }
                 
             }
@@ -142,11 +142,13 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
         let object = MonetaryScheduler()
         object.scheduleType = tag
         addSchedulerVC.newScheduleObject = object
-        addSchedulerVC.view.frame = self.view.bounds
         addSchedulerVC.closeDelegate = self
-        self.addChild(vc)
-        self.isModalInPresentation = true
-        self.view.addSubview(vc.view)
+        //self.view.addSubview(vc.view)
+        //self.addChild(vc)
+        //vc.didMove(toParent: self)
+        self.navigationController?.pushViewController(addSchedulerVC, animated: false)
+        self.isModalInPresentation = false
+        
     }
     
     func createTapGesture(){

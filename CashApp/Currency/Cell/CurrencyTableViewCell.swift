@@ -26,10 +26,16 @@ class CurrencyTableViewCell: UITableViewCell {
         guard let object = userCurrencyObjects.first else {return}
         mainCurrency = object
     }
+    func setupImage(){
+        self.currencyImage.layer.setCircleShadow(color: colors.shadowColor.withAlphaComponent(0.2))
+        self.currencyImage.layer.masksToBounds = false
+    }
     func visualSettings() {
         ISOLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        isMainCurrencyLabel.font = .systemFont(ofSize: 17, weight: .regular)
+        isMainCurrencyLabel.font = .systemFont(ofSize: 14, weight: .regular)
         currencyDescriptionLabel.font = .systemFont(ofSize: 21, weight: .regular)
+        currencyDescriptionLabel.minimumScaleFactor = 0.5
+        currencyDescriptionLabel.adjustsFontSizeToFitWidth = true
         //currencyImage.layer.cornerRadius = 5
         //currencyImage.layer.borderWidth = 1.5
         currencyImage.layer.setMiddleShadow(color: colors.shadowColor)
@@ -54,18 +60,20 @@ class CurrencyTableViewCell: UITableViewCell {
         let convertedSum = currencyModelController.convert(enteredSum, inputCurrency: mainCurrency?.ISO, outputCurrency: currencyObject.ISO)?.formattedWithSeparator
         currencyDescriptionLabel.text = convertedSum
         self.setCellColors()
+        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.contentView.frame = self.bounds.inset(by: UIEdgeInsets(top: 10, left: 26, bottom: 10, right: 26))
-        
+        self.contentView.frame = self.bounds.inset(by: UIEdgeInsets(top: 10, left: 22, bottom: 10, right: 22))
+        setupImage()
     }
     
     func setupContentView() {
         self.contentView.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
-        self.contentView.layer.cornerRadius = 20
+        self.contentView.layer.cornerRadius = 16
+        self.contentView.layer.cornerCurve = .continuous
     }
     
     required init?(coder: NSCoder) {

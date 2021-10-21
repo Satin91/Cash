@@ -731,7 +731,7 @@ extension UIViewController {
 extension UIScrollView {
     
     func adjustTheSizeOfThe(view: UIView) {
-        let heightSize = view.frame.origin.y + 60 + 420
+        let heightSize = view.frame.origin.y + view.bounds.height + 120
         self.contentSize.height = heightSize
     }
 }

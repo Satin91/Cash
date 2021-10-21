@@ -11,6 +11,7 @@ import UIKit
 class NavigationBarButtons {
     enum ButtonType: String {
         case back
+        case cancel
         case add
         case none
         case calendar
@@ -21,6 +22,8 @@ class NavigationBarButtons {
             switch self {
             case .back:
                 return "chevron.backward"
+            case .cancel:
+                return ""
             case .add:
                 return "plus.circle.fill"
             case .calendar:
@@ -31,7 +34,7 @@ class NavigationBarButtons {
                 guard let mainCurrency = mainCurrency else { return "" }
                 return mainCurrency.ISO
             case .chart:
-                return "linear.chart"
+                return "chart.bar.doc.horizontal.fill"
                 
             case .none:
                 
@@ -85,13 +88,28 @@ class NavigationBarButtons {
         }
     }
     
+    
     private func createRightBarButtonItem(image: String) {
         let customVuew = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 34))
         let button = UIButton()
         button.frame = CGRect(x: -12, y: 0, width: 50, height: 34)
-        button.setTitle("", for: .normal)
+        
+        // СОри но я тороплюсь!!!
+        if image == "" {
+            button.setTitle(NSLocalizedString("cancel_button", comment: ""), for: .normal)
+            button.setTitleColor(colors.contrastColor1, for: .normal)
+            button.frame.size.width = 80
+            button.frame.size.height = 40
+            button.frame.origin.x = -42
+            button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
+        } else {
+            button.setTitle("", for: .normal)
+            button.setImage(UIImage().getNavigationImage(systemName: image, pointSize: 34, weight: .light) , for: .normal)
+        }
+        
+       
         button.contentHorizontalAlignment = .right
-        button.setImage(UIImage().getNavigationImage(systemName: image, pointSize: 34, weight: .light) , for: .normal)
+       
         
 //        button.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
 //        button.layer.cornerRadius = 8

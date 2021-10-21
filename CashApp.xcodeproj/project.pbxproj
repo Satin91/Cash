@@ -42,7 +42,7 @@
 		75309CF326ED38C80093AFF3 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CF226ED38C80093AFF3 /* AppColors.swift */; };
 		75309CF526ED47150093AFF3 /* TodayBalanceTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CF426ED47150093AFF3 /* TodayBalanceTheme.swift */; };
 		753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */; };
-		7531DF00270354A00008E017 /* TodayBalanceCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7531DEFE270354A00008E017 /* TodayBalanceCalendarViewController.swift */; };
+		7531DF00270354A00008E017 /* ModalCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7531DEFE270354A00008E017 /* ModalCalendarViewController.swift */; };
 		7537E58025DEF0730019768C /* QuickTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E57F25DEF0730019768C /* QuickTableView.swift */; };
 		7539D3CB2637962A00A966BB /* PopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7539D3C92637962A00A966BB /* PopTableViewCell.swift */; };
 		7539D3CC2637962A00A966BB /* PopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7539D3CA2637962A00A966BB /* PopTableViewCell.xib */; };
@@ -80,7 +80,7 @@
 		7553915226EE5B8C00F9C825 /* AddCurrencyCellTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553915126EE5B8C00F9C825 /* AddCurrencyCellTheme.swift */; };
 		7553915526EE6BCB00F9C825 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7553915426EE6BCB00F9C825 /* CancelButton.swift */; };
 		7559A48326C7D4E800EDF287 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7559A48526C7D4E800EDF287 /* Localizable.strings */; };
-		755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755DE792262DD70D00CA835D /* IconsCollectionView.swift */; };
+		755DE793262DD70D00CA835D /* IconsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755DE792262DD70D00CA835D /* IconsViewController.swift */; };
 		755E675D25FE024B0049E113 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E675C25FE024B0049E113 /* ContainerViewController.swift */; };
 		7560D034259482E700E496B0 /* QuickPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7560D033259482E700E496B0 /* QuickPayViewController.swift */; };
 		7560FCAE26FBA2CF00341FD0 /* Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7560FCAD26FBA2CE00341FD0 /* Shadows.swift */; };
@@ -189,6 +189,9 @@
 		75EA2AF724CDDB8200D03E95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75EA2AF524CDDB8200D03E95 /* Main.storyboard */; };
 		75EA2AF924CDDB8B00D03E95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75EA2AF824CDDB8B00D03E95 /* Assets.xcassets */; };
 		75EA2AFC24CDDB8B00D03E95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75EA2AFA24CDDB8B00D03E95 /* LaunchScreen.storyboard */; };
+		75EA9066271EB659003DD430 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EA9065271EB659003DD430 /* HeaderCollectionReusableView.swift */; };
+		75EA9068271EBE1F003DD430 /* IconsModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EA9067271EBE1F003DD430 /* IconsModelController.swift */; };
+		75EA906A271EC3D2003DD430 /* IconsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EA9069271EC3D2003DD430 /* IconsModel.swift */; };
 		75EDDC36250AD352000C0E27 /* AnyOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EDDC35250AD352000C0E27 /* AnyOptions.swift */; };
 		75EF225D27147F0500EA8561 /* SaveCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EF225C27147F0500EA8561 /* SaveCategory.swift */; };
 		75F1E7E72709CF4900BBF979 /* CategoryPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F1E7E62709CF4900BBF979 /* CategoryPreviewViewController.swift */; };
@@ -235,7 +238,7 @@
 		75309CF226ED38C80093AFF3 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		75309CF426ED47150093AFF3 /* TodayBalanceTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceTheme.swift; sourceTree = "<group>"; };
 		753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickTypePopUpTableViewController.swift; sourceTree = "<group>"; };
-		7531DEFE270354A00008E017 /* TodayBalanceCalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceCalendarViewController.swift; sourceTree = "<group>"; };
+		7531DEFE270354A00008E017 /* ModalCalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalCalendarViewController.swift; sourceTree = "<group>"; };
 		7537E57F25DEF0730019768C /* QuickTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableView.swift; sourceTree = "<group>"; };
 		7539D3C92637962A00A966BB /* PopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopTableViewCell.swift; sourceTree = "<group>"; };
 		7539D3CA2637962A00A966BB /* PopTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopTableViewCell.xib; sourceTree = "<group>"; };
@@ -278,7 +281,7 @@
 		7559A48426C7D4E800EDF287 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7559A48626C7D4EA00EDF287 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7559A48726C7D4EF00EDF287 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		755DE792262DD70D00CA835D /* IconsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsCollectionView.swift; sourceTree = "<group>"; };
+		755DE792262DD70D00CA835D /* IconsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsViewController.swift; sourceTree = "<group>"; };
 		755E675C25FE024B0049E113 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		7560D033259482E700E496B0 /* QuickPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPayViewController.swift; sourceTree = "<group>"; };
 		7560FCAD26FBA2CE00341FD0 /* Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadows.swift; sourceTree = "<group>"; };
@@ -390,6 +393,9 @@
 		75EA2AF824CDDB8B00D03E95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75EA2AFB24CDDB8B00D03E95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75EA2AFD24CDDB8B00D03E95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75EA9065271EB659003DD430 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		75EA9067271EBE1F003DD430 /* IconsModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsModelController.swift; sourceTree = "<group>"; };
+		75EA9069271EC3D2003DD430 /* IconsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsModel.swift; sourceTree = "<group>"; };
 		75EDDC35250AD352000C0E27 /* AnyOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyOptions.swift; sourceTree = "<group>"; };
 		75EF225C27147F0500EA8561 /* SaveCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveCategory.swift; sourceTree = "<group>"; };
 		75F1E7E62709CF4900BBF979 /* CategoryPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPreviewViewController.swift; sourceTree = "<group>"; };
@@ -433,6 +439,49 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7501CD99272009AA00744BA4 /* AddViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */,
+			);
+			path = AddViewController;
+			sourceTree = "<group>";
+		};
+		7501CD9D272057A300744BA4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */,
+				75309CE226ECBA5C0093AFF3 /* FSCalendarCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7501CD9E272057AB00744BA4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7501CDA0272057FB00744BA4 /* ModalCalendar */,
+				7501CD9F272057D500744BA4 /* FullSizeCalendar */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7501CD9F272057D500744BA4 /* FullSizeCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				750888A6268764260037C804 /* CalendarSchedulerViewController.swift */,
+				75BA487E26EF35660018CE78 /* CalendarStoryboard.storyboard */,
+			);
+			path = FullSizeCalendar;
+			sourceTree = "<group>";
+		};
+		7501CDA0272057FB00744BA4 /* ModalCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				7531DEFE270354A00008E017 /* ModalCalendarViewController.swift */,
+			);
+			path = ModalCalendar;
+			sourceTree = "<group>";
+		};
 		750888AC26877E850037C804 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,10 +498,9 @@
 			children = (
 				75F585322619B7A700355CBF /* SchedulerViewController.swift */,
 				751425B026F253270036C5F8 /* SchedulerNavBarSetup.swift */,
-				7527E186261F7F4500DEF5AD /* AddScheduleViewController.swift */,
 				75635D9B26EBD59E00742FCA /* SchedulerVisualSettings.swift */,
 				7528447B2695701400699B0E /* EditScheduler.swift */,
-				75BA487D26EF353E0018CE78 /* Calendar */,
+				7501CD99272009AA00744BA4 /* AddViewController */,
 				75727D362694F67F000BC7DE /* SelectSchedulerTypeViewController.swift */,
 			);
 			path = Controller;
@@ -461,8 +509,8 @@
 		751573C7255C12130075C3B8 /* Accounts */ = {
 			isa = PBXGroup;
 			children = (
-				7545530A270DC0490026CBB1 /* View */,
 				755A1D712570539700CE034F /* Controller */,
+				7545530A270DC0490026CBB1 /* View */,
 				752B8ADC27049EA400F27DC0 /* Model */,
 			);
 			path = Accounts;
@@ -516,8 +564,8 @@
 			isa = PBXGroup;
 			children = (
 				757D64AA25250679008CDEE1 /* DateSettings.swift */,
-				75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */,
-				75309CE226ECBA5C0093AFF3 /* FSCalendarCell.swift */,
+				7501CD9D272057A300744BA4 /* View */,
+				7501CD9E272057AB00744BA4 /* Controller */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -553,19 +601,10 @@
 			path = ThemableControls;
 			sourceTree = "<group>";
 		};
-		7531DF02270354BF0008E017 /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				7531DEFE270354A00008E017 /* TodayBalanceCalendarViewController.swift */,
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
 		7531DF03270354CC0008E017 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */,
-				7531DF02270354BF0008E017 /* Calendar */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1062,15 +1101,6 @@
 			path = BarChartModel;
 			sourceTree = "<group>";
 		};
-		75BA487D26EF353E0018CE78 /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				750888A6268764260037C804 /* CalendarSchedulerViewController.swift */,
-				75BA487E26EF35660018CE78 /* CalendarStoryboard.storyboard */,
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
 		75CCCE6726F668E80067279C /* NumpadView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1193,7 +1223,7 @@
 				75AD2A092669EA5A00F6880B /* Currency */,
 				758F857524D2E9E9007CD161 /* HomeView */,
 				75B59B6E262DE57600DFCCCD /* AddCollectionViewCell.swift */,
-				755DE792262DD70D00CA835D /* IconsCollectionView.swift */,
+				75EA9064271EB61D003DD430 /* IconsCollectionView */,
 				75B59B6F262DE57600DFCCCD /* AddCollectionViewCell.xib */,
 				75EA2AF524CDDB8200D03E95 /* Main.storyboard */,
 				757AA57D26E8C80900F8C443 /* TabBar */,
@@ -1212,6 +1242,25 @@
 				75CB7A9C255D4E6000451F1D /* SF-Pro-Rounded-Regular.otf */,
 			);
 			path = CashApp;
+			sourceTree = "<group>";
+		};
+		75EA9064271EB61D003DD430 /* IconsCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				755DE792262DD70D00CA835D /* IconsViewController.swift */,
+				75EA906B271EEC11003DD430 /* Model */,
+				75EA9065271EB659003DD430 /* HeaderCollectionReusableView.swift */,
+			);
+			path = IconsCollectionView;
+			sourceTree = "<group>";
+		};
+		75EA906B271EEC11003DD430 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				75EA9069271EC3D2003DD430 /* IconsModel.swift */,
+				75EA9067271EBE1F003DD430 /* IconsModelController.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		75F585352619D06200355CBF /* Scheduler */ = {
@@ -1421,11 +1470,12 @@
 				75A7413926E47F0400A9C586 /* AccountImagesCollectionView.swift in Sources */,
 				75E0604B271D620700461EC7 /* NavBarButtons.swift in Sources */,
 				7553915526EE6BCB00F9C825 /* CancelButton.swift in Sources */,
+				75EA906A271EC3D2003DD430 /* IconsModel.swift in Sources */,
 				7586F1AE26F0BD1100391615 /* CategoriesCollectionView.swift in Sources */,
 				75D28016268AE1E6000BA1EE /* layout.swift in Sources */,
 				75EF225D27147F0500EA8561 /* SaveCategory.swift in Sources */,
 				75A7414126E4A03A00A9C586 /* EditingButtons.swift in Sources */,
-				7531DF00270354A00008E017 /* TodayBalanceCalendarViewController.swift in Sources */,
+				7531DF00270354A00008E017 /* ModalCalendarViewController.swift in Sources */,
 				75309CE826ED31BD0093AFF3 /* QuickPayTheme.swift in Sources */,
 				757D0AC426E8D2140087E956 /* SchedulerModel.swift in Sources */,
 				752FEC952702CEFB00015D30 /* CurrencyOperations.swift in Sources */,
@@ -1449,7 +1499,7 @@
 				75309CE526ED26BD0093AFF3 /* SeparatorView.swift in Sources */,
 				75BA488326EF76570018CE78 /* QuickPayConstraints.swift in Sources */,
 				757F8F3A25402E5600F0B1D0 /* ShowAndHideTabBar.swift in Sources */,
-				755DE793262DD70D00CA835D /* IconsCollectionView.swift in Sources */,
+				755DE793262DD70D00CA835D /* IconsViewController.swift in Sources */,
 				7509C5952603675D00BD34D4 /* CustomProgressBar.swift in Sources */,
 				75FF12F826B98C7F002E1321 /* ChartView.swift in Sources */,
 				75051EEA26AAEC7000B9CC5F /* Checkmark.swift in Sources */,
@@ -1476,6 +1526,7 @@
 				755E675D25FE024B0049E113 /* ContainerViewController.swift in Sources */,
 				7553913D26EE35A300F9C825 /* AddAccountTheme.swift in Sources */,
 				750EF5D926A7FBBF000FF9D2 /* CreateOperationCell.swift in Sources */,
+				75EA9066271EB659003DD430 /* HeaderCollectionReusableView.swift in Sources */,
 				7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */,
 				75EA2AF424CDDB8200D03E95 /* HomeViewController.swift in Sources */,
 				75E58DDD270C8199004BDE87 /* SettingsMenu.swift in Sources */,
@@ -1526,6 +1577,7 @@
 				757F8F3025402BBB00F0B1D0 /* DBManager.swift in Sources */,
 				75BA487726EEFED40018CE78 /* BarChartTheme.swift in Sources */,
 				7583E1A526E21022009DC96C /* CurrencyNetworking.swift in Sources */,
+				75EA9068271EBE1F003DD430 /* IconsModelController.swift in Sources */,
 				75DE7E93269418F700528666 /* STSwitch.swift in Sources */,
 				7553914426EE4E9700F9C825 /* LineChartCellTheme.swift in Sources */,
 				754D40A52701D8F5000DAF15 /* LockView.swift in Sources */,
@@ -1725,7 +1777,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 1.6;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1758,7 +1810,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 1.6;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
 				FRAMEWORK_SEARCH_PATHS = (

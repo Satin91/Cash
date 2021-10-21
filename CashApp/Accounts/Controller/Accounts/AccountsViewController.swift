@@ -42,7 +42,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
     // var stackViewForEditingButtons = UIStackView()
     var alertView: AlertViewController!
     var goldenRatio: CGFloat {
-        (self.view.bounds.width - (26 * 2)) * 0.62
+        (self.view.bounds.width - (22 * 2)) * 0.62
     }
     @IBOutlet var sendButtonWidthConstraint: NSLayoutConstraint!
     @IBOutlet var sendButtonOutlet: UIButton!
@@ -154,10 +154,10 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         self.view.addSubview(imageCollectionView)
         imageCollectionView.alpha = 0
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        imageCollectionView.topAnchor.constraint(equalTo: accountsCollectionView.bottomAnchor,constant: 26).isActive = true
+        imageCollectionView.topAnchor.constraint(equalTo: accountsCollectionView.bottomAnchor,constant: 22).isActive = true
         imageCollectionView.heightAnchor.constraint(equalToConstant: containerView.bounds.height /*accountsCollectionView.bounds.height + 60*/).isActive = true
-        imageCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26).isActive = true
-        imageCollectionView.leadingAnchor.constraint(equalTo: accountsCollectionView.leadingAnchor,constant: 26).isActive = true
+        imageCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -22).isActive = true
+        imageCollectionView.leadingAnchor.constraint(equalTo: accountsCollectionView.leadingAnchor,constant: 22).isActive = true
     }
     func hiddenNavigationItems() {
         navigationController?.navigationItem.leftBarButtonItem?.isEnabled = false
@@ -176,7 +176,7 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
-        let edge: CGFloat = 26
+        let edge: CGFloat = 22
         layout.itemSize = CGSize(width: accountsCollectionView.bounds.width - edge*2, height: accountsCollectionView.bounds.height)
         let edgeinsets = UIEdgeInsets(top: 0, left: edge, bottom: 0, right: edge)
         layout.sectionInset = edgeinsets

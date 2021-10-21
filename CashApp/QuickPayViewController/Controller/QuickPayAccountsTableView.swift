@@ -84,15 +84,29 @@ extension QuickPayViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
+    
+    func changePaymentISOFor(account ISO: MonetaryAccount) {
+        if self.payObject is MonetaryCategory {
+            self.monetaryPaymentISO = ISO.currencyISO
+        } else if self.payObject is AccountsHistory {
+            let object = payObject as! AccountsHistory
+            // Допустить изменение валюты только в случае редактирования истории категории
+            guard object.categoryID != "" else { return }
+            self.monetaryPaymentISO = ISO.currencyISO
+        }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let object = accountsWithWithoutAccount()[indexPath.row]
+        
+        // Меняет
+        changePaymentISOFor(account: object)
+        
         guard object != accountsWithWithoutAccount().last else {
             selectedAccountObject = withoutAccountObject
             accountLabel.text = selectedAccountObject?.name
             convertedSumLabel.isHidden = true // Скрывает конвертер чтобы не показывал ненужную конвертацию ( по умолчанию у withoutObject стоит ISO USD если нет главной валюты)
             returnToCenter.returnToCenterWithDelay(scrollView: self.scrollView)
             return}
-        
         convertedSumLabel.isHidden = false // Возвращает видение если то было скрыто
         selectedAccountObject = object
         accountLabel.text = object.name

@@ -132,7 +132,7 @@ final class HeaderView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         Themer.shared.register(target: self, action: HeaderView.theme(_:))
-        self.view.layer.cornerRadius = 35
+        self.view.layer.cornerRadius = 28
         initControls()
 
         createConstraints()

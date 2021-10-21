@@ -74,8 +74,8 @@ class HomeViewController: UIViewController  {
         installmenu()
         setupTableView()
         navigationItem.title = NSLocalizedString("home_navigation_title", comment: "")
-
     }
+   
     func setupBarButtons() {
         self.navBarItems = NavigationBarButtons(navigationItem: navigationItem, leftButton: .settings, rightButton: .currency)
         self.navBarItems.setLeftButtonAction { [weak self] in

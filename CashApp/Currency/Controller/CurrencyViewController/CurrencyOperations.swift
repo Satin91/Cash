@@ -15,29 +15,33 @@ class CurrencyOperations {
     
    func removeCurrencies() {
         
+       try! realm.write({ // Начало блока записи
        for i in userCurrencyObjects {
            if i.ISO == mainCurrency?.ISO {
-               try! realm.write({
+               
                    i.ISOPriority = 0
                    realm.add(i,update: .all)
-               })
+           } else if i.ISOPriority == 0 && i.ISO != mainCurrency?.ISO {
+               i.ISOPriority += 1
            }
        }
+       
        for (index,value) in userCurrencyObjects.enumerated() {
-           try! realm.write({
                value.ISOPriority = index
                realm.add(value,update: .all)
-           })
+           
        }
        for (index,currency) in userCurrencyObjects.enumerated() {
             if currency.ISOPriority >= manager.allowedNumberOfCells(objectsCountFor: .currencies) {
-                try! realm.write({
+                
                     currency.ISOPriority = 15888
-                })
             }
         }
+           
+        }) // Конец блока записи
       
     }
+    
     // Вызывается для проверки подписки
     func checkPRO() {
         if  userCurrencyObjects.count >= manager.allowedNumberOfCells(objectsCountFor: .currencies) {

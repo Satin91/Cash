@@ -15,6 +15,7 @@ protocol closeScheduler {
 }
 class AddScheduleViewController: UIViewController {
     
+    @IBOutlet var dateRhythmButton: UIButton!
     var closeDelegate: closeScheduler!
     let colors = AppColors()
     var reloadParentTableViewDelegate: ReloadParentTableView!
@@ -29,8 +30,10 @@ class AddScheduleViewController: UIViewController {
     @IBOutlet var expenceVectorButtonOutlet: UIButton!
     @IBOutlet var incomeVectorButtonOutlet: UIButton!
     @IBOutlet var okButtonOutlet: ContrastButton!
-    @IBOutlet var selectDateButtonOutlet: MainButton!
+    @IBOutlet var selectDateButtonOutlet: SecondaryButton!
     @IBOutlet var selectImageButtonOutlet: UIButton!
+    @IBOutlet var containerForSaveButton: UIView!
+    
     lazy var titleTextColor:UIColor = .clear
     lazy var borderColor:UIColor = .clear
     lazy var backgroundColor: UIColor = .clear
@@ -48,6 +51,11 @@ class AddScheduleViewController: UIViewController {
         }
         }
     }
+    
+   
+
+
+  
     @IBAction func expenceVectorAction(_ sender: UIButton) {
         self.vector = false
         expenceVectorButtonOutlet.scaleButtonAnimation()
@@ -56,7 +64,6 @@ class AddScheduleViewController: UIViewController {
             self.incomeVectorButtonOutlet.backgroundColor = self.borderColor
             self.expenceVectorButtonOutlet.backgroundColor = self.titleTextColor
         }
-        
     }
     
     @IBAction func incomeVectorAction(_ sender: UIButton) {
@@ -75,31 +82,17 @@ class AddScheduleViewController: UIViewController {
     }
  
     @IBAction func selectDateButtonAction(_ sender: Any) {
-        
-        self.view.animateView(animatedView: blurView, parentView: self.view)
-        self.view.animateView(animatedView: self.calendar, parentView: self.view)
-        calendar.select(date, scrollToDate: true)
         guard newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular else {return}
-        self.view.animateView(animatedView: tableView, parentView: self.view)
     }
     
-    var calendarComponent: Calendar.Component = .weekOfMonth
+    var calendarComponent: Calendar.Component = .weekOfMonth // Нужно для рассчета payPerTime
     var date: Date!
     var miniAlertView: MiniAlertView!
-    var calendar: FSCalendarView!
-    var tableView: UITableView = {
-       let tableView = UITableView()
-        tableView.backgroundColor = .clear
-        tableView.alpha = 0
-        return tableView
-    }()
-    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     var newScheduleObject = MonetaryScheduler()
-    var iconsCollectionView = IconsCollectionView()
+    var iconsCollectionView = IconsViewController()
     let currencyModelController = CurrencyModelController()
     var alertView = AlertViewController()
     var dateRhythm: DateRhythm = .month
-    var dateRhythmArray = [NSLocalizedString("repeat_every_month", comment: ""),NSLocalizedString("repeat_every_week", comment: ""),NSLocalizedString("repeat_every_day", comment: "")]
     var isEditingScheduler: Bool = false
     var vector: Bool = false
     var payArray = [PayPerTime]() // Используется в записи платежных данных
@@ -116,9 +109,6 @@ class AddScheduleViewController: UIViewController {
     @IBOutlet var scrollView: UIScrollView! // Нужен только для отмены скролинга в случае выбора одноразовой операции
    
 
-    
-   
-    @IBOutlet var stackView: UIStackView! //для редактирования расстояния для четчайшести
     
     @IBOutlet var doneButtonOutlet: UIBarButtonItem!
     @IBAction func doneButtonAction(_ sender: Any) {
@@ -139,60 +129,148 @@ class AddScheduleViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         UIView.animate(withDuration: 0.2) {
-            self.view.alpha = 1
+            self.viewAll()
         }
-        scrollView.adjustTheSizeOfThe(view: okButtonOutlet)
-       
     }
-   
+    func hideAll() {
+        for i in self.view.subviews {
+            i.alpha = 0
+        }
+    }
+    func viewAll() {
+        for i in self.view.subviews {
+            i.alpha = 1
+        }
+    }
+    func hidesViewIfNeeded() {
+        if self.isEditingScheduler == false {
+            self.hideAll()
+        }
+    }
+    var navBarButtons: NavigationBarButtons!
+    func createNavBarButtons() {
+        navigationItem.hidesBackButton = true
+        navBarButtons = NavigationBarButtons(navigationItem: self.navigationItem, leftButton: .none, rightButton: .cancel)
+        navBarButtons.setRightButtonAction {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func setupNavBar() {
+        let colors = AppColors()
+        colors.loadColors()
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = UIColor.clear
+        
+        appearance.backgroundEffect = UIBlurEffect(style: Themer.shared.theme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark) // or dark
+        appearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular),NSAttributedString.Key.foregroundColor: colors.titleTextColor]
+        let scrollingAppearance = UINavigationBarAppearance()
+        
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = 26 - 12
+        paragraphStyle.alignment = .left
+        scrollingAppearance.largeTitleTextAttributes = [.font: UIFont.systemFont(ofSize: 46, weight: .medium), .paragraphStyle: paragraphStyle, .foregroundColor: colors.titleTextColor  ]
+        
+        scrollingAppearance.configureWithTransparentBackground()
+        scrollingAppearance.backgroundColor = .clear // your view (superview) color
+        scrollingAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 26, weight: .regular),NSAttributedString.Key.foregroundColor: colors.titleTextColor]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = scrollingAppearance
+        navigationController?.navigationBar.compactAppearance = appearance
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.colors.loadColors()
-        let cancel = CancelButton(frame: .zero, title: .cancel, owner: self)
-        cancel.addToScrollView(view: self.scrollView)
+        setupDateRhythmButton()
+        createNavBarButtons()
         visualSettings()
+        setupNavBar()
         Themer.shared.register(target: self, action: AddScheduleViewController.theme(_:))
-        self.view.alpha = isEditingScheduler ? 1 : 0
+        hidesViewIfNeeded()
         miniAlertView = MiniAlertView.loadFromNib()
         miniAlertView.controller = self
         checkScheduleType()
-        stackViewSettings()
         //setupNavigationController(self.navigationController)
         self.isModalInPresentation = true
-        setupCalendarAndTableView()
-      //  createCalendar()
-        //setupButtonsAndFields()
         
+        //scrollView.adjustTheSizeOfThe(view: selectDateButtonOutlet)
         guard isEditingScheduler else {return}
         setDataFromEditableObject()
-        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         rightViewTextFieldButtonFor(title: currency )
+        scrollViewContentSize()
     }
+
     
-    func createCalendar() {
-        
-        self.calendar = FSCalendarView(frame: self.view.bounds, calendarType: .regular)
-        self.calendarFrame(self.calendar)
-        self.calendar.alpha = 0
-        self.view.addSubview(calendar)
-    }
-    func stackViewSettings() {
-        if self.view.bounds.height < 600 {
-            stackView.spacing = 15
-        } else {
-            stackView.spacing = 22
-        }
-    }
     deinit {
-        
         nameTextField.isHidden = false
         sumPerTimeTextField.isHidden = false
         totalSumTextField.isHidden = false
         scrollView.isScrollEnabled = true
     }
+    func setupDateRhythmButton() {
+        self.dateRhythmButton.menu = self.dateRhythmMenu()
+        self.dateRhythmButton.showsMenuAsPrimaryAction = true
+    }
+    func scrollViewContentSize() {
+        let frame = selectDateButtonOutlet.convert(okButtonOutlet.frame, from: self.scrollView)
+        let height = abs(frame.origin.y - 60 - 22)
+        scrollView.contentSize = CGSize(width: self.view.bounds.width, height: height)
+    }
+    func dateRhythmMenu() -> UIMenu {
+        let dayTitle = NSLocalizedString("repeat_every_day", comment: "")
+        let weekTitle = NSLocalizedString("repeat_every_week", comment: "")
+        let monthTitle = NSLocalizedString("repeat_every_month", comment: "")
+        let image = UIImage().getNavigationImage(systemName: "checkmark.circle.fill", pointSize: 80, weight: .regular)
+        let dayAction = UIAction(title: dayTitle, image: nil, identifier: nil, discoverabilityTitle: nil, state: .on) { ac in
+            self.dateRhythm = .day
+            self.calendarComponent = .day
+            let _ = self.dateRhythmMenu()
+        }
+        let weekAction = UIAction(title: weekTitle, image: nil, identifier: nil, discoverabilityTitle: nil) { ac in
+            self.dateRhythm = .week
+            self.calendarComponent = .weekOfMonth
+            let _ = self.dateRhythmMenu()
+        }
+        let monthAction = UIAction(title: monthTitle, image: nil, identifier: nil, discoverabilityTitle: nil) { _ in
+            self.dateRhythm = .month
+            self.calendarComponent = .month
+            let _ = self.dateRhythmMenu()
+        }
+        
+        
+        switch dateRhythm {
+        case .month:
+            dayAction.state = .off
+            weekAction.state = .off
+            monthAction.state = .on
+        case .week:
+            dayAction.state = .off
+            weekAction.state = .on
+            monthAction.state = .off
+        case .day:
+            dayAction.state = .on
+            weekAction.state = .off
+            monthAction.state = .off
+        case .none:
+            dayAction.state = .off
+            weekAction.state = .off
+            monthAction.state = .off
+        }
+        
+        let menu = UIMenu(title: "", image: nil, identifier: nil , options: .destructive , children: [dayAction,weekAction,monthAction])
+        
+        
+        self.dateRhythmButton.menu = nil
+        self.dateRhythmButton.menu = menu
+        return menu
+    }
+
     func saveScheduleElement()-> Bool {
         
         if isEditingScheduler == false {
@@ -225,6 +303,17 @@ class AddScheduleViewController: UIViewController {
             numberOfMonth = Int(divisionWithoutRemainder)
             return (numberOfMonth, nil)
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "toCalendarSch" else { return }
+        guard let destination = segue.destination as? ModalCalendarViewController else { return }
+        destination.endDate = self.date
+    }
+    // Метод должен присутствовать даже без действий чтобы календарь мог на него сослаться
+    @IBAction func unwindFromCalendar(segue: UIStoryboardSegue) {
+        guard let date = date else { return }
+        selectDateButtonOutlet.setTitle(dateToString(date: date), for: .normal)
     }
     // Получение массива платежей
     func getArrayForMultyplyPayPerTime(numberOfMonth: Int, remainingSum: Double?){
@@ -492,78 +581,9 @@ class AddScheduleViewController: UIViewController {
         }
     }
 
-    func constraintsForTableViewAndCalendar() {
-        
-        self.view.addSubview(calendar)
-        self.view.addSubview(tableView)
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
-        self.calendar.translatesAutoresizingMaskIntoConstraints = false
-        if newScheduleObject.stringScheduleType == .multiply || newScheduleObject.stringScheduleType == .regular {
-            
-            NSLayoutConstraint.activate([
-                calendar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
-                calendar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
-                calendar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 26),
-                //
-                tableView.heightAnchor.constraint(equalToConstant: 60 * 3),
-                tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26),
-                tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26),
-              //  tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -80),
-                calendar.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: -26)
-            ])
-        }else{
-            let calendarHeight = self.view.bounds.height / 1.5
-            //self.calendar.headerHeight = calendarHeight / 10
-            calendar.heightAnchor.constraint(equalToConstant: calendarHeight).isActive = true
-            //calendar.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-            calendar.topAnchor.constraint(equalTo: self.view.topAnchor,
-                                          constant: (self.view.bounds.height - calendarHeight) / 2 - 40).isActive = true
-            calendar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 26).isActive = true
-            calendar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -26).isActive = true
-        }
-        
-        switch descriptionTextLabel.isHidden {
-        case true:
-            NSLayoutConstraint.activate([
-                tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26),
-            ])
-        case false:
-            NSLayoutConstraint.activate([
-                tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -26)
-            ])
-            
-        }
-    }
-    func calendarFrame(_ calendar: UIView) {
-        let height = self.view.bounds.height * 0.8
-        let width = self.view.bounds.width - (26 * 2)
-        let x: CGFloat = 26
-        let centerY = self.view.center.y
-        let rect = CGRect(x: x, y: 0, width: width, height: height)
-        calendar.frame = rect
-        calendar.center.y = centerY
-    }
-    func setupCalendarAndTableView() {
-        self.calendar = FSCalendarView(frame: self.view.bounds,calendarType: .mini)
-        //self.calendarFrame(calendar)
-      //  self.calendar.alpha = 1
-        self.view.addSubview(self.calendar)
-        constraintsForTableViewAndCalendar()
-        self.calendar.alpha = 0
-        self.calendar.layer.cornerRadius = 22
-        self.calendar.layer.cornerCurve = .continuous
-        self.tableView.layer.cornerRadius = 22
-        self.tableView.layer.cornerCurve = .continuous
-        calendar.delegate = self
-        //calendar.register(DIYFSCalendarCell.self, forCellReuseIdentifier: "CalendarCell")
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DateRhythmCell")
-        tableView.isScrollEnabled = false
-        tableView.separatorStyle = .none
-        blurView.frame = self.view.bounds
-        blurView.alpha = 0
-    }
+ 
+
+ 
 }
 
 //MARK: - create Controls
@@ -625,13 +645,15 @@ extension AddScheduleViewController {
             case .oneTime :
                 headingTextLabel.text = NSLocalizedString(editingHeaderText.oneTime.rawValue, comment: "")
                 sumPerTimeTextField.isHidden = true
-                scrollView.isScrollEnabled = true
+                
+                self.dateRhythmButton.isHidden = true
             case .multiply :
                 headingTextLabel.text = NSLocalizedString(editingHeaderText.multiply.rawValue, comment: "")
             case .regular :
                 headingTextLabel.text = NSLocalizedString(editingHeaderText.regular.rawValue, comment: "")
                 totalSumTextField.isHidden = true
             case .goal :
+                self.dateRhythmButton.isHidden = true
                 headingTextLabel.text = NSLocalizedString(editingHeaderText.goal.rawValue, comment: "")
                 sumPerTimeTextField.isHidden = false
             }
@@ -640,11 +662,11 @@ extension AddScheduleViewController {
         switch newScheduleObject.stringScheduleType{
         case .oneTime :
             headingTextLabel.text = NSLocalizedString(headerText.oneTime.rawValue, comment: "")
-                
+            self.dateRhythmButton.isHidden = true
             descriptionTextLabel.text = NSLocalizedString(descriptionText.oneTime.rawValue, comment: "")
             sumPerTimeTextField.isHidden = true
             //rhythmSegmentedControl.isHidden = true
-            scrollView.isScrollEnabled = true
+            
         case .multiply :
             headingTextLabel.text = NSLocalizedString(headerText.multiply.rawValue, comment: "")
             descriptionTextLabel.text =  NSLocalizedString(descriptionText.multiply.rawValue, comment: "")
@@ -655,6 +677,7 @@ extension AddScheduleViewController {
             totalSumTextField.isHidden = true
             
         case .goal :
+            self.dateRhythmButton.isHidden = true
             headingTextLabel.text = NSLocalizedString(headerText.goal.rawValue, comment: "")
             descriptionTextLabel.text = NSLocalizedString(descriptionText.goal.rawValue, comment: "")
             sumPerTimeTextField.isHidden = false
@@ -663,24 +686,6 @@ extension AddScheduleViewController {
     }
 }
 
-extension AddScheduleViewController: FSCalendarDelegate {
-    
-//    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-//
-//        let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
-//        cell.setStyle(cellStyle: .DIYCalendar)
-//        return cell
-//    }
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        self.date = date
-        
-        selectDateButtonOutlet.setTitle(dateToString(date: date), for: .normal)
-        //selectDateButtonOutlet.setTitleColor(ThemeManager.currentTheme().titleTextColor, for: .normal)
-        self.view.reservedAnimateView2(animatedView: self.calendar)
-        self.view.reservedAnimateView2(animatedView: self.blurView)
-        self.view.reservedAnimateView2(animatedView: self.tableView)
-    }
-}
 extension AddScheduleViewController: SendIconToParentViewController {
     func sendIconName(name: String) {
         selectedImageName = name
@@ -695,55 +700,3 @@ extension AddScheduleViewController: UIPopoverPresentationControllerDelegate {
     }
 }
 
-
-extension AddScheduleViewController: UITableViewDelegate, UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dateRhythmArray.count
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
-    
-  
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let object = dateRhythmArray[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DateRhythmCell", for: indexPath)
-       // let separatorView = createLineView(cell: cell)
-        let separator = SeparatorView(cell: cell).createLineView()
-        
-        if indexPath.row != dateRhythmArray.count - 1 {
-            cell.addSubview(separator)
-        }
-        
-        if indexPath.row == dateRhythm.rawValue - 1 {
-            cell.textLabel?.font = .systemFont(ofSize: 17, weight: .bold)
-        }else{
-            cell.textLabel?.font = .systemFont(ofSize: 17,weight: .regular)
-        }
-        cell.setColors()
-        cell.selectionStyle = .none
-        
-        
-        
-        cell.textLabel?.text = object
-        cell.textLabel?.textAlignment = .center
-        return cell
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // daterhythm в моделе имеет
-        dateRhythm = DateRhythm(rawValue: indexPath.row + 1)!
-        // table view имеет 3 строки: 0 - месяц, 1 - неделя, 2 - день
-        switch indexPath.row {
-        case 0:
-            calendarComponent = .month
-        case 1:
-            calendarComponent = .weekOfMonth
-        case 2:
-            calendarComponent = .day
-        default:
-            break
-        }
-        tableView.reloadData()
-    }
-}

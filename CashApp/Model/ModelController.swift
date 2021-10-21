@@ -86,7 +86,7 @@ let oper = CurrencyOperations()
 func getCurrenciesByPriorities(){
     var currencySortedArray: [CurrencyObject] = []
     var currencyNonPriority: [CurrencyObject] = []
-    oper.checkPRO()
+    
     for i in currencyObjects {
         if i.ISOPriority != 15888 { // 15888 это дефолтное значение
             currencySortedArray.append(i)
@@ -102,6 +102,7 @@ func getCurrenciesByPriorities(){
     
     currencyNonPrioritiesObjects = currencyNonPriority //.sorted(by: { $0.ISO < $1.ISO })
     userCurrencyObjects    = currencySortedArray.sorted(by: { $0.ISOPriority < $1.ISOPriority })
+    oper.checkPRO()
 }
 func containsISO(Iso: String) ->Bool {
     if currencyObjects.contains(where: { Object in

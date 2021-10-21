@@ -14,12 +14,11 @@ class SecondTableViewCell: UITableViewCell  {
     
     var delegate: SendEnlargeIndex!
     var object = Int()
-    let themeManager = ThemeManager2.currentTheme()
     
     var titleLabel: TitleLabel = {
         let label = TitleLabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 19, weight: .regular)
+        label.font = .systemFont(ofSize: 21, weight: .regular)
         
         return label
     }()
@@ -27,16 +26,16 @@ class SecondTableViewCell: UITableViewCell  {
     var subTitleLabel: SubTitleLabel = {
         let label = SubTitleLabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         
         return label
     }()
     
     
-    var sumLabel: TitleLabel = {
-        let label = TitleLabel(frame: .zero)
+    var sumLabel: SubTitleLabel = {
+        let label = SubTitleLabel(frame: .zero)
         label.textAlignment = .right
-        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -149,15 +148,15 @@ class SecondTableViewCell: UITableViewCell  {
         
         sumLabel.setContentHuggingPriority(labelPriority, for: .horizontal)
         
-        image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
-        image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 17).isActive = true  //80 (Общая высота ячейки) - 40 (высота изображения) / 2 = 20
-        image.heightAnchor.constraint(equalToConstant: 46).isActive = true
-        image.widthAnchor.constraint(equalToConstant: 46).isActive = true
+        image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
+        image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 21).isActive = true  //80 (Общая высота ячейки) - 42 (высота изображения) / 2 = 18
+        image.heightAnchor.constraint(equalToConstant: 38).isActive = true
+        image.widthAnchor.constraint(equalToConstant: 38).isActive = true
         
-        titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 14).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
 
-        subTitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 10).isActive = true
+        subTitleLabel.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 14).isActive = true
         subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
         subTitleLabel.trailingAnchor.constraint(equalTo: sumLabel.leadingAnchor).isActive = true
         
@@ -188,7 +187,6 @@ extension SecondTableViewCell {
         editButton.backgroundColor = theme.settings.titleTextColor.withAlphaComponent(0.4)
         editButton.setImage(UIImage(named: "edit") , for: .normal)
         image.changePngColorTo(color: theme.settings.titleTextColor)
-        titleLabel.textColor = theme.settings.titleTextColor
         lineView.backgroundColor = theme.settings.separatorColor
         
     }

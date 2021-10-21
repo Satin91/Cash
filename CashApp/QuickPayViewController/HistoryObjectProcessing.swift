@@ -53,7 +53,7 @@ class HistoryObjectProcessing {
             return ((transferObject,cooperatingAccount),true)
         }
     }
-    
+
     func removeTransferObject(withHistory: Bool) {
         // Если оба объекта отсутствуют - просто удалить объект истории
         guard findOutAccounts().1 == true else {
@@ -76,9 +76,20 @@ class HistoryObjectProcessing {
         })
     }
     
+    func historyIsMonetaryScheduler() -> Bool {
+        if self.historyObject.scheduleID != "" {
+            return false
+        } else {
+            return true
+        }
+    }
+    
     //Метод запускается в режиме записи рилма
     private func recoverTransferObject(_ transferObject: MonetaryAccount) {
-        let sumWithoutHundredthsAtTheEnd = (transferObject.balance - self.historyObject.sum).removeHundredthsFromEnd()
+        let isScheduler = historyIsMonetaryScheduler() // Является ли объект истории планом
+        let sumWithoutHundredthsAtTheEnd = isScheduler
+        ? (transferObject.balance - self.historyObject.sum).removeHundredthsFromEnd()
+        : (transferObject.balance - self.historyObject.convertedSum).removeHundredthsFromEnd()
         transferObject.balance = sumWithoutHundredthsAtTheEnd
         realm.add(transferObject,update: .all)
     }

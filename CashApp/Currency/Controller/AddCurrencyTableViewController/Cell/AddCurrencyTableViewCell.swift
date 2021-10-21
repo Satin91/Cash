@@ -17,22 +17,31 @@ class AddCurrencyTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         colors.loadColors()
-        
+        setupImage()
+    }
+    func setupImage(){
+        self.currencyImage.layer.setCircleShadow(color: colors.shadowColor.withAlphaComponent(0.2))
+        self.currencyImage.layer.masksToBounds = false
     }
     func visualSettings() {
+        
         self.clipsToBounds = false
         self.layer.masksToBounds = false
         self.contentView.layer.masksToBounds = false
         self.contentView.clipsToBounds = false
-        self.contentView.layer.cornerRadius = 20
+        self.contentView.layer.cornerRadius = 14
         self.descriptionLabel.font = .systemFont(ofSize: 19, weight: .regular)
+        self.descriptionLabel.minimumScaleFactor = 0.6
+        self.descriptionLabel.adjustsFontSizeToFitWidth = true
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.contentView.frame = self.bounds.inset(by: UIEdgeInsets(top: 10, left: 26, bottom: 10, right: 26))
+        self.contentView.frame = self.bounds.inset(by: UIEdgeInsets(top: 10, left: 22, bottom: 10, right: 22))
+      
     }
     func set(currencyObject: CurrencyObject) {
         visualSettings()
+        
         currencyImage.image = UIImage(named: currencyObject.ISO)
         descriptionLabel.text = CurrencyList.CurrencyName(rawValue: currencyObject.ISO)?.getRaw
         self.setCellColors()

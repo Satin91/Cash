@@ -46,7 +46,7 @@ class EnlargeTableViewCell: UITableViewCell{
         self.contentView.addSubview(tableView)
         self.contentView.addSubview(dateLabel)
         self.dateLabel.text = "DateLabel"
-        self.contentView.layer.cornerRadius = 20
+        self.contentView.layer.cornerRadius = 16
         miniTableViewSettings()
         self.clipsToBounds = false
         self.layer.masksToBounds = false
@@ -61,12 +61,12 @@ class EnlargeTableViewCell: UITableViewCell{
     func miniTableViewSettings() {
         
         tableView.tableFooterView = UIView()
-        tableViewContainer.layer.cornerRadius = 20
+        tableViewContainer.layer.cornerRadius = 16
         tableViewContainer.layer.masksToBounds = false
         //mini table view
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
-        tableView.layer.cornerRadius = 20
+        tableView.layer.cornerRadius = 16
         tableView.clipsToBounds = true
         tableView.layer.masksToBounds = true
         tableView.isScrollEnabled = false

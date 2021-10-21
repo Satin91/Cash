@@ -14,7 +14,7 @@ class AddCurrencyTableViewController: UIViewController{
     var actionWithCurrency: ActionsWithCurrency?
     var classCurrencyObject: CurrencyObject?
     private var filteredCurrencies: [CurrencyObject]?
-    var searchController = UISearchController()
+    //var searchController = UISearchController()
     var searchTextField: CurrencySearchBar!
     var tableView = UITableView()
 
@@ -30,11 +30,8 @@ class AddCurrencyTableViewController: UIViewController{
         colors.loadColors()
         self.setColors()
         title = ""
-    //    navigationController?.navigationBar.backgroundColor = .black
-        
         filteredCurrencies = currencyNonPrioritiesObjects
         setupTableView()
-        //setupNavBar()
         createCustomNavBar()
         searchTextField = CurrencySearchBar(frame: .zero, cancelButton: self.cancelButton, navBar: self.navBarView.contentView)
         searchTextField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .editingChanged)
@@ -162,8 +159,9 @@ extension AddCurrencyTableViewController: UITableViewDelegate, UITableViewDataSo
                 realm.add(object!,update: .all)
             }
         }
-        tableViewReloadDelegate?.reloadData()
-        self.dismiss(animated: true, completion: nil)
+        
+         self.tableViewReloadDelegate?.reloadData()
+         self.dismiss(animated: true) 
     }
 }
 

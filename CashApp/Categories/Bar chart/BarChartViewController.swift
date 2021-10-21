@@ -39,7 +39,7 @@ class BarChartViewController: UIViewController{
     func setupCancelButton() {
         let width:CGFloat = 90
         
-        cancelButton = CancelButton(frame: CGRect(x: self.view.bounds.width - 26 - width, y: 26, width: width, height: 34) , title: .cancel, owner: self)
+        cancelButton = CancelButton(frame: CGRect(x: self.view.bounds.width - 22 - width, y: 26, width: width, height: 34) , title: .cancel, owner: self)
         self.view.insertSubview(cancelButton, at: 10)
         cancelButton.addTarget(self, action: #selector(BarChartViewController.buttonTapped(_:)), for: .touchUpInside)
        

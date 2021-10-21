@@ -35,20 +35,15 @@ class TodayBalanceTableViewCell: UITableViewCell {
     
     func visualSettings() {
         titleLabel.font = .systemFont(ofSize: 19, weight: .regular)
+
         subTitleLabel.font = .systemFont(ofSize: 16, weight: .regular)
         monetaryImage.contentMode = .scaleAspectFill
         monetaryImage.layer.cornerRadius = 10
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
     }
-    
-    
-    
     var switchTogle: Bool = false
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
- 
+    
     func set(object: Any) {
         if object is SchedulersForTableView {
             let object = object as! SchedulersForTableView
@@ -74,6 +69,7 @@ class TodayBalanceTableViewCell: UITableViewCell {
             subTitleLabel.text = object.balance.currencyFormatter(ISO: object.currencyISO)
             monetaryImage.image = UIImage(named: object.imageForAccount)
         }
+        
         
     }
     

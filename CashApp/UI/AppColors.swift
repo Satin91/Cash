@@ -28,7 +28,7 @@ class AppColors{
      var separatorColor:UIColor = .clear
      var shadowColor:UIColor = .clear
      var whiteColor: UIColor = .clear
-    var blackColor: UIColor = .clear
+     var blackColor: UIColor = .clear
     
     private func theme(_ theme: MyTheme) {
         backgroundcolor = theme.settings.backgroundColor

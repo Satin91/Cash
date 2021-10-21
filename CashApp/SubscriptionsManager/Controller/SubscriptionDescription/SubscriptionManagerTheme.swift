@@ -24,7 +24,7 @@ extension SubscriptionsManagerViewController {
         self.familyImageView.setImageColor(color: imageColor)
         // Button
         self.subscriptionButton.backgroundColor = colors.redColor
-        self.subscriptionButton.setTitleColor(colors.secondaryBackgroundColor, for: .normal)
+        self.subscriptionButton.setTitleColor(colors.whiteColor, for: .normal)
         
         
         // Labels
@@ -41,7 +41,7 @@ extension SubscriptionsManagerViewController {
         subscriptionButton.layer.cornerRadius = 12
         subscriptionButton.layer.cornerCurve = .continuous
         subscriptionButton.layer.setSmallShadow(color: colors.shadowColor)
-        containerView.layer.cornerRadius = 25
+        containerView.layer.cornerRadius = 22
        // setGradientBackground()
     }
     func setGradientBackground() {

@@ -28,6 +28,10 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
     
     func makeTheMainAccount() {
         let visibleAccount = accountsObjects[visibleIndexPath.row]
+        guard visibleAccount.isBlock == false else {
+            self.showSubscriptionViewController()
+            return
+        }
         for accounts in Array(accountsObjects) where accounts.accountID != visibleAccount.accountID {
             try! realm.write({
                 accounts.isMainAccount = false

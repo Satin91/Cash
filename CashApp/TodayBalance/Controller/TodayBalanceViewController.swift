@@ -21,13 +21,13 @@ class TodayBalanceViewController: UIViewController {
     //MARK: Элементы интерфейса
     private let currencyModelController = CurrencyModelController()
    // let calendar = FSCalendarView()
-    var calendarContainerView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 26
-        view.layer.cornerRadius = 20
-        view.layer.masksToBounds = false
-        return view
-    }()
+//    var calendarContainerView: UIView = {
+//        let view = UIView()
+//        view.layer.cornerRadius = 26
+//        view.layer.cornerRadius = 20
+//        view.layer.masksToBounds = false
+//        return view
+//    }()
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     //var schedulerArray: [MonetaryScheduler] = []
     
@@ -67,7 +67,7 @@ class TodayBalanceViewController: UIViewController {
     @IBAction func segmentedControl(_ sender: HBSegmentedControl) {
         sender.changeSegmentWithAnimation(tableView: tableView, collectionView: nil, ChangeValue: &changeValue)
     }
-    var calendar: TodayBalanceCalendarViewController!
+    var calendar: ModalCalendarViewController!
     @IBAction func calendarButtonAction(_ sender: Any) {
         
      //   calendarContainerView.center = self.view.center
@@ -242,17 +242,17 @@ class TodayBalanceViewController: UIViewController {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "toCalendar" else { return }
-        guard let destination = segue.destination as? TodayBalanceCalendarViewController else { return }
+        guard let destination = segue.destination as? ModalCalendarViewController else { return }
         destination.endDate = todayBalanceObject?.endDate
+        destination.cameFromTodayBalance = true
     }
-    @IBAction func unwindToTodayBalanceVC(segue: UIStoryboardSegue) {
+    @IBAction func unwindFromCalendar(segue: UIStoryboardSegue) {
         self.updateTotalBalanceSum(animated: true)
         self.getSchedulersToTableView()
         }
- 
+  
+    
 }
-
-
 extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -327,6 +327,7 @@ extension TodayBalanceViewController: UITableViewDelegate, UITableViewDataSource
         updateTotalBalanceSum(animated: true)
     }
 }
+
 extension TodayBalanceViewController: ReloadParentTableView {
     func reloadData() {
         self.tableView.reloadData()

@@ -88,7 +88,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
             
             
             let trailingGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)), subitem: subGroup, count: 4)
-            trailingGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 26, bottom: 0, trailing: 26)
+            trailingGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 22, bottom: 0, trailing: 22)
             
             let section = NSCollectionLayoutSection(group: trailingGroup)
             

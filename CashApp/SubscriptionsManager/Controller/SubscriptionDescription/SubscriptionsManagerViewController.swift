@@ -13,7 +13,6 @@ import Purchases
 class SubscriptionsManagerViewController: UIViewController {
     
     
-    var cancelButtom: CancelButton!
     let colors = AppColors()
     let purchases = SubscriptionManager()
 
@@ -35,25 +34,24 @@ class SubscriptionsManagerViewController: UIViewController {
     @IBOutlet var familyImageView: UIImageView!
     @IBOutlet var familyLabel: UILabel!
     @IBOutlet var familyDescription: UILabel!
-    
+    var navBarButtons: NavigationBarButtons!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.colors.loadColors()
         setColors()
-        createCancelButton()
         visualSettings()
+        setupNavBarButtons()
 //        self.purchases.checkActiveEntitlement()
     }
-
+    func setupNavBarButtons() {
+        self.navBarButtons = NavigationBarButtons(navigationItem: navigationItem, leftButton: .none, rightButton: .cancel)
+        self.navBarButtons.setRightButtonAction {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     @objc private func didTapRestore(){
         
     }
 
-    
-
-    func createCancelButton() {
-        cancelButtom = CancelButton(frame: .zero, title: .cancel, owner: self)
-        cancelButtom.addToParentView(view: self.view)
-    }
  
 }

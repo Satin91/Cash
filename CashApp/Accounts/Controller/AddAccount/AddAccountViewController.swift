@@ -60,12 +60,7 @@ class AddAccountViewController: UIViewController  {
         dismiss(animated: true, completion: nil)
         
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-    }
-    
+
     func setupCollectionView() {
         let collectionView = AccountImagesCollectionView(frame: accountsImageCollectionView.bounds)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -97,17 +92,21 @@ class AddAccountViewController: UIViewController  {
         }
         newAccountObject.currencyISO = currency
         DBManager.addAccountObject(object: [newAccountObject])
-        
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        balanceTextField.createRightButton(text: mainCurrency?.ISO ?? "")
+    }
     @objc func changeISO(_ sender: UIButton) {
         goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender, type: .currency)
     }
     func setTextForViewElements() {
         nameTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name_text_field_placeholder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: colors.subtitleTextColor ])
         balanceTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("balance_text_field_placeholder", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: colors.subtitleTextColor ])
-        balanceTextField.createRightButton(text: mainCurrency?.ISO ?? "")
+        
         balanceTextField.button.addTarget(self, action: #selector(changeISO(_:) ), for: .touchUpInside)
+        
         //Labels
         
         headingTextLabel.numberOfLines = 2
