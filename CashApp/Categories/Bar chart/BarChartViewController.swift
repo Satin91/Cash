@@ -14,6 +14,7 @@ import Charts
 class BarChartViewController: UIViewController{
     let colors = AppColors()
     let barChartModelController = BarChartModelController()
+    var navBarButtons: NavigationBarButtons!
     var barChartPersents: [Double]!
     var cancelButton: CancelButton!
     @IBOutlet var segmentedControl: HBSegmentedControl!
@@ -38,7 +39,7 @@ class BarChartViewController: UIViewController{
     }
     func setupCancelButton() {
         let width:CGFloat = 90
-        
+        navBarButtons = NavigationBarButtons(navigationItem: self.navigationItem, leftButton: .none, rightButton: .cancel)
         cancelButton = CancelButton(frame: CGRect(x: self.view.bounds.width - 22 - width, y: 26, width: width, height: 34) , title: .cancel, owner: self)
         self.view.insertSubview(cancelButton, at: 10)
         cancelButton.addTarget(self, action: #selector(BarChartViewController.buttonTapped(_:)), for: .touchUpInside)
@@ -53,10 +54,6 @@ class BarChartViewController: UIViewController{
         tableView.delegate = self
         tableView.dataSource = self
         setupTableView()
-        
-        
-        title = "Chart"
-        
         segmentedControl.changeValuesForCashApp(segmentOne:NSLocalizedString("segmented_control_0", comment: ""), segmentTwo: NSLocalizedString("segmented_control_1", comment: ""))
     }
     
@@ -74,6 +71,7 @@ extension BarChartViewController: UITableViewDelegate, UITableViewDataSource {
         let categoryType : CategoryType = changeValue ? .income : .expence
         let object = barChartModelController.getBarChartItems(categoryType: categoryType)[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "barChartCell", for: indexPath) as! BarChartCell
+        cell.selectionStyle = .none
         cell.set(object: object)
         
         

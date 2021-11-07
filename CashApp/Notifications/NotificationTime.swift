@@ -8,19 +8,20 @@
 
 import Foundation
 
+
+
 class NotificationTime {
     
-    //title
-    let titleForTommorrowNotifications = "Tommorrow"
-    let titleForTodayNotifications = "Today"
+    //title одинаковый, но если потребуется их сделать особенными, это легко доступно, в файле notification они сделаны для разных свойств
+    // Не забудь менять значения тайтла в NotificationMoment в файле NotificationData иначе не придут уведомления
+    let titleForTommorrowNotifications = NSLocalizedString("header_notification", comment: "")
+    let titleForTodayNotifications = NSLocalizedString("header_notification", comment: "")
    //body
-    let bodyForTommorrowNotifications = "Не забывайте, завтра у вас есть планы"
-    let bodyForTodayNotifications = "Сегодня у вас есть планы"
-    
-    
+    let bodyForTommorrowNotifications = NSLocalizedString("tommorow_notification", comment: "")
+    let bodyForTodayNotifications = NSLocalizedString("today_notification", comment: "")
     //Time
-    var tomorrowHour = 20 ; var tomorrowMinute = 40
-    var todayHour = 13 ; var todayMinute = 43
+    var tomorrowHour = 6 ; var tomorrowMinute = 30
+    var todayHour = 10 ; var todayMinute = 30
     
     
 }

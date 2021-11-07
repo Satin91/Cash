@@ -40,12 +40,13 @@ extension ThemableTextField {
         self.textAlignment = .left
         self.clipsToBounds = true
         self.layer.masksToBounds = false
-        self.layer.setSmallShadow(color: shadowColor)
-        let shadowLayer = CAShapeLayer()
-        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
-        shadowLayer.fillColor = fillColor.cgColor
-        shadowLayer.cornerCurve = .continuous
-        self.layer.insertSublayer(shadowLayer, at: 0)
+        self.layer.setCircleShadow(color: fillColor.withAlphaComponent(0.9))
+//        let shadowLayer = CAShapeLayer()
+//        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
+//        shadowLayer.frame = bounds
+//        shadowLayer.fillColor = fillColor.cgColor
+//        shadowLayer.cornerCurve = .continuous
+//        self.layer.insertSublayer(shadowLayer, at: 0)
     }
     func searchTheme(fillColor: UIColor, shadowColor: UIColor) {
         self.borderStyle = .none

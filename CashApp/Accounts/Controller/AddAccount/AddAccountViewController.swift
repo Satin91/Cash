@@ -60,7 +60,7 @@ class AddAccountViewController: UIViewController  {
         dismiss(animated: true, completion: nil)
         
     }
-
+    
     func setupCollectionView() {
         let collectionView = AccountImagesCollectionView(frame: accountsImageCollectionView.bounds)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -97,6 +97,12 @@ class AddAccountViewController: UIViewController  {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         balanceTextField.createRightButton(text: mainCurrency?.ISO ?? "")
+        nameTextField.layoutSubviews()
+        balanceTextField.layoutSubviews()
+        guard self.view.bounds.height < 600 else {
+            scrollView.isScrollEnabled = false
+            return }
+        scrollView.contentSize.height = scrollView.contentSize.height + 70 // Это для SE 1
     }
     @objc func changeISO(_ sender: UIButton) {
         goToPopUpTableView(delegateController: self, payObject: userCurrencyObjects, sourseView: sender, type: .currency)
@@ -115,18 +121,11 @@ class AddAccountViewController: UIViewController  {
         headingTextLabel.text = NSLocalizedString("heading_label_text", comment: "")
     }
     
-    
-    
 
     func visualSettings(){
-       
         headingTextLabel.font = .systemFont(ofSize: 46, weight: .medium)
-        
-        saveButtonOutlet.mainButtonTheme("save_button")
+        saveButtonOutlet.mainButtonTheme("create_button")
     }
-
-    
-    
     
 }
 extension AddAccountViewController: UICollectionViewDelegate, UICollectionViewDataSource {

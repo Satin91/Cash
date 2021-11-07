@@ -18,7 +18,7 @@
       "localizations" : [
 
       ],
-      "name" : "Subscription to all functions",
+      "name" : "All access",
       "subscriptions" : [
         {
           "adHocOffers" : [
@@ -60,7 +60,7 @@
           "adHocOffers" : [
 
           ],
-          "displayPrice" : "6.55",
+          "displayPrice" : "11.55",
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "1FAA2584",
@@ -70,11 +70,7 @@
             "subscriptionPeriod" : "P1W"
           },
           "localizations" : [
-            {
-              "description" : "",
-              "displayName" : "",
-              "locale" : "en_US"
-            }
+
           ],
           "productID" : "by.cashApp.annual.subscription",
           "recurringSubscriptionPeriod" : "P1Y",

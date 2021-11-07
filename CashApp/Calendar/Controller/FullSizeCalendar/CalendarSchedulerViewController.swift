@@ -49,7 +49,10 @@ class CalendarSchedulerViewController: UIViewController {
         Themer.shared.register(target: self, action: CalendarSchedulerViewController.theme(_:))
         // Do any additional setup after loading the view.
     }
-    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        calendarView.layoutSubviews()
+    }
     func updateDatesArray() ->[Date]  {
         let datesArray: [Date] = {
             var dates = [Date]()
@@ -105,6 +108,9 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
         return monthPosition == .current
     }
     
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
+        return .clear
+    }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
@@ -120,7 +126,6 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         configureVisibleCells()
-        let cell = self.calendar(calendar, cellFor: date, at: monthPosition) as! DIYFSCalendarCell
         let anyArray = createObjectsArray(date: date) // Воспользовался функцией сверху (тут разовый, регулярный платеж и платеж в раз)
         guard !anyArray.isEmpty else {return}
         for i in datesArray {
@@ -130,7 +135,12 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
         }
     }
 
-    
+//    func animateSelectedCell(cell: DIYFSCalendarCell) {
+//        UIView.animate(withDuration: 0.2) {
+//            cell.backgroundView?.backgroundColor = .black
+//        }
+//    }
+
     private func configureVisibleCells() {
         calendarView.visibleCells().forEach { (cell) in
             let date = calendarView.date(for: cell)
@@ -164,8 +174,8 @@ extension CalendarSchedulerViewController: FSCalendarDelegate, FSCalendarDataSou
             DIYDatesArray.append(component)
         }
     }
+    
     private func configureDIY(cell: FSCalendarCell, for date: Date, at position: FSCalendarMonthPosition) {
-        
         let diyCell = (cell as! DIYFSCalendarCell)
         let components = self.gregorian.dateComponents([.day,.month,.year], from: date)
         // Configure selection layer

@@ -76,7 +76,9 @@ class CircleView: UIView {
         var diff = CGFloat(0)
 //        _ = fetchTodayBalance()
 //        guard let object = object else {return 0}
-        diff = (CGFloat(todayBalanceObject!.currentBalance) - CGFloat(todayBalanceObject!.commonBalance)) / CGFloat(abs(Int32(CGFloat(todayBalanceObject!.commonBalance)))) * 100
+        diff = (CGFloat(todayBalanceObject!.currentBalance) - CGFloat(todayBalanceObject!.commonBalance)) /
+        
+        abs(CGFloat(todayBalanceObject!.commonBalance)) * 100
         return diff
     }
     

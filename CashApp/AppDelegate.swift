@@ -11,11 +11,10 @@ import RealmSwift
 import IQKeyboardManagerSwift
 import UserNotifications
 import Themer
-import Purchases
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+    let purchaseManager = Store()
     let notifications = Notifications()
     let navBar = setupNavigationBar()
     let subscriptionManager = SubscriptionManager()
@@ -25,25 +24,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         NetworkMonitor.shared.startMonitoring() // Проверка на интернет соединение
-        Purchases.configure(withAPIKey: "HEYSketqpvpcIaiqZPyywaOdrTKmtVzE") // API для получение данных о подписке
+        //Purchases.configure(with/Users/artur/Xcode/CashApp/CashUP/CashApp/AppDelegate.swiftAPIKey: "HEYSketqpvpcIaiqZPyywaOdrTKmtVzE") // API для получение данных о подписке
         //Purchases.logLevel = .debug // Режим дебагинга (работает без включения "чистой консоли")
         
-        self.subscriptionManager.checkActiveEntitlement() // Проверка на активность подписки
+        self.purchaseManager.fetchProducts() // Проверка на активность подписки
+      //  self.subscriptionManager.checkActiveEntitlement() // Проверка на активность подписки
         self.networking.loadCurrencies() // Загрузка валют (есть 2 варианта: из локального JSON и из API) (перед вызовом метода требуется проверка на интернет соединение)
         getCurrenciesByPriorities() // Удаление валют которые выше ограничений в случае истекшей подписки
         checkBlockedSchedulers() // Блокировка или разблокировка планов
         checkBlockedAccounts() // Блокировка или разблокировка счетов
-       
-        
         IQKeyboardManager.shared.enable = true
         IsLightTheme.checkTheme() // устанавливает действующую тему оформления
         navBar.setColors()
         notifications.requestAutorization()
         notifications.notificationCenter.delegate = notifications
         NetworkMonitor.shared.stopMonitoring()
-        
         return true
     }
+    
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         let schemaVersion: UInt64 = 4
@@ -81,16 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        print(#function)
-    }
-    func applicationWillTerminate(_ application: UIApplication) {
-        print(#function)
-    }
-    func applicationWillResignActive(_ application: UIApplication) {
-        print(#function)
-        notifications.sendNotifications()
     }
 }
 

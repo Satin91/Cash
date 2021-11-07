@@ -20,9 +20,9 @@ enum NotificationMoment: String {
     var rawValue: String {
         switch self {
         case .today:
-            return "Today"
+            return NSLocalizedString("header_notification", comment: "")
         case .tommorrow:
-            return "Tommorrow"
+            return NSLocalizedString("header_notification", comment: "")
         }
     }
 }
@@ -103,7 +103,6 @@ class NotificationData {
             let components = payperTime.date.getDayMonthYear()
                 datesArray.append(components)
         }
-
         let trigger = Trigger(moment: .today, components: getUniqDates(components: datesArray))
         return trigger
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftReorder
-
+import Themer
 enum ActionsWithCurrency: String {
     case add = "Add"
     case edit = "Edit"
@@ -69,8 +69,9 @@ class CurrencyViewController: UIViewController {
         tableView.register(UINib(nibName: "CurrencyTableViewCell", bundle: nil), forCellReuseIdentifier: "currencyCell")
         tableViewSettings()
         currencyConverterTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        currencyConverterTextField.keyboardType = .decimalPad
         createNavBarButtons()
-        title = "Валюты"
+        title = NSLocalizedString("title_navigation_bar", comment: "")
     }
     func createNavBarButtons() {
         self.navBarButtons = NavigationBarButtons(navigationItem: navigationItem, leftButton: .back, rightButton: .add)
@@ -153,32 +154,50 @@ extension CurrencyViewController: UITableViewDelegate, UITableViewDataSource, Ta
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteTitle = NSLocalizedString("common_delete_button", comment: "")
+        let editTitle = NSLocalizedString("common_edit_button", comment: "")
         
+         
+        
+        
+        
+        
+        let makeMain  = NSLocalizedString("account_edit_menu_assign_the_main", comment: "")
         let object = userCurrencyObjects[indexPath.row]
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+        let deleteAction = UIContextualAction(style: .destructive, title: deleteTitle) { _, _, _ in
             self.operations.updateDataAfterRemove(indexPath: indexPath)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         
+        deleteAction.image = UIImage().getNavigationImage(systemName: "trash.circle.fill", pointSize: 46, weight: .regular)
+        
         var edit = UIContextualAction()
         if object.ISO == mainCurrency?.ISO {
-            edit = UIContextualAction(style: .normal, title: "Edit"){ _, _, _ in
-                
+            edit = UIContextualAction(style: .normal, title: editTitle){ _, _, _ in
             self.openTableViewController(action: .edit, object: object)
                 tableView.isEditing = false
-                
         }
         }else{
-            edit = UIContextualAction(style: .normal, title: "Make main"){ _, _, complete in
+            edit = UIContextualAction(style: .normal, title: makeMain){ _, _, complete in
                 try! realm.write({
                     mainCurrency?.ISO = object.ISO
                     realm.add(mainCurrency!,update: .all)
                 })
-                
                 complete(true)
-             
                 }
         }
+        if object.ISO == mainCurrency?.ISO {
+            edit.image = UIImage().getNavigationImage(systemName: "pencil.circle.fill", pointSize: 46, weight: .regular)
+        } else {
+            edit.image = UIImage().getNavigationImage(systemName: "house.circle.fill", pointSize: 46, weight: .regular)
+        }
+        edit.backgroundColor         = colors.borderColor
+        deleteAction.backgroundColor = Themer.shared.theme == .dark
+        ? colors.secondaryBackgroundColor
+        : colors.titleTextColor
+        
+        
+        
         tableView.isEditing = false
         guard object.ISO != mainCurrency!.ISO else {
             let actions = UISwipeActionsConfiguration(actions: [edit])

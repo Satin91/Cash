@@ -460,7 +460,7 @@ extension UIImage {
      }
     func myImageList(systemName: String) -> UIImage? {
         guard let image = UIImage(systemName: systemName, withConfiguration: UIImage.SymbolConfiguration(weight: .thin )) else {
-            let image = UIImage(named: systemName)
+             let image = UIImage(named: systemName) ?? UIImage()
             
             return image}
         return image
@@ -682,7 +682,7 @@ func goToPopUpTableView(delegateController: UIViewController,payObject: [Any], s
 extension UIViewController {
 
     func showSubscriptionViewController() {
-        let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionsManager", toViewController: SubscriptionsManagerViewController())
+        let open = OpenNextController(storyBoardID: "SubscriptionsManager", fromViewController: self, toViewControllerID: "SubscriptionViewController", toViewController: SubscriptionViewController())
         open.makeTheTransition()
     }
     

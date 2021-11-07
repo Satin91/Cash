@@ -15,6 +15,7 @@ class Notifications: NSObject, UNUserNotificationCenterDelegate {
     let notificationCenter = UNUserNotificationCenter.current()
     let notificationTime = NotificationTime()
     let data = NotificationData()
+    // Спрашивает можно ли отправлять уведомления
     func requestAutorization() {
         notificationCenter.requestAuthorization(options: [.alert,.sound]) { (granted, error) in
             guard granted else {return}
@@ -25,7 +26,7 @@ class Notifications: NSObject, UNUserNotificationCenterDelegate {
    
     func sendNotifications(){
         scheduleNotification(trigger: data.todayNotification())
-        print("sendNotifications")
+        print("sendTodayNotifications")
         guard NotificationsTheDayBeforeEvent.isOn == true else { return }
         print("tommorowNotification")
         scheduleNotification(trigger: data.tommorowNotification())
@@ -54,7 +55,7 @@ class Notifications: NSObject, UNUserNotificationCenterDelegate {
         return id
     }
     func scheduleNotification(trigger: Trigger){
-        notificationCenter.removeAllDeliveredNotifications()
+       // notificationCenter.removeAllDeliveredNotifications()
         for i in trigger.components {
             let components = componentsForNotificationTrigger(moment: trigger.moment, components: i)
             let notificationTrigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)

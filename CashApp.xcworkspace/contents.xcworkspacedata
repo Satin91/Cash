@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/artur/Xcode/CashApp/CashUP/CashApp/UI/CancelButton.swift">
-   </FileRef>
-   <FileRef
       location = "group:CashApp.xcodeproj">
    </FileRef>
    <FileRef

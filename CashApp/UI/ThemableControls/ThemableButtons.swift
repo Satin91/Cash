@@ -59,7 +59,6 @@ class ContrastButton: UIButton {
         Themer.shared.register(target: self, action: ContrastButton.theme(_:))
     }
     func theme(_ theme: MyTheme) {
-        //backgroundColor = theme.settings.contrastColor1
         backgroundColor = getColor
         setTitleColor(theme.settings.backgroundColor, for: .normal)
         setTitleColor(theme.settings.subtitleTextColor, for: .disabled)

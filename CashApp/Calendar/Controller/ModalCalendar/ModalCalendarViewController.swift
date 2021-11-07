@@ -21,7 +21,6 @@ class ModalCalendarViewController: UIViewController {
     var DIYDatesArray: [DateComponents] = []
     
     @IBAction func cancelButtonAction(_ sender: UIButton) {
-        print("Tapped")
         dismiss(animated: true)
     }
     var endDate: Date? {
@@ -43,18 +42,19 @@ class ModalCalendarViewController: UIViewController {
         self.view.backgroundColor = .clear
         calendarSettings()
         buttonsSettings()
+        setupCancelButton()
         guard let endDate = endDate else { return }
         setDIYDates(startDate: Date(), endDate: endDate)
         getDiyArray()
-        setupCancelButton()
         datesArray = updateDatesArray()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.calendar.bringSubviewToFront(cancelButtonOutlet)
         guard let endDate = endDate else { return }
         self.calendar.select(endDate, scrollToDate: true)
-        self.calendar.bringSubviewToFront(cancelButtonOutlet)
+        
     }
     func setupCancelButton() {
         let image = UIImage().getNavigationImage(systemName: "xmark", pointSize: 22, weight: .medium)
@@ -63,7 +63,6 @@ class ModalCalendarViewController: UIViewController {
         self.cancelButtonOutlet.tintColor = colors.titleTextColor
         self.cancelButtonOutlet.layer.cornerRadius = cancelButtonOutlet.bounds.height / 2
         self.cancelButtonOutlet.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
-       
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -133,6 +132,7 @@ class ModalCalendarViewController: UIViewController {
 extension ModalCalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     
+    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
         guard self.cameFromTodayBalance == true else { return nil }
         if diyDatesArray.contains(date) && !date.thisDayisToday() {
@@ -145,10 +145,7 @@ extension ModalCalendarViewController: FSCalendarDelegate, FSCalendarDataSource,
             return colors.subtitleTextColor.withAlphaComponent(0.6)
         }
     }
-//    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-//        <#code#>
-//    }
-//
+
     func getDiyArray() {
         var diyArray = [Date]()
         for i in DIYDatesArray {
@@ -160,42 +157,35 @@ extension ModalCalendarViewController: FSCalendarDelegate, FSCalendarDataSource,
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: position) as! DIYFSCalendarCell
-        
+        cell.eventView.isHidden = true
         cell.setStyle(cellStyle: .defaultCalendar)
         return cell
     }
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
-        guard self.cameFromTodayBalance == true else { return }
+        let cell = calendar.dequeueReusableCell(withIdentifier: "CalendarCell", for: date, at: monthPosition) as! DIYFSCalendarCell
+        cell.eventView.isHidden = true
+        guard self.cameFromTodayBalance == true else {
+            cell.eventView.isHidden = true
+            return }
         configureVisibleCells()
-//        guard let endDate = self.endDate else { return }
-//        if date == endDate {
-//            //  let cell = self.calendar(calendar, cellFor: date, at: monthPosition) as! DIYFSCalendarCell
-//
-//        }
-        //        setDIYDates(startDate: Date(), endDate: endDate)
-        
     }
     
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        setDIYDates(startDate: Date(), endDate: date)
-        let cell = calendar.cell(for: date, at: monthPosition) as! DIYFSCalendarCell
-     
+        setDIYDates(startDate: Date(), endDate: date)       
         self.endDate = date
         configureVisibleCells()
         self.getDiyArray()
         calendar.reloadData()
+        
     }
-    
+ 
     private func configureVisibleCells() {
         calendar.visibleCells().forEach { (cell) in
             let date = calendar.date(for: cell)
             let position = calendar.monthPosition(for: cell)
-            //self.configureDIY(cell: cell, for: date!, at: position)
             self.configureEvent(cell: cell, for: date!, at: position)
-            //configureToday(cell: cell, for: date!, at: position)
-            
         }
         
     }
@@ -212,13 +202,17 @@ extension ModalCalendarViewController: FSCalendarDelegate, FSCalendarDataSource,
             DIYDatesArray.append(component)
         }
     }
-    
+ 
     private func configureEvent(cell: FSCalendarCell, for date: Date, at position: FSCalendarMonthPosition) {
         let diyCell = (cell as! DIYFSCalendarCell)
         diyCell.eventView.isHidden = true
         if datesArray.contains(date) {
             diyCell.eventView.isHidden = false
+         
         }
+//        if date == endDate {
+//            diyCell.backgroundView?.backgroundColor = colors.titleTextColor.withAlphaComponent(0.4)
+//        }
     }
     
     private func configureToday(cell: FSCalendarCell, for date: Date, at position: FSCalendarMonthPosition) {
@@ -227,46 +221,6 @@ extension ModalCalendarViewController: FSCalendarDelegate, FSCalendarDataSource,
             cell.backgroundView?.backgroundColor = colors.contrastColor1
         }
     }
-    private func configureDIY(cell: FSCalendarCell, for date: Date, at position: FSCalendarMonthPosition) {
-        
-        let diyCell = (cell as! DIYFSCalendarCell)
-        let components = self.gregorian.dateComponents([.day,.month,.year], from: date)
-        // Configure selection layer
-        if position == .current {
-            
-            var selectionType = SelectionType.none
-            if DIYDatesArray.contains(components) {
-                let previousDate: DateComponents = DateComponents(year: components.year, month: components.month, day: components.day! - 1)
-                let nextDate: DateComponents = DateComponents(year: components.year, month: components.month, day: components.day! + 1)
-                if DIYDatesArray.contains(components) {
-                    if DIYDatesArray.contains(previousDate) && DIYDatesArray.contains(nextDate) {
-                        selectionType = .middle
-                    }
-                    else if DIYDatesArray.contains(previousDate) && DIYDatesArray.contains(components) {
-                        selectionType = .rightBorder
-                    }
-                    else if DIYDatesArray.contains(nextDate) {
-                        selectionType = .leftBorder
-                    }
-                    else {
-                        selectionType = .single
-                    }
-                }
-            }
-            else {
-                selectionType = .none
-            }
-            if selectionType == .none {
-                diyCell.selectionLayer.isHidden = true
-                return
-            }
-            diyCell.selectionLayer.isHidden = false
-            diyCell.selectionType = selectionType
-            
-        } else {
-            // diyCell.circleImageView.isHidden = true
-            diyCell.selectionLayer.isHidden = true
-        }
-    }
+   
 }
 

@@ -11,16 +11,35 @@
 "header_accounts" = "My accounts";
 "header_budgetToday" = "Daily budget";
 
+//MARK: - Accounts View Controller
+"accounts_navigation_bar_title" = "My accounts";
+"accounts_main_account_label"   = "● Main account";
+"accounts_transfer_send"        = "Send";
+
+//Edit account menu
+"account_edit_menu_assign_the_main" = "Assign the main";
+"account_edit_menu_delete" = "Delete";
+
 //MARK: - Categories View Controller
 "categories_navigation_title" = "Categories";
 "segmented_control_0" = "Expenses";
 "segmented_control_1" = "Incomes";
 
-// Add new category??
+
+//MARK: - Add categories View Controller
+"category_expence_heading_title" = "Create an expenses category";
+"category_income_heading_title" = "Create an income category";
+"category_description_title" = "Name a new category and select an image";
+//Доходы
+"category_edit_expence_heading_title" = "Изменить категорию расходов";
+"category_edit_income_heading_title" = "Изменить категорию доходов";
+
 //MARK: - Scheduler View Controller
 "scheduler_navigation_title" = "Plans";
+"add_schedule_button"        = "Add";
+
 //MARK: - Select new schedule type View Controller
-"select_one_time_title" = "Single paymentt";
+"select_one_time_title" = "Single payment";
 "select_multiply_title" = "Multiple payment";
 "select_regular_title" = "Regular payment";
 "select_goal_title" = "Goal";
@@ -31,7 +50,6 @@
 "select_goal_description" = "Do you save on anything? - Great! Specify the date and sum, and the planner will calculate your daily budget.";
 
 //MARK: - Add/Edit Scheduler View Controller
-
 "add_one_time_title" = "Add a single payment in plans";
 "add_multiply_title" = "Add a multiple payment";
 "add_regular_title" = "Add a regular payment";
@@ -61,6 +79,7 @@
 "currency_converter_label" = "Currency converter";
 "main_currency_cell" = "Main currency";
 "additional_currency_cell" = "Additional currency";
+"title_navigation_bar" = "Currencies";
 
 //MARK: - TodayBalanceViewController
 "date_not_selected_label" = "Date wasn’t selected";
@@ -79,14 +98,22 @@
 "small_date" = "MMM dd" ;
 
 //MARK: - Общие переводы
-"name_text_field" = "Name";
-"date_button"     = "Date";
-"create_button"   = "Create";
+"name_text_field"      = "Name";
+"date_button"          = "Date";
+"create_button"        = "Create";
 //"save_button"     = "Save";
-"save_button"     = "Save changes";
-"my_account"      = "My account";
-"back_button"     = "Back";
-"cancel_button"   = "Cancel";
+"save_button"          = "Save changes";
+"my_account"           = "My account";
+"back_button"          = "Back";
+"cancel_button"        = "Cancel";
+"search_bar"           = "Search";
+"common_edit_button"   = "Edit";
+"common_delete_button" = "Delete";
+
+//Mark: - Notifications
+"header_notification"   = "Reminder of plans";
+"tommorow_notification" = "Don't forget, tomorrow you have plans";
+"today_notification"    = "Today you have plans";
 
 //MARK: - Line Chart Cell
 //TextView messages
@@ -98,6 +125,9 @@
 "name_text_field_placeholder" = "Name";
 "balance_text_field_placeholder" = "Balance";
 
+//MARK: - Quick Pay View Controller
+"without_Account" = "No account provided";
+
 //MARK: - Pop Up Table View
 "pop_edit_name_label" = "Change";
 "pop_delete_name_label" = "Delete";
@@ -105,16 +135,59 @@
 //MARK: - Settings menu
 "dark_theme_style" = "Dark theme";
 "light_theme_style" = "Light theme";
-"notify_about_the_plan_one_day_before" = "ПЕРЕВЕСТИ";
+"notify_about_the_plan_one_day_before" = "Notify about plans a day in advance";
 "pro_version" = "PRO Version";
 "pro_is_active" = "Active";
 "pro_is_not_active" = "Not active";
+
+
+//MARK: - SubscriptionViewController
+"unlimit_header_label" = "Everything is unlimited!";
+"unlimit_descriptions" = "Add accounts, currencies, categories and plans without any restrictions!";
+"notifications_header_label" = "Notifications";
+"notifications_descriptions" = "Receive notifications for a day as well as a day in advance.";
+"family_header_label" = "Family access";
+"family_descriptions" = "Any member of the family group can share this subscription.";
+"subscription_button_try_free" = "Free trial";
+"subscription_button_subscribe" = "Subscribe";
+"restore_button" = "Restore";
+//TableView cells
+"subscribe_month_label" = "Monthly subscription";
+"subscribe_year_label"  = "Yearly subscription";
+"subscribe_free_label"  = "(7 days free)";
+"subscribe_month_sum_label"   = " / Month";
+"subscribe_year_sum_label"   = " / Year";
+//URL
+"privacy_policy_URL" = "https://vk.com/public29186890?w=wall-29186890_3";
+
+//MARK: - mini alert View
+// Предупреждение
+"enter_all_fields" = "Enter all fields";
+"indicate_a_date" = "Indicate a date";
+"select_an_image" = "Select an image";
+"select_a_background" = "Select a background";
+"enter_category_name" = "Enter category name";
+"enter_account_name" = "Enter account name";
+"Failed_to_get_products" = "Failed to get products";
+// Отрицательные
+"failed_to_update_currency_rates" = "Failed to update currency rates";
+"no_account" = "No account";
+// Положительные
+"the_plan_is_completed" = "The plan is completed";
+"subscribtion_is_active" = "Subscription is active";
+
+//MARK: - AlertViewCOntroller
+"account_delete" = "Do you want to delete this account?";
+"after_remove_account" = "The selected account will be deleted";
+"main_account_delete" = "Do you want to delete the main account?";
+"after_remove_main_account" = "After deletion, the main account will be assigned to another account.";
+
 
 //MARK: - Currency
 
 "USD" = "United States Dollar" ;
 "EUR" = "European euro" ;
-"JPY" = "Japanese_yen" ;
+"JPY" = "Japanese yen" ;
 "GBP" = "Pound sterling" ;
 "AUD" = "Australian dollar" ;
 "CHF" = "Swiss franc" ;
@@ -155,3 +228,30 @@
 "SAR" = "Saudi Riyal" ;
 "EGP" = "Egyptian Pound" ;
 "TMT" = "Turkmenistan New Manat" ;
+
+//MARK: - Icons
+"transportIcons" = "Transport";
+"healthIcons" = "Health";
+"electronicsIcons" = "Electronics";
+"buildingIcons"   = "Building";
+"gameIcons" = "Games";
+"clothers" = "Clothers";
+"knowledgeIcons" = "Education";
+"billsIcons"   = "Bills";
+"musicIcons"   = "Music";
+"repairIcons"  = "Repair";
+"entertaimentIcons" = "Entertaiment";
+"restIcons" = "Rest" ;
+"sportIcons" = "Sport";
+"animalIcons"  = "Animal" ;
+"shoppingIcons" = "Purchases";
+"beautyIcons"  = "Beauty";
+"foodIcons"  = "Food";
+"giftIcons"  = "Gift";
+"insuranceIcons"  = "Insurance" ;
+"flowersIcons" = "Flowers";
+"loveIcons" = "Love";
+"childrenIcons" = "Сhildren";
+"encouragementIcons" = "Encouragement";
+"workIcons" = "Work";
+"hygieneIcons" = "Hygiene";

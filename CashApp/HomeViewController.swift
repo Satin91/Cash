@@ -37,7 +37,7 @@ class HomeViewController: UIViewController  {
     
     @IBOutlet var testLabel: UILabel!
     let networking = CurrencyNetworking()
-    
+    let purchaseManager = Store()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         setupBarButtons()
@@ -54,7 +54,6 @@ class HomeViewController: UIViewController  {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
     }
     
     func installmenu() {
@@ -67,9 +66,15 @@ class HomeViewController: UIViewController  {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        do {
+           try FileManager.default.removeItem(atPath: NSHomeDirectory()+"/Library/SplashBoard")
+        } catch {
+           print("Failed to delete launch screen cache: \(error)")
+        }
         
         Themer.shared.register(target: self, action: HomeViewController.theme(_:))
-        //notifications.sendNotifications()
+        notifications.sendNotifications()
         installHeaderView()
         installmenu()
         setupTableView()
@@ -111,28 +116,13 @@ class HomeViewController: UIViewController  {
         //top bar extension described in anyOption
         tableView.topBarHeight = topBarHeight
     }
-
-    // ПРОВЕРИТЬ НА ИСПОЛЬЗОВАНИЕ
-//    @objc func changeSizeForHeightBgConstraint(notification: Notification) {
-//        let object = notification.object as! CGPoint
-//
-//        let heightRange = 120...300
-//        let sideDistanceRange = 0...26
-//        let newobj = -object.y
-//        let sideDistance: CGFloat = 0.26
-//        let persent =  CGFloat(Int(newobj * 100) / heightRange.max()! )
-//        let sidePosition = sideDistance * persent
-//        if sideDistanceRange.contains(Int(sidePosition)) {
-//
-//        }
-//        //backgroundView.bounds.size.height = newobj
-//        //let nvHeight = (navigationController?.navigationBar.bounds.height)! * 2
-//    }
 }
 //MARK: - Theme
 extension HomeViewController {
     func theme(_ theme: MyTheme) {
         view.backgroundColor = theme.settings.backgroundColor
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: theme.settings.titleTextColor]
+        
     }
 }
 
@@ -154,7 +144,8 @@ extension HomeViewController: EditHistoryObject, ReloadParentTableView {
         }) {
             self.goToQuickPayVC(reloadDelegate: self, PayObject: historyObject)
         } else {
-            self.miniAlert.showMiniAlert(message: "Счет отсутствует", alertStyle: .error)
+            let message = NSLocalizedString("no_account", comment: "")
+            self.miniAlert.showMiniAlert(message: message, alertStyle: .error)
         }
     }
 }
@@ -162,9 +153,9 @@ extension HomeViewController: EditHistoryObject, ReloadParentTableView {
 extension HomeViewController: OpenSubscriptionManagerController {
     func openSubscriptionManager() {
         
-        if IsAvailableSubscription.isAvailable {
-           
-            self.miniAlert.showMiniAlert(message: "Подписка активна", alertStyle: .success)
+        if SubscribtionStatus.isAvailable {
+            let message = NSLocalizedString("subscribtion_is_active", comment: "")
+            self.miniAlert.showMiniAlert(message: message, alertStyle: .success)
            
         } else {
             // Close settings menu

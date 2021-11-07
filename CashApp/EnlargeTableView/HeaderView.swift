@@ -368,7 +368,6 @@ extension HeaderView: ChartViewDelegate {
         
         var x: Double = 0
         for i in historyObjects {
-            
             if i.scheduleID != "NO ACCOUNT"{
                 historyData.append(i)
             }
@@ -384,6 +383,7 @@ extension HeaderView: ChartViewDelegate {
         
         
         chartView.delegate = self
+        chartView.isUserInteractionEnabled = false
         let set = LineChartDataSet(entries: historyValues)
         set.drawCirclesEnabled = false
         set.circleRadius = 40

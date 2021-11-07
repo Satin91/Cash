@@ -78,8 +78,11 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
         oneTimeContainer.tag = 1
         
         multiplyHeaderLabel.text = NSLocalizedString("select_multiply_title", comment: "")
+        multiplyHeaderLabel.adjustsFontSizeToFitWidth = true
+        multiplyHeaderLabel.minimumScaleFactor = 0.8
         multiplyDescriptionLabel.text = NSLocalizedString("select_multiply_description", comment: "")
         multiplyContainer.tag = 2
+        
         
         regularHeaderLabel.text = NSLocalizedString("select_regular_title", comment: "")
         regularDescriptionLabel.text = NSLocalizedString("select_regular_description", comment: "")
@@ -87,6 +90,8 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
         
         goalHeaderLabel.text = NSLocalizedString("select_goal_title", comment: "")
         goalDescriptionLabel.text = NSLocalizedString("select_goal_description", comment: "")
+        goalDescriptionLabel.minimumScaleFactor = 0.8
+        goalDescriptionLabel.adjustsFontSizeToFitWidth = true
         goalContainer.tag = 4
         
         
@@ -137,8 +142,6 @@ class SelectSchedulerTypeViewController: UIViewController, closeScheduler {
     }
     func addChildViewController(tag: Int) {
         let addSchedulerVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "addScheduleVC") as! AddScheduleViewController
-        
-        let vc = UINavigationController(rootViewController: addSchedulerVC)
         let object = MonetaryScheduler()
         object.scheduleType = tag
         addSchedulerVC.newScheduleObject = object

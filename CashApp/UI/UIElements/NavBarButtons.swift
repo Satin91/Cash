@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import Themer
+
+extension NavigationBarButtons {
+    func theme(_ theme: MyTheme) {
+        self.leftBtn.tintColor = theme.settings.titleTextColor
+        self.rightBtn.tintColor = theme.settings.contrastColor1
+    }
+}
 
 class NavigationBarButtons {
+    var leftBtn = UIButton()
+    var rightBtn = UIButton()
     enum ButtonType: String {
         case back
         case cancel
@@ -48,10 +58,11 @@ class NavigationBarButtons {
     private var rightButton: ButtonType = .none
     var item: UINavigationItem!
     
-   
+    
     
     init(navigationItem: UINavigationItem, leftButton: ButtonType, rightButton: ButtonType) {
         colors.loadColors()
+        Themer.shared.register(target: self, action: NavigationBarButtons.theme(_:))
         self.item = navigationItem
         self.leftButton = leftButton
         self.rightButton = rightButton
@@ -91,7 +102,7 @@ class NavigationBarButtons {
     
     private func createRightBarButtonItem(image: String) {
         let customVuew = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 34))
-        let button = UIButton()
+        let button = rightBtn
         button.frame = CGRect(x: -12, y: 0, width: 50, height: 34)
         
         // СОри но я тороплюсь!!!
@@ -101,22 +112,25 @@ class NavigationBarButtons {
             button.frame.size.width = 80
             button.frame.size.height = 40
             button.frame.origin.x = -42
+            button.titleLabel?.numberOfLines = 1
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+            button.titleLabel?.lineBreakMode = .byWordWrapping
             button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
         } else {
             button.setTitle("", for: .normal)
             button.setImage(UIImage().getNavigationImage(systemName: image, pointSize: 34, weight: .light) , for: .normal)
         }
         
-       
+        
         button.contentHorizontalAlignment = .right
-       
         
-//        button.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
-//        button.layer.cornerRadius = 8
-//        button.layer.cornerCurve = .continuous
         
-        button.tintColor = colors.contrastColor1
-         button.addTarget(self, action: #selector(rightButtonTapped(_:)), for: .touchUpInside)
+        //        button.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
+        //        button.layer.cornerRadius = 8
+        //        button.layer.cornerCurve = .continuous
+        
+        //    button.tintColor = colors.contrastColor1
+        button.addTarget(self, action: #selector(rightButtonTapped(_:)), for: .touchUpInside)
         customVuew.addSubview(button)
         let rightBarButton = UIBarButtonItem(customView: customVuew)
         // let barButton = UIBarButtonItem(image: nil, style: .done, target: nil, action: nil)
@@ -124,17 +138,17 @@ class NavigationBarButtons {
     }
     private func createLeftBarButtonItem(image: String) {
         let customVuew = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 34))
-        let button = UIButton()
+        let button = leftBtn
         button.frame = CGRect(x: 10, y: 0, width: 50, height: 34)
         //button.setTitle(NSLocalizedString("back_button", comment: ""), for: .normal)
-//        button.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
-//        button.layer.cornerRadius = 8
-//        button.layer.cornerCurve = .continuous
+        //        button.backgroundColor = colors.titleTextColor.withAlphaComponent(0.15)
+        //        button.layer.cornerRadius = 8
+        //        button.layer.cornerCurve = .continuous
         button.contentHorizontalAlignment = .left
         button.tintColor = colors.titleTextColor
         //button.setTitleColor(colors.titleTextColor.withAlphaComponent(0.15), for: .normal)
         button.setImage(UIImage().getNavigationImage(systemName: image, pointSize: 34, weight: .regular) , for: .normal)
-         button.addTarget(self, action: #selector(leftButtonTapped(_:) ), for: .touchUpInside)
+        button.addTarget(self, action: #selector(leftButtonTapped(_:) ), for: .touchUpInside)
         customVuew.addSubview(button)
         let leftBarButton = UIBarButtonItem(customView: customVuew)
         // let barButton = UIBarButtonItem(image: nil, style: .done, target: nil, action: nil)

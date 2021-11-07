@@ -11,8 +11,9 @@ import UIKit
 
 extension TodayBalanceViewController {
     
+    
+    
     func setColors(){
-        
         self.view.backgroundColor = colors.backgroundcolor
         containerView.backgroundColor = colors.secondaryBackgroundColor
         containerView.layer.setMiddleShadow(color: colors.shadowColor)
@@ -24,9 +25,10 @@ extension TodayBalanceViewController {
         dailyBudgetLabel.textColor = colors.titleTextColor
         calculatedUntilDateLabel.textColor = colors.subtitleTextColor
         dailyBudgetBalanceLabel.textColor = colors.titleTextColor
-    
-        impactOnBalanceLabel.textColor = colors.titleTextColor
         
+        // Я это пока тут поставил, через Themer не удается покрасить в момент смены темы
+        navigationController?.navigationBar.tintColor = colors.titleTextColor
+        impactOnBalanceLabel.textColor = colors.titleTextColor
         circleBarContainerView.layer.setSmallShadow(color: colors.shadowColor)
         circleBarContainerView.backgroundColor = colors.secondaryBackgroundColor
 }

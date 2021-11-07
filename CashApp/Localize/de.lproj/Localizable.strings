@@ -11,13 +11,31 @@
 "header_accounts" = "Meine Accounts";
 "header_budgetToday" = "Tägliches Budget";
 
+//MARK: - Accounts View Controller
+"accounts_navigation_bar_title" = "Meine Accounts";
+"accounts_main_account_label"   = "● Hauptkonto";
+"accounts_transfer_send"        = "Senden";
+//Edit account menu
+"account_edit_menu_assign_the_main" = "Haupt machen";
+"account_edit_menu_delete" = "Löschen"; 
+
 //MARK: - Categories View Controller
 "categories_navigation_title" = "Kategorien";
 "segmented_control_0" = "Kosten";
 "segmented_control_1" = "Einkommen";
 
+//MARK: - Add categories View Controller
+"category_expence_heading_title" = "Ausgabenkategorie erstellen";
+"category_income_heading_title" = "Einkommenskategorie erstellen";
+"category_description_title" = "Eine neue Kategorie benennen und ein Bild auswählen";
+//Доходы
+"category_edit_expence_heading_title" = "Изменить категорию расходов";
+"category_edit_income_heading_title" = "Изменить категорию доходов";
+
 //MARK: - Scheduler View Controller
 "scheduler_navigation_title" = "Pläne";
+"add_schedule_button"        = "Hinzufügen";
+
 //MARK: - Select new schedule type View Controller
 "select_one_time_title" = "Einmalzahlung";
 "select_multiply_title" = "Mehrfachzahlung";
@@ -60,6 +78,7 @@
 "currency_converter_label" = "Währungsrechner";
 "main_currency_cell" = "Hauptwährung";
 "additional_currency_cell" = "Zusätzliche Währung";
+"title_navigation_bar" = "Währungen";
 
 //MARK: - TodayBalanceViewController
 "date_not_selected_label" = "Datum wurde nicht ausgewählt";
@@ -67,7 +86,7 @@
 "date_is_selected_label" = "Berechnet bis";
 "impact_on_balance_label" = "Pläne wirken sich auf das Tagesbudget aus";
 "segmented_control_plans" = "Pläne";
-"segmented_control_accounts" = "Accounts";
+"segmented_control_accounts" = "Konten";
 "empty_accounts" = "Konten fehlen";
 
 
@@ -76,10 +95,15 @@
 "no_transactions" = "Keine Einträge auf diesem Konto in diesem Monat";
 "need_at_least_one" = "Um die Grafik anzuzeigen, ist eine weitere Eingabe erforderlich";
 
+
+
 //MARK: - AddAccount View Controller
 "heading_label_text" = "Neues Konto hinzufügen";
 "name_text_field_placeholder" = "Name";
 "balance_text_field_placeholder" = "Gleichgewicht";
+
+//MARK: - Quick Pay View Controller
+"without_Account" = "Kein Konto angegeben";
 
 ///MARK: - Date Format
 "year_does_not_coincide" = "MMMM, d, Y";
@@ -96,7 +120,16 @@
 "save_button"     = "Änderungen speichern";
 "my_account"      = "mein Konto";
 "back_button"     = "Zurück";
-"cancel_button"    = "Abbrechen";
+"cancel_button"   = "Abbrechen";
+"search_bar"      = "Suche";
+"edit_button_common" = "";
+"common_edit_button"   = "Bearbeiten";
+"common_delete_button" = "Löschen";
+
+//Mark: - Notifications
+"header_notification"   = "Erinnerung an Pläne";
+"tommorow_notification" = "Vergiss nicht, dass du Pläne für morgen hast";
+"today_notification"    = "Heute hast du Pläne";
 
 //MARK: - Pop Up Table View
 "pop_edit_name_label" = "Ändern";
@@ -105,10 +138,53 @@
 //MARK: - Settings menu
 "dark_theme_style" = "Dunkles Thema";
 "light_theme_style" = "Licht Thema";
-"notify_about_the_plan_one_day_before" = "ПЕРЕВЕСТИ";
+"notify_about_the_plan_one_day_before" = "Benachrichtigen über Pläne einen Tag im Voraus";
 "pro_version" = "PRO Version";
 "pro_is_active" = "Aktiv";
 "pro_is_not_active" = "Nicht aktiv";
+
+//MARK: - SubscriptionViewController
+"unlimit_header_label" = "Alles ist unbegrenzt!";
+"unlimit_descriptions" = "Fügen Sie Konten, Währungen, Kategorien und Pläne ohne Einschränkungen hinzu!";
+"notifications_header_label" = "Benachrichtigungen";
+"notifications_descriptions" = "Erhalten Sie Benachrichtigungen für einen Tag sowie einen Tag im Voraus.";
+"family_header_label" = "Familienzugang";
+"family_descriptions" = "Jedes Mitglied der Familiengruppe kann dieses Abonnement teilen.";
+"subscription_button_try_free" = "Kostenlose Testphase";
+"subscription_button_subscribe" = "Abonnieren";
+"restore_button" = "Wiederherstellen";
+//URL
+"privacy_policy_URL" = "https://vk.com/public29186890?w=wall-29186890_3";
+
+//TableView cells
+"subscribe_month_label" = "Monatliches Abo";
+"subscribe_year_label"  = "Jahresabo";
+"subscribe_free_label"  = "(7 Tage kostenlos)";
+"subscribe_month_sum_label"   = " / Monat";
+"subscribe_year_sum_label"   = " / Jahr";
+
+//MARK: - mini alert View
+// Предупреждение
+"enter_all_fields" = "Geben Sie alle Felder ein";
+"indicate_a_date" = "Geben Sie ein Datum an";
+"select_an_image" = "Wählen Sie ein Bild aus";
+"select_a_background" = "Wählen Sie einen Hintergrund";
+"enter_category_name" = "Kategorienamen eingeben";
+"enter_account_name" = "Geben Sie den Kontonamen ein";
+"Failed_to_get_products" = "Fehler beim Abrufen von Produkten";
+// Отрицательные
+"failed_to_update_currency_rates" = "Währungskurse konnten nicht aktualisiert werden";
+"no_account" = "kein Account";
+// Положительные
+"the_plan_is_completed" = "Der Plan ist fertig";
+"subscribtion_is_active" = "Abonnement aktiv";
+
+//MARK: - AlertViewCOntroller
+"account_delete" = "Möchten Sie dieses Konto löschen?";
+"after_remove_account" = "Das ausgewählte Konto wird gelöscht";
+"main_account_delete" = "Möchten Sie das Hauptkonto löschen?";
+"after_remove_main_account" = "Nach dem Löschen wird das Hauptkonto einem anderen Konto zugewiesen.";
+
 
 //MARK: - Currency
 "USD" = "US-Dollar" ;
@@ -154,3 +230,30 @@
 "SAR" = "Saudi-Riyal" ;
 "EGP" = "Ägyptisches Pfund" ;
 "TMT" = "Turkmenistan-Manat" ;
+
+//MARK: - Icons
+"transportIcons" = "Transport";
+"healthIcons" = "Gesundheit";
+"electronicsIcons" = "Elektronik";
+"buildingIcons"   = "Bauten";
+"gameIcons" = "Spiele";
+"clothers" = "Kleidung";
+"knowledgeIcons" = "Ausbildung";
+"billsIcons"   = "Rechnungen";
+"musicIcons"   = "Musik";
+"repairIcons"  = "Reparatur";
+"entertaimentIcons" = "Entertainment";
+"restIcons" = "Erholung";
+"sportIcons" = "Sport";
+"animalIcons"  = "Tiere" ;
+"shoppingIcons" = "Käufe";
+"beautyIcons"  = "Schönheit";
+"foodIcons"  = "Essen";
+"giftIcons"  = "Geschenk";
+"insuranceIcons"  = "Versicherung" ;
+"flowersIcons" = "Blumen";
+"loveIcons" = "Liebe";
+"childrenIcons" = "Kinder";
+"encouragementIcons" = "Ermutigung";
+"workIcons" = "Arbeit";
+"hygieneIcons" = "Hygiene";

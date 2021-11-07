@@ -1,0 +1,234 @@
+/* 
+  Localizable.strings
+  CashApp
+
+  Created by Артур on 14.08.21.
+  Copyright © 2021 Артур. All rights reserved.
+*/
+//MARK: - Home View controller
+"home_navigation_title" = "Hauptseite";
+//HeaderView
+"header_accounts" = "Meine Accounts";
+"header_budgetToday" = "Tägliches Budget";
+
+//MARK: - Accounts View Controller
+"accounts_navigation_bar_title" = "Meine Accounts";
+"accounts_main_account_label"   = "● Hauptkonto";
+"accounts_transfer_send"        = "Senden";
+//Edit account menu
+"account_edit_menu_assign_the_main" = "Haupt machen";
+"account_edit_menu_delete" = "Löschen"; 
+
+//MARK: - Categories View Controller
+"categories_navigation_title" = "Kategorien";
+"segmented_control_0" = "Kosten";
+"segmented_control_1" = "Einkommen";
+
+//MARK: - Add categories View Controller
+"category_expence_heading_title" = "Ausgabenkategorie erstellen";
+"category_income_heading_title" = "Einkommenskategorie erstellen";
+"category_description_title" = "Eine neue Kategorie benennen und ein Bild auswählen";
+//Доходы
+"category_edit_expence_heading_title" = "Изменить категорию расходов";
+"category_edit_income_heading_title" = "Изменить категорию доходов";
+
+//MARK: - Scheduler View Controller
+"scheduler_navigation_title" = "Pläne";
+"add_schedule_button"        = "Hinzufügen";
+
+//MARK: - Select new schedule type View Controller
+"select_one_time_title" = "Einmalzahlung";
+"select_multiply_title" = "Mehrfachzahlung";
+"select_regular_title" = "Reguläre Zahlung";
+"select_goal_title" = "Ziel";
+
+"select_one_time_description" = "Zahlungen innerhalb einer Summe planen.";
+"select_multiply_description" = "Gutschriften und Raten erstellen, Zahlungsintervalle festlegen.";
+"select_regular_description" = "Zahlungen oder Auszahlungen dauerhaft erstellen.";
+"select_goal_description" = "Sparst du an irgendetwas? - Groß! Geben Sie Datum und Summe an und der Planer berechnet Ihr Tagesbudget.";
+
+//MARK: - Add/Edit Scheduler View Controller
+
+"add_one_time_title" = "Einmalzahlung Plänen hinzufügen";
+"add_multiply_title" = "Mehrfachzahlung hinzufügen";
+"add_regular_title" = "Reguläre Zahlung hinzufügen";
+"add_goal_title" = "Neues Ziel in Plänen hinzufügen";
+//Edit
+"edit_one_time_title" = "Einmalzahlung bearbeiten";
+"edit_multiply_title" = "Mehrfachzahlung bearbeiten";
+"edit_regular_title" = "Reguläre Zahlung bearbeiten";
+"edit_goal_title" = "Aktuelles Ziel bearbeiten";
+
+"add_one_time_description" = "Geben Sie Daten ein und wählen Sie eine einzelne Zahlungsrichtung";
+"add_multiply_description" = "Geben Sie Daten ein und wählen Sie eine Mehrfachzahlungsrichtung aus";
+"add_regular_description" = "Geben Sie die Daten für eine regelmäßige Zahlung ein";
+"add_goal_description" = "Geben Sie Daten für Ihr Ziel ein";
+//Text fields
+"name_text_field" = "Name";
+"total_sum_text_field" = "Gesamtsumme";
+"sum_per_time_text_field" = "Zahlung pro Zeit";
+"available_sum" = "Erhältlich";
+"date_button" = "Datum";
+//repeatTalbeView
+"repeat_every_month" = "Jeden Monat wiederholen";
+"repeat_every_week" = "Jede Woche wiederholen";
+"repeat_every_day" = "Jeden Tag wiederholen";
+
+//MARK: - Currency View Controller
+"currency_converter_label" = "Währungsrechner";
+"main_currency_cell" = "Hauptwährung";
+"additional_currency_cell" = "Zusätzliche Währung";
+"title_navigation_bar" = "Währungen";
+
+//MARK: - TodayBalanceViewController
+"date_not_selected_label" = "Datum wurde nicht ausgewählt";
+"dayly_budget_label" = "Tägliches Budget";
+"date_is_selected_label" = "Berechnet bis";
+"impact_on_balance_label" = "Pläne wirken sich auf das Tagesbudget aus";
+"segmented_control_plans" = "Pläne";
+"segmented_control_accounts" = "Konten";
+"empty_accounts" = "Konten fehlen";
+
+
+//MARK: - Line Chart Cell
+//TextView messages
+"no_transactions" = "Keine Einträge auf diesem Konto in diesem Monat";
+"need_at_least_one" = "Um die Grafik anzuzeigen, ist eine weitere Eingabe erforderlich";
+
+
+
+//MARK: - AddAccount View Controller
+"heading_label_text" = "Neues Konto hinzufügen";
+"name_text_field_placeholder" = "Name";
+"balance_text_field_placeholder" = "Gleichgewicht";
+
+//MARK: - Quick Pay View Controller
+"without_Account" = "Kein Konto angegeben";
+
+///MARK: - Date Format
+"year_does_not_coincide" = "MMMM, d, Y";
+"year_coincides" = "MMMM, d";
+"day_is_today" = "Heute";
+"day_was_yestereday" = "Gestern";
+"small_date" = "MMM dd" ;
+
+//MARK: - Общие переводы
+"name_text_field" = "Name";
+"date_button"     = "Datum";
+"create_button"   = "Schaffen";
+//"save_button" = "Schaffen";
+"save_button"     = "Änderungen speichern";
+"my_account"      = "mein Konto";
+"back_button"     = "Zurück";
+"cancel_button"   = "Abbrechen";
+"search_bar"      = "Suche";
+"edit_button_common" = "";
+"common_edit_button"   = "Bearbeiten";
+"common_delete_button" = "Löschen";
+
+
+//MARK: - Pop Up Table View
+"pop_edit_name_label" = "Ändern";
+"pop_delete_name_label" = "Löschen";
+
+//MARK: - Settings menu
+"dark_theme_style" = "Dunkles Thema";
+"light_theme_style" = "Licht Thema";
+"notify_about_the_plan_one_day_before" = "Benachrichtigen über Pläne einen Tag im Voraus";
+"pro_version" = "PRO Version";
+"pro_is_active" = "Aktiv";
+"pro_is_not_active" = "Nicht aktiv";
+
+//MARK: - SubscriptionViewController
+"unlimit_header_label" = "Alles ist unbegrenzt!";
+"unlimit_descriptions" = "Fügen Sie Konten, Währungen, Kategorien und Pläne ohne Einschränkungen hinzu!";
+"notifications_header_label" = "Benachrichtigungen";
+"notifications_descriptions" = "Erhalten Sie Benachrichtigungen für einen Tag sowie einen Tag im Voraus.";
+"family_header_label" = "Familienzugang";
+"family_descriptions" = "Jedes Mitglied der Familiengruppe kann dieses Abonnement teilen.";
+"subscription_button_try_free" = "Kostenlose Testphase";
+"subscription_button_subscribe" = "Abonnieren";
+
+//MARK: - mini alert View
+// Предупреждение
+"enter_all_fields" = "Geben Sie alle Felder ein";
+"indicate_a_date" = "Geben Sie ein Datum an";
+"select_an_image" = "Wählen Sie ein Bild aus";
+"select_a_background" = "Wählen Sie einen Hintergrund";
+"enter_category_name" = "Kategorienamen eingeben";
+"enter_account_name" = "Geben Sie den Kontonamen ein";
+// Отрицательные
+"failed_to_update_currency_rates" = "Währungskurse konnten nicht aktualisiert werden";
+// Положительные
+"the_plan_is_completed" = "Der Plan ist fertig";
+
+//MARK: - Currency
+"USD" = "US-Dollar" ;
+"EUR" = "Euro" ;
+"JPY" = "Japanischer Yen" ;
+"GBP" = "Pfund Sterling" ;
+"AUD" = "Australischer Dollar" ;
+"CHF" = "Schweizer Franken" ;
+"CAD" = "Kanadischer Dollar" ;
+"CNY" = "Chinesischer Yuan Renminbi" ;
+"SEK" = "Schwedische Krone" ;
+"NOK" = "Norwegische Krone" ;
+"NZD" = "Neuseeland-Dollar" ;
+"SGD" = "Singapur-Dollar" ;
+"HKD" = "Hongkong-Dollar" ;
+"KRW" = "Südkoreanischer Won" ;
+"TRY" = "Türkische Lira" ;
+"RUB" = "Russischer Rubel" ;
+"INR" = "Indische Rupie" ;
+"BRL" = "Brasilianischer Real" ;
+"ZAR" = "Südafrikanischer Rand" ;
+"BYN" = "Weißrussischer Rubel" ;
+"UAH" = "Ukrainische Hrywnja" ;
+"ILS" = "Neuer israelischer Schekel" ;
+"BGN" = "Bulgarischer Lew" ;
+"CZK" = "Tschechische Krone" ;
+"DKK" = "Dänische Krone" ;
+"HRK" = "Kroatische Kuna" ;
+"HUF" = "Ungarischer Forint" ;
+"IDR" = "Indonesische Rupie" ;
+"ISK" = "Isländische Krone" ;
+"MXN" = "Mexikanischer Peso" ;
+"MYR" = "Malaysischer Ringgit" ;
+"PLN" = "Polnischer Zloty" ;
+"RON" = "Rumänischer Leu" ;
+"THB" = "Thailändischer Baht" ;
+"KZT" = "Kasachischer Tenge" ;
+"AMD" = "Armenischer Dram" ;
+"ALL" = "Albanischer Lek" ;
+"BAM" = "Konvertible Mark" ;
+"RSD" = "Serbischer Dinar" ;
+"AZN" = "Aserbaidschan-Manat" ;
+"SAR" = "Saudi-Riyal" ;
+"EGP" = "Ägyptisches Pfund" ;
+"TMT" = "Turkmenistan-Manat" ;
+
+//MARK: - Icons
+"transportIcons" = "Transport";
+"healthIcons" = "Gesundheit";
+"electronicsIcons" = "Elektronik";
+"buildingIcons"   = "Bauten";
+"gameIcons" = "Spiele";
+"clothers" = "Kleidung";
+"knowledgeIcons" = "Ausbildung";
+"billsIcons"   = "Rechnungen";
+"musicIcons"   = "Musik";
+"repairIcons"  = "Reparatur";
+"entertaimentIcons" = "Entertainment";
+"restIcons" = "Erholung";
+"sportIcons" = "Sport";
+"animalIcons"  = "Tiere" ;
+"shoppingIcons" = "Käufe";
+"beautyIcons"  = "Schönheit";
+"foodIcons"  = "Essen";
+"giftIcons"  = "Geschenk";
+"insuranceIcons"  = "Versicherung" ;
+"flowersIcons" = "Blumen";
+"loveIcons" = "Liebe";
+"childrenIcons" = "Kinder";
+"encouragementIcons" = "Ermutigung";
+"workIcons" = "Arbeit";

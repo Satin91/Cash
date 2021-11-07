@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import PurchasesCoreSwift
 
 class IconsModelController {
     struct SectionsModel{
@@ -25,6 +24,7 @@ class IconsModelController {
                 // Следующее свойство класса
                 let nextValue = child.value as! [String]
                 returningArray.append(SectionsModel(name: child.label ?? "", icons: nextValue))
+             //   print(nextValue)
             }
         }
         return returningArray

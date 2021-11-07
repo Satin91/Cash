@@ -35,6 +35,8 @@ class PopTableViewCell: UITableViewCell {
         lineView.backgroundColor = colors.borderColor.withAlphaComponent(0.6)
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
+        self.popCellImage.layer.setCircleShadow(color: colors.shadowColor.withAlphaComponent(0.2))
+        self.popCellImage.layer.masksToBounds = false
     }
     
     func createConstraints() {
@@ -52,7 +54,6 @@ class PopTableViewCell: UITableViewCell {
         createConstraints()
     }
     func set(object: Any){
-        
         if object is MonetaryScheduler {
             let obj = object as! MonetaryScheduler
             setSchedule(scheduleObject: obj)

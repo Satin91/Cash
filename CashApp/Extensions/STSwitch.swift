@@ -77,7 +77,7 @@ class STSwitch: UIControl {
     
     public override func layoutSubviews() {
       super.layoutSubviews()
-        var side: CGFloat = 5
+        let side: CGFloat = 5
     if !self.isAnimating {
         self.layer.cornerRadius = self.bounds.size.height * self.cornerRadius
         self.backgroundColor = self.isOn ? self.onTintColor : self.offTintColor

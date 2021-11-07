@@ -1,0 +1,236 @@
+/* 
+  Localizable.strings
+  CashApp
+
+  Created by Артур on 14.08.21.
+  Copyright © 2021 Артур. All rights reserved.
+*/
+//MARK: - Home View Controller
+"home_navigation_title" = "Главная";
+//HeaderView
+"header_accounts" = "Мои счета";
+"header_budgetToday" = "Бюджет сегодня";
+
+//MARK: - Accounts View Controller
+"accounts_navigation_bar_title" = "Мои счета";
+"accounts_main_account_label"   = "● Главный счет";
+"accounts_transfer_send"        = "Отправить";
+//Edit account menu
+"account_edit_menu_assign_the_main" = "Сделать главным";
+"account_edit_menu_delete" = "Удалить";
+
+//MARK: - Categories View Controller
+"categories_navigation_title" = "Категории";
+"segmented_control_0" = "Расходы";
+"segmented_control_1" = "Доходы";
+
+
+//MARK: - Add categories View Controller
+//Расходы
+"category_expence_heading_title" = "Создать категорию расходов";
+"category_income_heading_title" = "Создать категорию доходов";
+"category_description_title" = "Назовите новую категорию и выбирете изображение";
+//Доходы
+"category_edit_expence_heading_title" = "Изменить категорию расходов";
+"category_edit_income_heading_title" = "Изменить категорию доходов";
+//MARK: - Scheduler View Controller
+"scheduler_navigation_title" = "Планы";
+"add_schedule_button"        = "Добавить";
+
+//MARK: - Select new schedule type View Controller
+"select_one_time_title" = "Разовый платеж";
+"select_multiply_title" = "Многоразовый платеж";
+"select_regular_title" = "Регулярная оплата";
+"select_goal_title" = "Цель";
+
+"select_one_time_description" = "Планируйте любые платежи в рамках одной суммы.";
+"select_multiply_description" = "Cоздавайте кредиты, рассрочки, указывайте интервалы платежей.";
+"select_regular_description" = "Создавайте платежи или выплаты на постоянной основе.";
+"select_goal_description" = "На что-нибудь копите? - Отлично! Укажите дату и сумму, а планировщик рассчитает ваш дневной бюджет.";
+
+//MARK: - Add/Edit Scheduler View Controller
+"add_one_time_title" = "Добавить разовый платеж в планы";
+"add_multiply_title" = "Добавить многоразовый платеж";
+"add_regular_title" = "Добавить регулярную оплату";
+"add_goal_title" = "Добавить новую цель в планы";
+//Edit
+"edit_one_time_title" = "Редактирование разового платежа";
+"edit_multiply_title" = "Редактирование многоразового платежа";
+"edit_regular_title" = "Редактирование регулярной оплаты";
+"edit_goal_title" = "Редактирование существующей цели";
+
+"add_one_time_description" = "Заполните данные и выберете направление разового платежа";
+"add_multiply_description" = "Заполните данные и выберете направление многоразового платежа";
+"add_regular_description" = "Заполните данныые для регулярной оплаты";
+"add_goal_description" = "Заполните данные для вашей цели";
+
+
+//Text fields
+"name_text_field" = "Название";
+"total_sum_text_field" = "Общая сумма";
+"sum_per_time_text_field" = "Сумма платежа";
+"available_sum" = "Имеется в данный момент";
+//Buttons
+
+//repeatTalbeView
+"repeat_every_month" = "Повторять каждый месяц";
+"repeat_every_week" = "Повторять каждую неделю";
+"repeat_every_day" = "Повторять каждый день";
+
+//MARK: - Currency View Controller
+"currency_converter_label" = "Конвертер валют";
+"main_currency_cell" = "Главная валюта";
+"additional_currency_cell" = "Дополнительная валюта";
+"title_navigation_bar" = "Валюты";
+
+//MARK: - TodayBalanceViewController
+"date_not_selected_label" = "Дата не выбрана";
+"dayly_budget_label" = "Дневной бюджет";
+"date_is_selected_label" = "Рассчитано до";
+"impact_on_balance_label" = "Влияние планов на дневной бюджет";
+"segmented_control_plans" = "Планы";
+"segmented_control_accounts" = "Счета";
+"empty_accounts" = "Отсутствуют счета";
+
+
+//MARK: - Line Chart Cell
+//TextView messages
+"no_transactions" = "Нет ни одной записи в этом месяце по этому счету";
+"need_at_least_one" = "Для отображения графика требуется еще одна запись";
+
+//MARK: - AddAccount View Controller
+"heading_label_text" = "Добавить новый счет";
+"name_text_field_placeholder" = "Имя";
+"balance_text_field_placeholder" = "Баланс";
+
+//MARK: - Quick Pay View Controller
+"without_Account" = "Без счета";
+
+///MARK: - Date Format
+"year_does_not_coincide" = "d MMMM Y";
+"year_coincides" = "d MMMM";
+"day_is_today" = "Сегодня";
+"day_was_yestereday" = "Вчера";
+"small_date" = "dd MMM" ;
+
+//MARK: - Общие переводы
+"name_text_field"    = "Имя";
+"date_button"        = "Дата";
+"create_button"      = "Создать";
+"save_button"        = "Сохранить";
+"my_account"         = "Мой счет";
+"back_button"        = "Назад";
+"cancel_button"      = "Отмена";
+"search_bar"         = "Поиск";
+"common_edit_button"   = "Изменить";
+"common_delete_button" = "Удалить";
+
+//MARK: - Pop Up Table View
+"pop_edit_name_label" = "Изменить";
+"pop_delete_name_label" = "Удалить";
+
+// MARK: - Settings menu
+"dark_theme_style" = "Темная тема";
+"light_theme_style" = "Светлая тема";
+"notify_about_the_plan_one_day_before" = "Уведомлять о планах за 1 день";
+"pro_version" = "PRO Версия";
+"pro_is_active" = "Активна";
+"pro_is_not_active" = "Не активна";
+
+//MARK: - SubscriptionViewController
+"unlimit_header_label" = "Безлимит всего!";
+"unlimit_descriptions" = "Добавляйте счета, валюты, категории и планы без всяких ограничений!";
+"notifications_header_label" = "Уведомления";
+"notifications_descriptions" = "Получайте уведомления в день, а так за день плана.";
+"family_header_label" = "Семейный доступ";
+"family_descriptions" = "Подписка распространяется на всех членов семейной группы.";
+"subscription_button_try_free" = "Попробовать бесплатно";
+"subscription_button_subscribe" = "Подписаться";
+
+
+//MARK: - mini alert View
+// Предупреждение
+"enter_all_fields" = "Заполните все поля";
+"indicate_a_date" = "Укажите дату";
+"select_an_image" = "Выберите изображение";
+"select_a_background" = "Выберите фон";
+"enter_category_name" = "Введите название категории";
+"enter_account_name" = "Введите название счета";
+// Отрицательные
+"failed_to_update_currency_rates" = "Не удалось обновить курсы валют";
+// Положительные
+"the_plan_is_completed" = "План выполнен";
+
+
+//MARK: - ICONS
+
+//MARK: - Currency
+"USD" = "Доллар США" ;
+"EUR" = "Евро" ;
+"JPY" = "Японская йена" ;
+"GBP" = "Фунт стерлингов" ;
+"AUD" = "Австралийский доллар" ;
+"CHF" = "Швейцарский франк" ;
+"CAD" = "Канадский доллар" ;
+"CNY" = "Китайский юань женьминьби" ;
+"SEK" = "Шведская крона" ;
+"NOK" = "Норвежская крона" ;
+"NZD" = "Ново­зеландский доллар" ;
+"SGD" = "Сингапурский доллар" ;
+"HKD" = "Гонконгский доллар" ;
+"KRW" = "Южно-корейская вона" ;
+"TRY" = "Турецкая лира" ;
+"RUB" = "Российский рубль" ;
+"INR" = "Индийская рупия" ;
+"BRL" = "Бразильский реал" ;
+"ZAR" = "Южно-африканский рэнд" ;
+"BYN" = "Белорусский рубль" ;
+"UAH" = "Украинская гривна" ;
+"ILS" = "Израильский шекель" ;
+"BGN" = "Болгарский лев" ;
+"CZK" = "Чешская крона" ;
+"DKK" = "Датская крона" ;
+"HRK" = "Хорватская куна" ;
+"HUF" = "Венгерский форинт" ;
+"IDR" = "Индонезийская рупия" ;
+"ISK" = "Исландская крона" ;
+"MXN" = "Мексиканский песо" ;
+"MYR" = "Малайзийский ринггит" ;
+"PLN" = "Польский злотый" ;
+"RON" = "Румынский лей" ;
+"THB" = "Таиландский бат" ;
+"KZT" = "Казахский тенге" ;
+"AMD" = "Армянский драм" ;
+"ALL" = "Албанский лек" ;
+"BAM" = "Конвертируемая марка" ;
+"RSD" = "Сербский динар" ;
+"AZN" = "Азербайджанский манат" ;
+"SAR" = "Саудовский риял" ;
+"EGP" = "Египетский фунт" ;
+"TMT" = "Туркменский манат" ;
+
+//MARK: - Icons
+"transportIcons" = "Транспорт";
+"healthIcons" = "Здоровье";
+"electronicsIcons" = "Электроника";
+"buildingIcons"   = "Здания";
+"gameIcons" = "Игры";
+"clothers" = "Одежда";
+"knowledgeIcons" = "Образование";
+"billsIcons"   = "Счета";
+"musicIcons"   = "Музыка";
+"repairIcons"  = "Ремонт";
+"entertaimentIcons" = "Развлечения";
+"restIcons" = "Отдых" ;
+"sportIcons" = "Спорт";
+"animalIcons"  = "Животные" ;
+"shoppingIcons" = "Покупки";
+"beautyIcons"  = "Красота";
+"foodIcons"  = "Еда";
+"giftIcons"  = "Подарки";
+"insuranceIcons"  = "Страхование" ;
+"flowersIcons" = "Цветы";
+"loveIcons" = "Любовь";
+"childrenIcons" = "Дети";
+"encouragementIcons" = "Поощрения";
+"workIcons" = "Работа";

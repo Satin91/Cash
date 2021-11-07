@@ -183,16 +183,16 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        // Метод вызван чтобы убрать баг с перемещением календаря на 2 года назад после нажатия
+         calendar.didMoveToWindow()
+        
+         //calendar.select(date, scrollToDate: true)
     }
-  
-    
-   
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setColors()
-        calendar = FSCalendarView(frame: self.view.bounds, calendarType: .mini)
         self.isModalInPresentation = true
+        calendar = FSCalendarView(frame: self.view.bounds, calendarType: .mini)
         calendar.delegate = self
         setupSumTextField()
         setupContainerView()
@@ -203,6 +203,30 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         setupNavigationsButtons()
         setupTransferImages()
         createConstraints()
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        //cancelButton.frame.origin.x = self.view.bounds.width + 26
+        cancelButton.frame.origin.x += self.view.frame.width / 2
+        let navBarHeight = self.navigationController!.navigationBar.frame.height
+        let edge: CGFloat = 22
+        let viewWidth = self.view.bounds.width
+        let scrollViewHeight = scrollView.bounds.height
+        tableView.frame = CGRect(x: 0, y: self.view.bounds.origin.y - navBarHeight, width: self.view.bounds.width, height: self.view.frame.height)
+        tableView.contentInset = UIEdgeInsets(top: edge / 2 , left: 0, bottom: 0, right: 0)
+        scrollOffset = self.view.bounds.width
+        scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
+        self.blurHeader.frame = CGRect(x: 0, y: -navBarHeight, width: viewWidth * 3, height: navBarHeight)
+        self.navigationButtons.putOnView(.foward)
+        self.navigationButtons.putOnView(.backward)
+        containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
+        calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge * 6)
+        calendar.layer.cornerCurve = .continuous
+        calendar.layer.cornerRadius = 22
+      
+        isOffsetUsed = true
+        scrollView.contentSize.height = 1 // Disable vertical scroll
     }
     
 //    func setupNavBar() {
@@ -254,7 +278,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
         let receiveImage: UIImage = UIImage().getNavigationImage(systemName: "arrow.right", pointSize: pointSize, weight: .regular)
         let sendImage: UIImage    = UIImage().getNavigationImage(systemName: "arrow.left", pointSize: pointSize, weight: .regular)
         
-
+        // Проверка на операцию перевода
         if let payObject = payObject as? AccountsHistory, payObject.secondAccountID != ""  {
 
             // Если это пополнение
@@ -327,33 +351,7 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
     
     
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        //cancelButton.frame.origin.x = self.view.bounds.width + 26
-        cancelButton.frame.origin.x += self.view.frame.width / 2
-        let navBarHeight = self.navigationController!.navigationBar.frame.height
-        let edge: CGFloat = 22
-        let viewWidth = self.view.bounds.width
-        let scrollViewHeight = scrollView.bounds.height
-        let tableViewY: CGFloat = 12
-      
-        tableView.frame = CGRect(x: 0, y: self.view.bounds.origin.y - navBarHeight, width: self.view.bounds.width, height: self.view.frame.height)
-        tableView.contentInset = UIEdgeInsets(top: edge / 2 , left: 0, bottom: 0, right: 0)
-        scrollOffset = self.view.bounds.width
-        scrollView.contentSize = CGSize(width: viewWidth * 3, height: 1) // Height 1 для того чтобы нелзя было скролить по вертикали
-        self.blurHeader.frame = CGRect(x: 0, y: -navBarHeight, width: viewWidth * 3, height: navBarHeight)
-        self.navigationButtons.putOnView(.foward)
-        self.navigationButtons.putOnView(.backward)
-        containerView.frame = CGRect(x: viewWidth + 26, y: 22, width: viewWidth - 26 * 2, height: scrollViewHeight / 2)
-        calendar.frame = CGRect(x: viewWidth * 2 + edge, y: edge, width: self.view.bounds.width - (edge * 2), height: scrollViewHeight - edge * 6)
-        calendar.layer.cornerCurve = .continuous
-        calendar.layer.cornerRadius = 22
-        calendar.layoutSubviews()
-        isOffsetUsed = true
-        scrollView.contentSize.height = 1 // Disable vertical scroll
-       
-    }
+  
     
     //MARK: - CHECK VALUE
     func checkPayObjectAndSetItsValue() {
@@ -787,7 +785,6 @@ class QuickPayViewController: UIViewController, UIScrollViewDelegate{
 }
 
 ///MARK: Table view
-
 extension QuickPayViewController:  tappedButtons{
     func scrollAndBackspace(action: String) {
         let x: CGFloat = action == "Accounts" ? 0 : self.view.bounds.width * 2.8
@@ -815,12 +812,4 @@ extension QuickPayViewController:  tappedButtons{
     
     
 }
-///MARK: Calendar
-extension QuickPayViewController: FSCalendarDelegate {
-    
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        returnToCenter.returnToCenterWithDelay(scrollView: self.scrollView)
-        self.date = date
-        dateLabel.text = dateToString(date: date)
-    }
-}
+

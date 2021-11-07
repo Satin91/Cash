@@ -47,24 +47,30 @@ class AlertViewController: UIView {
         titleLabel.numberOfLines = 2
         titleLabel.textColor = colors.titleTextColor
         titleLabel.textAlignment = .center
-        
+        titleLabel.adjustsFontSizeToFitWidth = true
         
         messageLabel.font = .systemFont(ofSize: 17, weight: .light)
         messageLabel.numberOfLines = 0
         messageLabel.textColor = colors.subtitleTextColor
         messageLabel.textAlignment = .center
+        messageLabel.adjustsFontSizeToFitWidth = true
         //buttons
         
         leftButtonOutlet.backgroundColor = colors.contrastColor1
-        leftButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 2
+        leftButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 4
         leftButtonOutlet.setTitleColor(colors.backgroundcolor, for: .normal)
         
+        rightButtonOutlet.tintColor = colors.titleTextColor
         rightButtonOutlet.layer.borderWidth = 1
         rightButtonOutlet.layer.borderColor = colors.borderColor.cgColor
-        rightButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 2
+        rightButtonOutlet.layer.cornerRadius = leftButtonOutlet.bounds.height / 4
+        
+        alertImage.image = UIImage().myImageList(systemName: "trash.fill")
+        alertImage.tintColor = colors.contrastColor1
         
         self.containerView.backgroundColor = colors.secondaryBackgroundColor
-        self.containerView.layer.cornerRadius = 40
+        self.containerView.layer.cornerRadius = 28
+        self.containerView.layer.cornerCurve = .continuous
         self.containerView.layer.setMiddleShadow(color: colors.shadowColor)
         self.backgroundColor = .clear
     }
@@ -82,13 +88,16 @@ class AlertViewController: UIView {
     }
  
     func setAlertStyle(alertStyle: AlertStyle) {
+        let deleteText = NSLocalizedString("common_delete_button", comment: "")
+        let calcelText = NSLocalizedString("cancel_button", comment: "")
+        
         switch alertStyle {
         case .close:
             leftButtonOutlet.setTitle("Close", for: .normal)
             rightButtonOutlet.setTitle("Cancel", for: .normal)
         case .delete:
-            leftButtonOutlet.setTitle("Delete", for: .normal)
-            rightButtonOutlet.setTitle("Cancel", for: .normal)
+            leftButtonOutlet.setTitle(deleteText, for: .normal)
+            rightButtonOutlet.setTitle(calcelText, for: .normal)
         }
     }
     func closeAlert() {

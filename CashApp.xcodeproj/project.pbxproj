@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A03F1724520B9252C8110FC /* Pods_CashApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0B5D0B512592E1234414A8 /* Pods_CashApp.framework */; };
 		750191D6271746E000B77696 /* WithoutAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 750191D5271746E000B77696 /* WithoutAccountTableViewCell.swift */; };
 		75051EEA26AAEC7000B9CC5F /* Checkmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75051EE926AAEC7000B9CC5F /* Checkmark.swift */; };
 		7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7507A619253BAA2D0029EF44 /* ModelController.swift */; };
@@ -43,6 +42,7 @@
 		75309CF526ED47150093AFF3 /* TodayBalanceTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75309CF426ED47150093AFF3 /* TodayBalanceTheme.swift */; };
 		753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */; };
 		7531DF00270354A00008E017 /* ModalCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7531DEFE270354A00008E017 /* ModalCalendarViewController.swift */; };
+		7535DC00273712AD00080433 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7535DBFF273712AD00080433 /* Store.swift */; };
 		7537E58025DEF0730019768C /* QuickTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7537E57F25DEF0730019768C /* QuickTableView.swift */; };
 		7539D3CB2637962A00A966BB /* PopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7539D3C92637962A00A966BB /* PopTableViewCell.swift */; };
 		7539D3CC2637962A00A966BB /* PopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7539D3CA2637962A00A966BB /* PopTableViewCell.xib */; };
@@ -52,15 +52,12 @@
 		753EACAF268E388100860745 /* TodayBalanceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 753EACAD268E388000860745 /* TodayBalanceTableViewCell.xib */; };
 		7540A7EB26F4FF270068E515 /* AccountCellAdvanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7540A7EA26F4FF270068E515 /* AccountCellAdvanced.swift */; };
 		7544318726FA429400EA88F4 /* SubscriptionsManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7544318626FA429400EA88F4 /* SubscriptionsManager.storyboard */; };
-		7544318A26FA473600EA88F4 /* SubscriptionsManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544318926FA473600EA88F4 /* SubscriptionsManagerViewController.swift */; };
 		7544318C26FA480A00EA88F4 /* SubscriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544318B26FA480A00EA88F4 /* SubscriptionTableViewCell.swift */; };
-		7544318E26FA4AFE00EA88F4 /* SubscriptionManagerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544318D26FA4AFE00EA88F4 /* SubscriptionManagerTheme.swift */; };
-		7544319026FA4CB800EA88F4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7544318F26FA4CB800EA88F4 /* StoreKit.framework */; };
 		7544319526FA50FB00EA88F4 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544319426FA50FB00EA88F4 /* SubscriptionManager.swift */; };
 		7544319A26FA8AF400EA88F4 /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 7544319926FA8AF400EA88F4 /* StoreKitTestCertificate.cer */; };
 		7545C91C25AFD06000042332 /* AccountsHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545C91B25AFD06000042332 /* AccountsHistory.swift */; };
 		7545E1B1255C45F600454803 /* LineChartContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */; };
-		754D40A32701A41C000DAF15 /* SubscriptionProductUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D40A22701A419000DAF15 /* SubscriptionProductUserDefaults.swift */; };
+		754D40A32701A41C000DAF15 /* SubscriptionUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D40A22701A419000DAF15 /* SubscriptionUserDefaults.swift */; };
 		754D40A52701D8F5000DAF15 /* LockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D40A42701D8F4000DAF15 /* LockView.swift */; };
 		754D66ED2631C90C00B2383C /* PopTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D66EC2631C90C00B2383C /* PopTableViewController.swift */; };
 		754EE23C26E00EFC00B66B5A /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754EE23B26E00EFC00B66B5A /* NetworkMonitor.swift */; };
@@ -87,10 +84,12 @@
 		75635D9C26EBD59E00742FCA /* SchedulerVisualSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75635D9B26EBD59E00742FCA /* SchedulerVisualSettings.swift */; };
 		756821FA26F2A97700AE5ABD /* MenuTableViewSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756821F926F2A97700AE5ABD /* MenuTableViewSetup.swift */; };
 		756821FC26F2BE3900AE5ABD /* MenuMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756821FB26F2BE3900AE5ABD /* MenuMethods.swift */; };
+		75682F4027345714006599E4 /* QuickPayCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75682F3F27345714006599E4 /* QuickPayCalendar.swift */; };
 		7569EB7F2717ED05004DD00D /* QuickPayAccountsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7569EB7E2717ED05004DD00D /* QuickPayAccountsTableView.swift */; };
 		756ACCE226E288CD00C8C1CF /* VisualSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756ACCE126E288CC00C8C1CF /* VisualSettings.swift */; };
 		756ACCE426E28B9600C8C1CF /* TodayBalanceCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756ACCE326E28B9600C8C1CF /* TodayBalanceCalendar.swift */; };
 		756D3CFF270D1DDD00CC26F7 /* SettingsMenuShowAndHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756D3CFE270D1DDC00CC26F7 /* SettingsMenuShowAndHide.swift */; };
+		756F4CC72732CC7100B83259 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 756F4CC62732CC7100B83259 /* Charts.framework */; };
 		756FC729264304B300327BAC /* CurrencyModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D340632642F077002881EB /* CurrencyModelController.swift */; };
 		756FC72A264304B300327BAC /* CurrencyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D340622642F077002881EB /* CurrencyList.swift */; };
 		7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */; };
@@ -99,7 +98,7 @@
 		7575718525FFA02F00C2F663 /* LineChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7575718325FFA02F00C2F663 /* LineChartCell.xib */; };
 		7578BE38269666CA0063D087 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7578BE36269666CA0063D087 /* AlertViewController.swift */; };
 		7578BE39269666CA0063D087 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7578BE37269666CA0063D087 /* AlertViewController.xib */; };
-		757AA57C26E87B3100F8C443 /* SetAlertViewVisual.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757AA57B26E87B3100F8C443 /* SetAlertViewVisual.swift */; };
+		757AA57C26E87B3100F8C443 /* SetAlertViewProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757AA57B26E87B3100F8C443 /* SetAlertViewProperties.swift */; };
 		757AA57F26E8CDB900F8C443 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757AA57E26E8CDB900F8C443 /* Notifications.swift */; };
 		757B99542689549D005FB908 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757B99532689549D005FB908 /* HeaderView.swift */; };
 		757D0AC426E8D2140087E956 /* SchedulerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757D0AC326E8D2140087E956 /* SchedulerModel.swift */; };
@@ -137,8 +136,14 @@
 		75A7413D26E48C9800A9C586 /* AccountImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75A7413B26E48C9800A9C586 /* AccountImageCell.xib */; };
 		75A7414126E4A03A00A9C586 /* EditingButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7414026E4A03A00A9C586 /* EditingButtons.swift */; };
 		75A7414326E4A64000A9C586 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A7414226E4A64000A9C586 /* Blur.swift */; };
+		75A9B5E12736ADA500E6C389 /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A9B5E02736ADA300E6C389 /* SubscriptionViewController.swift */; };
+		75A9B5E32736BA6000E6C389 /* SubscriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A9B5E22736BA6000E6C389 /* SubscriptionCollectionViewCell.swift */; };
+		75A9B5E52736BB6000E6C389 /* CollectionViewSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A9B5E42736BB5F00E6C389 /* CollectionViewSetup.swift */; };
+		75A9B5E82736C85100E6C389 /* SubscriptionCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A9B5E72736C85100E6C389 /* SubscriptionCellModel.swift */; };
+		75A9B5EA2736C8BD00E6C389 /* SubscriptionCellModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A9B5E92736C8BD00E6C389 /* SubscriptionCellModelController.swift */; };
 		75A9D8EA26EEA6160074DF03 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A9D8E926EEA6160074DF03 /* BarChartViewController.swift */; };
 		75AACC94271AA04E0082BADB /* EditButtonSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AACC93271AA04E0082BADB /* EditButtonSetup.swift */; };
+		75AB6B02273265A600D7F2DF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7544318F26FA4CB800EA88F4 /* StoreKit.framework */; };
 		75AD0FA52718D11B00C01870 /* QuickPayNavigationButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AD0FA42718D11B00C01870 /* QuickPayNavigationButtons.swift */; };
 		75AD2A082669E72600F6880B /* CurrencyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AD2A072669E72600F6880B /* CurrencyViewController.swift */; };
 		75AD2A0B266A006C00F6880B /* CurrencyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */; };
@@ -173,7 +178,6 @@
 		75D28016268AE1E6000BA1EE /* layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28015268AE1E6000BA1EE /* layout.swift */; };
 		75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D28017268AF710000BA1EE /* TodayBalanceViewController.swift */; };
 		75D3723B26FC53B600FEA69B /* CalculatePayPerTimeParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D3723A26FC53B600FEA69B /* CalculatePayPerTimeParts.swift */; };
-		75D3723E26FDAC1F00FEA69B /* PurchaseProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D3723D26FDAC1F00FEA69B /* PurchaseProductViewController.swift */; };
 		75D3A1172688BE1200E3BEAE /* CreateScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D3A1152688BE1200E3BEAE /* CreateScheduleCell.swift */; };
 		75D3A1182688BE1200E3BEAE /* CreateScheduleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D3A1162688BE1200E3BEAE /* CreateScheduleCell.xib */; };
 		75D8D72B25DD38DA00B5FAC9 /* FSCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */; };
@@ -200,10 +204,10 @@
 		75FD0FD226EB3E0100BB0F6B /* Themer in Frameworks */ = {isa = PBXBuildFile; productRef = 75FD0FD126EB3E0100BB0F6B /* Themer */; };
 		75FD0FD426EB40B300BB0F6B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FD0FD326EB40B300BB0F6B /* ThemeManager.swift */; };
 		75FF12F826B98C7F002E1321 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FF12F726B98C7F002E1321 /* ChartView.swift */; };
+		EB3D6FAC3AD0752F5B68C4CF /* Pods_CashApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8012EFCE8BAED094284AD157 /* Pods_CashApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		605404CDC3E38FEE7EA83F7F /* Pods-CashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.release.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.release.xcconfig"; sourceTree = "<group>"; };
 		750191D5271746E000B77696 /* WithoutAccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithoutAccountTableViewCell.swift; sourceTree = "<group>"; };
 		75051EE926AAEC7000B9CC5F /* Checkmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkmark.swift; sourceTree = "<group>"; };
 		7507A619253BAA2D0029EF44 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
@@ -239,6 +243,7 @@
 		75309CF426ED47150093AFF3 /* TodayBalanceTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceTheme.swift; sourceTree = "<group>"; };
 		753180AD258A235100AC6B7A /* PickTypePopUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickTypePopUpTableViewController.swift; sourceTree = "<group>"; };
 		7531DEFE270354A00008E017 /* ModalCalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalCalendarViewController.swift; sourceTree = "<group>"; };
+		7535DBFF273712AD00080433 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		7537E57F25DEF0730019768C /* QuickTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickTableView.swift; sourceTree = "<group>"; };
 		7539D3C92637962A00A966BB /* PopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopTableViewCell.swift; sourceTree = "<group>"; };
 		7539D3CA2637962A00A966BB /* PopTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopTableViewCell.xib; sourceTree = "<group>"; };
@@ -248,16 +253,14 @@
 		753EACAD268E388000860745 /* TodayBalanceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayBalanceTableViewCell.xib; sourceTree = "<group>"; };
 		7540A7EA26F4FF270068E515 /* AccountCellAdvanced.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellAdvanced.swift; sourceTree = "<group>"; };
 		7544318626FA429400EA88F4 /* SubscriptionsManager.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SubscriptionsManager.storyboard; sourceTree = "<group>"; };
-		7544318926FA473600EA88F4 /* SubscriptionsManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsManagerViewController.swift; sourceTree = "<group>"; };
 		7544318B26FA480A00EA88F4 /* SubscriptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTableViewCell.swift; sourceTree = "<group>"; };
-		7544318D26FA4AFE00EA88F4 /* SubscriptionManagerTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManagerTheme.swift; sourceTree = "<group>"; };
 		7544318F26FA4CB800EA88F4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7544319426FA50FB00EA88F4 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		7544319826FA82EC00EA88F4 /* StoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfiguration.storekit; sourceTree = "<group>"; };
 		7544319926FA8AF400EA88F4 /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
 		7545C91B25AFD06000042332 /* AccountsHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsHistory.swift; sourceTree = "<group>"; };
 		7545E1B0255C45F600454803 /* LineChartContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartContainerViewController.swift; sourceTree = "<group>"; };
-		754D40A22701A419000DAF15 /* SubscriptionProductUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionProductUserDefaults.swift; sourceTree = "<group>"; };
+		754D40A22701A419000DAF15 /* SubscriptionUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionUserDefaults.swift; sourceTree = "<group>"; };
 		754D40A42701D8F4000DAF15 /* LockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockView.swift; sourceTree = "<group>"; };
 		754D66EC2631C90C00B2383C /* PopTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopTableViewController.swift; sourceTree = "<group>"; };
 		754EE23B26E00EFC00B66B5A /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkMonitor.swift; path = /Users/artur/Xcode/CashApp/CashUP/CashApp/Extensions/NetworkMonitor.swift; sourceTree = "<absolute>"; };
@@ -288,17 +291,19 @@
 		75635D9B26EBD59E00742FCA /* SchedulerVisualSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerVisualSettings.swift; sourceTree = "<group>"; };
 		756821F926F2A97700AE5ABD /* MenuTableViewSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewSetup.swift; sourceTree = "<group>"; };
 		756821FB26F2BE3900AE5ABD /* MenuMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuMethods.swift; sourceTree = "<group>"; };
+		75682F3F27345714006599E4 /* QuickPayCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPayCalendar.swift; sourceTree = "<group>"; };
 		7569EB7E2717ED05004DD00D /* QuickPayAccountsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPayAccountsTableView.swift; sourceTree = "<group>"; };
 		756ACCE126E288CC00C8C1CF /* VisualSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualSettings.swift; sourceTree = "<group>"; };
 		756ACCE326E28B9600C8C1CF /* TodayBalanceCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayBalanceCalendar.swift; sourceTree = "<group>"; };
 		756D3CFE270D1DDC00CC26F7 /* SettingsMenuShowAndHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuShowAndHide.swift; sourceTree = "<group>"; };
+		756F4CC62732CC7100B83259 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7571AD1D25B9CD2800E17429 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
 		75727D362694F67F000BC7DE /* SelectSchedulerTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSchedulerTypeViewController.swift; sourceTree = "<group>"; };
 		7575718225FFA02F00C2F663 /* LineChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCell.swift; sourceTree = "<group>"; };
 		7575718325FFA02F00C2F663 /* LineChartCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LineChartCell.xib; sourceTree = "<group>"; };
 		7578BE36269666CA0063D087 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		7578BE37269666CA0063D087 /* AlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlertViewController.xib; sourceTree = "<group>"; };
-		757AA57B26E87B3100F8C443 /* SetAlertViewVisual.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAlertViewVisual.swift; sourceTree = "<group>"; };
+		757AA57B26E87B3100F8C443 /* SetAlertViewProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAlertViewProperties.swift; sourceTree = "<group>"; };
 		757AA57E26E8CDB900F8C443 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		757B99532689549D005FB908 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		757D0AC326E8D2140087E956 /* SchedulerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerModel.swift; sourceTree = "<group>"; };
@@ -326,6 +331,7 @@
 		759130C925F10EF9009F2C93 /* AccountCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountCollectionViewCell.xib; sourceTree = "<group>"; };
 		7591F19726A480600073A1F8 /* OperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationCell.swift; sourceTree = "<group>"; };
 		7591F19826A480600073A1F8 /* OperationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OperationCell.xib; sourceTree = "<group>"; };
+		7592DCF8799AE91BDD49615B /* Pods-CashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.debug.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7596C19726E02EC900E7D677 /* DefaultCurrencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DefaultCurrencies.json; sourceTree = "<group>"; };
 		759DFF782704CFFF00FD122B /* most.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = most.m; sourceTree = "<group>"; };
 		759DFF7A2704D02800FD122B /* CashApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CashApp-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -337,8 +343,14 @@
 		75A7413B26E48C9800A9C586 /* AccountImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountImageCell.xib; sourceTree = "<group>"; };
 		75A7414026E4A03A00A9C586 /* EditingButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingButtons.swift; sourceTree = "<group>"; };
 		75A7414226E4A64000A9C586 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
+		75A9B5E02736ADA300E6C389 /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
+		75A9B5E22736BA6000E6C389 /* SubscriptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCollectionViewCell.swift; sourceTree = "<group>"; };
+		75A9B5E42736BB5F00E6C389 /* CollectionViewSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSetup.swift; sourceTree = "<group>"; };
+		75A9B5E72736C85100E6C389 /* SubscriptionCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCellModel.swift; sourceTree = "<group>"; };
+		75A9B5E92736C8BD00E6C389 /* SubscriptionCellModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCellModelController.swift; sourceTree = "<group>"; };
 		75A9D8E926EEA6160074DF03 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
 		75AACC93271AA04E0082BADB /* EditButtonSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButtonSetup.swift; sourceTree = "<group>"; };
+		75AB6B04273265AB00D7F2DF /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75AD0FA42718D11B00C01870 /* QuickPayNavigationButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPayNavigationButtons.swift; sourceTree = "<group>"; };
 		75AD2A072669E72600F6880B /* CurrencyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyViewController.swift; sourceTree = "<group>"; };
 		75AD2A0A266A006C00F6880B /* CurrencyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyTableViewCell.xib; sourceTree = "<group>"; };
@@ -375,7 +387,6 @@
 		75D340622642F077002881EB /* CurrencyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyList.swift; sourceTree = "<group>"; };
 		75D340632642F077002881EB /* CurrencyModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModelController.swift; sourceTree = "<group>"; };
 		75D3723A26FC53B600FEA69B /* CalculatePayPerTimeParts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatePayPerTimeParts.swift; sourceTree = "<group>"; };
-		75D3723D26FDAC1F00FEA69B /* PurchaseProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseProductViewController.swift; sourceTree = "<group>"; };
 		75D3A1152688BE1200E3BEAE /* CreateScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateScheduleCell.swift; sourceTree = "<group>"; };
 		75D3A1162688BE1200E3BEAE /* CreateScheduleCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateScheduleCell.xib; sourceTree = "<group>"; };
 		75D8D72A25DD38DA00B5FAC9 /* FSCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarView.swift; sourceTree = "<group>"; };
@@ -403,8 +414,8 @@
 		75FA2BB1253B066800E8CCD8 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		75FD0FD326EB40B300BB0F6B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		75FF12F726B98C7F002E1321 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
-		B7079BB9EFF631A89368A655 /* Pods-CashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.debug.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.debug.xcconfig"; sourceTree = "<group>"; };
-		BC0B5D0B512592E1234414A8 /* Pods_CashApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8012EFCE8BAED094284AD157 /* Pods_CashApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E124E56887D7AF580FB25897 /* Pods-CashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashApp.release.xcconfig"; path = "Target Support Files/Pods-CashApp/Pods-CashApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,9 +423,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7544319026FA4CB800EA88F4 /* StoreKit.framework in Frameworks */,
-				4A03F1724520B9252C8110FC /* Pods_CashApp.framework in Frameworks */,
+				756F4CC72732CC7100B83259 /* Charts.framework in Frameworks */,
+				75AB6B02273265A600D7F2DF /* StoreKit.framework in Frameworks */,
 				75FD0FD226EB3E0100BB0F6B /* Themer in Frameworks */,
+				EB3D6FAC3AD0752F5B68C4CF /* Pods_CashApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,8 +436,8 @@
 		19F227CD0366FC3A212E34A5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B7079BB9EFF631A89368A655 /* Pods-CashApp.debug.xcconfig */,
-				605404CDC3E38FEE7EA83F7F /* Pods-CashApp.release.xcconfig */,
+				7592DCF8799AE91BDD49615B /* Pods-CashApp.debug.xcconfig */,
+				E124E56887D7AF580FB25897 /* Pods-CashApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -433,8 +445,10 @@
 		6189A40346D8C968D96A8B45 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				756F4CC62732CC7100B83259 /* Charts.framework */,
+				75AB6B04273265AB00D7F2DF /* Charts.framework */,
 				7544318F26FA4CB800EA88F4 /* StoreKit.framework */,
-				BC0B5D0B512592E1234414A8 /* Pods_CashApp.framework */,
+				8012EFCE8BAED094284AD157 /* Pods_CashApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -526,6 +540,7 @@
 				75309CF226ED38C80093AFF3 /* AppColors.swift */,
 				75309CF126ED34A40093AFF3 /* ThemableControls */,
 				7560FCAD26FBA2CE00341FD0 /* Shadows.swift */,
+				753B089C270F0D6100372A35 /* ThemeUserDefaults.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -658,6 +673,7 @@
 			isa = PBXGroup;
 			children = (
 				7544319326FA4DEF00EA88F4 /* Storyboard */,
+				75A9B5E62736C01800E6C389 /* Cell */,
 				7544319726FA512600EA88F4 /* Controller */,
 				7544319626FA511100EA88F4 /* Manager */,
 			);
@@ -667,8 +683,10 @@
 		7544319326FA4DEF00EA88F4 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				7544318B26FA480A00EA88F4 /* SubscriptionTableViewCell.swift */,
 				7544318626FA429400EA88F4 /* SubscriptionsManager.storyboard */,
+				75A9B5E22736BA6000E6C389 /* SubscriptionCollectionViewCell.swift */,
+				75A9B5E72736C85100E6C389 /* SubscriptionCellModel.swift */,
+				75A9B5E92736C8BD00E6C389 /* SubscriptionCellModelController.swift */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -686,8 +704,9 @@
 		7544319726FA512600EA88F4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				75D3724026FDAC7B00FEA69B /* SubscriptionDescription */,
-				75D3723F26FDAC6E00FEA69B /* PurchaseProduct */,
+				75A9B5E02736ADA300E6C389 /* SubscriptionViewController.swift */,
+				7535DBFF273712AD00080433 /* Store.swift */,
+				75A9B5E42736BB5F00E6C389 /* CollectionViewSetup.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -704,7 +723,7 @@
 		7544319C26FA992100EA88F4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				754D40A22701A419000DAF15 /* SubscriptionProductUserDefaults.swift */,
+				754D40A22701A419000DAF15 /* SubscriptionUserDefaults.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -888,7 +907,7 @@
 		7578BE3A269666E70063D087 /* AlertView */ = {
 			isa = PBXGroup;
 			children = (
-				757AA57B26E87B3100F8C443 /* SetAlertViewVisual.swift */,
+				757AA57B26E87B3100F8C443 /* SetAlertViewProperties.swift */,
 				754EE23D26E00F0600B66B5A /* MiniAlertView.swift */,
 				7578BE36269666CA0063D087 /* AlertViewController.swift */,
 				7578BE37269666CA0063D087 /* AlertViewController.xib */,
@@ -954,6 +973,7 @@
 			isa = PBXGroup;
 			children = (
 				7560D033259482E700E496B0 /* QuickPayViewController.swift */,
+				75682F3F27345714006599E4 /* QuickPayCalendar.swift */,
 				7569EB7E2717ED05004DD00D /* QuickPayAccountsTableView.swift */,
 				75EF225C27147F0500EA8561 /* SaveCategory.swift */,
 				75BA488426EF76C20018CE78 /* ReturnToCenterOfScrollView.swift */,
@@ -1051,6 +1071,14 @@
 			path = AddCurrencyTableViewController;
 			sourceTree = "<group>";
 		};
+		75A9B5E62736C01800E6C389 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7544318B26FA480A00EA88F4 /* SubscriptionTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		75A9D8EB26EEA6200074DF03 /* Bar chart */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,23 +1160,6 @@
 			path = CalculateParts;
 			sourceTree = "<group>";
 		};
-		75D3723F26FDAC6E00FEA69B /* PurchaseProduct */ = {
-			isa = PBXGroup;
-			children = (
-				75D3723D26FDAC1F00FEA69B /* PurchaseProductViewController.swift */,
-			);
-			path = PurchaseProduct;
-			sourceTree = "<group>";
-		};
-		75D3724026FDAC7B00FEA69B /* SubscriptionDescription */ = {
-			isa = PBXGroup;
-			children = (
-				7544318926FA473600EA88F4 /* SubscriptionsManagerViewController.swift */,
-				7544318D26FA4AFE00EA88F4 /* SubscriptionManagerTheme.swift */,
-			);
-			path = SubscriptionDescription;
-			sourceTree = "<group>";
-		};
 		75E06047271CFAFD00461EC7 /* CurrencyViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1163,7 +1174,6 @@
 			isa = PBXGroup;
 			children = (
 				75E58DDC270C8199004BDE87 /* SettingsMenu.swift */,
-				753B089C270F0D6100372A35 /* ThemeUserDefaults.swift */,
 				753B089E270F28E000372A35 /* NotificationsTheDayBeforeUserDefaults.swift */,
 				756D3CFE270D1DDC00CC26F7 /* SettingsMenuShowAndHide.swift */,
 				75E58DDF270C826A004BDE87 /* SettingsCells.swift */,
@@ -1280,12 +1290,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 75EA2B0024CDDB8B00D03E95 /* Build configuration list for PBXNativeTarget "CashApp" */;
 			buildPhases = (
-				7BCBF88848F0CD140B89C86F /* [CP] Check Pods Manifest.lock */,
+				91C379090963BACF682406D0 /* [CP] Check Pods Manifest.lock */,
 				75EA2AE824CDDB8200D03E95 /* Sources */,
 				75EA2AE924CDDB8200D03E95 /* Frameworks */,
 				75EA2AEA24CDDB8200D03E95 /* Resources */,
-				1C9A9A6002A5767D16CE1102 /* [CP] Embed Pods Frameworks */,
 				756821FD26F2CA7400AE5ABD /* Run Script */,
+				AE17B757C783F9F9BE1382A0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1386,26 +1396,9 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C9A9A6002A5767D16CE1102 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CashApp/Pods-CashApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CashApp/Pods-CashApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CashApp/Pods-CashApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		756821FD26F2CA7400AE5ABD /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -1422,7 +1415,7 @@
 			shellScript = "
 ";
 		};
-		7BCBF88848F0CD140B89C86F /* [CP] Check Pods Manifest.lock */ = {
+		91C379090963BACF682406D0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1442,6 +1435,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE17B757C783F9F9BE1382A0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CashApp/Pods-CashApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CashApp/Pods-CashApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CashApp/Pods-CashApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1477,6 +1487,7 @@
 				75A7414126E4A03A00A9C586 /* EditingButtons.swift in Sources */,
 				7531DF00270354A00008E017 /* ModalCalendarViewController.swift in Sources */,
 				75309CE826ED31BD0093AFF3 /* QuickPayTheme.swift in Sources */,
+				75A9B5E12736ADA500E6C389 /* SubscriptionViewController.swift in Sources */,
 				757D0AC426E8D2140087E956 /* SchedulerModel.swift in Sources */,
 				752FEC952702CEFB00015D30 /* CurrencyOperations.swift in Sources */,
 				754F15F326681A44002250BB /* EnlargeSecondTableViewCell.swift in Sources */,
@@ -1489,6 +1500,7 @@
 				7510F83E2509A87600030A52 /* CategoriesViewController.swift in Sources */,
 				75309CEA26ED339C0093AFF3 /* ThemableButtons.swift in Sources */,
 				75A7413C26E48C9800A9C586 /* AccountImageCell.swift in Sources */,
+				75A9B5E32736BA6000E6C389 /* SubscriptionCollectionViewCell.swift in Sources */,
 				75CEC755261F10F3001184CD /* NumberTextField.swift in Sources */,
 				754F15F12667AA3C002250BB /* EnlargeTableViewCell.swift in Sources */,
 				75F585332619B7A700355CBF /* SchedulerViewController.swift in Sources */,
@@ -1506,6 +1518,7 @@
 				756FC729264304B300327BAC /* CurrencyModelController.swift in Sources */,
 				7522652E24D1D55700D30CD6 /* Model.swift in Sources */,
 				7507A61A253BAA2D0029EF44 /* ModelController.swift in Sources */,
+				7535DC00273712AD00080433 /* Store.swift in Sources */,
 				75635D9C26EBD59E00742FCA /* SchedulerVisualSettings.swift in Sources */,
 				7560D034259482E700E496B0 /* QuickPayViewController.swift in Sources */,
 				75C87D4F270585760067904B /* ChangeHistoryObject.swift in Sources */,
@@ -1540,7 +1553,6 @@
 				75309CF026ED34520093AFF3 /* ThemableCells.swift in Sources */,
 				754F15EE2667A9F8002250BB /* EnlargeTableView.swift in Sources */,
 				752B8ADB27049E9900F27DC0 /* AccountModel.swift in Sources */,
-				75D3723E26FDAC1F00FEA69B /* PurchaseProductViewController.swift in Sources */,
 				7591287C26F843710028239D /* EnlargeCellModel.swift in Sources */,
 				7586F1B526F0FBEC00391615 /* MenuTableView.swift in Sources */,
 				75BA488526EF76C20018CE78 /* ReturnToCenterOfScrollView.swift in Sources */,
@@ -1553,8 +1565,7 @@
 				753180AE258A235200AC6B7A /* PickTypePopUpTableViewController.swift in Sources */,
 				756ACCE226E288CD00C8C1CF /* VisualSettings.swift in Sources */,
 				7578BE38269666CA0063D087 /* AlertViewController.swift in Sources */,
-				7544318E26FA4AFE00EA88F4 /* SubscriptionManagerTheme.swift in Sources */,
-				754D40A32701A41C000DAF15 /* SubscriptionProductUserDefaults.swift in Sources */,
+				754D40A32701A41C000DAF15 /* SubscriptionUserDefaults.swift in Sources */,
 				750191D6271746E000B77696 /* WithoutAccountTableViewCell.swift in Sources */,
 				757B99542689549D005FB908 /* HeaderView.swift in Sources */,
 				75AACC94271AA04E0082BADB /* EditButtonSetup.swift in Sources */,
@@ -1565,12 +1576,13 @@
 				7583E19F26E1E728009DC96C /* Category.swift in Sources */,
 				75A7414326E4A64000A9C586 /* Blur.swift in Sources */,
 				75E58DE0270C826B004BDE87 /* SettingsCells.swift in Sources */,
-				7544318A26FA473600EA88F4 /* SubscriptionsManagerViewController.swift in Sources */,
 				75BA487926EF04060018CE78 /* BarChartModel.swift in Sources */,
 				75F1E7E72709CF4900BBF979 /* CategoryPreviewViewController.swift in Sources */,
 				7529F98E267493EE00087F46 /* ThemeManager2.swift in Sources */,
+				75A9B5E52736BB6000E6C389 /* CollectionViewSetup.swift in Sources */,
 				756ACCE426E28B9600C8C1CF /* TodayBalanceCalendar.swift in Sources */,
 				756FC72A264304B300327BAC /* CurrencyList.swift in Sources */,
+				75682F4027345714006599E4 /* QuickPayCalendar.swift in Sources */,
 				75A2AA50266ED79700B86DAC /* AddCurrencyTableViewCell.swift in Sources */,
 				7571AD1E25B9CD2800E17429 /* AddAccountViewController.swift in Sources */,
 				75D8D72B25DD38DA00B5FAC9 /* FSCalendarView.swift in Sources */,
@@ -1579,16 +1591,18 @@
 				7583E1A526E21022009DC96C /* CurrencyNetworking.swift in Sources */,
 				75EA9068271EBE1F003DD430 /* IconsModelController.swift in Sources */,
 				75DE7E93269418F700528666 /* STSwitch.swift in Sources */,
+				75A9B5E82736C85100E6C389 /* SubscriptionCellModel.swift in Sources */,
 				7553914426EE4E9700F9C825 /* LineChartCellTheme.swift in Sources */,
 				754D40A52701D8F5000DAF15 /* LockView.swift in Sources */,
 				753B089F270F28E000372A35 /* NotificationsTheDayBeforeUserDefaults.swift in Sources */,
 				75D28018268AF710000BA1EE /* TodayBalanceViewController.swift in Sources */,
 				75309CF326ED38C80093AFF3 /* AppColors.swift in Sources */,
+				75A9B5EA2736C8BD00E6C389 /* SubscriptionCellModelController.swift in Sources */,
 				750888AA26877E710037C804 /* SchedulerTableViewCell.swift in Sources */,
 				7544319526FA50FB00EA88F4 /* SubscriptionManager.swift in Sources */,
 				75309CEE26ED34210093AFF3 /* ThemableTextFields.swift in Sources */,
 				7512178426CFBC06004A8FD5 /* NumpadView.swift in Sources */,
-				757AA57C26E87B3100F8C443 /* SetAlertViewVisual.swift in Sources */,
+				757AA57C26E87B3100F8C443 /* SetAlertViewProperties.swift in Sources */,
 				75AD2A082669E72600F6880B /* CurrencyViewController.swift in Sources */,
 				753EACAE268E388000860745 /* TodayBalanceTableViewCell.swift in Sources */,
 				7586F1B326F0FA5E00391615 /* CellTappedProtocol.swift in Sources */,
@@ -1680,7 +1694,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1695,7 +1709,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1747,7 +1761,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1756,7 +1770,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1771,25 +1785,28 @@
 		};
 		75EA2B0124CDDB8B00D03E95 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7079BB9EFF631A89368A655 /* Pods-CashApp.debug.xcconfig */;
+			baseConfigurationReference = 7592DCF8799AE91BDD49615B /* Pods-CashApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = CashApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = By.Artur.CashApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1804,25 +1821,28 @@
 		};
 		75EA2B0224CDDB8B00D03E95 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 605404CDC3E38FEE7EA83F7F /* Pods-CashApp.release.xcconfig */;
+			baseConfigurationReference = E124E56887D7AF580FB25897 /* Pods-CashApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 6TVC5Q5R78;
 				ENABLE_ONLY_ACTIVE_RESOURCES = YES;
+				"EXCLUDED_ARCHS[sdk=*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = CashApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = By.Artur.CashApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Themer
 
 struct EnlargeHistoryModel{
     var date: Date
@@ -226,17 +226,20 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.tag != 15888 {
-            var cell = EnlargedCell(tag: tableView.tag)
-            cell.smallCell.append(indexPath)
-            cell.largeCell = ipath
-            calculateHeightCell(enlargeCell: cell)
-            tableView.performBatchUpdates(nil, completion: nil)
-        }else{
-            tableView.performBatchUpdates(nil, completion: nil)
-        }
-        self.performBatchUpdates(nil, completion: nil)
         
+        //MARK: Раздвигающаяся ячейка, не вздумай удалить!! Это потом для отображения заметок понадобится
+        
+//        if tableView.tag != 15888 {
+//            var cell = EnlargedCell(tag: tableView.tag)
+//            cell.smallCell.append(indexPath)
+//            cell.largeCell = ipath
+//            calculateHeightCell(enlargeCell: cell)
+//            tableView.performBatchUpdates(nil, completion: nil)
+//        }else{
+//            tableView.performBatchUpdates(nil, completion: nil)
+//        }
+//        self.performBatchUpdates(nil, completion: nil)
+//
     }
     
     lazy var enlargedSmallHeight: CGFloat = 120
@@ -298,11 +301,12 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
+        let editTitle = NSLocalizedString("common_edit_button", comment: "")
+        let deleteTitle = NSLocalizedString("common_delete_button", comment: "")
         // позволяет использовать только маленькую ячейку
         if tableView.tag != 15888 {
             let object = self.enlargeArray[tableView.tag].historyArray[indexPath.row]
-            let deleteAction = UIContextualAction(style: .normal, title: "Delete") {[weak self] _, _, complete in
+            let deleteAction = UIContextualAction(style: .normal, title: deleteTitle) {[weak self] _, _, complete in
                 guard let self = self else { return }
                 self.enlargeArray[tableView.tag].historyArray.remove(at: indexPath.row)
                 self.histiryObjectProcessing = HistoryObjectProcessing(historyObject: object)
@@ -312,20 +316,23 @@ class EnlargeTableView: UITableView,UITableViewDelegate,UITableViewDataSource,UI
                 self.indexForDeletedRow = tableView.tag
                 complete(true)
             }
-            let editAction = UIContextualAction(style: .normal, title: "Edit") { [weak self] _, _, complete in
+            let editAction = UIContextualAction(style: .normal, title: editTitle) { [weak self] _, _, complete in
                 guard let self = self else { return }
                 self.editHistoryObjectDelegate.editObject(historyObject: object)
                 tableView.isEditing = false
             }
             
-            deleteAction.backgroundColor = colors.redColor
-            editAction.backgroundColor = colors.contrastColor1
+            editAction.backgroundColor   = colors.borderColor
+            deleteAction.backgroundColor = Themer.shared.theme == .dark
+            ? colors.secondaryBackgroundColor
+            : colors.titleTextColor
+            
             
             let image = UIImageView()
-            image.image = UIImage(systemName: "trash")
-            image.tintColor = ThemeManager2.currentTheme().titleTextColor
-            deleteAction.image = image.image
+            image.image = UIImage().getNavigationImage(systemName: "trash.circle.fill", pointSize: 46, weight: .regular)
             
+            deleteAction.image = image.image
+            editAction.image = UIImage().getNavigationImage(systemName: "pencil.circle.fill", pointSize: 46, weight: .regular)
             let configuration = UISwipeActionsConfiguration(actions: [deleteAction,editAction])
             configuration.performsFirstActionWithFullSwipe = false
             

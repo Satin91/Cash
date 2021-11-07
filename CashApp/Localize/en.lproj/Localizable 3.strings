@@ -1,0 +1,233 @@
+/* 
+  Localizable.strings
+  CashApp
+
+  Created by Артур on 14.08.21.
+  Copyright © 2021 Артур. All rights reserved.
+*/
+//MARK: - Home View Controller
+"home_navigation_title" = "Home";
+//HeaderView
+"header_accounts" = "My accounts";
+"header_budgetToday" = "Daily budget";
+
+//MARK: - Accounts View Controller
+"accounts_navigation_bar_title" = "My accounts";
+"accounts_main_account_label"   = "● Main account";
+"accounts_transfer_send"        = "Send";
+
+//Edit account menu
+"account_edit_menu_assign_the_main" = "Assign the main";
+"account_edit_menu_delete" = "Delete";
+
+//MARK: - Categories View Controller
+"categories_navigation_title" = "Categories";
+"segmented_control_0" = "Expenses";
+"segmented_control_1" = "Incomes";
+
+
+//MARK: - Add categories View Controller
+"category_expence_heading_title" = "Create an expenses category";
+"category_income_heading_title" = "Create an income category";
+"category_description_title" = "Name a new category and select an image";
+//Доходы
+"category_edit_expence_heading_title" = "Изменить категорию расходов";
+"category_edit_income_heading_title" = "Изменить категорию доходов";
+
+//MARK: - Scheduler View Controller
+"scheduler_navigation_title" = "Plans";
+"add_schedule_button"        = "Add";
+
+//MARK: - Select new schedule type View Controller
+"select_one_time_title" = "Single paymentt";
+"select_multiply_title" = "Multiple payment";
+"select_regular_title" = "Regular payment";
+"select_goal_title" = "Goal";
+
+"select_one_time_description" = "Plan any payments within one sum.";
+"select_multiply_description" = "Create credits, installments, specify payment intervals.";
+"select_regular_description" = "Create payments or payoffs on the permanent basis.";
+"select_goal_description" = "Do you save on anything? - Great! Specify the date and sum, and the planner will calculate your daily budget.";
+
+//MARK: - Add/Edit Scheduler View Controller
+"add_one_time_title" = "Add a single payment in plans";
+"add_multiply_title" = "Add a multiple payment";
+"add_regular_title" = "Add a regular payment";
+"add_goal_title" = "Add a new goal in plans";
+//Edit
+"edit_one_time_title" = "Edit a single payment";
+"edit_multiply_title" = "Edit a multiple payment";
+"edit_regular_title" = "Edit a regular payment";
+"edit_goal_title" = "Edit current goal";
+
+"add_one_time_description" = "Fill in data and select a single payment direction";
+"add_multiply_description" = "Fill in data and select a multiple payment direction";
+"add_regular_description" = "Fill in data for a regular payment";
+"add_goal_description" = "Fill in data for your goal";
+//Text fields
+"name_text_field" = "Name";
+"total_sum_text_field" = "Total sum";
+"sum_per_time_text_field" = "Payment per time";
+"available_sum" = "Available";
+"date_button" = "Date";
+//repeatTalbeView
+"repeat_every_month" = "Repeat every month";
+"repeat_every_week" = "Repeat every week";
+"repeat_every_day" = "Repeat every day";
+
+//MARK: - Currency View Controller
+"currency_converter_label" = "Currency converter";
+"main_currency_cell" = "Main currency";
+"additional_currency_cell" = "Additional currency";
+"title_navigation_bar" = "Currencies";
+
+//MARK: - TodayBalanceViewController
+"date_not_selected_label" = "Date wasn’t selected";
+"dayly_budget_label" = "Daily budget";
+"date_is_selected_label" = "Calculated up to";
+"impact_on_balance_label" = "Plans impact on the daily budget";
+"segmented_control_plans" = "Plans";
+"segmented_control_accounts" = "Accounts";
+"empty_accounts" = "Accounts are missing";
+
+///MARK: - Date Format
+"year_does_not_coincide" = "MMMM, d, Y";
+"year_coincides" = "MMMM, d";
+"day_is_today" = "Today";
+"day_was_yestereday" = "Yestereday";
+"small_date" = "MMM dd" ;
+
+//MARK: - Общие переводы
+"name_text_field"      = "Name";
+"date_button"          = "Date";
+"create_button"        = "Create";
+//"save_button"     = "Save";
+"save_button"          = "Save changes";
+"my_account"           = "My account";
+"back_button"          = "Back";
+"cancel_button"        = "Cancel";
+"search_bar"           = "Search";
+"common_edit_button"   = "Edit";
+"common_delete_button" = "Delete";
+
+//MARK: - Line Chart Cell
+//TextView messages
+"no_transactions" = "No entries on this account this month";
+"need_at_least_one" = "One more entry is required to display the graph";
+
+//MARK: - AddAccount View Controller
+"heading_label_text" = "Add a new account";
+"name_text_field_placeholder" = "Name";
+"balance_text_field_placeholder" = "Balance";
+
+//MARK: - Quick Pay View Controller
+"without_Account" = "No account provided";
+
+//MARK: - Pop Up Table View
+"pop_edit_name_label" = "Change";
+"pop_delete_name_label" = "Delete";
+
+//MARK: - Settings menu
+"dark_theme_style" = "Dark theme";
+"light_theme_style" = "Light theme";
+"notify_about_the_plan_one_day_before" = "Notify about plans a day in advance";
+"pro_version" = "PRO Version";
+"pro_is_active" = "Active";
+"pro_is_not_active" = "Not active";
+
+
+//MARK: - SubscriptionViewController
+"unlimit_header_label" = "Everything is unlimited!";
+"unlimit_descriptions" = "Add accounts, currencies, categories and plans without any restrictions!";
+"notifications_header_label" = "Notifications";
+"notifications_descriptions" = "Receive notifications for a day as well as a day in advance.";
+"family_header_label" = "Family access";
+"family_descriptions" = "Any member of the family group can share this subscription.";
+"subscription_button_try_free" = "Free trial";
+"subscription_button_subscribe" = "Subscribe";
+
+
+//MARK: - mini alert View
+// Предупреждение
+"enter_all_fields" = "Enter all fields";
+"indicate_a_date" = "Indicate a date";
+"select_an_image" = "Select an image";
+"select_a_background" = "Select a background";
+"enter_category_name" = "Enter category name";
+"enter_account_name" = "Enter account name";
+// Отрицательные
+"failed_to_update_currency_rates" = "Failed to update currency rates";
+// Положительные
+"the_plan_is_completed" = "The plan is completed";
+
+//MARK: - Currency
+
+"USD" = "United States Dollar" ;
+"EUR" = "European euro" ;
+"JPY" = "Japanese_yen" ;
+"GBP" = "Pound sterling" ;
+"AUD" = "Australian dollar" ;
+"CHF" = "Swiss franc" ;
+"CAD" = "Canadian dollar" ;
+"CNY" = "Chinese Yuan Renminbi" ;
+"SEK" = "Swedish krona" ;
+"NOK" = "Norwegian krone" ;
+"NZD" = "New Zealand dollar" ;
+"SGD" = "Singapore dollar" ;
+"HKD" = "Hong Kong dollar" ;
+"KRW" = "South Korean won" ;
+"TRY" = "Turkish lira" ;
+"RUB" = "Russian ruble" ;
+"INR" = "Indian rupee" ;
+"BRL" = "Brazilian real" ;
+"ZAR" = "South African rand" ;
+"BYN" = "Belarusian ruble" ;
+"UAH" = "Ukrainian hryvnia" ;
+"ILS" = "Israeli new shekel" ;
+"BGN" = "Bulgarian lev" ;
+"CZK" = "Czech koruna" ;
+"DKK" = "Danish krone" ;
+"HRK" = "Croatian kuna" ;
+"HUF" = "Hungarian forint" ;
+"IDR" = "Indonesian rupiah" ;
+"ISK" = "Icelandic krona" ;
+"MXN" = "Mexican peso" ;
+"MYR" = "Malaysian ringgit" ;
+"PLN" = "Polish zloty" ;
+"RON" = "Romanian leu" ;
+"THB" = "Thai baht" ;
+"KZT" = "Kazakhstani tenge" ;
+"AMD" = "Armenian dram" ;
+"ALL" = "Albanian lek" ;
+"BAM" = "Convertible mark" ;
+"RSD" = "Serbian dinar" ;
+"AZN" = "Azerbaijan manat" ;
+"SAR" = "Saudi Riyal" ;
+"EGP" = "Egyptian Pound" ;
+"TMT" = "Turkmenistan New Manat" ;
+
+//MARK: - Icons
+"transportIcons" = "Transport";
+"healthIcons" = "Health";
+"electronicsIcons" = "Electronics";
+"buildingIcons"   = "Building";
+"gameIcons" = "Games";
+"clothers" = "Clothers";
+"knowledgeIcons" = "Education";
+"billsIcons"   = "Bills";
+"musicIcons"   = "Music";
+"repairIcons"  = "Repair";
+"entertaimentIcons" = "Entertaiment";
+"restIcons" = "Rest" ;
+"sportIcons" = "Sport";
+"animalIcons"  = "Animal" ;
+"shoppingIcons" = "Purchases";
+"beautyIcons"  = "Beauty";
+"foodIcons"  = "Food";
+"giftIcons"  = "Gift";
+"insuranceIcons"  = "Insurance" ;
+"flowersIcons" = "Flowers";
+"loveIcons" = "Love";
+"childrenIcons" = "Сhildren";
+"encouragementIcons" = "Encouragement";
+"workIcons" = "Work";

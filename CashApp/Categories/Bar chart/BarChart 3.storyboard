@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Bar Chart View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="BarChartID" id="Y6W-OH-hqX" customClass="BarChartViewController" customModule="CashApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U1l-cj-lWg" customClass="HBSegmentedControl" customModule="CashApp" customModuleProvider="target">
+                                <rect key="frame" x="22" y="110" width="370" height="34"/>
+                                <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="MpH-fZ-u6n"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="segmentedControlAction:" destination="Y6W-OH-hqX" eventType="valueChanged" id="fwo-jb-iCa"/>
+                                </connections>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="68u-ce-XUi">
+                                <rect key="frame" x="22" y="166" width="370" height="730"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="U1l-cj-lWg" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="22" id="36h-mU-FKm"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="U1l-cj-lWg" secondAttribute="trailing" constant="22" id="4KB-Av-xeM"/>
+                            <constraint firstItem="68u-ce-XUi" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="22" id="H3i-I7-ZcG"/>
+                            <constraint firstAttribute="bottom" secondItem="68u-ce-XUi" secondAttribute="bottom" id="HyA-YC-B5n"/>
+                            <constraint firstItem="U1l-cj-lWg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="22" id="VAd-Nk-D4g"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="68u-ce-XUi" secondAttribute="trailing" constant="22" id="co9-I2-Wcx"/>
+                            <constraint firstItem="68u-ce-XUi" firstAttribute="top" secondItem="U1l-cj-lWg" secondAttribute="bottom" constant="22" id="fbp-oJ-km2"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="0aT-aX-D3J"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="U1l-cj-lWg" id="Cfq-H7-WmJ"/>
+                        <outlet property="tableView" destination="68u-ce-XUi" id="R7H-sy-f1e"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.8260869565217" y="69.642857142857139"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ueO-Xj-TBR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="x2G-1d-RG7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1TK-SU-ozV">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="kA5-C0-14l"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1XI-0K-L6V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="69.642857142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

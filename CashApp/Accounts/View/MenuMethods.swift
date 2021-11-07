@@ -113,7 +113,7 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
             })
         }
         //self.unblockBlockedAccount()
-        checkBlockedAccounts()
+        
         self.accountsCollectionView.isScrollEnabled = true
         self.accountsCollectionView.performBatchUpdates {
             self.accountsCollectionView.deleteItems(at: [self.visibleIndexPath])
@@ -121,7 +121,7 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
             guard let self = self else { return }
             self.scrollViewDidScroll(self.accountsCollectionView)//После удаления видимый индекс не обновляется, пришлось вызывать вручную
             self.closeMenu()
-            
+            checkBlockedAccounts()
             self.accountsCollectionView.reloadData()
         }
         //        toggle = false // Это для того, чтобы кнопка редактирования не была активной у другого счета после удаления (после обновления коллекции метод cellforitem задает у ячейки свойство toggle - toggle этого класса) // В данный момент не работает
@@ -137,8 +137,15 @@ extension AccountsViewController: MenuTableViewTappedDelegate {
             // сделать главной
         case .delete:
             // удалить
-            let commonAccountText = ["Удалить счет??","Счет будет удален но история останется"]
-            let mainAccountText = ["Удалить главный счет??","Счет будет удален, главным будет назначен следующий по списку"]
+            
+            let deleteAccount = NSLocalizedString("account_delete", comment: "")
+            let deleteAfterAccount = NSLocalizedString("after_remove_account", comment: "")
+            let deleteMainAccount = NSLocalizedString("main_account_delete", comment: "")
+           
+            let deleteAfterMainAccount = NSLocalizedString("after_remove_main_account", comment: "")
+            
+            let commonAccountText = [deleteAccount,deleteAfterAccount]
+            let mainAccountText = [deleteMainAccount,deleteAfterMainAccount]
             let isMainAccount = accountsObjects[visibleIndexPath.row].isMainAccount == true
                 ? mainAccountText
                 : commonAccountText

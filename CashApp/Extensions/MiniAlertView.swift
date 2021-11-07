@@ -30,7 +30,7 @@ class MiniAlertView: UIView {
     @IBOutlet var messageLabel: TitleLabel!
     let colors = AppColors()
     weak var controller: UIViewController!
-    let setVisual = SetAlertViewVisual()
+    let setVisual = SetAlertViewProperties()
      override init(frame: CGRect) {
         super.init(frame: frame)
      //   visualSettings()
@@ -74,18 +74,18 @@ class MiniAlertView: UIView {
         var message = ""
         for i in textFields {
             if i.text == "" {
-                message = "Заполните все поля"
+                message = NSLocalizedString("enter_all_fields", comment: "")
                 self.showMiniAlert(message: message, alertStyle: .textFields)
                 return false
             }
         }
         guard date != nil else {
-            message = "Укажите дату"
+            message = NSLocalizedString("indicate_a_date", comment: "")
             self.showMiniAlert(message: message, alertStyle: .date)
             return false
         }
         guard imageName != "emptyImage" else {
-            message = "Выберите изображение"
+            message = NSLocalizedString("select_an_image", comment: "")
             self.showMiniAlert(message: message, alertStyle: .image)
             return false
         }
@@ -95,18 +95,15 @@ class MiniAlertView: UIView {
     func showAlertForCategories(textField: UITextField,imageName: String)-> Bool {
         
         guard textField.text != "" else {
-            self.showMiniAlert(message: "Введите название категории", alertStyle: .textFields)
+            self.showMiniAlert(message: NSLocalizedString("enter_category_name", comment: ""), alertStyle: .textFields)
            return false
         }
         guard imageName != "emptyImage" else {
-            self.showMiniAlert(message: "Выберите изображение" , alertStyle: .image)
+            self.showMiniAlert(message: NSLocalizedString("select_an_image", comment: "") , alertStyle: .image)
             return false
         }
         return true
     }
-    
-    
-    
     func visualSettings() {
         colors.loadColors()
         alertImage.setImageColor(color: colors.backgroundcolor)

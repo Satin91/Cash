@@ -12,7 +12,7 @@ import Network
 
 //MARK: Collectiom view delegate dataSource
 extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-     
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -33,7 +33,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         let createCell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateOperationCell.identifier, for: indexPath) as! CreateOperationCell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OperationCell", for: indexPath) as! OperationCell
         
-         
+        
         switch changeValue {
         case true:
             if indexPath.row == expenceObjects.count {
@@ -50,7 +50,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
                 indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories)
                 ? cell.lock(true)
                 : cell.lock(false)
- 
+                
             }
         case false :
             if indexPath.row == incomeObjects.count {
@@ -73,7 +73,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
     
     private func compositionLayout() -> UICollectionViewLayout{
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-             
+            
             var trailingItem: NSCollectionLayoutItem!
             print(self.view.bounds.width)
             if self.view.bounds.width > 380 {
@@ -83,7 +83,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
             }
             
             let subGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(2/5)), subitem: trailingItem, count: 3)
-           // subGroup.interItemSpacing = NSCollectionLayoutSpacing.fixed(25)
+            // subGroup.interItemSpacing = NSCollectionLayoutSpacing.fixed(25)
             subGroup.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0)
             
             
@@ -99,7 +99,7 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         return layout
     }
     
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //View subscription view controller if needed
         if indexPath.row >= subscriptionManager.allowedNumberOfCells(objectsCountFor: .categories) {
@@ -109,20 +109,19 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         case true:
             if indexPath.row != expenceObjects.count {
                 let object =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
-                goToQuickPayVC(reloadDelegate: nil, PayObject: object)
+                self.goToQuickPayVC(reloadDelegate: nil, PayObject: object)
             }else{
-                
-                goToAddVC(object: nil, isEditing: false)
+                self.goToAddVC(object: nil, isEditing: false)
             }
         case false:
             if indexPath.row != incomeObjects.count {
                 let object =  changeValue ? Array(expenceObjects)[indexPath.row] : Array(incomeObjects)[indexPath.row]
-                goToQuickPayVC(reloadDelegate: nil, PayObject: object)
+                self.goToQuickPayVC(reloadDelegate: nil, PayObject: object)
             }else{
-                goToAddVC(object: nil, isEditing: false)
+                self.goToAddVC(object: nil, isEditing: false)
             }
         }
-
+        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 5, height: 5)
@@ -143,68 +142,68 @@ extension CategoriesViewController: UICollectionViewDelegate, UICollectionViewDa
         let provider = CategoryPreviewViewController().self
         provider.fillTheDate(imageName: categoryObject.image, labelName: categoryObject.name)
         return UIContextMenuConfiguration(identifier: identifier, previewProvider: {
-           
+            
             return provider
         }) { suggestedActions in
             let editAction =
-                       UIAction(title: NSLocalizedString("pop_edit_name_label", comment: ""),
-                                image: UIImage(systemName: "square.and.pencil")) { action in
-                           
-                                       DispatchQueue.main.async {
-                                           self.goToAddVC(object: categoryObject, isEditing: true)
-                                       }
-                       }
-                   let deleteAction =
-                       UIAction(title: NSLocalizedString("pop_delete_name_label", comment: ""),
-                                image: UIImage(systemName: "trash"),
-                                attributes: .destructive ) { action in
-                                       try! realm.write({
-                                           realm.delete(categoryObject)
-                                       })
-                                       collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
-                                       collectionView.reloadData()
-                       }
+            UIAction(title: NSLocalizedString("pop_edit_name_label", comment: ""),
+                     image: UIImage(systemName: "square.and.pencil")) { action in
+                
+                DispatchQueue.main.async {
+                    self.goToAddVC(object: categoryObject, isEditing: true)
+                }
+            }
+            let deleteAction =
+            UIAction(title: NSLocalizedString("pop_delete_name_label", comment: ""),
+                     image: UIImage(systemName: "trash"),
+                     attributes: .destructive ) { action in
+                try! realm.write({
+                    realm.delete(categoryObject)
+                })
+                collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+                collectionView.reloadData()
+            }
             
             let menu = UIMenu(title: "",options: .displayInline , children: [editAction, deleteAction])
             return menu
         }
     }
     func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-            guard
-                //receive identifier from configuration
-                let identifier = configuration.identifier as? String,
-                let index = Int(identifier),
-                let cell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? OperationCell
-                  else {
-                    return nil
-                }
+        guard
+            //receive identifier from configuration
+            let identifier = configuration.identifier as? String,
+            let index = Int(identifier),
+            let cell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? OperationCell
+        else {
+            return nil
+        }
         
-     //   return UITargetedPreview(view: cell.roundedRect, parameters: UIPreviewParameters. , target: <#T##UIPreviewTarget#>)
+        //   return UITargetedPreview(view: cell.roundedRect, parameters: UIPreviewParameters. , target: <#T##UIPreviewTarget#>)
         let parameters = UIPreviewParameters()
         parameters.backgroundColor = .clear
         parameters.shadowPath = .none
         parameters.visiblePath = .none
         
         return UITargetedPreview(view: cell.roundedRect ,parameters: parameters)
-        }
-
+    }
+    
     func collectionView(_ collectionView: UICollectionView, previewForDismissingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
         guard
             //receive identifier from configuration
             let identifier = configuration.identifier as? String,
             let index = Int(identifier),
             let cell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? OperationCell
-              else {
-                return nil
-            }
-    let parameters = UIPreviewParameters()
+        else {
+            return nil
+        }
+        let parameters = UIPreviewParameters()
         parameters.shadowPath = .none
-    parameters.backgroundColor = .clear
+        parameters.backgroundColor = .clear
         return UITargetedPreview(view: cell.roundedRect,parameters: parameters)
     }
-
+    
     func setupCollectionView() {
-      //  let gesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressGesture(_:)))
+        //  let gesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressGesture(_:)))
         collectionView.clipsToBounds = false
         collectionView.delegate = self
         collectionView.dataSource = self

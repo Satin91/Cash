@@ -56,7 +56,7 @@ class colors {
     var buttonShadowColor = ""
     var separatorColor = "F3F3F6"
     var buttonBackgroundColorWhite = "353B40"
-    var borderColor = "D9D9D9"
+    var borderColor = "C7C7D1"
     //Dark colors
     var darkBackgroundColor = "1A1D1F"
     var darkSecondaryBackgroundColor = "252729"

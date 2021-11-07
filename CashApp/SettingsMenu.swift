@@ -94,13 +94,13 @@ class SettingsMenu: UIView {
         setupTableView()
     }
     func changeNotificationsTheDayBeforeIsOn() {
-        guard IsAvailableSubscription.isAvailable == true else { return }
+        guard SubscribtionStatus.isAvailable == true else { return }
         NotificationsTheDayBeforeEvent.isOn.toggle()
     }
     func checkNotificationTheDayBefore(_ cell: UITableViewCell) -> UIListContentConfiguration  {
         var list = cell.defaultContentConfiguration()
 
-        switch IsAvailableSubscription.isAvailable {
+        switch SubscribtionStatus.isAvailable {
         case true:
             list.textProperties.color = colors.titleTextColor
             list.imageProperties.tintColor = colors.titleTextColor
@@ -122,7 +122,7 @@ class SettingsMenu: UIView {
         guard let isOn = NotificationsTheDayBeforeEvent.isOn else { return image }
         
         if isOn {
-            image = UIImage(systemName: "bell.badge.fill")!
+            image = UIImage(systemName: "bell.fill")!
         } else {
             image = UIImage(systemName: "bell.slash.fill")!
         }

@@ -90,6 +90,9 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         guard !accountsGroup.isEmpty else {return}
         visibleIndexPath = accountsCollectionView.indexPathsForVisibleItems.first
         sendNotification(objectAt: visibleIndexPath)
+        
+        checkBlockedAccounts()
+        accountsCollectionView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,16 +111,15 @@ class AccountsViewController: UIViewController, scrollToNewAccount{
         setupMenuTableView()
         setupAlertView()
         accountsLayout()
-        backButtonOutlet.title = NSLocalizedString("back_button", comment: "")
         setupAccountCollectionView()
         self.view.insertSubview(self.blur, aboveSubview: self.sendButtonOutlet)
         self.view.bringSubviewToFront(accountsCollectionView)
         setupImageCollectionView()
         self.sendButtonWidthConstraint.constant = self.goldenRatio
-        title = "Счета"
-        
+        title = NSLocalizedString("accounts_navigation_bar_title", comment: "")
         setupNavBarButtons()
     }
+
     func setupNavBarButtons() {
         navBarButtons = NavigationBarButtons(navigationItem: navigationItem, leftButton: .back, rightButton: .add)
         navBarButtons.setLeftButtonAction { [weak self] in

@@ -128,6 +128,17 @@ class AddOperationViewController: UIViewController, UITextFieldDelegate, SendIco
     override func viewDidAppear(_ animated: Bool) {
         scrollViewContentSize()
     }
+    func layoutFUCK() {
+        nameTextField.layoutIfNeeded()
+        nameTextField.layoutSubviews()
+        nameTextField.layer.layoutIfNeeded()
+        nameTextField.layer.layoutSublayers()
+        for i in nameTextField.layer.sublayers! {
+            i.frame = nameTextField.bounds
+            print(i.frame)
+            print(nameTextField.bounds)
+        }
+    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollViewContentSize()

@@ -204,8 +204,13 @@ class AddScheduleViewController: UIViewController {
         super.viewDidLayoutSubviews()
         rightViewTextFieldButtonFor(title: currency )
         scrollViewContentSize()
+        layoutForTF()
     }
-
+    func layoutForTF() {
+        nameTextField.layoutSubviews()
+        sumPerTimeTextField.layoutSubviews()
+        totalSumTextField.layoutSubviews()
+    }
     
     deinit {
         nameTextField.isHidden = false
@@ -621,8 +626,8 @@ extension AddScheduleViewController {
     enum editingHeaderText: String {
         case oneTime = "edit_one_time_title"
         case multiply = "edit_multiply_title"
-        case regular = "Изменить регулярную оплату"
-        case goal = "Изменить существующую цель "
+        case regular = "edit_regular_title"
+        case goal = "edit_goal_title"
     }
     
     enum descriptionText: String {
@@ -637,6 +642,7 @@ extension AddScheduleViewController {
 //        case regular = "Изменить  регулярную оплату"
 //        case goal = "Изменить существующую цель "
 //    }
+    
     func checkScheduleType() {
         
         if isEditingScheduler {

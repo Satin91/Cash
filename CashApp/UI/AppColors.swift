@@ -15,6 +15,9 @@ class AppColors{
     func loadColors() {
         Themer.shared.register(target: self, action: AppColors.theme(_:))
     }
+    init() {
+        loadColors()
+    }
      var backgroundcolor: UIColor = .clear
      var secondaryBackgroundColor: UIColor = .clear
      var titleTextColor: UIColor = .clear

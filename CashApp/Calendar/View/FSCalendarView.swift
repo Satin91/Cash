@@ -21,21 +21,20 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
     init(frame: CGRect, calendarType: CalendarType) {
         super.init(frame: frame)
         self.calendarType = calendarType
+        self.colors.loadColors()
     }
     // Вместо того чтобы поместить методы в requer init я поместил сюда потому что календарь в Calendar scheduler находится в сториборде и по умолчанию устанавливает дефолтное значение calendar type = mini
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        self.colors.loadColors()
         calendarSettings()
         setHeaderHeight()
-     //   calendarLayout()
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         calendarSettings()
         setHeaderHeight()
-     //   calendarLayout()
+     
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -51,15 +50,17 @@ class FSCalendarView: FSCalendar, FSCalendarDelegateAppearance {
             self.appearance.headerTitleAlignment = .left
             self.appearance.headerTitleFont = .systemFont(ofSize: 46, weight: .semibold)
             self.appearance.titleFont = .systemFont(ofSize: 17, weight: .medium)
-            
+            self.appearance.titleSelectionColor = colors.borderColor
             
         case .mini:
-            self.headerHeight = self.bounds.height / 7
+         //   self.headerHeight = self.bounds.height / 7
             self.appearance.headerTitleAlignment = .left
-            self.appearance.headerTitleFont = .systemFont(ofSize: 34, weight: .regular)
+            self.appearance.headerTitleFont = .systemFont(ofSize: 22, weight: .regular)
             self.appearance.titleFont = .systemFont(ofSize: 17, weight: .regular)
             self.calendarWeekdayView.backgroundColor = colors.backgroundcolor
             self.appearance.weekdayTextColor = colors.subtitleTextColor
+            self.appearance.selectionColor = colors.contrastColor1
+            
         }
     }
     func setHeaderLeftInset() {
