@@ -13,4 +13,5 @@
                       3- swiftCharts            - Диаграмма. Описание находится в папке Accounts/View/ChartContainerView/LineChart
                       4- realm                  - Фреймворк для работы с базой данных
                       
-                      https://apps.apple.com/app/id1581856345
+
+https://apps.apple.com/app/id1581856345
