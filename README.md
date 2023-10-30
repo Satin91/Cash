@@ -1,4 +1,6 @@
 # Monetaria ![screenshot](https://raw.githubusercontent.com/Satin91/Cash/master/Frame%20253.png)
+![Simulator Screen Shot - iPhone 11 Pro Max - 2021-11-03 at 02 53 46](https://github.com/Satin91/Cash/assets/65672952/47c56be3-4271-4e1b-b5bc-f5e628482179)
+
 Финансовый менеджер. 
 Главные контроллеры:  
 
